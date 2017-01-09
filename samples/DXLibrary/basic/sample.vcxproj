@@ -19,32 +19,32 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{30A049C8-B4BD-41F4-AF52-BE25F786FBE0}</ProjectGuid>
-    <RootNamespace>SSBPLib</RootNamespace>
+    <ProjectGuid>{AB749122-08ED-41C6-A6D1-1D45F255C953}</ProjectGuid>
+    <RootNamespace>sample</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -74,19 +74,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\;C:\DxLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
-    <Lib>
-      <AdditionalLibraryDirectories>C:\DxLib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\DxLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib;$(SolutionDir)..\..\..\SSBPLib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -100,16 +95,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\;C:\DxLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <Lib>
-      <AdditionalLibraryDirectories>C:\DxLib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -118,7 +108,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\DxLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DxLib;$(SolutionDir)..\..\..\SSBPLib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -128,36 +118,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\common\Animator\ssplayer_effect.cpp" />
-    <ClCompile Include="src\common\Animator\ssplayer_effect2.cpp" />
-    <ClCompile Include="src\common\Animator\ssplayer_effectfunction.cpp" />
-    <ClCompile Include="src\common\Animator\ssplayer_matrix.cpp" />
-    <ClCompile Include="src\common\Animator\ssplayer_PartState.cpp" />
-    <ClCompile Include="src\common\Helper\DebugPrint.cpp" />
-    <ClCompile Include="src\SS5Player.cpp" />
-    <ClCompile Include="src\SS5PlayerPlatform.cpp" />
+    <ClCompile Include="sssample.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\common\Animator\MersenneTwister.h" />
-    <ClInclude Include="src\common\Animator\ssplayer_cellmap.h" />
-    <ClInclude Include="src\common\Animator\ssplayer_effect.h" />
-    <ClInclude Include="src\common\Animator\ssplayer_effect2.h" />
-    <ClInclude Include="src\common\Animator\ssplayer_effectfunction.h" />
-    <ClInclude Include="src\common\Animator\ssplayer_macro.h" />
-    <ClInclude Include="src\common\Animator\ssplayer_matrix.h" />
-    <ClInclude Include="src\common\Animator\ssplayer_PartState.h" />
-    <ClInclude Include="src\common\Animator\xorshift32.h" />
-    <ClInclude Include="src\common\Helper\DebugPrint.h" />
-    <ClInclude Include="src\common\Loader\SsEffectBehavior.h" />
-    <ClInclude Include="src\common\Loader\SsEffectElement.h" />
-    <ClInclude Include="src\common\Loader\ssloader.h" />
-    <ClInclude Include="src\common\Loader\ssloader_ssee.h" />
-    <ClInclude Include="src\common\Loader\sstypes.h" />
-    <ClInclude Include="src\SS5Player.h" />
-    <ClInclude Include="src\SS5PlayerData.h" />
-    <ClInclude Include="src\SS5PlayerPlatform.h" />
-    <ClInclude Include="src\SS5PlayerTypes.h" />
-    <ClInclude Include="src\ssShader_frag.h" />
+    <ProjectReference Include="..\..\..\SSBPLib\SSBPLib.vcxproj">
+      <Project>{30a049c8-b4bd-41f4-af52-be25f786fbe0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
