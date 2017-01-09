@@ -2,6 +2,8 @@
 //  SS5Platform.cpp
 //
 #include "SS5PlayerPlatform.h"
+#include "player/Util.h"
+#include "player/PlayerDef.h"
 
 /**
 * 各プラットフォームに合わせて処理を作成してください

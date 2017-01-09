@@ -21,6 +21,9 @@
     <Filter Include="ソース ファイル\common\Animator">
       <UniqueIdentifier>{e0df6a47-bb93-4f8b-b5a7-4e6ed4701079}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\player">
+      <UniqueIdentifier>{b1ea25ee-3ac7-4f20-b316-e6326c781d69}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SS5Player.cpp">
@@ -46,6 +49,12 @@
     </ClCompile>
     <ClCompile Include="src\common\Animator\ssplayer_PartState.cpp">
       <Filter>ソース ファイル\common\Animator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\player\CustomSprite.cpp">
+      <Filter>ソース ファイル\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +117,45 @@
     </ClInclude>
     <ClInclude Include="src\common\Animator\xorshift32.h">
       <Filter>ソース ファイル\common\Animator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\ToPointer.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\DataArrayReader.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\CellCache.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\EffectCache.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\AnimeCache.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\ResourceSet.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceManager.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\CustomSprite.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\State.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResluteState.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\UserData.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\PlayerDef.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\Util.h">
+      <Filter>ソース ファイル\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

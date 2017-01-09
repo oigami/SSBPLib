@@ -9,7 +9,8 @@
 #include "ssplayer_effectfunction.h"
 
 #include "../../SS5PlayerPlatform.h"
-
+#include "player/CustomSprite.h"
+#include "player/PlayerDef.h"
 
 namespace ss
 {
