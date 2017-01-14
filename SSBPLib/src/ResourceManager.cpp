@@ -89,7 +89,7 @@ std::string ResourceManager::addData(const std::string& dataKey, const ProjectDa
 	if(imageBaseDir == s_null && data->imageBaseDir)
 	{
 		ToPointer ptr(data);
-		const char* dir = static_cast<const char*>(ptr(data->imageBaseDir));
+		const char* dir = ptr.toString(data->imageBaseDir);
 		baseDir = dir;
 	}
 
@@ -136,7 +136,7 @@ std::string ResourceManager::addDataWithKey(const std::string& dataKey, const st
 		{
 			// コンバート時に指定されたパスを使用する
 			ToPointer ptr(data);
-			const char* dir = static_cast<const char*>(ptr(data->imageBaseDir));
+			const char* dir = ptr.toString(data->imageBaseDir);
 			baseDir = dir;
 		}
 		else

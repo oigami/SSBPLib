@@ -54,7 +54,7 @@ protected:
 		ToPointer ptr(data);
 
 		//ssbpからエフェクトファイル配列を取得
-		const EffectFile* effectFileArray = static_cast<const EffectFile*>(ptr(data->effectFileList));
+		const EffectFile* effectFileArray = ptr.toEffectFiles(data);
 
 		for(int listindex = 0; listindex < data->numEffectFileList; listindex++)
 		{
@@ -63,10 +63,10 @@ protected:
 
 			//保持用のエフェクトファイル情報を作成
 			SsEffectModel *effectmodel = new SsEffectModel();
-			std::string effectFileName = static_cast<const char*>(ptr(effectFile->name));
+			std::string effectFileName = ptr.toString(effectFile->name);
 
 			//エフェクトファイルからエフェクトノード配列を取得
-			const EffectNode* effectNodeArray = static_cast<const EffectNode*>(ptr(effectFile->effectNode));
+			const EffectNode* effectNodeArray = ptr.toEffectNodes(effectFile);
 			for(int nodeindex = 0; nodeindex < effectFile->numNodeList; nodeindex++)
 			{
 				const EffectNode* effectNode = &effectNodeArray[nodeindex];		//エフェクトノード配列からエフェクトノードを取得
@@ -89,7 +89,7 @@ protected:
 					behavior.refCell.texname = cellRef->texname;
 					behavior.refCell.rect = cellRef->rect;
 					behavior.refCell.cellIndex = behavior.CellIndex;
-					std::string name = static_cast<const char*>(ptr(cellRef->cell->name));
+					std::string name = ptr.toString(cellRef->cell->name);
 					behavior.refCell.cellName = name;
 
 				}

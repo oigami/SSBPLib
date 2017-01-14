@@ -72,18 +72,18 @@ protected:
 		SS_ASSERT2(data != NULL, "Invalid data");
 
 		ToPointer ptr(data);
-		const AnimePackData* animePacks = static_cast<const AnimePackData*>(ptr(data->animePacks));
+		const AnimePackData* animePacks = ptr.toAnimePackDatas(data);
 
 		for(int packIndex = 0; packIndex < data->numAnimePacks; packIndex++)
 		{
 			const AnimePackData* pack = &animePacks[packIndex];
-			const AnimationData* animations = static_cast<const AnimationData*>(ptr(pack->animations));
-			const char* packName = static_cast<const char*>(ptr(pack->name));
+			const AnimationData* animations = ptr.toAnimationDatas(pack);
+			const char* packName = ptr.toString(pack->name);
 
 			for(int animeIndex = 0; animeIndex < pack->numAnimations; animeIndex++)
 			{
 				const AnimationData* anime = &animations[animeIndex];
-				const char* animeName = static_cast<const char*>(ptr(anime->name));
+				const char* animeName = ptr.toString(anime->name);
 
 				AnimeRef* ref = new AnimeRef();
 				ref->packName = packName;

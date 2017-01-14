@@ -55,15 +55,15 @@ public:
 		bool rc = false;
 
 		ToPointer ptr(data);
-		const Cell* cells = static_cast<const Cell*>(ptr(data->cells));
+		const Cell* cells = ptr.toCells(data);
 
 		//名前からインデックスの取得
 		int cellindex = -1;
 		for(int i = 0; i < data->numCells; i++)
 		{
 			const Cell* cell = &cells[i];
-			const CellMap* cellMap = static_cast<const CellMap*>(ptr(cell->cellMap));
-			const char* name = static_cast<const char*>(ptr(cellMap->name));
+			const CellMap* cellMap = ptr.toCellMap(cell);
+			const char* name = ptr.toString(cellMap->name);
 			if(strcmp(cellName, name) == 0)
 			{
 				CellRef* ref = getReference(i);
@@ -81,11 +81,11 @@ public:
 		bool rc = false;
 
 		ToPointer ptr(data);
-		const Cell* cells = static_cast<const Cell*>(ptr(data->cells));
+		const Cell* cells = ptr.toCells(data);
 		for(int i = 0; i < data->numCells; i++)
 		{
 			const Cell* cell = &cells[i];
-			const CellMap* cellMap = static_cast<const CellMap*>(ptr(cell->cellMap));
+			const CellMap* cellMap = ptr.toCellMap(cell);
 			{
 				CellRef* ref = _refs.at(i);
 				if(ref->texture.handle != -1)
@@ -110,16 +110,16 @@ protected:
 		_texname.clear();
 
 		ToPointer ptr(data);
-		const Cell* cells = static_cast<const Cell*>(ptr(data->cells));
+		const Cell* cells = ptr.toCells(data);
 
 		for(int i = 0; i < data->numCells; i++)
 		{
 			const Cell* cell = &cells[i];
-			const CellMap* cellMap = static_cast<const CellMap*>(ptr(cell->cellMap));
+			const CellMap* cellMap = ptr.toCellMap(cell);
 
 			if(cellMap->index >= (int)_textures.size())
 			{
-				const char* imagePath = static_cast<const char*>(ptr(cellMap->imagePath));
+				const char* imagePath = ptr.toString(cellMap->imagePath);
 				addTexture(imagePath, imageBaseDir, (SsTexWrapMode::_enum)cellMap->wrapmode, (SsTexFilterMode::_enum)cellMap->filtermode);
 			}
 
