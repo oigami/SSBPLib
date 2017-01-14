@@ -1,13 +1,20 @@
 #pragma once
 
+namespace ss{
 /**
  * íËêî
  */
 
-#define __SSPI__	(3.14159265358979323846f)
-#define __SS2PI__	(__SSPI__ * 2)
-#define SSRadianToDegree(Radian) ((float)( Radian * __SS2PI__ )/ 360.0f )
-#define SSDegreeToRadian(Degree) ((float)( Degree * 360.0f) / __SS2PI__)
+static const double SS_PI = 3.14159265358979323846;
+static const double SS_2PI = SS_PI * 2;
+static double SSRadToDeg(double rad){
+	return rad * (180.0 / SS_PI);
+}
+static double SSDegToRad(double deg){
+	return deg * (SS_PI / 180.0);
+}
+//#define SSRadianToDegree(Radian) ((float)( Radian * __SS2PI__ )/ 360.0f )
+//#define SSDegreeToRadian(Degree) ((float)( Degree * 360.0f) / __SS2PI__)
 
 
 #define SS_SAFE_DELETE(p)            do { if(p) { delete (p); (p) = 0; } } while(0)
@@ -30,3 +37,5 @@
 #define SSLOGERROR(format,...)  do {} while (0)
 #endif
 
+
+} //namespace ss

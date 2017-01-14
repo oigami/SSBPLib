@@ -63,8 +63,8 @@ void get_uv_rotation(float *u, float *v, float cu, float cv, float deg)
 	float dx = *u - cu; // 中心からの距離(X)
 	float dy = *v - cv; // 中心からの距離(Y)
 
-	float tmpX = (dx * cosf(SSRadianToDegree(deg))) - (dy * sinf(SSRadianToDegree(deg))); // 回転
-	float tmpY = (dx * sinf(SSRadianToDegree(deg))) + (dy * cosf(SSRadianToDegree(deg)));
+	float tmpX = (dx * cosf(SSDegToRad(deg))) - (dy * sinf(SSDegToRad(deg))); // 回転
+	float tmpY = (dx * sinf(SSDegToRad(deg))) + (dy * cosf(SSDegToRad(deg)));
 
 	*u = (cu + tmpX); // 元の座標にオフセットする
 	*v = (cv + tmpY);
@@ -1784,13 +1784,13 @@ void Player::setFrame(int frameNo, float dt)
 				TranslationMatrix(t, sprite->_state.x, sprite->_state.y, 0.0f);
 				MultiplyMatrix(t, mat, mat);
 
-				Matrix4RotationX(t, SSRadianToDegree(sprite->_state.rotationX));
+				Matrix4RotationX(t, SSDegToRad(sprite->_state.rotationX));
 				MultiplyMatrix(t, mat, mat);
 
-				Matrix4RotationY(t, SSRadianToDegree(sprite->_state.rotationY));
+				Matrix4RotationY(t, SSDegToRad(sprite->_state.rotationY));
 				MultiplyMatrix(t, mat, mat);
 
-				Matrix4RotationZ(t, SSRadianToDegree(sprite->_state.rotationZ));
+				Matrix4RotationZ(t, SSDegToRad(sprite->_state.rotationZ));
 				MultiplyMatrix(t, mat, mat);
 
 				ScaleMatrix(t, sprite->_state.scaleX, sprite->_state.scaleY, 1.0f);

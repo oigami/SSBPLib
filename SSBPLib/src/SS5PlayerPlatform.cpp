@@ -199,7 +199,7 @@ namespace ss
 		DrawRectRotaGraph(
 			(int)x, (int)y,	//この座標が画像の中心になります。
 			(int)state.rect.origin.x, (int)state.rect.origin.y, (int)state.rect.size.width, (int)state.rect.size.height,
-			scaleX, SSRadianToDegree(rotationZ),
+			scaleX, SSDegToRad(rotationZ),
 			state.texture.handle, TRUE, state.flipX
 			);
 		SetDrawBright(255, 255, 255);
