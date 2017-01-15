@@ -102,7 +102,6 @@ std::string ResourceManager::addData(const std::string& dataKey, const ProjectDa
 
 	ResourceSet* rs = new ResourceSet();
 	rs->data = data;
-	rs->isDataAutoRelease = false;
 	rs->cellCache = cellCache;
 	rs->animeCache = animeCache;
 	rs->effectCache = effectCache;
@@ -155,7 +154,6 @@ std::string ResourceManager::addDataWithKey(const std::string& dataKey, const st
 	// リソースが破棄されるとき一緒にロードしたデータも破棄する
 	ResourceSet* rs = getData(dataKey);
 	SS_ASSERT_LOG(rs != NULL, "");
-	rs->isDataAutoRelease = true;
 
 	return dataKey;
 }
