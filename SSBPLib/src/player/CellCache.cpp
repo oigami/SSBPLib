@@ -21,17 +21,26 @@ CellCache::~CellCache()
 }
 
 
-CellRef* CellCache::getReference(int index)
+const CellRef* CellCache::getReference(int index) const
 {
-	if(index < 0 || index >= (int)_refs.size())
-	{
-		SS_LOG("Index out of range > %d", index);
-		SS_ASSERT(0);
-	}
-	CellRef* ref = _refs.at(index);
-	return ref;
+	SS_ASSERT_LOG(index >= 0 && index < m_cellRefs.size(), "index is out of range > %d", index);
+	return &(m_cellRefs[index]);
 }
 
+int CellCache::indexOfCell(const std::string &cellName) const
+{
+	//cellnameは同名も存在できるようだが、ひとまず最初に見つかったものを返すことにする
+	for(int i = 0; i < m_cellRefs.size(); ++i){
+		const CellRef *ref = getReference(i);
+		if(cellName == ref->m_cellName){
+			return i;		//名前一致したので返す
+		}
+	}
+	return -1;				//名前一致しなかったとき
+}
+
+
+#if 0
 //指定した名前のセルの参照テクスチャを変更する
 bool CellCache::setCellRefTexture(const ProjectData* data, const char* cellName, long texture)
 {
@@ -50,13 +59,14 @@ bool CellCache::setCellRefTexture(const ProjectData* data, const char* cellName,
 		if(strcmp(cellName, name) == 0)
 		{
 			CellRef* ref = getReference(i);
-			ref->texture.handle = texture;
+			ref->m_texture.handle = texture;
 			rc = true;
 		}
 	}
 
 	return(rc);
 }
+
 
 //指定したデータのテクスチャを破棄する
 bool CellCache::releseTexture(const ProjectData* data)
@@ -70,67 +80,92 @@ bool CellCache::releseTexture(const ProjectData* data)
 		const Cell* cell = &cells[i];
 		const CellMap* cellMap = ptr.toCellMap(cell);
 		{
-			CellRef* ref = _refs.at(i);
-			if(ref->texture.handle != -1)
+			CellRef* ref = m_cellRefs.at(i);
+			if(ref->m_texture.handle != -1)
 			{
-				SSTextureRelese(ref->texture.handle);
-				ref->texture.handle = -1;
+				SSTextureRelese(ref->m_texture.handle);
+				ref->m_texture.handle = -1;
 				rc = true;
 			}
 		}
 	}
 	return(rc);
 }
+#endif
 
-
+//データを見てcellrefとimagepathを構築
 void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 {
-
 	SS_ASSERT_LOG(data != NULL, "Invalid data");
+	
+	m_imageBaseDir = imageBaseDir;
+	m_cellRefs.resize(data->numCells);	//cell数だけ領域確保しておく
+	std::map<int, const char*> imagePathMap;	//数がわからないのでひとまず<index,path>のmapにしておく
 
-	_textures.clear();
-	_refs.clear();
-	_texname.clear();
+	//m_textures.clear();
+	//m_cellRefs.clear();
+	//m_texname.clear();
 
 	ToPointer ptr(data);
 	const Cell* cells = ptr.toCells(data);
 
-	for(int i = 0; i < data->numCells; i++)
-	{
+	for(int i = 0; i < data->numCells; i++){
 		const Cell* cell = &cells[i];
 		const CellMap* cellMap = ptr.toCellMap(cell);
 
-		if(cellMap->index >= (int)_textures.size())
+		const char* cellname = ptr.toString(cell->name);			//セル名
+		//const char* cellmapname = ptr.toString(cellMap->name);	//セルマップ名
+
+		//ここではロードなどはせずに番号を保存しとくだけに留める
+		imagePathMap[cellMap->index] = ptr.toString(cellMap->imagePath);		//memo:ここは何度も上書きされるだろうがconst char*のコピーなので大丈夫
+
+	#if 1
+		//todo: これを外側のクラスに任せるようにすること!
+		if(cellMap->index >= (int)m_textures.size())
 		{
 			const char* imagePath = ptr.toString(cellMap->imagePath);
 			addTexture(imagePath, imageBaseDir, (SsTexWrapMode::_enum)cellMap->wrapmode, (SsTexFilterMode::_enum)cellMap->filtermode);
 		}
+	#endif
 
-		//セル情報だけ入れておく
-		//テクスチャの読み込みはゲーム側に任せる
-		CellRef* ref = new CellRef();
-		ref->cell = cell;
-		ref->texture = _textures.at(cellMap->index);
-		ref->texname = _texname.at(cellMap->index);
-		ref->rect = SSRect(cell->x, cell->y, cell->width, cell->height);
-		_refs.push_back(ref);
+		CellRef ref = {
+			cell,  cellname, cellMap->index, m_textures[cellMap->index],
+			SSRect(cell->x, cell->y, cell->width, cell->height)
+		};
+		m_cellRefs[i] = ref;
 	}
 
+	//map --> vector に詰め直す -----------------
+	auto it = std::max_element(imagePathMap.begin(), imagePathMap.end());
+	if(it == imagePathMap.end()){			//画像無し
+		return;
+	}
+
+	int maxIndex = it->first;
+	m_imagePaths.resize(maxIndex + 1);
+	for(auto &index_path : imagePathMap){	//詰め替え
+		m_imagePaths[index_path.first] = index_path.second;
+	}
 }
+
+
 //キャッシュの削除
 void CellCache::releseReference(void)
 {
-	for(int i = 0; i < _refs.size(); i++)
-	{
-		CellRef* ref = _refs.at(i);
-		if(ref->texture.handle != -1)
-		{
-			SSTextureRelese(ref->texture.handle);
-			ref->texture.handle = -1;
-		}
-		delete ref;
+	for(TextuerData& tex : m_textures){
+		SSTextureRelese(tex.handle);
 	}
-	_refs.clear();
+	//for(int i = 0; i < m_cellRefs.size(); i++)
+	//{
+	//	CellRef* ref = m_cellRefs.at(i);
+	//	if(ref->m_texture.handle != -1)
+	//	{
+	//		SSTextureRelese(ref->m_texture.handle);
+	//		ref->m_texture.handle = -1;
+	//	}
+	//	delete ref;
+	//}
+	//m_cellRefs.clear();
 }
 
 void CellCache::addTexture(const std::string& imagePath, const std::string& imageBaseDir, SsTexWrapMode::_enum  wrapmode, SsTexFilterMode::_enum filtermode)
@@ -165,10 +200,28 @@ void CellCache::addTexture(const std::string& imagePath, const std::string& imag
 	texdata.size_w = w;
 	texdata.size_h = h;
 
-	_textures.push_back(texdata);
-	_texname.push_back(path);
-
+	m_textures.push_back(texdata);
+//	m_texname.push_back(path);
 }
+
+
+std::string CellCache::getTexturePath(int cellMapIndex) const
+{
+	SS_ASSERT(cellMapIndex >= 0 && cellMapIndex < m_imagePaths.size());	//indexのassertチェックはする
+#if 0
+	if(isAbsolutePath(m_imagePaths[cellMapIndex])){
+		return m_imagePaths[cellMapIndex];	//絶対パスのときはそのまま扱う
+	}
+#endif
+	std::string texturePath = m_imageBaseDir + m_imagePaths[cellMapIndex];
+	return texturePath;
+}
+
+
+int CellCache::getCellMapNum() const{
+	return m_imagePaths.size();
+}
+
 
 
 } //namespace ss

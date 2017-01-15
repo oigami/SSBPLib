@@ -72,16 +72,16 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 			SsEffectBehavior behavior;
 			//セル情報を作成
 			behavior.CellIndex = effectNode->cellIndex;
-			CellRef* cellRef = behavior.CellIndex >= 0 ? cellCache->getReference(behavior.CellIndex) : NULL;
+			const CellRef* cellRef = behavior.CellIndex >= 0 ? cellCache->getReference(behavior.CellIndex) : NULL;
 			if(cellRef)
 			{
-				behavior.refCell.pivot_X = cellRef->cell->pivot_X;
-				behavior.refCell.pivot_Y = cellRef->cell->pivot_Y;
-				behavior.refCell.texture = cellRef->texture;
-				behavior.refCell.texname = cellRef->texname;
-				behavior.refCell.rect = cellRef->rect;
+				behavior.refCell.pivot_X = cellRef->m_cell->pivot_X;
+				behavior.refCell.pivot_Y = cellRef->m_cell->pivot_Y;
+				behavior.refCell.texture = cellRef->m_texture;
+				//behavior.refCell.texname = cellRef->m_texname;
+				behavior.refCell.rect = cellRef->m_rect;
 				behavior.refCell.cellIndex = behavior.CellIndex;
-				std::string name = ptr.toString(cellRef->cell->name);
+				std::string name = ptr.toString(cellRef->m_cell->name);
 				behavior.refCell.cellName = name;
 
 			}

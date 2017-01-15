@@ -1005,15 +1005,15 @@ void Player::setFrame(int frameNo, float dt)
 		}
 
 		//セルの原点設定を反映させる
-		CellRef* cellRef = cellIndex >= 0 ? _currentRs->m_cellCache->getReference(cellIndex) : nullptr;
+		const CellRef* cellRef = cellIndex >= 0 ? _currentRs->m_cellCache->getReference(cellIndex) : nullptr;
 		if (cellRef)
 		{
 			float cpx = 0;
 			float cpy = 0;
 
-			cpx = cellRef->cell->pivot_X;
+			cpx = cellRef->m_cell->pivot_X;
 			if (flipX) cpx = -cpx;	// 水平フリップによって原点を入れ替える
-			cpy = cellRef->cell->pivot_Y;
+			cpy = cellRef->m_cell->pivot_Y;
 			if (flipY) cpy = -cpy;	// 垂直フリップによって原点を入れ替える
 
 			pivotX += cpx;
@@ -1097,8 +1097,8 @@ void Player::setFrame(int frameNo, float dt)
 		if (cellRef)
 		{
 			//各パーツのテクスチャ情報を設定
-			state.texture = cellRef->texture;
-			state.rect = cellRef->rect;
+			state.texture = cellRef->m_texture;
+			state.rect = cellRef->m_rect;
 			state.blendfunc = partData->alphaBlendType;
 
 			if (setBlendEnabled)
@@ -1132,8 +1132,8 @@ void Player::setFrame(int frameNo, float dt)
 		if (cellRef)
 		{
 			//頂点を設定する
-			float width_h = cellRef->rect.size.width / 2;
-			float height_h = cellRef->rect.size.height / 2;
+			float width_h = cellRef->m_rect.size.width / 2;
+			float height_h = cellRef->m_rect.size.height / 2;
 			float x1 = -width_h;
 			float y1 = -height_h;
 			float x2 = width_h;
@@ -1169,14 +1169,14 @@ void Player::setFrame(int frameNo, float dt)
 			quad.br.texCoords.v = 0;
 			if (cellRef)
 			{
-				quad.tl.texCoords.u = cellRef->cell->u1;
-				quad.tl.texCoords.v = cellRef->cell->v1;
-				quad.tr.texCoords.u = cellRef->cell->u2;
-				quad.tr.texCoords.v = cellRef->cell->v1;
-				quad.bl.texCoords.u = cellRef->cell->u1;
-				quad.bl.texCoords.v = cellRef->cell->v2;
-				quad.br.texCoords.u = cellRef->cell->u2;
-				quad.br.texCoords.v = cellRef->cell->v2;
+				quad.tl.texCoords.u = cellRef->m_cell->u1;
+				quad.tl.texCoords.v = cellRef->m_cell->v1;
+				quad.tr.texCoords.u = cellRef->m_cell->u2;
+				quad.tr.texCoords.v = cellRef->m_cell->v1;
+				quad.bl.texCoords.u = cellRef->m_cell->u1;
+				quad.bl.texCoords.v = cellRef->m_cell->v2;
+				quad.br.texCoords.u = cellRef->m_cell->u2;
+				quad.br.texCoords.v = cellRef->m_cell->v2;
 			}
 		}
 

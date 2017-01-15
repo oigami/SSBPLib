@@ -15,7 +15,7 @@ struct SsCell
 	float		pivot_Y;		//原点補正
 	TextuerData texture;
 	ss::SSRect	rect;
-	std::string texname;
+	//std::string texname;
 	int			cellIndex;
 	std::string cellName;
 
