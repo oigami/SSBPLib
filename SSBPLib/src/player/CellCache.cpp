@@ -40,58 +40,6 @@ int CellCache::indexOfCell(const std::string &cellName) const
 }
 
 
-#if 0
-//指定した名前のセルの参照テクスチャを変更する
-bool CellCache::setCellRefTexture(const ProjectData* data, const char* cellName, long texture)
-{
-	bool rc = false;
-
-	ToPointer ptr(data);
-	const Cell* cells = ptr.toCells(data);
-
-	//名前からインデックスの取得
-	int cellindex = -1;
-	for(int i = 0; i < data->numCells; i++)
-	{
-		const Cell* cell = &cells[i];
-		const CellMap* cellMap = ptr.toCellMap(cell);
-		const char* name = ptr.toString(cellMap->name);
-		if(strcmp(cellName, name) == 0)
-		{
-			CellRef* ref = getReference(i);
-			ref->m_texture.handle = texture;
-			rc = true;
-		}
-	}
-
-	return(rc);
-}
-
-
-//指定したデータのテクスチャを破棄する
-bool CellCache::releseTexture(const ProjectData* data)
-{
-	bool rc = false;
-
-	ToPointer ptr(data);
-	const Cell* cells = ptr.toCells(data);
-	for(int i = 0; i < data->numCells; i++)
-	{
-		const Cell* cell = &cells[i];
-		const CellMap* cellMap = ptr.toCellMap(cell);
-		{
-			CellRef* ref = m_cellRefs.at(i);
-			if(ref->m_texture.handle != -1)
-			{
-				SSTextureRelese(ref->m_texture.handle);
-				ref->m_texture.handle = -1;
-				rc = true;
-			}
-		}
-	}
-	return(rc);
-}
-#endif
 
 //データを見てcellrefとimagepathを構築
 void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
@@ -102,10 +50,7 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 	m_cellRefs.resize(data->numCells);	//cell数だけ領域確保しておく
 	std::map<int, const char*> imagePathMap;	//数がわからないのでひとまず<index,path>のmapにしておく
 
-	//m_textures.clear();
-	//m_cellRefs.clear();
-	//m_texname.clear();
-
+	
 	ToPointer ptr(data);
 	const Cell* cells = ptr.toCells(data);
 
@@ -155,17 +100,6 @@ void CellCache::releseReference(void)
 	for(TextuerData& tex : m_textures){
 		SSTextureRelese(tex.handle);
 	}
-	//for(int i = 0; i < m_cellRefs.size(); i++)
-	//{
-	//	CellRef* ref = m_cellRefs.at(i);
-	//	if(ref->m_texture.handle != -1)
-	//	{
-	//		SSTextureRelese(ref->m_texture.handle);
-	//		ref->m_texture.handle = -1;
-	//	}
-	//	delete ref;
-	//}
-	//m_cellRefs.clear();
 }
 
 void CellCache::addTexture(const std::string& imagePath, const std::string& imageBaseDir, SsTexWrapMode::_enum  wrapmode, SsTexFilterMode::_enum filtermode)
@@ -201,7 +135,6 @@ void CellCache::addTexture(const std::string& imagePath, const std::string& imag
 	texdata.size_h = h;
 
 	m_textures.push_back(texdata);
-//	m_texname.push_back(path);
 }
 
 

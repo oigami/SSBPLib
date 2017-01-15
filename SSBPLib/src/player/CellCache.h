@@ -44,13 +44,7 @@ public:
 	//CellMap数
 	int getCellMapNum() const;
 
-#if 0
-	//指定した名前のセルの参照テクスチャを変更する
-	bool setCellRefTexture(const ProjectData* data, const char* cellName, long texture);
-
-	//指定したデータのテクスチャを破棄する
-	bool releseTexture(const ProjectData* data);
-#endif
+	
 private:
 	/** dataを元にCellRefを構築する*/
 	void init(const ProjectData* data, const std::string& imageBaseDir);
