@@ -13,14 +13,11 @@ struct ProjectData;
  */
 class ResourceManager{
 public:
+	ResourceManager();
+	~ResourceManager();
+
 	static const std::string s_null;
 
-	/**
-	 * デフォルトインスタンスを取得します.
-	 *
-	 * @return デフォルトのResourceManagerインスタンス
-	 */
-	static ResourceManager* getInstance();
 
 	/**
 	 * ssbpファイルを登録します
@@ -65,16 +62,6 @@ public:
 	 */
 	int getMaxFrame(std::string ssbpName, std::string animeName);
 #endif
-	/**
-	 * 新たなResourceManagerインスタンスを構築します.
-	 *
-	 * @return ResourceManagerインスタンス
-	 */
-	static ResourceManager* create();
-
-public:
-	ResourceManager();
-	virtual ~ResourceManager();
 
 private:
 	//imageBaseDirの指定がないときはdataの中を見てディレクトリを返す
@@ -104,6 +91,11 @@ private:
 
 
 	std::map<std::string, RefcountResourceSet*>	_dataDic;	//ここにデータを登録する
+
+
+private: //non copyable
+	ResourceManager(const ResourceManager &o) = delete;
+	ResourceManager& operator=(const ResourceManager &o) = delete;
 };
 
 } //namespace ss

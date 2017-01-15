@@ -159,20 +159,15 @@ public:
 	 * @param  resman  使用するResourceManagerインスタンス. 省略時はデフォルトインスタンスが使用されます.
 	 * @return Playerインスタンス
 	 */
-	static Player* create(ResourceManager* resman = NULL);
+	static Player* create(ResourceManager* resman);
 
 	/**
 	 * 使用するResourceManagerインスタンスを設定します.
 	 *
 	 * @param  resman  使用するResourceManagerインスタンス. 省略時はデフォルトインスタンスが使用されます.
 	 */
-	void setResourceManager(ResourceManager* resman = NULL);
+	void setResourceManager(ResourceManager* resman);
 
-	/**
-	 * 使用中のResourceManagerインスタンスを解放します.
-	 * 再度ResourceManagerインスタンスを設定するまでは再生できなくなります.
-	 */
-	void releaseResourceManager();
 
 	/**
 	 * 再生するssbpデータのdataKeyを設定します.

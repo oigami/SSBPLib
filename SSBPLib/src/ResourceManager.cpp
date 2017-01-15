@@ -12,17 +12,9 @@
 
 namespace ss{
 
-static ResourceManager* defaultInstance = NULL;
 const std::string ResourceManager::s_null;
 
-ResourceManager* ResourceManager::getInstance()
-{
-	if(!defaultInstance)
-	{
-		defaultInstance = ResourceManager::create();
-	}
-	return defaultInstance;
-}
+
 
 ResourceManager::ResourceManager()
 {
@@ -33,11 +25,6 @@ ResourceManager::~ResourceManager()
 	unregistAll();
 }
 
-ResourceManager* ResourceManager::create()
-{
-	ResourceManager* obj = new ResourceManager();
-	return obj;
-}
 
 ResourceSet* ResourceManager::getData(const std::string& dataKey)
 {

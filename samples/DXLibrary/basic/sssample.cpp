@@ -103,9 +103,9 @@ void init( void )
 
 
 	//リソースマネージャの作成
-	resman = ss::ResourceManager::getInstance();
+	resman =  new ss::ResourceManager();
 	//プレイヤーの作成
-	ssplayer = ss::Player::create();
+	ssplayer = ss::Player::create(resman);
 
 	//アニメデータをリソースに追加
 

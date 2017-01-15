@@ -136,7 +136,6 @@ Player::~Player()
 	}
 
 	releaseParts();
-	releaseResourceManager();
 }
 
 Player* Player::create(ResourceManager* resman)
@@ -156,20 +155,10 @@ bool Player::init()
 	return true;
 }
 
-void Player::releaseResourceManager()
-{
-}
 
 void Player::setResourceManager(ResourceManager* resman)
 {
-	if (_resman) releaseResourceManager();
-	
-	if (!resman)
-	{
-		// nullのときはデフォルトを使用する
-		resman = ResourceManager::getInstance();
-	}
-	
+	SS_ASSERT(resman);	
 	_resman = resman;
 }
 
@@ -318,7 +307,7 @@ void Player::motionBlendPlay(const std::string& animeName, int loop, int startFr
 		//現在のアニメーションをブレンド用プレイヤーで再生
 		if (_motionBlendPlayer == NULL)
 		{
-			_motionBlendPlayer = ss::Player::create();
+			_motionBlendPlayer = ss::Player::create(_resman);
 		}
 		int loopnum = _loop;
 		if (_loop > 0)
@@ -573,7 +562,7 @@ void Player::setPartsParentage()
 		if (refanimeName != "")
 		{
 			//インスタンスパーツが設定されている
-			sprite->_ssplayer = ss::Player::create();
+			sprite->_ssplayer = ss::Player::create(_resman);
 			sprite->_ssplayer->setData(_currentdataKey);
 			sprite->_ssplayer->play(refanimeName);				 // アニメーション名を指定(ssae名/アニメーション名も可能、詳しくは後述)
 			sprite->_ssplayer->animePause();
