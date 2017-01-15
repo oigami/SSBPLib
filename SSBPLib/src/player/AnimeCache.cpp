@@ -19,16 +19,17 @@ AnimeCache::~AnimeCache()
 //packNameとanimeNameを指定してAnimeRefを得る
 AnimeRef* AnimeCache::getReference(const std::string& packName, const std::string& animeName)
 {
-	std::string key = toPackAnimeKey(packName, animeName);
-	AnimeRef* ref = &(m_animeRefs.at(key));
-	return ref;
+	std::string key = toPackAnimeKey(packName, animeName);	//todo:animeNameだけに統一したい
+	SS_ASSERT_LOG(m_animeRefs.find(key) != m_animeRefs.end(), "Not found animation");
+
+	return &(m_animeRefs.at(key));
 }
 
 //animeNameのみ指定してAnimeRefを得る
 AnimeRef* AnimeCache::getReference(const std::string& animeName)
 {
-	AnimeRef* ref = &(m_animeRefs.at(animeName));
-	return ref;
+	SS_ASSERT_LOG(m_animeRefs.find(animeName) != m_animeRefs.end(), "Not found animation");
+	return &(m_animeRefs.at(animeName));
 }
 
 void AnimeCache::dump() const
@@ -41,7 +42,7 @@ void AnimeCache::dump() const
 
 void AnimeCache::init(const ProjectData* data)
 {
-	SS_ASSERT_LOG(data != NULL, "Invalid data");
+	SS_ASSERT_LOG(data, "Invalid data");
 
 	ToPointer ptr(data);
 	const AnimePackData* animePacks = ptr.toAnimePackDatas(data);

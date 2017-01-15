@@ -21,36 +21,6 @@
 
 namespace ss{
 
-// printf 形式のフォーマット
-#ifndef va_copy
-#    define va_copy(dest, src) ((dest) = (src))
-#endif
-static std::string Format(const char* format, ...){
-
-	static std::vector<char> tmp(1000);
-
-	va_list args, source;
-	va_start(args, format);
-	va_copy( source , args );
-
-	while (1)
-	{
-		va_copy( args , source );
-		//Windows
-		if (_vsnprintf(&tmp[0], tmp.size(), format, args) == -1)
-		{
-			tmp.resize(tmp.size() * 2);
-		}
-		else
-		{
-			break;
-		}
-	}
-	tmp.push_back('\0');
-	std::string ret = &(tmp[0]);
-	va_end(args);
-	return ret;
-}
 
 //座標回転処理
 //指定した座標を中心に回転後した座標を取得します
@@ -201,7 +171,7 @@ bool Player::isFrameSkipEnabled() const
 
 void Player::play(const std::string& ssaeName, const std::string& motionName, int loop, int startFrameNo)
 {
-	std::string animeName = Format("%s/%s", ssaeName.c_str(), motionName.c_str());
+	std::string animeName = ssaeName + "/" + motionName;
 	play(animeName, loop, startFrameNo);
 }
 
@@ -210,11 +180,8 @@ void Player::play(const std::string& animeName, int loop, int startFrameNo)
 	SS_ASSERT_LOG(_currentRs != NULL, "Not select data");
 
 	AnimeRef* animeRef = _currentRs->m_animeCache->getReference(animeName);
-	if (animeRef == NULL)
-	{
-		std::string msg = Format("Not found animation > anime=%s", animeName.c_str());
-		SS_ASSERT_LOG(animeRef != NULL, msg.c_str());
-	}
+	SS_ASSERT_LOG(animeRef, "Not found animation > anime=%s", animeName.c_str());
+	
 	_currentAnimename = animeName;
 
 	play(animeRef, loop, startFrameNo);
