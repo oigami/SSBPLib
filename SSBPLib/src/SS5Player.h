@@ -185,16 +185,6 @@ public:
 	void setData(const std::string& dataKey);
 
 	/**
-	 * 設定されているssbpデータを解放します.
-	 */
-	void releaseData();
-
-	/**
-	 * 設定されているアニメーションを解放します.
-	 */
-	void releaseAnime();
-
-	/**
 	* アニメーションの再生を開始します.
 	*
 	* @param  ssaeName      パック名(ssae名）

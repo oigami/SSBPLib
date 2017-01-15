@@ -136,9 +136,7 @@ Player::~Player()
 	}
 
 	releaseParts();
-	releaseData();
 	releaseResourceManager();
-	releaseAnime();
 }
 
 Player* Player::create(ResourceManager* resman)
@@ -250,11 +248,7 @@ void Player::setData(const std::string& dataKey)
 		SS_ASSERT_LOG(rs != NULL, msg.c_str());
 	}
 	
-	if (_currentRs != rs)
-	{
-//		releaseData();
-		_currentRs = rs;
-	}
+	_currentRs = rs;
 
 	//Ver4互換設定
 	_rootPartFunctionAsVer4 = false;			
@@ -269,17 +263,6 @@ void Player::setData(const std::string& dataKey)
 		_dontUseMatrixForTransform = true;		//親子の座標変換にマトリックスを使用しない（Ver4互換）
 	}
 #endif
-}
-
-void Player::releaseData()
-{
-	releaseAnime();
-}
-
-
-void Player::releaseAnime()
-{
-	releaseParts();
 }
 
 void Player::play(const std::string& ssaeName, const std::string& motionName, int loop, int startFrameNo)
@@ -534,54 +517,28 @@ void Player::updateFrame(float dt)
 
 void Player::allocParts(int numParts, bool useCustomShaderProgram)
 {
-	for (int i = 0; i < _parts.size(); i++)
-	{
-		CustomSprite* sprite = _parts.at(i);
-		if (sprite)
-		{
-			delete sprite;
-			sprite = 0;
-		}
-	}
+	releaseParts();	//すべてのパーツを消す
 
-	_parts.clear();	//すべてのパーツを消す
-	{
-		// パーツ数だけCustomSpriteを作成する
-//		// create CustomSprite objects.
-		for (int i = 0; i < numParts; i++)
-		{
-			CustomSprite* sprite =  CustomSprite::create();
-			sprite->_ssplayer = NULL;
-			sprite->changeShaderProgram(useCustomShaderProgram);
+	// パーツ数だけCustomSpriteを作成する
+	for (int i = 0; i < numParts; i++){
+		CustomSprite* sprite =  CustomSprite::create();
+		sprite->_ssplayer = NULL;
+		sprite->changeShaderProgram(useCustomShaderProgram);
 
-			_parts.push_back(sprite);
-		}
+		_parts.push_back(sprite);
 	}
 }
 
 void Player::releaseParts()
 {
+	SS_ASSERT(_currentRs);
+	SS_ASSERT(_currentAnimeRef);
+
 	// パーツの子CustomSpriteを全て削除
-	// remove children CCSprite objects.
-	if (_currentRs)
-	{
-		if (_currentAnimeRef)
-		{
-
-			ToPointer ptr(_currentRs->m_data);
-			const AnimePackData* packData = _currentAnimeRef->animePackData;
-			//const PartData* parts = static_cast<const PartData*>(ptr(packData->parts));
-			if (_parts.size() > 0)
-			{
-				for (int partIndex = 0; partIndex < packData->numParts; partIndex++)
-				{
-					CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
-					SS_SAFE_DELETE(sprite->_ssplayer);
-				}
-			}
-		}
+	for(CustomSprite* sprite : _parts){
+		SS_SAFE_DELETE(sprite->_ssplayer);	//todo:customspriteがやるべき
+		SS_SAFE_DELETE(sprite);
 	}
-
 	_parts.clear();
 }
 
