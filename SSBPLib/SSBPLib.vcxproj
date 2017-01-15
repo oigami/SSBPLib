@@ -136,6 +136,7 @@
     <ClCompile Include="src\player\AnimeCache.cpp" />
     <ClCompile Include="src\player\CellCache.cpp" />
     <ClCompile Include="src\player\CustomSprite.cpp" />
+    <ClCompile Include="src\player\EffectCache.cpp" />
     <ClCompile Include="src\player\Util.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\SS5Player.cpp" />

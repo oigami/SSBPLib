@@ -59,6 +59,9 @@
     <ClCompile Include="src\player\CellCache.cpp">
       <Filter>ソース ファイル\player</Filter>
     </ClCompile>
+    <ClCompile Include="src\player\EffectCache.cpp">
+      <Filter>ソース ファイル\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\SS5Player.h">
@@ -127,9 +130,6 @@
     <ClInclude Include="src\player\CellCache.h">
       <Filter>ソース ファイル\player</Filter>
     </ClInclude>
-    <ClInclude Include="src\player\EffectCache.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\player\AnimeCache.h">
       <Filter>ソース ファイル\player</Filter>
     </ClInclude>
@@ -155,6 +155,9 @@
       <Filter>ソース ファイル\player</Filter>
     </ClInclude>
     <ClInclude Include="src\player\Util.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\EffectCache.h">
       <Filter>ソース ファイル\player</Filter>
     </ClInclude>
   </ItemGroup>

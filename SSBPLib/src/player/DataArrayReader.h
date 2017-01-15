@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include "SS5PlayerData.h"
+#include "SS5PlayerTypes.h"
 
 namespace ss{
 
