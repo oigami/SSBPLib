@@ -98,10 +98,7 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
 namespace ss
 {
 class CustomSprite;
-class CellCache;
-class CellRef;
-class AnimeCache;
-class AnimeRef;
+struct AnimeRef;
 class ResourceSet;
 struct ProjectData;
 class SSSize;

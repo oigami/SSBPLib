@@ -12,7 +12,7 @@ namespace ss{
 /**
  * ResourceSet
  */
-struct ResourceSet{
+class ResourceSet{
 private:
 	static const ss_u32 DATA_ID = 0x42505353;	//データのチェック値
 	static const ss_u32 DATA_VERSION = 4;		//データのチェック値
