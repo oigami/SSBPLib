@@ -11,23 +11,15 @@
 namespace ss{
 
 
-CellCache::CellCache()
+CellCache::CellCache(const ProjectData* data, const std::string& imageBaseDir)
 {
+	init(data, imageBaseDir);
 }
 CellCache::~CellCache()
 {
 	releseReference();
 }
 
-CellCache* CellCache::create(const ProjectData* data, const std::string& imageBaseDir)
-{
-	CellCache* obj = new CellCache();
-	if(obj)
-	{
-		obj->init(data, imageBaseDir);
-	}
-	return obj;
-}
 
 CellRef* CellCache::getReference(int index)
 {

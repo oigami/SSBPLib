@@ -10,24 +10,15 @@
 namespace ss{
 
 
-EffectCache::EffectCache()
+EffectCache::EffectCache(const ProjectData* data, const std::string& imageBaseDir, CellCache* cellCache)
 {
+	init(data, imageBaseDir, cellCache);
 }
 EffectCache::~EffectCache()
 {
 	releseReference();
 }
 
-EffectCache* EffectCache::create(const ProjectData* data, const std::string& imageBaseDir, CellCache* cellCache)
-{
-	EffectCache* obj = new EffectCache();
-	if(obj)
-	{
-		obj->init(data, imageBaseDir, cellCache);
-		//			obj->autorelease();
-	}
-	return obj;
-}
 
 /**
 * エフェクトファイル名を指定してEffectRefを得る

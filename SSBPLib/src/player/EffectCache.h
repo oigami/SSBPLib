@@ -12,10 +12,8 @@ class SsEffectModel;
  */
 class EffectCache{
 public:
-	EffectCache();
+	EffectCache(const ProjectData* data, const std::string& imageBaseDir, CellCache* cellCache);
 	~EffectCache();
-
-	static EffectCache* create(const ProjectData* data, const std::string& imageBaseDir, CellCache* cellCache);
 	
 	/**
 	 * エフェクトファイル名を指定してEffectRefを得る

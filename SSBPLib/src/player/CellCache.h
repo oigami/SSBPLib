@@ -24,10 +24,9 @@ struct CellRef{
  */
 class CellCache{
 public:
-	CellCache();
+	CellCache(const ProjectData* data, const std::string& imageBaseDir);
 	~CellCache();
 
-	static CellCache* create(const ProjectData* data, const std::string& imageBaseDir);
 
 	CellRef* getReference(int index);
 	

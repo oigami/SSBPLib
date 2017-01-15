@@ -7,22 +7,15 @@
 namespace ss{
 
 
-AnimeCache::AnimeCache()
+AnimeCache::AnimeCache(const ProjectData* data)
 {
+	init(data);
 }
 AnimeCache::~AnimeCache()
 {
 	releseReference();
 }
-AnimeCache* AnimeCache::create(const ProjectData* data)
-{
-	AnimeCache* obj = new AnimeCache();
-	if(obj)
-	{
-		obj->init(data);
-	}
-	return obj;
-}
+
 
 /**
 * packNameとanimeNameを指定してAnimeRefを得る
