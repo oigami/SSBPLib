@@ -3,6 +3,14 @@
 #include "ResourceManager.h"
 #include "ResluteState.h"
 
+//メモリリークチェック用---------------------------------------------------------
+#ifdef _DEBUG
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#endif
+//-----------------------------------------------------------------------------
+
 static int previousTime;
 static int waitTime;
 int mGameExec;
@@ -23,6 +31,11 @@ ss::ResourceManager *resman;
 */
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	//メモリリークチェック用
+#ifdef _DEBUG
+	_CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF);
+#endif
+
 	//DXライブラリの初期化
 	ChangeWindowMode(true);	//ウインドウモード
 	SetGraphMode(1280, 720, GetColorBitDepth() );
