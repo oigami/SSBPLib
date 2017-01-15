@@ -133,6 +133,8 @@
     <ClCompile Include="src\common\Animator\ssplayer_effectfunction.cpp" />
     <ClCompile Include="src\common\Animator\ssplayer_matrix.cpp" />
     <ClCompile Include="src\common\Animator\ssplayer_PartState.cpp" />
+    <ClCompile Include="src\player\AnimeCache.cpp" />
+    <ClCompile Include="src\player\CellCache.cpp" />
     <ClCompile Include="src\player\CustomSprite.cpp" />
     <ClCompile Include="src\player\Util.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
