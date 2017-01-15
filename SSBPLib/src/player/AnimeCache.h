@@ -11,10 +11,10 @@ struct ProjectData;
  * AnimeRef
  */
 struct AnimeRef{
-	std::string				packName;
-	std::string				animeName;
-	const AnimationData*	animationData;
-	const AnimePackData*	animePackData;
+	std::string				m_packName;
+	std::string				m_animeName;
+	const AnimationData*	m_animationData;
+	const AnimePackData*	m_animePackData;
 };
 
 
@@ -34,7 +34,7 @@ public:
 
 	void dump();
 
-protected:
+private:
 	void init(const ProjectData* data);
 
 	static std::string toPackAnimeKey(const std::string& packName, const std::string& animeName);
@@ -42,7 +42,7 @@ protected:
 	//キャッシュの削除
 	void releseReference(void);
 
-	std::map<std::string, AnimeRef*>	_dic;
+	std::map<std::string, AnimeRef*> m_animeRefs;
 };
 
 } //namespace ss

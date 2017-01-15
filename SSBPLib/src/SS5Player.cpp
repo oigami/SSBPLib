@@ -137,7 +137,7 @@ int Player::getMaxFrame() const
 {
 	if (_currentAnimeRef )
 	{
-		return(_currentAnimeRef->animationData->numFrames);
+		return(_currentAnimeRef->m_animationData->numFrames);
 	}
 	else
 	{
@@ -226,7 +226,7 @@ void Player::play(AnimeRef* animeRef, int loop, int startFrameNo)
 	{
 		_currentAnimeRef = animeRef;
 		
-		allocParts(animeRef->animePackData->numParts, false);
+		allocParts(animeRef->m_animePackData->numParts, false);
 		setPartsParentage();
 	}
 	_playingFrame = static_cast<float>(startFrameNo);
@@ -237,7 +237,7 @@ void Player::play(AnimeRef* animeRef, int loop, int startFrameNo)
 	_isPausing = false;
 	_prevDrawFrameNo = -1;
 	_isPlayFirstUserdataChack = true;
-	_animefps = _currentAnimeRef->animationData->fps;
+	_animefps = _currentAnimeRef->m_animationData->fps;
 	setStartFrame(-1);
 	setEndFrame(-1);
 
@@ -295,12 +295,12 @@ void Player::stop()
 
 const std::string& Player::getPlayPackName() const
 {
-	return _currentAnimeRef != NULL ? _currentAnimeRef->packName : s_nullString;
+	return _currentAnimeRef != NULL ? _currentAnimeRef->m_packName : s_nullString;
 }
 
 const std::string& Player::getPlayAnimeName() const
 {
-	return _currentAnimeRef != NULL ? _currentAnimeRef->animeName : s_nullString;
+	return _currentAnimeRef != NULL ? _currentAnimeRef->m_animeName : s_nullString;
 }
 
 
@@ -315,7 +315,7 @@ void Player::updateFrame(float dt)
 	if (!_currentRs->m_data) return;
 
 	int startFrame = 0;
-	int endFrame = _currentAnimeRef->animationData->numFrames;
+	int endFrame = _currentAnimeRef->m_animationData->numFrames;
 	if (_startFrameOverWrite != -1)
 	{
 		startFrame = _startFrameOverWrite;
@@ -335,7 +335,7 @@ void Player::updateFrame(float dt)
 		const int numFrames = endFrame;
 
 		float fdt = dt;
-		float s = fdt / (1.0f / _currentAnimeRef->animationData->fps);
+		float s = fdt / (1.0f / _currentAnimeRef->m_animationData->fps);
 		
 		//if (!m_frameSkipEnabled) SS_LOG("%f", s);
 		
@@ -480,7 +480,7 @@ void Player::setPartsParentage()
 	if (!_currentAnimeRef) return;
 
 	ToPointer ptr(_currentRs->m_data);
-	const AnimePackData* packData = _currentAnimeRef->animePackData;
+	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 	const PartData* parts =  ptr.toPartDatas(packData);
 
 	//親子関係を設定
@@ -544,7 +544,7 @@ void Player::setPartsParentage()
 int Player::getPartsCount(void)
 {
 	ToPointer ptr(_currentRs->m_data);
-	const AnimePackData* packData = _currentAnimeRef->animePackData;
+	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 	return packData->numParts;
 }
 
@@ -553,7 +553,7 @@ const char* Player::getPartName(int partId) const
 {
 	ToPointer ptr(_currentRs->m_data);
 
-	const AnimePackData* packData = _currentAnimeRef->animePackData;
+	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 	SS_ASSERT_LOG(partId >= 0 && partId < packData->numParts, "partId is out of range.");
 
 	const PartData* partData = ptr.toPartDatas(packData);
@@ -564,7 +564,7 @@ const char* Player::getPartName(int partId) const
 //パーツ名からindexを取得
 int Player::indexOfPart(const char* partName) const
 {
-	const AnimePackData* packData = _currentAnimeRef->animePackData;
+	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 	for (int i = 0; i < packData->numParts; i++)
 	{
 		const char* name = getPartName(i);
@@ -605,7 +605,7 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 
 			ToPointer ptr(_currentRs->m_data);
 
-			const AnimePackData* packData = _currentAnimeRef->animePackData;
+			const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 			const PartData* parts = ptr.toPartDatas(packData);
 
 			for (int index = 0; index < packData->numParts; index++)
@@ -716,7 +716,7 @@ int Player::getLabelToFrame(char* findLabelName)
 	int rc = -1;
 
 	ToPointer ptr(_currentRs->m_data);
-	const AnimationData* animeData = _currentAnimeRef->animationData;
+	const AnimationData* animeData = _currentAnimeRef->m_animationData;
 
 	if (!animeData->labelData) return -1;
 	const ss_offset* labelDataIndex = static_cast<const ss_offset*>(ptr(animeData->labelData));
@@ -757,7 +757,7 @@ void Player::setPartVisible(std::string partsname, bool flg)
 	{
 		ToPointer ptr(_currentRs->m_data);
 
-		const AnimePackData* packData = _currentAnimeRef->animePackData;
+		const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 		const PartData* parts = ptr.toPartDatas(packData);
 
 		for (int index = 0; index < packData->numParts; index++)
@@ -808,7 +808,7 @@ void Player::setPartCell(std::string partsname, std::string sscename, std::strin
 			}
 		}
 
-		const AnimePackData* packData = _currentAnimeRef->animePackData;
+		const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 		const PartData* parts = ptr.toPartDatas(packData);
 
 		for (int index = 0; index < packData->numParts; index++)
@@ -836,7 +836,7 @@ bool Player::changeInstanceAnime(std::string partsname, std::string animename, b
 	{
 		ToPointer ptr(_currentRs->m_data);
 
-		const AnimePackData* packData = _currentAnimeRef->animePackData;
+		const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 		const PartData* parts = ptr.toPartDatas(packData);
 
 		for (int index = 0; index < packData->numParts; index++)
@@ -965,10 +965,10 @@ void Player::setFrame(int frameNo, float dt)
 
 	ToPointer ptr(_currentRs->m_data);
 
-	const AnimePackData* packData = _currentAnimeRef->animePackData;
+	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 	const PartData* parts = ptr.toPartDatas(packData);
 
-	const AnimationData* animeData = _currentAnimeRef->animationData;
+	const AnimationData* animeData = _currentAnimeRef->m_animationData;
 	const ss_offset* frameDataIndex = static_cast<const ss_offset*>(ptr(animeData->frameData));
 	
 	const ss_u16* frameDataArray = static_cast<const ss_u16*>(ptr(frameDataIndex[frameNo]));
@@ -1771,7 +1771,7 @@ void Player::draw()
 	if (!_currentAnimeRef) return;
 
 	ToPointer ptr(_currentRs->m_data);
-	const AnimePackData* packData = _currentAnimeRef->animePackData;
+	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 
 	for (int index = 0; index < packData->numParts; index++)
 	{
@@ -1817,8 +1817,8 @@ void Player::checkUserData(int frameNo)
 {
 	ToPointer ptr(_currentRs->m_data);
 
-	const AnimePackData* packData = _currentAnimeRef->animePackData;
-	const AnimationData* animeData = _currentAnimeRef->animationData;
+	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
+	const AnimationData* animeData = _currentAnimeRef->m_animationData;
 	const PartData* parts = ptr.toPartDatas(packData);
 
 	if (!animeData->userData) return;

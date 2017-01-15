@@ -23,7 +23,7 @@ AnimeCache::~AnimeCache()
 AnimeRef* AnimeCache::getReference(const std::string& packName, const std::string& animeName)
 {
 	std::string key = toPackAnimeKey(packName, animeName);
-	AnimeRef* ref = _dic.at(key);
+	AnimeRef* ref = m_animeRefs.at(key);
 	return ref;
 }
 
@@ -32,14 +32,14 @@ AnimeRef* AnimeCache::getReference(const std::string& packName, const std::strin
 */
 AnimeRef* AnimeCache::getReference(const std::string& animeName)
 {
-	AnimeRef* ref = _dic.at(animeName);
+	AnimeRef* ref = m_animeRefs.at(animeName);
 	return ref;
 }
 
 void AnimeCache::dump()
 {
-	std::map<std::string, AnimeRef*>::iterator it = _dic.begin();
-	while(it != _dic.end())
+	std::map<std::string, AnimeRef*>::iterator it = m_animeRefs.begin();
+	while(it != m_animeRefs.end())
 	{
 		SS_LOG("%s", (*it).second);
 		++it;
@@ -66,15 +66,15 @@ void AnimeCache::init(const ProjectData* data)
 			const char* animeName = ptr.toString(anime->name);
 
 			AnimeRef* ref = new AnimeRef();
-			ref->packName = packName;
-			ref->animeName = animeName;
-			ref->animationData = anime;
-			ref->animePackData = pack;
+			ref->m_packName = packName;
+			ref->m_animeName = animeName;
+			ref->m_animationData = anime;
+			ref->m_animePackData = pack;
 
 			// packName + animeNameでの登録
 			std::string key = toPackAnimeKey(packName, animeName);
 			SS_LOG("anime key: %s", key.c_str());
-			_dic.insert(std::map<std::string, AnimeRef*>::value_type(key, ref));
+			m_animeRefs.insert(std::map<std::string, AnimeRef*>::value_type(key, ref));
 
 			// animeNameのみでの登録
 			//				_dic.insert(std::map<std::string, AnimeRef*>::value_type(animeName, ref));
@@ -92,8 +92,8 @@ std::string AnimeCache::toPackAnimeKey(const std::string& packName, const std::s
 //キャッシュの削除
 void AnimeCache::releseReference(void)
 {
-	std::map<std::string, AnimeRef*>::iterator it = _dic.begin();
-	while(it != _dic.end())
+	std::map<std::string, AnimeRef*>::iterator it = m_animeRefs.begin();
+	while(it != m_animeRefs.end())
 	{
 		AnimeRef* ref = it->second;
 		if(ref)
@@ -103,7 +103,7 @@ void AnimeCache::releseReference(void)
 		}
 		it++;
 	}
-	_dic.clear();
+	m_animeRefs.clear();
 }
 
 
