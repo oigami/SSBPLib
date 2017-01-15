@@ -150,9 +150,14 @@ extern void get_uv_rotation(float *u, float *v, float cu, float cv, float deg);
 /**
  * Player
  */
-class Player
-{
+class Player{
 public:
+	/** Playerインスタンスを構築します。利用するときはResourceManger::create, destroyを使ってください */
+	Player(const ResourceSet *resource/*, SS5Renderer *renderer, SS5EventListener *eventListener*/);
+//	Player(const ResourceSet *resource/*, SS5Renderer *renderer, SS5EventListener *eventListener, const std::string& animeName*/);
+	~Player();	//memo:なるべくResourceManger.create, destroyを使ってほしい
+
+#if 0
 	/**
 	 * Playerインスタンスを構築します.
 	 *
@@ -166,7 +171,7 @@ public:
 	 *
 	 * @param  resman  使用するResourceManagerインスタンス. 省略時はデフォルトインスタンスが使用されます.
 	 */
-	void setResourceManager(ResourceManager* resman);
+	void setResourceManager(ResourceManager* resman);	//_resman = resmanするだけ
 
 
 	/**
@@ -174,8 +179,8 @@ public:
 	 *
 	 * @param  dataKey  再生するデータのdataKey
 	 */
-	void setData(const std::string& dataKey);
-
+		void setData(const std::string& dataKey);	//_currentdatakey = datakey; _currentrs = _resman->getdata(datakey);するだけ。あとはVer4互換設定
+#endif
 	/**
 	* アニメーションの再生を開始します.
 	*
@@ -509,11 +514,6 @@ public:
 	*/
 	void draw();
 
-public:
-	Player(void);
-	~Player();
-	bool init();
-
 
 protected:
 	void allocParts(int numParts, bool useCustomShaderProgram);
@@ -529,9 +529,9 @@ protected:
 	void update_matrix_ss4(CustomSprite *sprite, CustomSprite *parent, const PartData *partData);
 
 protected:
-	ResourceManager*	_resman;
+	//ResourceManager*	_resman;
 	const ResourceSet*		_currentRs;
-	std::string			_currentdataKey;
+	//std::string			_currentdataKey;
 	std::string			_currentAnimename;
 	AnimeRef*			_currentAnimeRef;
 	std::vector<CustomSprite *>	_parts;

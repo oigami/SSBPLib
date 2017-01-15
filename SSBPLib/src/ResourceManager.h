@@ -7,6 +7,7 @@
 namespace ss{
 class ResourceSet;
 struct ProjectData;
+class Player;
 
 /**
  * ResourceManager
@@ -60,6 +61,10 @@ public:
 	 */
 	int getMaxFrame(std::string ssbpName, std::string animeName);
 #endif
+
+	/** SS5Playerの生成 */
+	Player* createPlayer(const std::string &dataKey/*, SS5Renderer *renderer, SS5EventListener *eventListener*/) const;
+	void destroyPlayer(Player *&player) const;
 
 private:
 	//imageBaseDirの指定がないときはdataの中を見てディレクトリを返す

@@ -116,6 +116,20 @@ int ResourceManager::getMaxFrame(std::string ssbpName, std::string animeName)
 }
 #endif
 
+Player* ResourceManager::createPlayer(const std::string &dataKey/*, SS5Renderer *renderer, SS5EventListener *eventListener*/) const
+{
+	const ResourceSet *rs = getData(dataKey);
+	return new Player(rs/*, renderer, eventListener*/);
+}
+
+void ResourceManager::destroyPlayer(Player *&player) const
+{
+	delete player;
+	player = nullptr;
+}
+
+
+
 
 std::string ResourceManager::getImageBaseDir(const std::string &imageBaseDir, const ProjectData *data) const
 {

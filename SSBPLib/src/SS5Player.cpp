@@ -19,11 +19,7 @@
 #include "ResourceManager.h"
 
 
-namespace ss
-{
-
-
-
+namespace ss{
 
 // printf 形式のフォーマット
 #ifndef va_copy
@@ -92,9 +88,8 @@ unsigned int getRandomSeed()
 
 static const std::string s_nullString;
 
-Player::Player(void)
-	: _resman(NULL)
-	, _currentRs(NULL)
+Player::Player(const ResourceSet *resource)
+	: _currentRs(NULL)
 	, _currentAnimeRef(NULL)
 	, _frameSkipEnabled(true)
 	, _playingFrame(0.0f)
@@ -117,9 +112,10 @@ Player::Player(void)
 	, _rootPartFunctionAsVer4(false)
 	, _dontUseMatrixForTransform(false)
 {
-	int i;
-	for (i = 0; i < PART_VISIBLE_MAX; i++)
-	{
+	_currentRs = resource;
+	SS_ASSERT_LOG(_currentRs, "resource is null");
+
+	for (int i = 0; i < PART_VISIBLE_MAX; i++){
 		_partVisible[i] = true;
 		_partIndex[i] = -1;
 		_cellChange[i] = -1;
@@ -138,6 +134,7 @@ Player::~Player()
 	releaseParts();
 }
 
+#if 0
 Player* Player::create(ResourceManager* resman)
 {
 	Player* obj = new Player();
@@ -161,6 +158,7 @@ void Player::setResourceManager(ResourceManager* resman)
 	SS_ASSERT(resman);	
 	_resman = resman;
 }
+#endif
 
 int Player::getMaxFrame() const
 {
@@ -227,6 +225,7 @@ bool Player::isFrameSkipEnabled() const
 	return _frameSkipEnabled;
 }
 
+#if 0
 void Player::setData(const std::string& dataKey)
 {
 	const ResourceSet* rs = _resman->getData(dataKey);
@@ -253,6 +252,7 @@ void Player::setData(const std::string& dataKey)
 	}
 #endif
 }
+#endif
 
 void Player::play(const std::string& ssaeName, const std::string& motionName, int loop, int startFrameNo)
 {
@@ -307,14 +307,13 @@ void Player::motionBlendPlay(const std::string& animeName, int loop, int startFr
 		//現在のアニメーションをブレンド用プレイヤーで再生
 		if (_motionBlendPlayer == NULL)
 		{
-			_motionBlendPlayer = ss::Player::create(_resman);
+			_motionBlendPlayer = new Player(_currentRs);
 		}
 		int loopnum = _loop;
 		if (_loop > 0)
 		{
 			loopnum = _loop - _loopCount;
 		}
-		_motionBlendPlayer->setData(_currentdataKey);        // ssbpファイル名（拡張子不要）
 		_motionBlendPlayer->play(_currentAnimename, loopnum, getFrameNo());
 		_motionBlendPlayer->setStep(_step);
 		if (_loop > 0)
@@ -562,8 +561,7 @@ void Player::setPartsParentage()
 		if (refanimeName != "")
 		{
 			//インスタンスパーツが設定されている
-			sprite->_ssplayer = ss::Player::create(_resman);
-			sprite->_ssplayer->setData(_currentdataKey);
+			sprite->_ssplayer = new Player(_currentRs);
 			sprite->_ssplayer->play(refanimeName);				 // アニメーション名を指定(ssae名/アニメーション名も可能、詳しくは後述)
 			sprite->_ssplayer->animePause();
 		}

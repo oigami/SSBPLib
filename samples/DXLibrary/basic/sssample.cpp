@@ -104,8 +104,7 @@ void init( void )
 
 	//リソースマネージャの作成
 	resman =  new ss::ResourceManager();
-	//プレイヤーの作成
-	ssplayer = ss::Player::create(resman);
+	
 
 	//アニメデータをリソースに追加
 
@@ -116,7 +115,7 @@ void init( void )
 		"Resources/character_template_comipo/"	//画像ファイルの読み込み元ルートパス
 	);
 	//プレイヤーにリソースを割り当て
-	ssplayer->setData("character_template1");       //addDataで指定した登録名
+	ssplayer = resman->createPlayer("character_template1");       //addDataで指定した登録名
 	//再生するモーションを設定
 	ssplayer->play("character_template_3head/stance");				 // アニメーション名を指定(ssae名/アニメーション名も可能、詳しくは後述)
 
