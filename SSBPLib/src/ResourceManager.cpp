@@ -111,6 +111,7 @@ void ResourceManager::unregistAll()
 	_dataDic.clear();
 }
 
+#if 0
 //データ名、セル名を指定して、セルで使用しているテクスチャを変更する
 bool ResourceManager::changeTexture(char* ssbpName, char* ssceName, long texture)
 {
@@ -149,5 +150,6 @@ int ResourceManager::getMaxFrame(std::string ssbpName, std::string animeName)
 
 	return(rc);
 }
+#endif
 
 } //namespace ss

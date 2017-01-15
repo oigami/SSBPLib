@@ -40,7 +40,7 @@ public:
 
 	/** 名前に対応するデータ取得します */
 	ResourceSet* getData(const std::string& dataKey);
-
+#if 0
 	/**
 	 * 指定したセルのテクスチャを変更します.
 	 * @param  ssbpName       ssbp名（拡張子を除くファイル名）
@@ -64,7 +64,7 @@ public:
 	 * @return アニメーションの総フレーム（存在しない場合はアサート）
 	 */
 	int getMaxFrame(std::string ssbpName, std::string animeName);
-
+#endif
 	/**
 	 * 新たなResourceManagerインスタンスを構築します.
 	 *
