@@ -132,31 +132,6 @@ Player::~Player()
 	releaseParts();
 }
 
-#if 0
-Player* Player::create(ResourceManager* resman)
-{
-	Player* obj = new Player();
-	if (obj && obj->init())
-	{
-		obj->setResourceManager(resman);
-		return obj;
-	}
-	SS_SAFE_DELETE(obj);
-	return NULL;
-}
-
-bool Player::init()
-{
-	return true;
-}
-
-
-void Player::setResourceManager(ResourceManager* resman)
-{
-	SS_ASSERT(resman);	
-	_resman = resman;
-}
-#endif
 
 int Player::getMaxFrame() const
 {
@@ -223,34 +198,6 @@ bool Player::isFrameSkipEnabled() const
 	return _frameSkipEnabled;
 }
 
-#if 0
-void Player::setData(const std::string& dataKey)
-{
-	const ResourceSet* rs = _resman->getData(dataKey);
-	_currentdataKey = dataKey;
-	if (rs == NULL)
-	{
-		std::string msg = Format("Not found data > %s", dataKey.c_str());
-		SS_ASSERT_LOG(rs != NULL, msg.c_str());
-	}
-	
-	_currentRs = rs;
-
-	//Ver4互換設定
-	_rootPartFunctionAsVer4 = false;			
-	_dontUseMatrixForTransform = false;			
-#ifdef	USE_VER4TRANSFORM
-	if ((rs->m_data->flags & HEAD_FLAG_rootPartFunctionAsVer4) != 0)
-	{
-		_rootPartFunctionAsVer4 = true;			//不透明度・反転・非表示アトリビュートの継承方法をVer.4と同様にする
-	}
-	if ((rs->m_data->flags & HEAD_FLAG_dontUseMatrixForTransform) != 0)
-	{
-		_dontUseMatrixForTransform = true;		//親子の座標変換にマトリックスを使用しない（Ver4互換）
-	}
-#endif
-}
-#endif
 
 void Player::play(const std::string& ssaeName, const std::string& motionName, int loop, int startFrameNo)
 {

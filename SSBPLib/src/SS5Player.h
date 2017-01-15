@@ -152,89 +152,61 @@ public:
 //	Player(const ResourceSet *resource/*, SS5Renderer *renderer, SS5EventListener *eventListener, const std::string& animeName*/);
 	~Player();	//memo:なるべくResourceManger.create, destroyを使ってほしい
 
-#if 0
 	/**
-	 * Playerインスタンスを構築します.
+	 * アニメーションの再生を開始します.
 	 *
-	 * @param  resman  使用するResourceManagerインスタンス. 省略時はデフォルトインスタンスが使用されます.
-	 * @return Playerインスタンス
+	 * @param  ssaeName      パック名(ssae名）
+	 * @param  motionName    再生するモーション名
+	 * @param  loop          再生ループ数の指定. 省略時は0
+	 * @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
 	 */
-	static Player* create(ResourceManager* resman);
-
-	/**
-	 * 使用するResourceManagerインスタンスを設定します.
-	 *
-	 * @param  resman  使用するResourceManagerインスタンス. 省略時はデフォルトインスタンスが使用されます.
-	 */
-	void setResourceManager(ResourceManager* resman);	//_resman = resmanするだけ
-
-
-	/**
-	 * 再生するssbpデータのdataKeyを設定します.
-	 *
-	 * @param  dataKey  再生するデータのdataKey
-	 */
-		void setData(const std::string& dataKey);	//_currentdatakey = datakey; _currentrs = _resman->getdata(datakey);するだけ。あとはVer4互換設定
-#endif
-	/**
-	* アニメーションの再生を開始します.
-	*
-	* @param  ssaeName      パック名(ssae名）
-	* @param  motionName    再生するモーション名
-	* @param  loop          再生ループ数の指定. 省略時は0
-	* @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
-	*/
 	void play(const std::string& ssaeName, const std::string& motionName, int loop = 0, int startFrameNo = 0);
 
 	/**
-	* アニメーションの再生を開始します.
-	* アニメーション名から再生するデータを選択します.
-	* "ssae名/モーション名で指定してください.
-	* sample.ssaeのanime_1を指定する場合、sample/anime_1となります.
-	* ※ver1.1からモーション名のみで指定する事はできなくなりました。
-	*
-	* @param  animeName     再生するアニメーション名
-	* @param  loop          再生ループ数の指定. 省略時は0
-	* @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
-	*/
+	 * アニメーションの再生を開始します.
+	 * アニメーション名から再生するデータを選択します.
+	 * "ssae名/モーション名で指定してください.
+	 * sample.ssaeのanime_1を指定する場合、sample/anime_1となります.
+	 * ※ver1.1からモーション名のみで指定する事はできなくなりました。
+	 *
+	 * @param  animeName     再生するアニメーション名
+	 * @param  loop          再生ループ数の指定. 省略時は0
+	 * @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
+	 */
 	void play(const std::string& animeName, int loop = 0, int startFrameNo = 0);
 
 	/**
-	* 現在再生しているモーションとブレンドしながら再生します。
-	* アニメーション名から再生するデータを選択します.
-	* "ssae名/モーション名で指定してください.
-	* sample.ssaeのanime_1を指定する場合、sample/anime_1となります.
-	* ※ver1.1からモーション名のみで指定する事はできなくなりました。
-	*
-	* ブレンドするアニメーションの条件は以下になります。
-	* ・同じssbp内に含まれている事
-	* ・同じパーツ構成（パーツ順、パーツ数）である事
-	* SpriteStudioのフレームコントロールに並ぶパーツを上から順にブレンドしていきます。
-	* パーツ名等のチェックは行なっていませんので遷移元と遷移先アニメのパーツの順番を同じにする必要があります。
-	* 遷移元と遷移先のパーツ構成があっていない場合、正しくブレンドされませんのでご注意ください。
-	*
-	* 合成されるアトリビュートは
-	* 座標X、座標Y、X回転、Y回転、Z回転、スケールX、スケールYのみです。
-	* それ以外のアトリビュートは遷移先アニメの値が適用されます。
-	* インスタンスパーツが参照しているソースアニメはブレンドされません。
-	* エフェクトパーツから発生したパーティクルはブレンドされません。
-	* 
-	*
-	* @param  animeName     再生するアニメーション名
-	* @param  loop          再生ループ数の指定. 省略時は0
-	* @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
-	* @param  blendTime		モーションブレンドを行う時間、単位は秒　省略時は1秒
-	*/
+	 * 現在再生しているモーションとブレンドしながら再生します。
+	 * アニメーション名から再生するデータを選択します.
+	 * "ssae名/モーション名で指定してください.
+	 * sample.ssaeのanime_1を指定する場合、sample/anime_1となります.
+	 * ※ver1.1からモーション名のみで指定する事はできなくなりました。
+	 *
+	 * ブレンドするアニメーションの条件は以下になります。
+	 * ・同じssbp内に含まれている事
+	 * ・同じパーツ構成（パーツ順、パーツ数）である事
+	 * SpriteStudioのフレームコントロールに並ぶパーツを上から順にブレンドしていきます。
+	 * パーツ名等のチェックは行なっていませんので遷移元と遷移先アニメのパーツの順番を同じにする必要があります。
+	 * 遷移元と遷移先のパーツ構成があっていない場合、正しくブレンドされませんのでご注意ください。
+	 *
+	 * 合成されるアトリビュートは
+	 * 座標X、座標Y、X回転、Y回転、Z回転、スケールX、スケールYのみです。
+	 * それ以外のアトリビュートは遷移先アニメの値が適用されます。
+	 * インスタンスパーツが参照しているソースアニメはブレンドされません。
+	 * エフェクトパーツから発生したパーティクルはブレンドされません。
+	 * 
+	 *
+	 * @param  animeName     再生するアニメーション名
+	 * @param  loop          再生ループ数の指定. 省略時は0
+	 * @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
+	 * @param  blendTime		モーションブレンドを行う時間、単位は秒　省略時は1秒
+	 */
 	void motionBlendPlay(const std::string& animeName, int loop = 0, int startFrameNo = 0, float blendTime = 0.1f);
 
-	/**
-	 * 再生を中断します.
-	 */
+	/** 再生を中断します. */
 	void animePause();
 
-	/**
-	 * 再生を再開します.
-	 */
+	/** 再生を再開します. */
 	void animeResume();
 
 	/**
@@ -244,269 +216,199 @@ public:
 	 */
 	void stop();
 
-	/**
-	 * 再生しているアニメーションのパック名(ssae)を返します.
-	 *
-	 * @return パック名(ssae)
-	 */
+	/** 再生しているアニメーションのパック名(ssae)を返します. */
 	const std::string& getPlayPackName() const;
 
-	/**
-	 * 再生しているアニメーション名を返します.
-	 *
-	 * @return アニメーション名
-	 */
+	/** 再生しているアニメーション名を返します. */
 	const std::string& getPlayAnimeName() const;
 	
-	/**
-	* アニメーションの総フレームを取得します.
-	*
-	* @return 総フレーム
-	*/
+	/** アニメーションの総フレームを取得します. */
 	int getMaxFrame() const;
 
-	/**
-	 * 再生フレームNoを取得します.
-	 * Get frame no of playing.
-	 *
-	 * @return 再生フレームNo. frame no.
-	 */
+	/** 再生フレームNoを取得します. */
 	int getFrameNo() const;
 
-	/**
-	 * 再生フレームNoを設定します.
-	 * Set frame no of playing.
-	 *
-	 * @param 再生フレームNo. frame no.
-	 */
+	/** 再生フレームNoを設定します. */
 	void setFrameNo(int frameNo);
 
-	/**
-	 * 再生スピードを取得します. (1.0f:標準)
-	 * Set speed to play. (1.0f:normal speed)
-	 */
+	/** 再生スピードを取得します. (1.0f:標準) */
 	float getStep() const;
 
-	/**
-	 * 再生スピードを設定します. (1.0f:標準)
-	 * Get speed to play. (1.0f:normal speed)
-	 */
+	/** 再生スピードを設定します. (1.0f:標準) */
 	void setStep(float step);
 	
-	/** 
-	 * 指定されている再生ループ回数を取得します. (0:指定なし)
-	 * Get a playback loop count of specified. (0:not specified)
-	 */
+	/** 指定されている再生ループ回数を取得します. (0:指定なし) */
 	int getLoop() const;
 
-	/** 
-	 * 再生ループ回数を設定します. (0:指定なし)
-	 * Set a playback loop count.  (0:not specified)
-	 */
+	/** 再生ループ回数を設定します. (0:指定なし) */
 	void setLoop(int loop);
 
-	/** 
-	 * 現在までのループ再生回数を取得します.
-	 * Get repeat count a playback.
-	 */
+	/** 現在までのループ再生回数を取得します. */
 	int getLoopCount() const;
 
-	/** 
-	 * 現在までのループ再生回数をクリアします.
-	 * Clear repeat count a playback.
-	 */
+	/** 現在までのループ再生回数をクリアします. */
 	void clearLoopCount();
 
-	/**
-	 * フレームスキップ（フレームレートに合わせ再生フレームをスキップする）の設定をします. (default: true)
-	 * Set frame-skip(to skip the playback frame according to the frame rate). (default: true)
-	 */
+	/** フレームスキップ（フレームレートに合わせ再生フレームをスキップする）の設定をします. (default: true) */
 	void setFrameSkipEnabled(bool enabled);
 	
-	/** 
-	 * フレームスキップの設定状態を返します.
-	 * Get frame-skip setting.
-	 */
+	/** フレームスキップの設定状態を返します. */
 	bool isFrameSkipEnabled() const;
 
-	/**
-	* ラベル名からフレーム位置を取得します.
-	*/
+	/** ラベル名からフレーム位置を取得します. */
 	int getLabelToFrame(char* findLabelName);
 
-	/**
-	* 再生しているアニメーションに含まれるパーツ数を取得します.
-	*/
+	/** 再生しているアニメーションに含まれるパーツ数を取得します. */
 	int getPartsCount(void);
 
 	/**
-	* indexからパーツ名を取得します.
-	*
-	* @param  result        パーツ情報を受け取るバッファ
-	* @param  name          取得するパーツ名
-	* @param  frameNo       取得するフレーム番号 -1の場合は現在再生しているフレームが適用される
-	*/
+	 * indexからパーツ名を取得します.	//todo:コメントのparamが謎なのであとで整理する
+	 *
+	 * @param  result        パーツ情報を受け取るバッファ
+	 * @param  name          取得するパーツ名
+	 * @param  frameNo       取得するフレーム番号 -1の場合は現在再生しているフレームが適用される
+	 */
 	const char* getPartName(int partId) const;
 
-	/**
-	* パーツ名からindexを取得します.
-	*/
+	/** パーツ名からindexを取得します. */
 	int indexOfPart(const char* partName) const;
 
 	/**
-	* パーツの名から、パーツ情報を取得します.
-	*
-	* @param  result        パーツ情報を受け取るバッファ
-	* @param  name          取得するパーツ名
-	* @param  frameNo       取得するフレーム番号 -1の場合は現在再生しているフレームが適用される
-	*/
+	 * パーツの名から、パーツ情報を取得します.
+	 *
+	 * @param  result        パーツ情報を受け取るバッファ
+	 * @param  name          取得するパーツ名
+	 * @param  frameNo       取得するフレーム番号 -1の場合は現在再生しているフレームが適用される
+	 */
 	bool getPartState(ResluteState& result, const char* name, int frameNo = -1);
 
 	/**
-	* パーツ名からパーツの表示、非表示を設定します.
-	* コリジョン用のパーツや差し替えグラフィック等、SS5上で表示を行うがゲーム中では非表示にする場合に使用します。
-	* SSの非表示アトリビュート設定するわけではないので注意してください。
-	*/
+	 * パーツ名からパーツの表示、非表示を設定します.
+	 * コリジョン用のパーツや差し替えグラフィック等、SS5上で表示を行うがゲーム中では非表示にする場合に使用します。
+	 * SSの非表示アトリビュート設定するわけではないので注意してください。
+	 */
 	void setPartVisible(std::string partsname, bool flg);
 
 	/**
-	* パーツ名からパーツに割り当たるセルを変更します.
-	* この関数で設定したパーツは参照セルアトリビュートの影響をうけません。
-	* アニメに設定されたセルに戻す場合は、セル名に""を指定してください。
-	*
-	* @param  partsname         パーツ名
-	* @param  sscename          セルマップ名
-	* @param  cellname          表示させたいセル名
-	*/
+	 * パーツ名からパーツに割り当たるセルを変更します.
+	 * この関数で設定したパーツは参照セルアトリビュートの影響をうけません。
+	 * アニメに設定されたセルに戻す場合は、セル名に""を指定してください。
+	 *
+	 * @param  partsname         パーツ名
+	 * @param  sscename          セルマップ名
+	 * @param  cellname          表示させたいセル名
+	 */
 	void setPartCell(std::string partsname, std::string sscename, std::string cellname);
 
-	/*
-	* プレイヤー本体の位置を設定します。
-	*/
+	/** プレイヤー本体の位置を設定します */
 	void  setPosition(float x, float y);
 
-	/*
-	* プレイヤー本体の回転角度を設定します。2Dの回転はZに値を設定してください。
-	*/
-
+	/** プレイヤー本体の回転角度を設定します。2Dの回転はZに値を設定してください。 */
 	void  setRotation(float x, float y, float z);
-	/*
-	* プレイヤー本体のスケールを設定します。
-	*/
+	/** プレイヤー本体のスケールを設定します。*/
 	void  setScale(float x, float y);
 
-	/*
-	* プレイヤー本体の透明度を設定します。
-	*/
+	/** プレイヤー本体の透明度を設定します。*/
 	void  setAlpha(int a);
 
-	/*
-	* アニメの輝度を設定します.
-	* setColor(Color3B)ではなくこちらを使用してください。
-	* 制限としてカラーブレンドが適用されたパーツの色は変更できませんので注意してください。
-	*
-	* @param  r          赤成分(0～255)
-	* @param  g          緑成分(0～255)
-	* @param  b          青成分(0～255)
-	*/
+	/**
+	 * アニメの輝度を設定します.
+	 * setColor(Color3B)ではなくこちらを使用してください。
+	 * 制限としてカラーブレンドが適用されたパーツの色は変更できませんので注意してください。
+	 *
+	 * @param  r          赤成分(0～255)
+	 * @param  g          緑成分(0～255)
+	 * @param  b          青成分(0～255)
+	 */
 	void setColor(int r, int g, int b);
 
-	/*
-	* 名前を指定してパーツの再生するインスタンスアニメを変更します。
-	* 指定したパーツがインスタンスパーツでない場合、falseを返します.
-	* インスタンスパーツ名はディフォルトでは「ssae名:モーション名」とつけられています。
-	* 再生するアニメの名前は"ssae名/アニメーション名"として再生してください。
-	* 現在再生しているアニメを指定することは入れ子となり無限ループとなるためできません。
-	* 変更するアニメーションは同じssbpに含まれる必要があります。
-	*
-	* インスタンスキーを手動で設定する事が出来ます。
-	* アニメーションに合わせて開始フレーム、終了フレーム等のインスタンスアトリビュート情報を設定してください。
-	* 終了フレーム最大値は総フレーム-1になります。
-	* 上書きフラグがfalseの場合、SS上に設定されたインスタンスアトリビュートの設定を使用します。
-	* 使用例：
-	* ss::Instance param;
-	* param.clear();
-	* param.refEndframe = resman->getMaxFrame("ssbp名","ssae名/モーション名") - 1;	//アニメーションの長さを取得
-	* param.infinity = true;														//無限ループを設定
-	* ssplayer->changeInstanceAnime("再生しているアニメーションに含まれるインスタンスパーツ名", "ssae名/モーション名", true, param);
-	*
-	* @param  partsname			SS上のパーツ名
-	* @param  animeName			参照するアニメ名
-	* @param  overWrite			インスタンスキーの上書きフラグ
-	* @param  keyParam			インスタンスキーのパラメータ
-	*/
+	/**
+	 * 名前を指定してパーツの再生するインスタンスアニメを変更します。
+	 * 指定したパーツがインスタンスパーツでない場合、falseを返します.
+	 * インスタンスパーツ名はディフォルトでは「ssae名:モーション名」とつけられています。
+	 * 再生するアニメの名前は"ssae名/アニメーション名"として再生してください。
+	 * 現在再生しているアニメを指定することは入れ子となり無限ループとなるためできません。
+	 * 変更するアニメーションは同じssbpに含まれる必要があります。
+	 *
+	 * インスタンスキーを手動で設定する事が出来ます。
+	 * アニメーションに合わせて開始フレーム、終了フレーム等のインスタンスアトリビュート情報を設定してください。
+	 * 終了フレーム最大値は総フレーム-1になります。
+	 * 上書きフラグがfalseの場合、SS上に設定されたインスタンスアトリビュートの設定を使用します。
+	 * 使用例：
+	 * ss::Instance param;
+	 * param.clear();
+	 * param.refEndframe = resman->getMaxFrame("ssbp名","ssae名/モーション名") - 1;	//アニメーションの長さを取得
+	 * param.infinity = true;														//無限ループを設定
+	 * ssplayer->changeInstanceAnime("再生しているアニメーションに含まれるインスタンスパーツ名", "ssae名/モーション名", true, param);
+	 *
+	 * @param  partsname			SS上のパーツ名
+	 * @param  animeName			参照するアニメ名
+	 * @param  overWrite			インスタンスキーの上書きフラグ
+	 * @param  keyParam			インスタンスキーのパラメータ
+	 */
 	bool changeInstanceAnime(std::string partsname, std::string animeName, bool overWrite, Instance keyParam);
 
-	/*
-	* プレイヤーにインスタンスパラメータを設定します。
-	*
-	* @param  overWrite			インスタンスキーの上書きフラグ
-	* @param  keyParam			インスタンスキーのパラメータ
-	*/
+	/**
+	 * プレイヤーにインスタンスパラメータを設定します。
+	 * @param  overWrite		インスタンスキーの上書きフラグ
+	 * @param  keyParam			インスタンスキーのパラメータ
+	 */
 	void setInstanceParam(bool overWrite, Instance keyParam);
 
-	/*
-	* プレイヤーからインスタンスパラメータを取得します。
-	*
-	* @param  overWrite			インスタンスキーの上書きフラグ
-	* @param  keyParam			インスタンスキーのパラメータ
-	*/
+	/**
+	 * プレイヤーからインスタンスパラメータを取得します。
+	 *
+	 * @param  overWrite		インスタンスキーの上書きフラグ
+	 * @param  keyParam			インスタンスキーのパラメータ
+	 */
 	void getInstanceParam(bool *overWrite, Instance *keyParam);
 
-	/*
-	* アニメーションのループ範囲（再生位置）を上書きします。
-	*
-	* @param  frame			開始フレーム（-1で上書き解除）
-	*/
+	/**
+	 * アニメーションのループ範囲（再生位置）を上書きします。
+	 *
+	 * @param  frame			開始フレーム（-1で上書き解除）
+	 */
 	void setStartFrame(int frame);
 
 	/*
-	* アニメーションのループ範囲（終了位置）を上書きします。
-	* SpriteStudioのフレーム数+1を設定してください。
-	*
-	* @param  frame			終了フレーム（-1で上書き解除）
-	*/
+	 * アニメーションのループ範囲（終了位置）を上書きします。
+	 * SpriteStudioのフレーム数+1を設定してください。
+	 *
+	 * @param  frame			終了フレーム（-1で上書き解除）
+	 */
 	void setEndFrame(int frame);
 
 	/*
-	* アニメーションのループ範囲（再生位置）を上書きします。
-	*
-	* @param  labelname			開始フレームとなるラベル名（""で上書き解除）
-	*/
+	 * アニメーションのループ範囲（再生位置）を上書きします。
+	 *
+	 * @param  labelname			開始フレームとなるラベル名（""で上書き解除）
+	 */
 	void setStartFrameToLabelName(char *findLabelName);
 
 	/*
-	* アニメーションのループ範囲（終了位置）を上書きします。
-	*
-	* @param  labelname			終了フレームとなるラベル名（""で上書き解除）
-	*/
+	 * アニメーションのループ範囲（終了位置）を上書きします。
+	 *
+	 * @param  labelname			終了フレームとなるラベル名（""で上書き解除）
+	 */
 	void setEndFrameToLabelName(char *findLabelName);
 
-	/*
-	* プレイヤー本体の反転を設定します。
-	*/
+	/** プレイヤー本体の反転を設定します。*/
 	void  setFlip(bool flipX, bool flipY);
 
 	/*
-	* パーツ番号に対応したスプライト情報を取得します。
-	* 
-	* @param  partIndex			パーツ番号
-	*/
+	 * パーツ番号に対応したスプライト情報を取得します。
+	 * 
+	 * @param  partIndex			パーツ番号
+	 */
 	CustomSprite* getSpriteData(int partIndex);
 
-	/*
-	* 表示を行うパーツ数を取得します
-	*/
+	/** 表示を行うパーツ数を取得します */
 	int getDrawSpriteCount(void);
 
-	/*
-	* プレイヤーの更新を行います。ゲームの更新タイミングで呼び出してください。
-	*/
+	/** プレイヤーの更新を行います。ゲームの更新タイミングで呼び出してください。*/
 	void update(float dt);
 
-	/*
-	* プレイヤーの表示を行います。ゲームの表示タイミングで呼び出してください。
-	*/
+	/** プレイヤーの表示を行います。ゲームの表示タイミングで呼び出してください。*/
 	void draw();
 
 
@@ -524,9 +426,7 @@ protected:
 	void update_matrix_ss4(CustomSprite *sprite, CustomSprite *parent, const PartData *partData);
 
 protected:
-	//ResourceManager*	_resman;
 	const ResourceSet*		_currentRs;
-	//std::string			_currentdataKey;
 	std::string			_currentAnimename;
 	AnimeRef*			_currentAnimeRef;
 	std::vector<CustomSprite *>	_parts;
