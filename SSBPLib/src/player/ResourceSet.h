@@ -8,16 +8,16 @@ namespace ss{
  */
 struct ResourceSet
 {
-	const ProjectData* data;
-	EffectCache* effectCache;
-	CellCache* cellCache;
-	AnimeCache* animeCache;
+	const ProjectData* m_data;
+	EffectCache* m_effectCache;
+	CellCache* m_cellCache;
+	AnimeCache* m_animeCache;
 
 	~ResourceSet(){
-		SS_SAFE_DELETE(data);
-		SS_SAFE_DELETE(animeCache);
-		SS_SAFE_DELETE(cellCache);
-		SS_SAFE_DELETE(effectCache);
+		SS_SAFE_DELETE(m_data);
+		SS_SAFE_DELETE(m_animeCache);
+		SS_SAFE_DELETE(m_cellCache);
+		SS_SAFE_DELETE(m_effectCache);
 	}
 };
 
