@@ -226,7 +226,7 @@ void Player::play(AnimeRef* animeRef, int loop, int startFrameNo)
 	{
 		_currentAnimeRef = animeRef;
 		
-		allocParts(animeRef->m_animePackData->numParts, false);
+		allocParts(animeRef->m_numParts, false);
 		setPartsParentage();
 	}
 	_playingFrame = static_cast<float>(startFrameNo);
@@ -480,11 +480,11 @@ void Player::setPartsParentage()
 	if (!_currentAnimeRef) return;
 
 	ToPointer ptr(_currentRs->m_data);
-	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
-	const PartData* parts =  ptr.toPartDatas(packData);
+	int numParts = _currentAnimeRef->m_numParts;
+	const PartData* parts = _currentAnimeRef->m_partDatas;
 
 	//親子関係を設定
-	for (int partIndex = 0; partIndex < packData->numParts; partIndex++)
+	for (int partIndex = 0; partIndex < numParts; partIndex++)
 	{
 		const PartData* partData = &parts[partIndex];
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
@@ -541,22 +541,18 @@ void Player::setPartsParentage()
 }
 
 //再生しているアニメーションに含まれるパーツ数を取得
-int Player::getPartsCount(void)
+int Player::getPartsCount()
 {
-	ToPointer ptr(_currentRs->m_data);
-	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
-	return packData->numParts;
+	return _currentAnimeRef->m_numParts;
 }
 
 //indexからパーツ名を取得
 const char* Player::getPartName(int partId) const
 {
 	ToPointer ptr(_currentRs->m_data);
+	SS_ASSERT_LOG(partId >= 0 && partId < _currentAnimeRef->m_numParts, "partId is out of range.");
 
-	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
-	SS_ASSERT_LOG(partId >= 0 && partId < packData->numParts, "partId is out of range.");
-
-	const PartData* partData = ptr.toPartDatas(packData);
+	const PartData* partData = _currentAnimeRef->m_partDatas;
 	const char* name = ptr.toString(partData[partId].name);
 	return name;
 }
@@ -564,12 +560,9 @@ const char* Player::getPartName(int partId) const
 //パーツ名からindexを取得
 int Player::indexOfPart(const char* partName) const
 {
-	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
-	for (int i = 0; i < packData->numParts; i++)
-	{
+	for (int i = 0; i < _currentAnimeRef->m_numParts; i++){
 		const char* name = getPartName(i);
-		if (strcmp(partName, name) == 0)
-		{
+		if (strcmp(partName, name) == 0){
 			return i;
 		}
 	}
@@ -605,10 +598,9 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 
 			ToPointer ptr(_currentRs->m_data);
 
-			const AnimePackData* packData = _currentAnimeRef->m_animePackData;
-			const PartData* parts = ptr.toPartDatas(packData);
+			const PartData* parts = _currentAnimeRef->m_partDatas;
 
-			for (int index = 0; index < packData->numParts; index++)
+			for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
 			{
 				int partIndex = _partIndex[index];
 
@@ -752,26 +744,9 @@ int Player::getLabelToFrame(char* findLabelName)
 //プライオリティでソートされた後、上に配置された順にソートされて決定されます。
 void Player::setPartVisible(std::string partsname, bool flg)
 {
-	bool rc = false;
-	if (_currentAnimeRef)
-	{
-		ToPointer ptr(_currentRs->m_data);
-
-		const AnimePackData* packData = _currentAnimeRef->m_animePackData;
-		const PartData* parts = ptr.toPartDatas(packData);
-
-		for (int index = 0; index < packData->numParts; index++)
-		{
-			int partIndex = _partIndex[index];
-
-			const PartData* partData = &parts[partIndex];
-			const char* partName = ptr.toString(partData->name);
-			if (strcmp(partName, partsname.c_str()) == 0)
-			{
-				_partVisible[index] = flg;
-				break;
-			}
-		}
+	int index = indexOfPart(partsname.c_str());
+	if(index >= 0){
+		_partVisible[index] = flg;
 	}
 }
 
@@ -808,10 +783,9 @@ void Player::setPartCell(std::string partsname, std::string sscename, std::strin
 			}
 		}
 
-		const AnimePackData* packData = _currentAnimeRef->m_animePackData;
-		const PartData* parts = ptr.toPartDatas(packData);
+		const PartData* parts = _currentAnimeRef->m_partDatas;
 
-		for (int index = 0; index < packData->numParts; index++)
+		for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
 		{
 			int partIndex = _partIndex[index];
 
@@ -836,10 +810,9 @@ bool Player::changeInstanceAnime(std::string partsname, std::string animename, b
 	{
 		ToPointer ptr(_currentRs->m_data);
 
-		const AnimePackData* packData = _currentAnimeRef->m_animePackData;
-		const PartData* parts = ptr.toPartDatas(packData);
+		const PartData* parts = _currentAnimeRef->m_partDatas;
 
-		for (int index = 0; index < packData->numParts; index++)
+		for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
 		{
 			int partIndex = _partIndex[index];
 
@@ -965,8 +938,7 @@ void Player::setFrame(int frameNo, float dt)
 
 	ToPointer ptr(_currentRs->m_data);
 
-	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
-	const PartData* parts = ptr.toPartDatas(packData);
+	const PartData* parts = _currentAnimeRef->m_partDatas;
 
 	const AnimationData* animeData = _currentAnimeRef->m_animationData;
 	const ss_offset* frameDataIndex = static_cast<const ss_offset*>(ptr(animeData->frameData));
@@ -979,7 +951,7 @@ void Player::setFrame(int frameNo, float dt)
 
 	State state;
 
-	for (int index = 0; index < packData->numParts; index++)
+	for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
 	{
 		int partIndex = reader.readS16();
 		const PartData* partData = &parts[partIndex];
@@ -1579,7 +1551,7 @@ void Player::setFrame(int frameNo, float dt)
 
 
 	// 親に変更があるときは自分も更新するようフラグを設定する
-	for (int partIndex = 1; partIndex < packData->numParts; partIndex++)
+	for (int partIndex = 1; partIndex < _currentAnimeRef->m_numParts; partIndex++)
 	{
 		const PartData* partData = &parts[partIndex];
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
@@ -1594,7 +1566,7 @@ void Player::setFrame(int frameNo, float dt)
 	// 行列の更新
 	float mat[16];
 	float t[16];
-	for (int partIndex = 0; partIndex < packData->numParts; partIndex++)
+	for (int partIndex = 0; partIndex < _currentAnimeRef->m_numParts; partIndex++)
 	{
 		const PartData* partData = &parts[partIndex];
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
@@ -1687,7 +1659,7 @@ void Player::setFrame(int frameNo, float dt)
 	}
 
 	// 特殊パーツのアップデート
-	for (int partIndex = 0; partIndex < packData->numParts; partIndex++)
+	for (int partIndex = 0; partIndex < _currentAnimeRef->m_numParts; partIndex++)
 	{
 		const PartData* partData = &parts[partIndex];
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
@@ -1771,9 +1743,8 @@ void Player::draw()
 	if (!_currentAnimeRef) return;
 
 	ToPointer ptr(_currentRs->m_data);
-	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 
-	for (int index = 0; index < packData->numParts; index++)
+	for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
 	{
 		int partIndex = _partIndex[index];
 		//スプライトの表示
@@ -1817,9 +1788,8 @@ void Player::checkUserData(int frameNo)
 {
 	ToPointer ptr(_currentRs->m_data);
 
-	const AnimePackData* packData = _currentAnimeRef->m_animePackData;
 	const AnimationData* animeData = _currentAnimeRef->m_animationData;
-	const PartData* parts = ptr.toPartDatas(packData);
+	const PartData* parts = _currentAnimeRef->m_partDatas;
 
 	if (!animeData->userData) return;
 	const ss_offset* userDataIndex = static_cast<const ss_offset*>(ptr(animeData->userData));
