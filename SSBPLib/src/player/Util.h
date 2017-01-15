@@ -1,10 +1,10 @@
-#pragma once
+ï»¿#pragma once
 #include <algorithm>
 #include <assert.h>
 
 namespace ss{
 /**
- * ’è”
+ * å®šæ•°
  */
 
 static const double SS_PI = 3.14159265358979323846;
@@ -15,20 +15,20 @@ double SSDegToRad(double deg);
 void DebugPrintToConsole(const char *filename, int line, const char *format, ...);
 
 
-/** ”z—ñ‚ÌƒTƒCƒY‚ğ•Ô‚· */
+/** é…åˆ—ã®ã‚µã‚¤ã‚ºã‚’è¿”ã™ */
 template<class TYPE, size_t N>
 size_t lengthof(const TYPE(&ar)[N]){
 	return N;
 }
 
-/** val‚ğ[min:max]‚Ì”ÍˆÍ‚É‚µ‚½‚à‚Ì‚ğ•Ô‚· */
+/** valã‚’[min:max]ã®ç¯„å›²ã«ã—ãŸã‚‚ã®ã‚’è¿”ã™ */
 template<class T>
 T clamp(T val, T minVal, T maxVal){
 	assert(minVal <= maxVal);
 	return std::min(std::max(val, minVal), maxVal);
 }
 
-/** [minVal:maxVal)‚Ì”ÍˆÍ‚Åƒ‹[ƒv‚³‚¹‚éB®”’lŒü‚¯ */
+/** [minVal:maxVal)ã®ç¯„å›²ã§ãƒ«ãƒ¼ãƒ—ã•ã›ã‚‹ã€‚æ•´æ•°å€¤å‘ã‘ */
 template<class T>
 T wrap(T val, T minVal, T maxVal){
 	assert(minVal < maxVal);
@@ -36,7 +36,7 @@ T wrap(T val, T minVal, T maxVal){
 	return (n >= 0) ? (n + minVal) : (n + maxVal);
 }
 
-/** [minVal:maxVal)‚Ì”ÍˆÍ‚Åƒ‹[ƒv‚³‚¹‚éB•‚“®¬”“_”Œü‚¯ */
+/** [minVal:maxVal)ã®ç¯„å›²ã§ãƒ«ãƒ¼ãƒ—ã•ã›ã‚‹ã€‚æµ®å‹•å°æ•°ç‚¹æ•°å‘ã‘ */
 template<class T>
 T fwrap(T val, T minVal, T maxVal){
 	assert(minVal < maxVal);
@@ -45,7 +45,7 @@ T fwrap(T val, T minVal, T maxVal){
 }
 
 
-/** üŒ`•âŠÔ t[0:1] */
+/** ç·šå½¢è£œé–“ t[0:1] */
 template <typename T>
 T lerp(const T &from, const T &to, double t){
 	T diff = to - from;

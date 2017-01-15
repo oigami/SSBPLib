@@ -1,4 +1,4 @@
-#include "CustomSprite.h"
+ï»¿#include "CustomSprite.h"
 #include "Util.h"
 
 namespace ss{
@@ -6,8 +6,8 @@ namespace ss{
 /**
  * CustomSprite
  */
- //ƒJƒ‰[ƒuƒŒƒ“ƒh—p‚ÌƒVƒF[ƒ_[ˆ—‚Í”Ä—p“I‚Ég—p‚·‚é–‚ª‚Å‚«‚È‚¢‚½‚ß‚·‚×‚ÄƒRƒƒ“ƒg‚É‚µ‚Ä‚ ‚è‚Ü‚·B
- //ƒJƒ‰[ƒuƒŒƒ“ƒh‚ğÄŒ»‚·‚é‚½‚ß‚ÌQl‚É‚µ‚Ä‚­‚¾‚³‚¢B
+ //ã‚«ãƒ©ãƒ¼ãƒ–ãƒ¬ãƒ³ãƒ‰ç”¨ã®ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼å‡¦ç†ã¯æ±ç”¨çš„ã«ä½¿ç”¨ã™ã‚‹äº‹ãŒã§ããªã„ãŸã‚ã™ã¹ã¦ã‚³ãƒ¡ãƒ³ãƒˆã«ã—ã¦ã‚ã‚Šã¾ã™ã€‚
+ //ã‚«ãƒ©ãƒ¼ãƒ–ãƒ¬ãƒ³ãƒ‰ã‚’å†ç¾ã™ã‚‹ãŸã‚ã®å‚è€ƒã«ã—ã¦ãã ã•ã„ã€‚
 
 unsigned int CustomSprite::ssSelectorLocation = 0;
 unsigned int CustomSprite::ssAlphaLocation = 0;
@@ -35,7 +35,7 @@ CustomSprite::CustomSprite() :
 
 CustomSprite::~CustomSprite()
 {
-	//ƒGƒtƒFƒNƒgƒNƒ‰ƒX‚ª‚ ‚éê‡‚Í‰ğ•ú‚·‚é
+	//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚¯ãƒ©ã‚¹ãŒã‚ã‚‹å ´åˆã¯è§£æ”¾ã™ã‚‹
 	SS_SAFE_DELETE(refEffect);
 	SS_SAFE_DELETE(_ssplayer);
 }

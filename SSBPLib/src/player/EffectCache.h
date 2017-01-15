@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "DataArrayReader.h"
 
 namespace ss{
@@ -29,7 +29,7 @@ public:
 	}
 
 	/**
-	* ƒGƒtƒFƒNƒgƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚ÄEffectRef‚ğ“¾‚é
+	* ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŒ‡å®šã—ã¦EffectRefã‚’å¾—ã‚‹
 	*/
 	SsEffectModel* getReference(const std::string& name)
 	{
@@ -53,23 +53,23 @@ protected:
 
 		ToPointer ptr(data);
 
-		//ssbp‚©‚çƒGƒtƒFƒNƒgƒtƒ@ƒCƒ‹”z—ñ‚ğæ“¾
+		//ssbpã‹ã‚‰ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«é…åˆ—ã‚’å–å¾—
 		const EffectFile* effectFileArray = ptr.toEffectFiles(data);
 
 		for(int listindex = 0; listindex < data->numEffectFileList; listindex++)
 		{
-			//ƒGƒtƒFƒNƒgƒtƒ@ƒCƒ‹”z—ñ‚©‚çƒGƒtƒFƒNƒgƒtƒ@ƒCƒ‹‚ğæ“¾
+			//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«é…åˆ—ã‹ã‚‰ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’å–å¾—
 			const EffectFile* effectFile = &effectFileArray[listindex];
 
-			//•Û—p‚ÌƒGƒtƒFƒNƒgƒtƒ@ƒCƒ‹î•ñ‚ğì¬
+			//ä¿æŒç”¨ã®ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã‚’ä½œæˆ
 			SsEffectModel *effectmodel = new SsEffectModel();
 			std::string effectFileName = ptr.toString(effectFile->name);
 
-			//ƒGƒtƒFƒNƒgƒtƒ@ƒCƒ‹‚©‚çƒGƒtƒFƒNƒgƒm[ƒh”z—ñ‚ğæ“¾
+			//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒãƒ¼ãƒ‰é…åˆ—ã‚’å–å¾—
 			const EffectNode* effectNodeArray = ptr.toEffectNodes(effectFile);
 			for(int nodeindex = 0; nodeindex < effectFile->numNodeList; nodeindex++)
 			{
-				const EffectNode* effectNode = &effectNodeArray[nodeindex];		//ƒGƒtƒFƒNƒgƒm[ƒh”z—ñ‚©‚çƒGƒtƒFƒNƒgƒm[ƒh‚ğæ“¾
+				const EffectNode* effectNode = &effectNodeArray[nodeindex];		//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒãƒ¼ãƒ‰é…åˆ—ã‹ã‚‰ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒãƒ¼ãƒ‰ã‚’å–å¾—
 
 				SsEffectNode *node = new SsEffectNode();
 				node->arrayIndex = effectNode->arrayIndex;
@@ -78,7 +78,7 @@ protected:
 				node->visible = true;
 
 				SsEffectBehavior behavior;
-				//ƒZƒ‹î•ñ‚ğì¬
+				//ã‚»ãƒ«æƒ…å ±ã‚’ä½œæˆ
 				behavior.CellIndex = effectNode->cellIndex;
 				CellRef* cellRef = behavior.CellIndex >= 0 ? cellCache->getReference(behavior.CellIndex) : NULL;
 				if(cellRef)
@@ -97,176 +97,176 @@ protected:
 				//				behavior.CellMapName;
 				behavior.blendType = (SsRenderBlendType::_enum)effectNode->blendType;
 
-				//ƒGƒtƒFƒNƒgƒm[ƒh‚©‚çƒrƒwƒCƒrƒA”z—ñ‚ğæ“¾
+				//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒãƒ¼ãƒ‰ã‹ã‚‰ãƒ“ãƒ˜ã‚¤ãƒ“ã‚¢é…åˆ—ã‚’å–å¾—
 				const ss_offset* behaviorArray = static_cast<const ss_offset*>(ptr(effectNode->Behavior));
 				for(int behaviorindex = 0; behaviorindex < effectNode->numBehavior; behaviorindex++)
 				{
-					//ƒrƒwƒCƒrƒA”z—ñ‚©‚çƒrƒwƒCƒrƒA‚ğæ“¾
+					//ãƒ“ãƒ˜ã‚¤ãƒ“ã‚¢é…åˆ—ã‹ã‚‰ãƒ“ãƒ˜ã‚¤ãƒ“ã‚¢ã‚’å–å¾—
 					const ss_u16* behavior_adr = static_cast<const ss_u16*>(ptr(behaviorArray[behaviorindex]));
 					DataArrayReader reader(behavior_adr);
 
-					//ƒpƒ‰ƒ[ƒ^‚ğì‚Á‚Äpush_back‚Å“o˜^‚µ‚Ä‚¢‚­
+					//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’ä½œã£ã¦push_backã§ç™»éŒ²ã—ã¦ã„ã
 					int type = reader.readS32();
 					switch(type)
 					{
 					case SsEffectFunctionType::Basic:
 					{
-						//Šî–{î•ñ
+						//åŸºæœ¬æƒ…å ±
 						EffectParticleElementBasic readparam;
-						readparam.priority = reader.readU32();			//•\¦—Dæ“x
-						readparam.maximumParticle = reader.readU32();		//Å‘åƒp[ƒeƒBƒNƒ‹”
-						readparam.attimeCreate = reader.readU32();		//ˆê“x‚Éì¬‚·‚éƒp[ƒeƒBƒNƒ‹”
-						readparam.interval = reader.readU32();			//¶¬ŠÔŠu
-						readparam.lifetime = reader.readU32();			//ƒGƒ~ƒbƒ^[¶‘¶ŠÔ
-						readparam.speedMinValue = reader.readFloat();		//‰‘¬Å¬
-						readparam.speedMaxValue = reader.readFloat();		//‰‘¬Å‘å
-						readparam.lifespanMinValue = reader.readU32();	//ƒp[ƒeƒBƒNƒ‹¶‘¶ŠÔÅ¬
-						readparam.lifespanMaxValue = reader.readU32();	//ƒp[ƒeƒBƒNƒ‹¶‘¶ŠÔÅ‘å
-						readparam.angle = reader.readFloat();				//Ëo•ûŒü
-						readparam.angleVariance = reader.readFloat();		//Ëo•ûŒü”ÍˆÍ
+						readparam.priority = reader.readU32();			//è¡¨ç¤ºå„ªå…ˆåº¦
+						readparam.maximumParticle = reader.readU32();		//æœ€å¤§ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«æ•°
+						readparam.attimeCreate = reader.readU32();		//ä¸€åº¦ã«ä½œæˆã™ã‚‹ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«æ•°
+						readparam.interval = reader.readU32();			//ç”Ÿæˆé–“éš”
+						readparam.lifetime = reader.readU32();			//ã‚¨ãƒŸãƒƒã‚¿ãƒ¼ç”Ÿå­˜æ™‚é–“
+						readparam.speedMinValue = reader.readFloat();		//åˆé€Ÿæœ€å°
+						readparam.speedMaxValue = reader.readFloat();		//åˆé€Ÿæœ€å¤§
+						readparam.lifespanMinValue = reader.readU32();	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ç”Ÿå­˜æ™‚é–“æœ€å°
+						readparam.lifespanMaxValue = reader.readU32();	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ç”Ÿå­˜æ™‚é–“æœ€å¤§
+						readparam.angle = reader.readFloat();				//å°„å‡ºæ–¹å‘
+						readparam.angleVariance = reader.readFloat();		//å°„å‡ºæ–¹å‘ç¯„å›²
 
 						ParticleElementBasic *effectParam = new ParticleElementBasic();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->priority = readparam.priority;							//•\¦—Dæ“x
-						effectParam->maximumParticle = readparam.maximumParticle;			//Å‘åƒp[ƒeƒBƒNƒ‹”
-						effectParam->attimeCreate = readparam.attimeCreate;					//ˆê“x‚Éì¬‚·‚éƒp[ƒeƒBƒNƒ‹”
-						effectParam->interval = readparam.interval;							//¶¬ŠÔŠu
-						effectParam->lifetime = readparam.lifetime;							//ƒGƒ~ƒbƒ^[¶‘¶ŠÔ
-						effectParam->speed.setMinMax(readparam.speedMinValue, readparam.speedMaxValue);				//‰‘¬
-						effectParam->lifespan.setMinMax(readparam.lifespanMinValue, readparam.lifespanMaxValue);	//ƒp[ƒeƒBƒNƒ‹¶‘¶ŠÔ
-						effectParam->angle = readparam.angle;								//Ëo•ûŒü
-						effectParam->angleVariance = readparam.angleVariance;				//Ëo•ûŒü”ÍˆÍ
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->priority = readparam.priority;							//è¡¨ç¤ºå„ªå…ˆåº¦
+						effectParam->maximumParticle = readparam.maximumParticle;			//æœ€å¤§ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«æ•°
+						effectParam->attimeCreate = readparam.attimeCreate;					//ä¸€åº¦ã«ä½œæˆã™ã‚‹ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«æ•°
+						effectParam->interval = readparam.interval;							//ç”Ÿæˆé–“éš”
+						effectParam->lifetime = readparam.lifetime;							//ã‚¨ãƒŸãƒƒã‚¿ãƒ¼ç”Ÿå­˜æ™‚é–“
+						effectParam->speed.setMinMax(readparam.speedMinValue, readparam.speedMaxValue);				//åˆé€Ÿ
+						effectParam->lifespan.setMinMax(readparam.lifespanMinValue, readparam.lifespanMaxValue);	//ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ç”Ÿå­˜æ™‚é–“
+						effectParam->angle = readparam.angle;								//å°„å‡ºæ–¹å‘
+						effectParam->angleVariance = readparam.angleVariance;				//å°„å‡ºæ–¹å‘ç¯„å›²
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::RndSeedChange:
 					{
-						//ƒV[ƒhã‘‚«
+						//ã‚·ãƒ¼ãƒ‰ä¸Šæ›¸ã
 						EffectParticleElementRndSeedChange readparam;
-						readparam.Seed = reader.readU32();				//ã‘‚«‚·‚éƒV[ƒh’l
+						readparam.Seed = reader.readU32();				//ä¸Šæ›¸ãã™ã‚‹ã‚·ãƒ¼ãƒ‰å€¤
 
 						ParticleElementRndSeedChange *effectParam = new ParticleElementRndSeedChange();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->Seed = readparam.Seed;							//ã‘‚«‚·‚éƒV[ƒh’l
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->Seed = readparam.Seed;							//ä¸Šæ›¸ãã™ã‚‹ã‚·ãƒ¼ãƒ‰å€¤
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::Delay:
 					{
-						//”­¶Fƒ^ƒCƒ~ƒ“ƒO
+						//ç™ºç”Ÿï¼šã‚¿ã‚¤ãƒŸãƒ³ã‚°
 						EffectParticleElementDelay readparam;
-						readparam.DelayTime = reader.readU32();			//’x‰„ŠÔ
+						readparam.DelayTime = reader.readU32();			//é…å»¶æ™‚é–“
 
 						ParticleElementDelay *effectParam = new ParticleElementDelay();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->DelayTime = readparam.DelayTime;			//’x‰„ŠÔ
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->DelayTime = readparam.DelayTime;			//é…å»¶æ™‚é–“
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::Gravity:
 					{
-						//d—Í‚ğ‰Á‚¦‚é
+						//é‡åŠ›ã‚’åŠ ãˆã‚‹
 						EffectParticleElementGravity readparam;
-						readparam.Gravity_x = reader.readFloat();			//X•ûŒü‚Ìd—Í
-						readparam.Gravity_y = reader.readFloat();			//Y•ûŒü‚Ìd—Í
+						readparam.Gravity_x = reader.readFloat();			//Xæ–¹å‘ã®é‡åŠ›
+						readparam.Gravity_y = reader.readFloat();			//Yæ–¹å‘ã®é‡åŠ›
 
 						ParticleElementGravity *effectParam = new ParticleElementGravity();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->Gravity.x = readparam.Gravity_x;			//X•ûŒü‚Ìd—Í
-						effectParam->Gravity.y = readparam.Gravity_y;			//Y•ûŒü‚Ìd—Í
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->Gravity.x = readparam.Gravity_x;			//Xæ–¹å‘ã®é‡åŠ›
+						effectParam->Gravity.y = readparam.Gravity_y;			//Yæ–¹å‘ã®é‡åŠ›
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::Position:
 					{
-						//À•WF¶¬
+						//åº§æ¨™ï¼šç”Ÿæˆæ™‚
 						EffectParticleElementPosition readparam;
-						readparam.OffsetXMinValue = reader.readFloat();	//XÀ•W‚É‰ÁZÅ¬
-						readparam.OffsetXMaxValue = reader.readFloat();	//XÀ•W‚É‰ÁZÅ‘å
-						readparam.OffsetYMinValue = reader.readFloat();	//XÀ•W‚É‰ÁZÅ¬
-						readparam.OffsetYMaxValue = reader.readFloat();	//XÀ•W‚É‰ÁZÅ‘å
+						readparam.OffsetXMinValue = reader.readFloat();	//Xåº§æ¨™ã«åŠ ç®—æœ€å°
+						readparam.OffsetXMaxValue = reader.readFloat();	//Xåº§æ¨™ã«åŠ ç®—æœ€å¤§
+						readparam.OffsetYMinValue = reader.readFloat();	//Xåº§æ¨™ã«åŠ ç®—æœ€å°
+						readparam.OffsetYMaxValue = reader.readFloat();	//Xåº§æ¨™ã«åŠ ç®—æœ€å¤§
 
 						ParticleElementPosition *effectParam = new ParticleElementPosition();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->OffsetX.setMinMax(readparam.OffsetXMinValue, readparam.OffsetXMaxValue); 	//XÀ•W‚É‰ÁZÅ¬
-						effectParam->OffsetY.setMinMax(readparam.OffsetYMinValue, readparam.OffsetYMaxValue);	//XÀ•W‚É‰ÁZÅ¬
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->OffsetX.setMinMax(readparam.OffsetXMinValue, readparam.OffsetXMaxValue); 	//Xåº§æ¨™ã«åŠ ç®—æœ€å°
+						effectParam->OffsetY.setMinMax(readparam.OffsetYMinValue, readparam.OffsetYMaxValue);	//Xåº§æ¨™ã«åŠ ç®—æœ€å°
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::Rotation:
 					{
-						//Z‰ñ“]‚ğ’Ç‰Á
+						//Zå›è»¢ã‚’è¿½åŠ 
 						EffectParticleElementRotation readparam;
-						readparam.RotationMinValue = reader.readFloat();		//Šp“x‰Šú’lÅ¬
-						readparam.RotationMaxValue = reader.readFloat();		//Šp“x‰Šú’lÅ‘å
-						readparam.RotationAddMinValue = reader.readFloat();	//Šp“x‰Šú‰ÁZ’lÅ¬
-						readparam.RotationAddMaxValue = reader.readFloat();	//Šp“x‰Šú‰ÁZ’lÅ‘å
+						readparam.RotationMinValue = reader.readFloat();		//è§’åº¦åˆæœŸå€¤æœ€å°
+						readparam.RotationMaxValue = reader.readFloat();		//è§’åº¦åˆæœŸå€¤æœ€å¤§
+						readparam.RotationAddMinValue = reader.readFloat();	//è§’åº¦åˆæœŸåŠ ç®—å€¤æœ€å°
+						readparam.RotationAddMaxValue = reader.readFloat();	//è§’åº¦åˆæœŸåŠ ç®—å€¤æœ€å¤§
 
 						ParticleElementRotation *effectParam = new ParticleElementRotation();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->Rotation.setMinMax(readparam.RotationMinValue, readparam.RotationMaxValue);		//Šp“x‰Šú’lÅ¬
-						effectParam->RotationAdd.setMinMax(readparam.RotationAddMinValue, readparam.RotationAddMaxValue);	//Šp“x‰Šú‰ÁZ’lÅ¬
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->Rotation.setMinMax(readparam.RotationMinValue, readparam.RotationMaxValue);		//è§’åº¦åˆæœŸå€¤æœ€å°
+						effectParam->RotationAdd.setMinMax(readparam.RotationAddMinValue, readparam.RotationAddMaxValue);	//è§’åº¦åˆæœŸåŠ ç®—å€¤æœ€å°
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::TransRotation:
 					{
-						//Z‰ñ“]‘¬“x•ÏX
+						//Zå›è»¢é€Ÿåº¦å¤‰æ›´
 						EffectParticleElementRotationTrans readparam;
-						readparam.RotationFactor = reader.readFloat();		//Šp“x–Ú•W‰ÁZ’l
-						readparam.EndLifeTimePer = reader.readFloat();		//“’BŠÔ
+						readparam.RotationFactor = reader.readFloat();		//è§’åº¦ç›®æ¨™åŠ ç®—å€¤
+						readparam.EndLifeTimePer = reader.readFloat();		//åˆ°é”æ™‚é–“
 
 						ParticleElementRotationTrans *effectParam = new ParticleElementRotationTrans();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->RotationFactor = readparam.RotationFactor;		//Šp“x–Ú•W‰ÁZ’l
-						effectParam->EndLifeTimePer = readparam.EndLifeTimePer;		//“’BŠÔ
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->RotationFactor = readparam.RotationFactor;		//è§’åº¦ç›®æ¨™åŠ ç®—å€¤
+						effectParam->EndLifeTimePer = readparam.EndLifeTimePer;		//åˆ°é”æ™‚é–“
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::TransSpeed:
 					{
-						//‘¬“xF•Ï‰»
+						//é€Ÿåº¦ï¼šå¤‰åŒ–
 						EffectParticleElementTransSpeed readparam;
-						readparam.SpeedMinValue = reader.readFloat();			//‘¬“x–Ú•W’lÅ¬
-						readparam.SpeedMaxValue = reader.readFloat();			//‘¬“x–Ú•W’lÅ‘å
+						readparam.SpeedMinValue = reader.readFloat();			//é€Ÿåº¦ç›®æ¨™å€¤æœ€å°
+						readparam.SpeedMaxValue = reader.readFloat();			//é€Ÿåº¦ç›®æ¨™å€¤æœ€å¤§
 
 						ParticleElementTransSpeed *effectParam = new ParticleElementTransSpeed();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->Speed.setMinMax(readparam.SpeedMinValue, readparam.SpeedMaxValue);			//‘¬“x–Ú•W’lÅ¬
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->Speed.setMinMax(readparam.SpeedMinValue, readparam.SpeedMaxValue);			//é€Ÿåº¦ç›®æ¨™å€¤æœ€å°
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::TangentialAcceleration:
 					{
-						//Úü‰Á‘¬“x
+						//æ¥ç·šåŠ é€Ÿåº¦
 						EffectParticleElementTangentialAcceleration readparam;
-						readparam.AccelerationMinValue = reader.readFloat();	//İ’è‰Á‘¬“xÅ¬
-						readparam.AccelerationMaxValue = reader.readFloat();	//İ’è‰Á‘¬“xÅ‘å
+						readparam.AccelerationMinValue = reader.readFloat();	//è¨­å®šåŠ é€Ÿåº¦æœ€å°
+						readparam.AccelerationMaxValue = reader.readFloat();	//è¨­å®šåŠ é€Ÿåº¦æœ€å¤§
 
 						ParticleElementTangentialAcceleration *effectParam = new ParticleElementTangentialAcceleration();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->Acceleration.setMinMax(readparam.AccelerationMinValue, readparam.AccelerationMaxValue);	//İ’è‰Á‘¬“xÅ¬
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->Acceleration.setMinMax(readparam.AccelerationMinValue, readparam.AccelerationMaxValue);	//è¨­å®šåŠ é€Ÿåº¦æœ€å°
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::InitColor:
 					{
-						//ƒJƒ‰[RGBAF¶¬
+						//ã‚«ãƒ©ãƒ¼RGBAï¼šç”Ÿæˆæ™‚
 						EffectParticleElementInitColor readparam;
-						readparam.ColorMinValue = reader.readU32();			//İ’èƒJƒ‰[Å¬
-						readparam.ColorMaxValue = reader.readU32();			//İ’èƒJƒ‰[Å‘å
+						readparam.ColorMinValue = reader.readU32();			//è¨­å®šã‚«ãƒ©ãƒ¼æœ€å°
+						readparam.ColorMaxValue = reader.readU32();			//è¨­å®šã‚«ãƒ©ãƒ¼æœ€å¤§
 
 						ParticleElementInitColor *effectParam = new ParticleElementInitColor();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
 
 						int a = (readparam.ColorMinValue & 0xFF000000) >> 24;
 						int r = (readparam.ColorMinValue & 0x00FF0000) >> 16;
@@ -278,20 +278,20 @@ protected:
 						g = (readparam.ColorMaxValue & 0x0000FF00) >> 8;
 						b = (readparam.ColorMaxValue & 0x000000FF) >> 0;
 						SsU8Color maxcol(r, g, b, a);
-						effectParam->Color.setMinMax(mincol, maxcol);			//İ’èƒJƒ‰[Å¬
+						effectParam->Color.setMinMax(mincol, maxcol);			//è¨­å®šã‚«ãƒ©ãƒ¼æœ€å°
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::TransColor:
 					{
-						//ƒJƒ‰[RGBF•Ï‰»
+						//ã‚«ãƒ©ãƒ¼RGBï¼šå¤‰åŒ–
 						EffectParticleElementTransColor readparam;
-						readparam.ColorMinValue = reader.readU32();			//İ’èƒJƒ‰[Å¬
-						readparam.ColorMaxValue = reader.readU32();			//İ’èƒJƒ‰[Å‘å
+						readparam.ColorMinValue = reader.readU32();			//è¨­å®šã‚«ãƒ©ãƒ¼æœ€å°
+						readparam.ColorMaxValue = reader.readU32();			//è¨­å®šã‚«ãƒ©ãƒ¼æœ€å¤§
 
 						ParticleElementTransColor *effectParam = new ParticleElementTransColor();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
 
 						int a = (readparam.ColorMinValue & 0xFF000000) >> 24;
 						int r = (readparam.ColorMinValue & 0x00FF0000) >> 16;
@@ -303,104 +303,104 @@ protected:
 						g = (readparam.ColorMaxValue & 0x0000FF00) >> 8;
 						b = (readparam.ColorMaxValue & 0x000000FF) >> 0;
 						SsU8Color maxcol(r, g, b, a);
-						effectParam->Color.setMinMax(mincol, maxcol);			//İ’èƒJƒ‰[Å¬
+						effectParam->Color.setMinMax(mincol, maxcol);			//è¨­å®šã‚«ãƒ©ãƒ¼æœ€å°
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::AlphaFade:
 					{
-						//ƒtƒF[ƒh
+						//ãƒ•ã‚§ãƒ¼ãƒ‰
 						EffectParticleElementAlphaFade readparam;
-						readparam.disprangeMinValue = reader.readFloat();		//•\¦‹æŠÔŠJn
-						readparam.disprangeMaxValue = reader.readFloat();		//•\¦‹æŠÔI—¹
+						readparam.disprangeMinValue = reader.readFloat();		//è¡¨ç¤ºåŒºé–“é–‹å§‹
+						readparam.disprangeMaxValue = reader.readFloat();		//è¡¨ç¤ºåŒºé–“çµ‚äº†
 
 						ParticleElementAlphaFade *effectParam = new ParticleElementAlphaFade();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->disprange.setMinMax(readparam.disprangeMinValue, readparam.disprangeMaxValue);		//•\¦‹æŠÔŠJn
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->disprange.setMinMax(readparam.disprangeMinValue, readparam.disprangeMaxValue);		//è¡¨ç¤ºåŒºé–“é–‹å§‹
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::Size:
 					{
-						//ƒXƒP[ƒ‹F¶¬
+						//ã‚¹ã‚±ãƒ¼ãƒ«ï¼šç”Ÿæˆæ™‚
 						EffectParticleElementSize readparam;
-						readparam.SizeXMinValue = reader.readFloat();			//•”{—¦Å¬
-						readparam.SizeXMaxValue = reader.readFloat();			//•”{—¦Å‘å
-						readparam.SizeYMinValue = reader.readFloat();			//‚‚³”{—¦Å¬
-						readparam.SizeYMaxValue = reader.readFloat();			//‚‚³”{—¦Å‘å
-						readparam.ScaleFactorMinValue = reader.readFloat();		//”{—¦Å¬
-						readparam.ScaleFactorMaxValue = reader.readFloat();		//”{—¦Å‘å
+						readparam.SizeXMinValue = reader.readFloat();			//å¹…å€ç‡æœ€å°
+						readparam.SizeXMaxValue = reader.readFloat();			//å¹…å€ç‡æœ€å¤§
+						readparam.SizeYMinValue = reader.readFloat();			//é«˜ã•å€ç‡æœ€å°
+						readparam.SizeYMaxValue = reader.readFloat();			//é«˜ã•å€ç‡æœ€å¤§
+						readparam.ScaleFactorMinValue = reader.readFloat();		//å€ç‡æœ€å°
+						readparam.ScaleFactorMaxValue = reader.readFloat();		//å€ç‡æœ€å¤§
 
 						ParticleElementSize *effectParam = new ParticleElementSize();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->SizeX.setMinMax(readparam.SizeXMinValue, readparam.SizeXMaxValue);			//•”{—¦Å¬
-						effectParam->SizeY.setMinMax(readparam.SizeYMinValue, readparam.SizeYMaxValue);			//‚‚³”{—¦Å¬
-						effectParam->ScaleFactor.setMinMax(readparam.ScaleFactorMinValue, readparam.ScaleFactorMaxValue);		//”{—¦Å¬
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->SizeX.setMinMax(readparam.SizeXMinValue, readparam.SizeXMaxValue);			//å¹…å€ç‡æœ€å°
+						effectParam->SizeY.setMinMax(readparam.SizeYMinValue, readparam.SizeYMaxValue);			//é«˜ã•å€ç‡æœ€å°
+						effectParam->ScaleFactor.setMinMax(readparam.ScaleFactorMinValue, readparam.ScaleFactorMaxValue);		//å€ç‡æœ€å°
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::TransSize:
 					{
-						//ƒXƒP[ƒ‹F•Ï‰»
+						//ã‚¹ã‚±ãƒ¼ãƒ«ï¼šå¤‰åŒ–
 						EffectParticleElementTransSize readparam;
-						readparam.SizeXMinValue = reader.readFloat();			//•”{—¦Å¬
-						readparam.SizeXMaxValue = reader.readFloat();			//•”{—¦Å‘å
-						readparam.SizeYMinValue = reader.readFloat();			//‚‚³”{—¦Å¬
-						readparam.SizeYMaxValue = reader.readFloat();			//‚‚³”{—¦Å‘å
-						readparam.ScaleFactorMinValue = reader.readFloat();		//”{—¦Å¬
-						readparam.ScaleFactorMaxValue = reader.readFloat();		//”{—¦Å‘å
+						readparam.SizeXMinValue = reader.readFloat();			//å¹…å€ç‡æœ€å°
+						readparam.SizeXMaxValue = reader.readFloat();			//å¹…å€ç‡æœ€å¤§
+						readparam.SizeYMinValue = reader.readFloat();			//é«˜ã•å€ç‡æœ€å°
+						readparam.SizeYMaxValue = reader.readFloat();			//é«˜ã•å€ç‡æœ€å¤§
+						readparam.ScaleFactorMinValue = reader.readFloat();		//å€ç‡æœ€å°
+						readparam.ScaleFactorMaxValue = reader.readFloat();		//å€ç‡æœ€å¤§
 
 						ParticleElementTransSize *effectParam = new ParticleElementTransSize();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->SizeX.setMinMax(readparam.SizeXMinValue, readparam.SizeXMaxValue);			//•”{—¦Å¬
-						effectParam->SizeY.setMinMax(readparam.SizeYMinValue, readparam.SizeYMaxValue);			//‚‚³”{—¦Å¬
-						effectParam->ScaleFactor.setMinMax(readparam.ScaleFactorMinValue, readparam.ScaleFactorMaxValue);		//”{—¦Å¬
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->SizeX.setMinMax(readparam.SizeXMinValue, readparam.SizeXMaxValue);			//å¹…å€ç‡æœ€å°
+						effectParam->SizeY.setMinMax(readparam.SizeYMinValue, readparam.SizeYMaxValue);			//é«˜ã•å€ç‡æœ€å°
+						effectParam->ScaleFactor.setMinMax(readparam.ScaleFactorMinValue, readparam.ScaleFactorMaxValue);		//å€ç‡æœ€å°
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::PointGravity:
 					{
-						//d—Í“_‚Ì’Ç‰Á
+						//é‡åŠ›ç‚¹ã®è¿½åŠ 
 						EffectParticlePointGravity readparam;
-						readparam.Position_x = reader.readFloat();				//d—Í“_X
-						readparam.Position_y = reader.readFloat();				//d—Í“_Y
-						readparam.Power = reader.readFloat();					//ƒpƒ[
+						readparam.Position_x = reader.readFloat();				//é‡åŠ›ç‚¹X
+						readparam.Position_y = reader.readFloat();				//é‡åŠ›ç‚¹Y
+						readparam.Power = reader.readFloat();					//ãƒ‘ãƒ¯ãƒ¼
 
 						ParticlePointGravity *effectParam = new ParticlePointGravity();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
-						effectParam->Position.x = readparam.Position_x;				//d—Í“_X
-						effectParam->Position.y = readparam.Position_y;				//d—Í“_Y
-						effectParam->Power = readparam.Power;					//ƒpƒ[
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
+						effectParam->Position.x = readparam.Position_x;				//é‡åŠ›ç‚¹X
+						effectParam->Position.y = readparam.Position_y;				//é‡åŠ›ç‚¹Y
+						effectParam->Power = readparam.Power;					//ãƒ‘ãƒ¯ãƒ¼
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::TurnToDirectionEnabled:
 					{
-						//is•ûŒü‚ÉŒü‚¯‚é
+						//é€²è¡Œæ–¹å‘ã«å‘ã‘ã‚‹
 						EffectParticleTurnToDirectionEnabled readparam;
-						readparam.Rotation = reader.readFloat();					//ƒtƒ‰ƒO
+						readparam.Rotation = reader.readFloat();					//ãƒ•ãƒ©ã‚°
 
 						ParticleTurnToDirectionEnabled *effectParam = new ParticleTurnToDirectionEnabled();
 						effectParam->Rotation = readparam.Rotation;
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					case SsEffectFunctionType::InfiniteEmitEnabled:
 					{
 						EffectParticleInfiniteEmitEnabled readparam;
-						readparam.flag = reader.readS32();					//ƒtƒ‰ƒO
+						readparam.flag = reader.readS32();					//ãƒ•ãƒ©ã‚°
 
 						ParticleInfiniteEmitEnabled *effectParam = new ParticleInfiniteEmitEnabled();
-						effectParam->setType((SsEffectFunctionType::enum_)type);				//ƒRƒ}ƒ“ƒh‚Ìí—Ş
+						effectParam->setType((SsEffectFunctionType::enum_)type);				//ã‚³ãƒãƒ³ãƒ‰ã®ç¨®é¡
 
-						behavior.plist.push_back(effectParam);												//ƒpƒ‰ƒ[ƒ^‚ğ’Ç‰Á
+						behavior.plist.push_back(effectParam);												//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¿½åŠ 
 						break;
 					}
 					default:
@@ -413,10 +413,10 @@ protected:
 				{
 				}
 			}
-			//ƒcƒŠ[‚Ì\’z
+			//ãƒ„ãƒªãƒ¼ã®æ§‹ç¯‰
 			if(effectmodel->nodeList.size() > 0)
 			{
-				effectmodel->root = effectmodel->nodeList[0];	//rootƒm[ƒh‚ğ’Ç‰Á
+				effectmodel->root = effectmodel->nodeList[0];	//rootãƒãƒ¼ãƒ‰ã‚’è¿½åŠ 
 				for(size_t i = 1; i < effectmodel->nodeList.size(); i++)
 				{
 					int pi = effectmodel->nodeList[i]->parentIndex;
@@ -426,12 +426,12 @@ protected:
 					}
 				}
 			}
-			effectmodel->lockRandSeed = effectFile->lockRandSeed; 	 // ƒ‰ƒ“ƒ_ƒ€ƒV[ƒhŒÅ’è’l
-			effectmodel->isLockRandSeed = effectFile->isLockRandSeed;  // ƒ‰ƒ“ƒ_ƒ€ƒV[ƒh‚ğŒÅ’è‚·‚é‚©”Û‚©
+			effectmodel->lockRandSeed = effectFile->lockRandSeed; 	 // ãƒ©ãƒ³ãƒ€ãƒ ã‚·ãƒ¼ãƒ‰å›ºå®šå€¤
+			effectmodel->isLockRandSeed = effectFile->isLockRandSeed;  // ãƒ©ãƒ³ãƒ€ãƒ ã‚·ãƒ¼ãƒ‰ã‚’å›ºå®šã™ã‚‹ã‹å¦ã‹
 			effectmodel->fps = effectFile->fps;             //
 			effectmodel->effectName = effectFileName;
-			effectmodel->layoutScaleX = effectFile->layoutScaleX;	//ƒŒƒCƒAƒEƒgƒXƒP[ƒ‹X
-			effectmodel->layoutScaleY = effectFile->layoutScaleY;	//ƒŒƒCƒAƒEƒgƒXƒP[ƒ‹Y
+			effectmodel->layoutScaleX = effectFile->layoutScaleX;	//ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚¹ã‚±ãƒ¼ãƒ«X
+			effectmodel->layoutScaleY = effectFile->layoutScaleY;	//ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚¹ã‚±ãƒ¼ãƒ«Y
 
 
 
@@ -439,7 +439,7 @@ protected:
 			_dic.insert(std::map<std::string, SsEffectModel*>::value_type(effectFileName, effectmodel));
 		}
 	}
-	//ƒGƒtƒFƒNƒgƒtƒ@ƒCƒ‹î•ñ‚Ìíœ
+	//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã®å‰Šé™¤
 	void releseReference(void)
 	{
 		std::map<std::string, SsEffectModel*>::iterator it = _dic.begin();

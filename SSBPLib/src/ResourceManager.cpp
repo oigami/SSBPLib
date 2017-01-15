@@ -1,4 +1,4 @@
-#include "ResourceManager.h"
+ï»¿#include "ResourceManager.h"
 #include "SS5PlayerData.h"
 #include "SS5PlayerPlatform.h"
 #include "player/Util.h"
@@ -84,7 +84,7 @@ std::string ResourceManager::addData(const std::string& dataKey, const ProjectDa
 	SS_ASSERT_LOG(data->dataId == DATA_ID, "Not data id matched");
 	SS_ASSERT_LOG(data->version == DATA_VERSION, "Version number of data does not match");
 
-	// imageBaseDir‚Ìw’è‚ª‚È‚¢‚Æ‚«ƒRƒ“ƒo[ƒg‚Éw’è‚³‚ê‚½ƒpƒX‚ğg—p‚·‚é
+	// imageBaseDirã®æŒ‡å®šãŒãªã„ã¨ãã‚³ãƒ³ãƒãƒ¼ãƒˆæ™‚ã«æŒ‡å®šã•ã‚ŒãŸãƒ‘ã‚¹ã‚’ä½¿ç”¨ã™ã‚‹
 	std::string baseDir = imageBaseDir;
 	if(imageBaseDir == s_null && data->imageBaseDir)
 	{
@@ -93,7 +93,7 @@ std::string ResourceManager::addData(const std::string& dataKey, const ProjectDa
 		baseDir = dir;
 	}
 
-	//ƒAƒjƒ‚ÍƒGƒtƒFƒNƒg‚ğQÆ‚µAƒGƒtƒFƒNƒg‚ÍƒZƒ‹‚ğQÆ‚·‚é‚Ì‚Å‚±‚Ì‡”Ô‚Å¶¬‚·‚é•K—v‚ª‚ ‚é
+	//ã‚¢ãƒ‹ãƒ¡ã¯ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å‚ç…§ã—ã€ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã¯ã‚»ãƒ«ã‚’å‚ç…§ã™ã‚‹ã®ã§ã“ã®é †ç•ªã§ç”Ÿæˆã™ã‚‹å¿…è¦ãŒã‚ã‚‹
 	CellCache* cellCache = CellCache::create(data, baseDir);
 
 	EffectCache* effectCache = EffectCache::create(data, baseDir, cellCache);	//
@@ -131,17 +131,17 @@ std::string ResourceManager::addDataWithKey(const std::string& dataKey, const st
 	std::string baseDir = imageBaseDir;
 	if(imageBaseDir == s_null)
 	{
-		// imageBaseDir‚Ìw’è‚ª‚È‚¢‚Æ‚«
+		// imageBaseDirã®æŒ‡å®šãŒãªã„ã¨ã
 		if(data->imageBaseDir)
 		{
-			// ƒRƒ“ƒo[ƒg‚Éw’è‚³‚ê‚½ƒpƒX‚ğg—p‚·‚é
+			// ã‚³ãƒ³ãƒãƒ¼ãƒˆæ™‚ã«æŒ‡å®šã•ã‚ŒãŸãƒ‘ã‚¹ã‚’ä½¿ç”¨ã™ã‚‹
 			ToPointer ptr(data);
 			const char* dir = ptr.toString(data->imageBaseDir);
 			baseDir = dir;
 		}
 		else
 		{
-			// ƒvƒƒWƒFƒNƒgƒtƒ@ƒCƒ‹‚Æ“¯‚¶ƒfƒBƒŒƒNƒgƒŠ‚ğw’è‚·‚é
+			// ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã¨åŒã˜ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’æŒ‡å®šã™ã‚‹
 			std::string directory;
 			std::string filename;
 			splitPath(directory, filename, ssbpFilepath);
@@ -152,7 +152,7 @@ std::string ResourceManager::addDataWithKey(const std::string& dataKey, const st
 
 	addData(dataKey, data, baseDir);
 
-	// ƒŠƒ\[ƒX‚ª”jŠü‚³‚ê‚é‚Æ‚«ˆê‚Éƒ[ƒh‚µ‚½ƒf[ƒ^‚à”jŠü‚·‚é
+	// ãƒªã‚½ãƒ¼ã‚¹ãŒç ´æ£„ã•ã‚Œã‚‹ã¨ãä¸€ç·’ã«ãƒ­ãƒ¼ãƒ‰ã—ãŸãƒ‡ãƒ¼ã‚¿ã‚‚ç ´æ£„ã™ã‚‹
 	ResourceSet* rs = getData(dataKey);
 	SS_ASSERT_LOG(rs != NULL, "");
 	rs->isDataAutoRelease = true;
@@ -162,12 +162,12 @@ std::string ResourceManager::addDataWithKey(const std::string& dataKey, const st
 
 std::string ResourceManager::addData(const std::string& ssbpFilepath, const std::string& imageBaseDir)
 {
-	// ƒtƒ@ƒCƒ‹–¼‚ğæ‚èo‚·
+	// ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–ã‚Šå‡ºã™
 	std::string directory;
 	std::string filename;
 	splitPath(directory, filename, ssbpFilepath);
 
-	// Šg’£q‚ğæ‚é
+	// æ‹¡å¼µå­ã‚’å–ã‚‹
 	std::string dataKey = filename;
 	size_t pos = filename.find_last_of(".");
 	if(pos != std::string::npos)
@@ -175,11 +175,11 @@ std::string ResourceManager::addData(const std::string& ssbpFilepath, const std:
 		dataKey = filename.substr(0, pos);
 	}
 
-	//“o˜^‚³‚ê‚Ä‚¢‚é–¼‘O‚©”»’è‚·‚é
+	//ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹åå‰ã‹åˆ¤å®šã™ã‚‹
 	std::map<std::string, ResourceSet*>::iterator it = _dataDic.find(dataKey);
 	if(it != _dataDic.end())
 	{
-		//“o˜^‚³‚ê‚Ä‚¢‚éê‡‚Íˆ—‚ğs‚í‚È‚¢
+		//ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹å ´åˆã¯å‡¦ç†ã‚’è¡Œã‚ãªã„
 		std::string str = "";
 		return str;
 	}
@@ -191,14 +191,14 @@ void ResourceManager::removeData(const std::string& dataKey)
 {
 	ResourceSet* rs = getData(dataKey);
 
-	//ƒoƒCƒiƒŠƒf[ƒ^‚Ìíœ
+	//ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿ã®å‰Šé™¤
 	delete rs;
 	_dataDic.erase(dataKey);
 }
 
 void ResourceManager::removeAllData()
 {
-	//‘SƒŠƒ\[ƒX‚Ì‰ğ•ú
+	//å…¨ãƒªã‚½ãƒ¼ã‚¹ã®è§£æ”¾
 	while(!_dataDic.empty())
 	{
 		std::map<std::string, ResourceSet*>::iterator it = _dataDic.begin();
@@ -208,7 +208,7 @@ void ResourceManager::removeAllData()
 	_dataDic.clear();
 }
 
-//ƒf[ƒ^–¼AƒZƒ‹–¼‚ğw’è‚µ‚ÄAƒZƒ‹‚Åg—p‚µ‚Ä‚¢‚éƒeƒNƒXƒ`ƒƒ‚ğ•ÏX‚·‚é
+//ãƒ‡ãƒ¼ã‚¿åã€ã‚»ãƒ«åã‚’æŒ‡å®šã—ã¦ã€ã‚»ãƒ«ã§ä½¿ç”¨ã—ã¦ã„ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’å¤‰æ›´ã™ã‚‹
 bool ResourceManager::changeTexture(char* ssbpName, char* ssceName, long texture)
 {
 	bool rc = false;
@@ -219,7 +219,7 @@ bool ResourceManager::changeTexture(char* ssbpName, char* ssceName, long texture
 	return(rc);
 }
 
-//w’è‚µ‚½ƒf[ƒ^‚ÌƒeƒNƒXƒ`ƒƒ‚ğ”jŠü‚µ‚Ü‚·
+//æŒ‡å®šã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç ´æ£„ã—ã¾ã™
 bool ResourceManager::releseTexture(char* ssbpName)
 {
 
@@ -229,7 +229,7 @@ bool ResourceManager::releseTexture(char* ssbpName)
 	return(rc);
 }
 
-//ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘ƒtƒŒ[ƒ€”‚ğæ“¾‚·‚é
+//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ç·ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’å–å¾—ã™ã‚‹
 int ResourceManager::getMaxFrame(std::string ssbpName, std::string animeName)
 {
 	int rc = -1;

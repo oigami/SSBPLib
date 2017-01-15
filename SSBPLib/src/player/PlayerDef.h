@@ -1,55 +1,55 @@
-#pragma once
+ï»¿#pragma once
 
 namespace ss{
 
-//ƒvƒƒWƒFƒNƒgƒtƒ‰ƒO
+//ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆãƒ•ãƒ©ã‚°
 enum {
-	HEAD_FLAG_rootPartFunctionAsVer4 = 1 << 0,		//•s“§–¾“xE”½“]E”ñ•\¦ƒAƒgƒŠƒrƒ…[ƒg‚ÌŒp³•û–@‚ğVer.4‚Æ“¯—l‚É‚·‚é
-	HEAD_FLAG_dontUseMatrixForTransform = 1 << 1,	//eq‚ÌÀ•W•ÏŠ·‚Éƒ}ƒgƒŠƒbƒNƒX‚ğg—p‚µ‚È‚¢iVer4ŒİŠ·j
+	HEAD_FLAG_rootPartFunctionAsVer4 = 1 << 0,		//ä¸é€æ˜åº¦ãƒ»åè»¢ãƒ»éè¡¨ç¤ºã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆã®ç¶™æ‰¿æ–¹æ³•ã‚’Ver.4ã¨åŒæ§˜ã«ã™ã‚‹
+	HEAD_FLAG_dontUseMatrixForTransform = 1 << 1,	//è¦ªå­ã®åº§æ¨™å¤‰æ›ã«ãƒãƒˆãƒªãƒƒã‚¯ã‚¹ã‚’ä½¿ç”¨ã—ãªã„ï¼ˆVer4äº’æ›ï¼‰
 };
 
 /**
- * Ä¶‚·‚éƒtƒŒ[ƒ€‚ÉŠÜ‚Ü‚ê‚éƒp[ƒcƒf[ƒ^‚Ìƒtƒ‰ƒO
+ * å†ç”Ÿã™ã‚‹ãƒ•ãƒ¬ãƒ¼ãƒ ã«å«ã¾ã‚Œã‚‹ãƒ‘ãƒ¼ãƒ„ãƒ‡ãƒ¼ã‚¿ã®ãƒ•ãƒ©ã‚°
  */
 enum {
-	PART_FLAG_INVISIBLE = 1 << 0,		/// ”ñ•\¦
-	PART_FLAG_FLIP_H = 1 << 1,		/// ‰¡”½“]
-	PART_FLAG_FLIP_V = 1 << 2,		/// c”½“]
+	PART_FLAG_INVISIBLE = 1 << 0,		/// éè¡¨ç¤º
+	PART_FLAG_FLIP_H = 1 << 1,		/// æ¨ªåè»¢
+	PART_FLAG_FLIP_V = 1 << 2,		/// ç¸¦åè»¢
 
 	// optional parameter flags
-	PART_FLAG_CELL_INDEX = 1 << 3,		/// ƒZƒ‹”Ô†
-	PART_FLAG_POSITION_X = 1 << 4,		/// XÀ•W
-	PART_FLAG_POSITION_Y = 1 << 5,		/// YÀ•W
-	PART_FLAG_POSITION_Z = 1 << 6,		/// ZÀ•W
-	PART_FLAG_PIVOT_X = 1 << 7,		/// Œ´“_ƒIƒtƒZƒbƒgX
-	PART_FLAG_PIVOT_Y = 1 << 8,		/// Œ´“_ƒIƒtƒZƒbƒgY
-	PART_FLAG_ROTATIONX = 1 << 9,		/// X‰ñ“]
-	PART_FLAG_ROTATIONY = 1 << 10,		/// Y‰ñ“]
-	PART_FLAG_ROTATIONZ = 1 << 11,		/// Z‰ñ“]
-	PART_FLAG_SCALE_X = 1 << 12,		/// ƒXƒP[ƒ‹X
-	PART_FLAG_SCALE_Y = 1 << 13,		/// ƒXƒP[ƒ‹Y
-	PART_FLAG_OPACITY = 1 << 14,		/// •s“§–¾“x
-	PART_FLAG_COLOR_BLEND = 1 << 15,		/// ƒJƒ‰[ƒuƒŒƒ“ƒh
-	PART_FLAG_VERTEX_TRANSFORM = 1 << 16,		/// ’¸“_•ÏŒ`
+	PART_FLAG_CELL_INDEX = 1 << 3,		/// ã‚»ãƒ«ç•ªå·
+	PART_FLAG_POSITION_X = 1 << 4,		/// Xåº§æ¨™
+	PART_FLAG_POSITION_Y = 1 << 5,		/// Yåº§æ¨™
+	PART_FLAG_POSITION_Z = 1 << 6,		/// Zåº§æ¨™
+	PART_FLAG_PIVOT_X = 1 << 7,		/// åŸç‚¹ã‚ªãƒ•ã‚»ãƒƒãƒˆX
+	PART_FLAG_PIVOT_Y = 1 << 8,		/// åŸç‚¹ã‚ªãƒ•ã‚»ãƒƒãƒˆY
+	PART_FLAG_ROTATIONX = 1 << 9,		/// Xå›è»¢
+	PART_FLAG_ROTATIONY = 1 << 10,		/// Yå›è»¢
+	PART_FLAG_ROTATIONZ = 1 << 11,		/// Zå›è»¢
+	PART_FLAG_SCALE_X = 1 << 12,		/// ã‚¹ã‚±ãƒ¼ãƒ«X
+	PART_FLAG_SCALE_Y = 1 << 13,		/// ã‚¹ã‚±ãƒ¼ãƒ«Y
+	PART_FLAG_OPACITY = 1 << 14,		/// ä¸é€æ˜åº¦
+	PART_FLAG_COLOR_BLEND = 1 << 15,		/// ã‚«ãƒ©ãƒ¼ãƒ–ãƒ¬ãƒ³ãƒ‰
+	PART_FLAG_VERTEX_TRANSFORM = 1 << 16,		/// é ‚ç‚¹å¤‰å½¢
 
-	PART_FLAG_SIZE_X = 1 << 17,		/// ƒTƒCƒYX
-	PART_FLAG_SIZE_Y = 1 << 18,		/// ƒTƒCƒYY
+	PART_FLAG_SIZE_X = 1 << 17,		/// ã‚µã‚¤ã‚ºX
+	PART_FLAG_SIZE_Y = 1 << 18,		/// ã‚µã‚¤ã‚ºY
 
-	PART_FLAG_U_MOVE = 1 << 19,		/// UVˆÚ“®X
-	PART_FLAG_V_MOVE = 1 << 20,		/// UVˆÚ“®Y
-	PART_FLAG_UV_ROTATION = 1 << 21,		/// UV‰ñ“]
-	PART_FLAG_U_SCALE = 1 << 22,		/// UVƒXƒP[ƒ‹X
-	PART_FLAG_V_SCALE = 1 << 23,		/// UVƒXƒP[ƒ‹Y
-	PART_FLAG_BOUNDINGRADIUS = 1 << 24,		/// “–‚½‚è”¼Œa
+	PART_FLAG_U_MOVE = 1 << 19,		/// UVç§»å‹•X
+	PART_FLAG_V_MOVE = 1 << 20,		/// UVç§»å‹•Y
+	PART_FLAG_UV_ROTATION = 1 << 21,		/// UVå›è»¢
+	PART_FLAG_U_SCALE = 1 << 22,		/// UVã‚¹ã‚±ãƒ¼ãƒ«X
+	PART_FLAG_V_SCALE = 1 << 23,		/// UVã‚¹ã‚±ãƒ¼ãƒ«Y
+	PART_FLAG_BOUNDINGRADIUS = 1 << 24,		/// å½“ãŸã‚ŠåŠå¾„
 
-	PART_FLAG_INSTANCE_KEYFRAME = 1 << 25,		/// ƒCƒ“ƒXƒ^ƒ“ƒX
-	PART_FLAG_EFFECT_KEYFRAME = 1 << 26,		/// ƒGƒtƒFƒNƒg
+	PART_FLAG_INSTANCE_KEYFRAME = 1 << 25,		/// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
+	PART_FLAG_EFFECT_KEYFRAME = 1 << 26,		/// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 
 	NUM_PART_FLAGS
 };
 
 /**
- * ’¸“_•ÏŒ`ƒtƒ‰ƒO
+ * é ‚ç‚¹å¤‰å½¢ãƒ•ãƒ©ã‚°
  */
 enum {
 	VERTEX_FLAG_LT = 1 << 0,
@@ -60,7 +60,7 @@ enum {
 };
 
 /**
- * ƒCƒ“ƒXƒ^ƒ“ƒXƒ‹[ƒvİ’èƒtƒ‰ƒO
+ * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒ«ãƒ¼ãƒ—è¨­å®šãƒ•ãƒ©ã‚°
  */
 enum {
 	INSTANCE_LOOP_FLAG_INFINITY = 1 << 0,		//
@@ -69,7 +69,7 @@ enum {
 	INSTANCE_LOOP_FLAG_INDEPENDENT = 1 << 3,
 };
 
-//ƒGƒtƒFƒNƒgƒAƒgƒŠƒrƒ…[ƒg‚Ìƒ‹[ƒvƒtƒ‰ƒO
+//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚¢ãƒˆãƒªãƒ“ãƒ¥ãƒ¼ãƒˆã®ãƒ«ãƒ¼ãƒ—ãƒ•ãƒ©ã‚°
 enum {
 	EFFECT_LOOP_FLAG_INDEPENDENT = 1 << 0,
 };
@@ -80,69 +80,69 @@ enum {
 enum
 {
 	PARTTYPE_INVALID = -1,
-	PARTTYPE_NULL,			/// nullB—Ìˆæ‚ğ‚½‚¸SRTî•ñ‚Ì‚İB‚½‚¾‚µ‰~Œ`‚Ì“–‚½‚è”»’è‚Íİ’è‰Â”\B
-	PARTTYPE_NORMAL,		/// ’Êíƒp[ƒcB—Ìˆæ‚ğ‚ÂB‰æ‘œ‚Í–³‚­‚Ä‚à‚¢‚¢B
-	PARTTYPE_TEXT,			/// ƒeƒLƒXƒg(—\–ñ@–¢À‘•j
-	PARTTYPE_INSTANCE,		/// ƒCƒ“ƒXƒ^ƒ“ƒXB‘¼ƒAƒjƒAƒp[ƒc‚Ö‚ÌQÆBƒV[ƒ“•ÒWƒ‚[ƒh‚Ì‘ã‘Ö‚É‚È‚é‚à‚Ì
-	PARTTYPE_EFFECT,		// ss5.5‘Î‰ƒGƒtƒFƒNƒgƒp[ƒc
+	PARTTYPE_NULL,			/// nullã€‚é ˜åŸŸã‚’æŒãŸãšSRTæƒ…å ±ã®ã¿ã€‚ãŸã ã—å††å½¢ã®å½“ãŸã‚Šåˆ¤å®šã¯è¨­å®šå¯èƒ½ã€‚
+	PARTTYPE_NORMAL,		/// é€šå¸¸ãƒ‘ãƒ¼ãƒ„ã€‚é ˜åŸŸã‚’æŒã¤ã€‚ç”»åƒã¯ç„¡ãã¦ã‚‚ã„ã„ã€‚
+	PARTTYPE_TEXT,			/// ãƒ†ã‚­ã‚¹ãƒˆ(äºˆç´„ã€€æœªå®Ÿè£…ï¼‰
+	PARTTYPE_INSTANCE,		/// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã€‚ä»–ã‚¢ãƒ‹ãƒ¡ã€ãƒ‘ãƒ¼ãƒ„ã¸ã®å‚ç…§ã€‚ã‚·ãƒ¼ãƒ³ç·¨é›†ãƒ¢ãƒ¼ãƒ‰ã®ä»£æ›¿ã«ãªã‚‹ã‚‚ã®
+	PARTTYPE_EFFECT,		// ss5.5å¯¾å¿œã‚¨ãƒ•ã‚§ã‚¯ãƒˆãƒ‘ãƒ¼ãƒ„
 	PARTTYPE_NUM
 };
 
 /*
- * “–‚½‚è”»’è‚Ìí—Ş
+ * å½“ãŸã‚Šåˆ¤å®šã®ç¨®é¡
  */
 enum
 {
 	INVALID = -1,
-	NONE,			///< “–‚½‚è”»’è‚Æ‚µ‚Äg‚í‚È‚¢B
-	QUAD,			///< ©İ‚É•ÏŒ`‚·‚él•ÓŒ`B’¸“_•ÏŒ`‚È‚Ç“K—pŒã‚Ì‚SŠp‚ğŒ‹‚ñ‚¾—ÌˆæBÅ‚àd‚¢B
-	AABB,			///< ‰ñ“]‚µ‚È‚¢‘S‘Ì‚ğˆÍ‚Ş‹éŒ`‚ÅŒğ·”»’è
-	CIRCLE,			///< ^‰~‚Ì”¼Œa‚Å‹——£‚É‚æ‚è”»’è‚·‚é
-	CIRCLE_SMIN,	///< ^‰~‚Ì”¼Œa‚Å‹——£‚É‚æ‚è”»’è‚·‚é (ƒXƒP[ƒ‹‚Íx,y‚ÌÅ¬’l‚ğ‚Æ‚éj
-	CIRCLE_SMAX,	///< ^‰~‚Ì”¼Œa‚Å‹——£‚É‚æ‚è”»’è‚·‚é (ƒXƒP[ƒ‹‚Íx,y‚ÌÅ‘å’l‚ğ‚Æ‚éj
+	NONE,			///< å½“ãŸã‚Šåˆ¤å®šã¨ã—ã¦ä½¿ã‚ãªã„ã€‚
+	QUAD,			///< è‡ªåœ¨ã«å¤‰å½¢ã™ã‚‹å››è¾ºå½¢ã€‚é ‚ç‚¹å¤‰å½¢ãªã©é©ç”¨å¾Œã®ï¼”è§’ã‚’çµã‚“ã é ˜åŸŸã€‚æœ€ã‚‚é‡ã„ã€‚
+	AABB,			///< å›è»¢ã—ãªã„å…¨ä½“ã‚’å›²ã‚€çŸ©å½¢ã§äº¤å·®åˆ¤å®š
+	CIRCLE,			///< çœŸå††ã®åŠå¾„ã§è·é›¢ã«ã‚ˆã‚Šåˆ¤å®šã™ã‚‹
+	CIRCLE_SMIN,	///< çœŸå††ã®åŠå¾„ã§è·é›¢ã«ã‚ˆã‚Šåˆ¤å®šã™ã‚‹ (ã‚¹ã‚±ãƒ¼ãƒ«ã¯x,yã®æœ€å°å€¤ã‚’ã¨ã‚‹ï¼‰
+	CIRCLE_SMAX,	///< çœŸå††ã®åŠå¾„ã§è·é›¢ã«ã‚ˆã‚Šåˆ¤å®šã™ã‚‹ (ã‚¹ã‚±ãƒ¼ãƒ«ã¯x,yã®æœ€å¤§å€¤ã‚’ã¨ã‚‹ï¼‰
 	num
 };
 
 /**
- * ƒ¿ƒuƒŒƒ“ƒh•û–@
+ * Î±ãƒ–ãƒ¬ãƒ³ãƒ‰æ–¹æ³•
  */
 enum BlendType
 {
-	BLEND_MIX,		///< 0 ƒuƒŒƒ“ƒhiƒ~ƒbƒNƒXj
-	BLEND_MUL,		///< 1 æZ
-	BLEND_ADD,		///< 2 ‰ÁZ
-	BLEND_SUB		///< 3 Œ¸Z
+	BLEND_MIX,		///< 0 ãƒ–ãƒ¬ãƒ³ãƒ‰ï¼ˆãƒŸãƒƒã‚¯ã‚¹ï¼‰
+	BLEND_MUL,		///< 1 ä¹—ç®—
+	BLEND_ADD,		///< 2 åŠ ç®—
+	BLEND_SUB		///< 3 æ¸›ç®—
 };
 
 /*
-Common\Loader\sstypes.h‚ÉÀÛ‚Ì’è‹`‚ª‚ ‚è‚Ü‚·B
-/// ƒeƒNƒXƒ`ƒƒƒ‰ƒbƒvƒ‚[ƒh
+Common\Loader\sstypes.hã«å®Ÿéš›ã®å®šç¾©ãŒã‚ã‚Šã¾ã™ã€‚
+/// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ©ãƒƒãƒ—ãƒ¢ãƒ¼ãƒ‰
 namespace SsTexWrapMode
 {
 	enum _enum
 	{
-		invalid = -1,	/// ‚È‚µ
-		clamp,			/// ƒNƒ‰ƒ“ƒv‚·‚é
-		repeat,			/// ƒŠƒs[ƒg
-		mirror,			/// ƒ~ƒ‰[
+		invalid = -1,	/// ãªã—
+		clamp,			/// ã‚¯ãƒ©ãƒ³ãƒ—ã™ã‚‹
+		repeat,			/// ãƒªãƒ”ãƒ¼ãƒˆ
+		mirror,			/// ãƒŸãƒ©ãƒ¼
 		num
 	};
 };
 
-/// ƒeƒNƒXƒ`ƒƒƒtƒBƒ‹ƒ^[ƒ‚[ƒh ‰æ‘f•âŠÔ•û–@
+/// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼ãƒ¢ãƒ¼ãƒ‰ ç”»ç´ è£œé–“æ–¹æ³•
 namespace SsTexFilterMode
 {
 	enum _enum
 	{
 		invalid = -1,
-		nearlest,	///< ƒjƒAƒŒƒXƒgƒlƒCƒo[
-		linear,		///< ƒŠƒjƒAAƒoƒCƒŠƒjƒA
+		nearlest,	///< ãƒ‹ã‚¢ãƒ¬ã‚¹ãƒˆãƒã‚¤ãƒãƒ¼
+		linear,		///< ãƒªãƒ‹ã‚¢ã€ãƒã‚¤ãƒªãƒ‹ã‚¢
 		num
 	};
 };
 */
 
-//ƒJƒ‰[ƒ‰ƒxƒ‹’è”
+//ã‚«ãƒ©ãƒ¼ãƒ©ãƒ™ãƒ«å®šæ•°
 #define COLORLABELSTR_NONE		""
 #define COLORLABELSTR_RED		"Red"
 #define COLORLABELSTR_ORANGE	"Orange"
@@ -153,14 +153,14 @@ namespace SsTexFilterMode
 #define COLORLABELSTR_GRAY		"Gray"
 enum
 {
-	COLORLABEL_NONE,		///< 0 ‚È‚µ
-	COLORLABEL_RED,			///< 1 Ô
-	COLORLABEL_ORANGE,		///< 2 ƒIƒŒƒ“ƒW
-	COLORLABEL_YELLOW,		///< 3 ‰©F
-	COLORLABEL_GREEN,		///< 4 —Î
-	COLORLABEL_BLUE,		///< 5 Â
-	COLORLABEL_VIOLET,		///< 6 ‡
-	COLORLABEL_GRAY,		///< 7 ŠDF
+	COLORLABEL_NONE,		///< 0 ãªã—
+	COLORLABEL_RED,			///< 1 èµ¤
+	COLORLABEL_ORANGE,		///< 2 ã‚ªãƒ¬ãƒ³ã‚¸
+	COLORLABEL_YELLOW,		///< 3 é»„è‰²
+	COLORLABEL_GREEN,		///< 4 ç·‘
+	COLORLABEL_BLUE,		///< 5 é’
+	COLORLABEL_VIOLET,		///< 6 ç´«
+	COLORLABEL_GRAY,		///< 7 ç°è‰²
 };
 
 } //namespace ss

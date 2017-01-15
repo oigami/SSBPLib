@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <string>
 #include <map>
@@ -17,88 +17,88 @@ public:
 	static const std::string s_null;
 
 	/**
-	 * ƒfƒtƒHƒ‹ƒgƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚µ‚Ü‚·.
+	 * ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã—ã¾ã™.
 	 *
-	 * @return ƒfƒtƒHƒ‹ƒg‚ÌResourceManagerƒCƒ“ƒXƒ^ƒ“ƒX
+	 * @return ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ResourceManagerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	 */
 	static ResourceManager* getInstance();
 
 	/**
-	 * ssbpƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İŠÇ—‘ÎÛ‚Æ‚µ‚Ü‚·.
-	 * dataKey‚Íssbp‚Ìƒtƒ@ƒCƒ‹–¼iŠg’£q‚È‚µj‚É‚È‚è‚Ü‚·.
+	 * ssbpãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ç®¡ç†å¯¾è±¡ã¨ã—ã¾ã™.
+	 * dataKeyã¯ssbpã®ãƒ•ã‚¡ã‚¤ãƒ«åï¼ˆæ‹¡å¼µå­ãªã—ï¼‰ã«ãªã‚Šã¾ã™.
 	 *
-	 * @param  ssbpFilepath  ssbpƒtƒ@ƒCƒ‹‚ÌƒpƒX
-	 * @param  imageBaseDir  ‰æ‘œƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İŒ³ƒ‹[ƒgƒpƒX. È—ª‚Íssbp‚Ì‚ ‚éêŠ‚ğƒ‹[ƒg‚Æ‚µ‚Ü‚·.
+	 * @param  ssbpFilepath  ssbpãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+	 * @param  imageBaseDir  ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿å…ƒãƒ«ãƒ¼ãƒˆãƒ‘ã‚¹. çœç•¥æ™‚ã¯ssbpã®ã‚ã‚‹å ´æ‰€ã‚’ãƒ«ãƒ¼ãƒˆã¨ã—ã¾ã™.
 	 * @return dataKey
 	 */
 	std::string addData(const std::string& ssbpFilepath, const std::string& imageBaseDir = s_null);
 
 	/**
-	 * ssbpƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚İŠÇ—‘ÎÛ‚Æ‚µ‚Ü‚·.
+	 * ssbpãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã¿ç®¡ç†å¯¾è±¡ã¨ã—ã¾ã™.
 	 *
-	 * @param  dataKey       dataKey‚Ìw’è
-	 * @param  ssbpFilepath  ssbpƒtƒ@ƒCƒ‹‚ÌƒpƒX
-	 * @param  imageBaseDir  ‰æ‘œƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İŒ³ƒ‹[ƒgƒpƒX. È—ª‚Íssbp‚Ì‚ ‚éêŠ‚ğƒ‹[ƒg‚Æ‚µ‚Ü‚·.
+	 * @param  dataKey       dataKeyã®æŒ‡å®š
+	 * @param  ssbpFilepath  ssbpãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹
+	 * @param  imageBaseDir  ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿å…ƒãƒ«ãƒ¼ãƒˆãƒ‘ã‚¹. çœç•¥æ™‚ã¯ssbpã®ã‚ã‚‹å ´æ‰€ã‚’ãƒ«ãƒ¼ãƒˆã¨ã—ã¾ã™.
 	 * @return dataKey
 	 */
 	std::string addDataWithKey(const std::string& dataKey, const std::string& ssbpFilepath, const std::string& imageBaseDir = s_null);
 
 	/**
-	 * w’è‚³‚ê‚½ssbpƒf[ƒ^‚ğŠÇ—‘ÎÛ‚Æ‚µ‚Ü‚·.
+	 * æŒ‡å®šã•ã‚ŒãŸssbpãƒ‡ãƒ¼ã‚¿ã‚’ç®¡ç†å¯¾è±¡ã¨ã—ã¾ã™.
 	 *
-	 * @param  dataKey       dataKey‚Ìw’è
-	 * @param  data          ssbpƒf[ƒ^
-	 * @param  imageBaseDir  ‰æ‘œƒtƒ@ƒCƒ‹‚Ì“Ç‚İ‚İŒ³ƒ‹[ƒgƒpƒX. È—ª‚Íssbp‚Ì‚ ‚éêŠ‚ğƒ‹[ƒg‚Æ‚µ‚Ü‚·.
+	 * @param  dataKey       dataKeyã®æŒ‡å®š
+	 * @param  data          ssbpãƒ‡ãƒ¼ã‚¿
+	 * @param  imageBaseDir  ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®èª­ã¿è¾¼ã¿å…ƒãƒ«ãƒ¼ãƒˆãƒ‘ã‚¹. çœç•¥æ™‚ã¯ssbpã®ã‚ã‚‹å ´æ‰€ã‚’ãƒ«ãƒ¼ãƒˆã¨ã—ã¾ã™.
 	 * @return dataKey
 	 */
 	std::string addData(const std::string& dataKey, const ProjectData* data, const std::string& imageBaseDir = s_null);
 
 	/**
-	 * w’èƒf[ƒ^‚ğ‰ğ•ú‚µ‚Ü‚·.
-	 * ƒpƒXAŠg’£q‚ğœ‚¢‚½ssbp–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
+	 * æŒ‡å®šãƒ‡ãƒ¼ã‚¿ã‚’è§£æ”¾ã—ã¾ã™.
+	 * ãƒ‘ã‚¹ã€æ‹¡å¼µå­ã‚’é™¤ã„ãŸssbpåã‚’æŒ‡å®šã—ã¦ãã ã•ã„ã€‚
 	 *
 	 * @param  dataKey
 	 */
 	void removeData(const std::string& dataKey);
 
 	/**
-	 * ‘S‚Ä‚Ìƒf[ƒ^‚ğ‰ğ•ú‚µ‚Ü‚·.
+	 * å…¨ã¦ã®ãƒ‡ãƒ¼ã‚¿ã‚’è§£æ”¾ã—ã¾ã™.
 	 */
 	void removeAllData();
 
 	/**
-	* –¼‘O‚É‘Î‰‚·‚éƒf[ƒ^æ“¾‚µ‚Ü‚·.
+	* åå‰ã«å¯¾å¿œã™ã‚‹ãƒ‡ãƒ¼ã‚¿å–å¾—ã—ã¾ã™.
 	*/
 	ResourceSet* getData(const std::string& dataKey);
 
 	/**
-	* w’è‚µ‚½ƒZƒ‹‚ÌƒeƒNƒXƒ`ƒƒ‚ğ•ÏX‚µ‚Ü‚·.
-	* @param  ssbpName       ssbp–¼iŠg’£q‚ğœ‚­ƒtƒ@ƒCƒ‹–¼j
-	* @param  ssceName       ssce–¼iŠg’£q‚ğœ‚­ƒtƒ@ƒCƒ‹–¼j
-	* @param  texture        •ÏXŒã‚ÌƒeƒNƒXƒ`ƒƒƒnƒ“ƒhƒ‹
-	* @return •ÏX‚ğs‚Á‚½‚©
+	* æŒ‡å®šã—ãŸã‚»ãƒ«ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’å¤‰æ›´ã—ã¾ã™.
+	* @param  ssbpName       ssbpåï¼ˆæ‹¡å¼µå­ã‚’é™¤ããƒ•ã‚¡ã‚¤ãƒ«åï¼‰
+	* @param  ssceName       ssceåï¼ˆæ‹¡å¼µå­ã‚’é™¤ããƒ•ã‚¡ã‚¤ãƒ«åï¼‰
+	* @param  texture        å¤‰æ›´å¾Œã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒ³ãƒ‰ãƒ«
+	* @return å¤‰æ›´ã‚’è¡Œã£ãŸã‹
 	*/
 	bool changeTexture(char* ssbpName, char* ssceName, long texture);
 
 	/**
-	* w’è‚µ‚½ƒf[ƒ^‚ÌƒeƒNƒXƒ`ƒƒ‚ğ”jŠü‚µ‚Ü‚·B
-	* @param  dataName       ssbp–¼iŠg’£q‚ğœ‚­ƒtƒ@ƒCƒ‹–¼j
-	* @return ¬Œ÷¸”s
+	* æŒ‡å®šã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç ´æ£„ã—ã¾ã™ã€‚
+	* @param  dataName       ssbpåï¼ˆæ‹¡å¼µå­ã‚’é™¤ããƒ•ã‚¡ã‚¤ãƒ«åï¼‰
+	* @return æˆåŠŸå¤±æ•—
 	*/
 	bool releseTexture(char* ssbpName);
 
 	/**
-	* “Ç‚İ‚ñ‚Å‚¢‚éssbp‚©‚çƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘ƒtƒŒ[ƒ€”‚ğæ“¾‚µ‚Ü‚·B
-	* @param  ssbpName       ssbp–¼iŠg’£q‚ğœ‚­ƒtƒ@ƒCƒ‹–¼j
-	* @param  animeName      ssae/ƒ‚[ƒVƒ‡ƒ“–¼
-	* @return ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘ƒtƒŒ[ƒ€i‘¶İ‚µ‚È‚¢ê‡‚ÍƒAƒT[ƒgj
+	* èª­ã¿è¾¼ã‚“ã§ã„ã‚‹ssbpã‹ã‚‰ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ç·ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’å–å¾—ã—ã¾ã™ã€‚
+	* @param  ssbpName       ssbpåï¼ˆæ‹¡å¼µå­ã‚’é™¤ããƒ•ã‚¡ã‚¤ãƒ«åï¼‰
+	* @param  animeName      ssae/ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³å
+	* @return ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ç·ãƒ•ãƒ¬ãƒ¼ãƒ ï¼ˆå­˜åœ¨ã—ãªã„å ´åˆã¯ã‚¢ã‚µãƒ¼ãƒˆï¼‰
 	*/
 	int getMaxFrame(std::string ssbpName, std::string animeName);
 
 	/**
-	 * V‚½‚ÈResourceManagerƒCƒ“ƒXƒ^ƒ“ƒX‚ğ\’z‚µ‚Ü‚·.
+	 * æ–°ãŸãªResourceManagerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’æ§‹ç¯‰ã—ã¾ã™.
 	 *
-	 * @return ResourceManagerƒCƒ“ƒXƒ^ƒ“ƒX
+	 * @return ResourceManagerã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	 */
 	static ResourceManager* create();
 

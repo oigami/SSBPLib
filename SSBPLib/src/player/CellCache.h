@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 namespace ss{
 
@@ -49,7 +49,7 @@ public:
 		return ref;
 	}
 
-	//w’è‚µ‚½–¼‘O‚ÌƒZƒ‹‚ÌQÆƒeƒNƒXƒ`ƒƒ‚ğ•ÏX‚·‚é
+	//æŒ‡å®šã—ãŸåå‰ã®ã‚»ãƒ«ã®å‚ç…§ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’å¤‰æ›´ã™ã‚‹
 	bool setCellRefTexture(const ProjectData* data, const char* cellName, long texture)
 	{
 		bool rc = false;
@@ -57,7 +57,7 @@ public:
 		ToPointer ptr(data);
 		const Cell* cells = ptr.toCells(data);
 
-		//–¼‘O‚©‚çƒCƒ“ƒfƒbƒNƒX‚Ìæ“¾
+		//åå‰ã‹ã‚‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®å–å¾—
 		int cellindex = -1;
 		for(int i = 0; i < data->numCells; i++)
 		{
@@ -75,7 +75,7 @@ public:
 		return(rc);
 	}
 
-	//w’è‚µ‚½ƒf[ƒ^‚ÌƒeƒNƒXƒ`ƒƒ‚ğ”jŠü‚·‚é
+	//æŒ‡å®šã—ãŸãƒ‡ãƒ¼ã‚¿ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç ´æ£„ã™ã‚‹
 	bool releseTexture(const ProjectData* data)
 	{
 		bool rc = false;
@@ -123,8 +123,8 @@ protected:
 				addTexture(imagePath, imageBaseDir, (SsTexWrapMode::_enum)cellMap->wrapmode, (SsTexFilterMode::_enum)cellMap->filtermode);
 			}
 
-			//ƒZƒ‹î•ñ‚¾‚¯“ü‚ê‚Ä‚¨‚­
-			//ƒeƒNƒXƒ`ƒƒ‚Ì“Ç‚İ‚İ‚ÍƒQ[ƒ€‘¤‚É”C‚¹‚é
+			//ã‚»ãƒ«æƒ…å ±ã ã‘å…¥ã‚Œã¦ãŠã
+			//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®èª­ã¿è¾¼ã¿ã¯ã‚²ãƒ¼ãƒ å´ã«ä»»ã›ã‚‹
 			CellRef* ref = new CellRef();
 			ref->cell = cell;
 			ref->texture = _textures.at(cellMap->index);
@@ -134,7 +134,7 @@ protected:
 		}
 
 	}
-	//ƒLƒƒƒbƒVƒ…‚Ìíœ
+	//ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®å‰Šé™¤
 	void releseReference(void)
 	{
 		for(int i = 0; i < _refs.size(); i++)
@@ -156,12 +156,12 @@ protected:
 
 		if(isAbsolutePath(imagePath))
 		{
-			// â‘ÎƒpƒX‚Ì‚Æ‚«‚Í‚»‚Ì‚Ü‚Üˆµ‚¤
+			// çµ¶å¯¾ãƒ‘ã‚¹ã®ã¨ãã¯ãã®ã¾ã¾æ‰±ã†
 			path = imagePath;
 		}
 		else
 		{
-			// ‘Š‘ÎƒpƒX‚Ì‚Æ‚«‚ÍimageBaseDir‚ğ•t—^‚·‚é
+			// ç›¸å¯¾ãƒ‘ã‚¹ã®ã¨ãã¯imageBaseDirã‚’ä»˜ä¸ã™ã‚‹
 			path.append(imageBaseDir);
 			size_t pathLen = path.length();
 			if(pathLen && path.at(pathLen - 1) != '/' && path.at(pathLen - 1) != '\\')
@@ -171,7 +171,7 @@ protected:
 			path.append(imagePath);
 		}
 
-		//ƒeƒNƒXƒ`ƒƒ‚Ì“Ç‚İ‚İ
+		//ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®èª­ã¿è¾¼ã¿
 		long tex = SSTextureLoad(path.c_str(), wrapmode, filtermode);
 		SS_LOG("load: %s", path.c_str());
 		TextuerData texdata;

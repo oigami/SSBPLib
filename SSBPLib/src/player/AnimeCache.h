@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 namespace ss{
 
@@ -38,7 +38,7 @@ public:
 	}
 
 	/**
-	* packName‚ÆanimeName‚ğw’è‚µ‚ÄAnimeRef‚ğ“¾‚é
+	* packNameã¨animeNameã‚’æŒ‡å®šã—ã¦AnimeRefã‚’å¾—ã‚‹
 	*/
 	AnimeRef* getReference(const std::string& packName, const std::string& animeName)
 	{
@@ -48,7 +48,7 @@ public:
 	}
 
 	/**
-	* animeName‚Ì‚İw’è‚µ‚ÄAnimeRef‚ğ“¾‚é
+	* animeNameã®ã¿æŒ‡å®šã—ã¦AnimeRefã‚’å¾—ã‚‹
 	*/
 	AnimeRef* getReference(const std::string& animeName)
 	{
@@ -91,12 +91,12 @@ protected:
 				ref->animationData = anime;
 				ref->animePackData = pack;
 
-				// packName + animeName‚Å‚Ì“o˜^
+				// packName + animeNameã§ã®ç™»éŒ²
 				std::string key = toPackAnimeKey(packName, animeName);
 				SS_LOG("anime key: %s", key.c_str());
 				_dic.insert(std::map<std::string, AnimeRef*>::value_type(key, ref));
 
-				// animeName‚Ì‚İ‚Å‚Ì“o˜^
+				// animeNameã®ã¿ã§ã®ç™»éŒ²
 				//				_dic.insert(std::map<std::string, AnimeRef*>::value_type(animeName, ref));
 
 			}
@@ -109,7 +109,7 @@ protected:
 		return packName + "/" + animeName;
 	}
 
-	//ƒLƒƒƒbƒVƒ…‚Ìíœ
+	//ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã®å‰Šé™¤
 	void releseReference(void)
 	{
 		std::map<std::string, AnimeRef*>::iterator it = _dic.begin();

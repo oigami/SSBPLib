@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 namespace ss{
 
@@ -36,27 +36,27 @@ struct LabelData
 	int			frameNo;		/// Frame no
 };
 
-//ƒCƒ“ƒXƒ^ƒ“ƒXƒf[ƒ^
+//ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ãƒ‡ãƒ¼ã‚¿
 struct Instance
 {
-	int			refStartframe;		//ŠJnƒtƒŒ[ƒ€
-	int			refEndframe;		//I—¹ƒtƒŒ[ƒ€
-	float		refSpeed;			//Ä¶‘¬“x
-	int			refloopNum;			//ƒ‹[ƒv‰ñ”
-	bool		infinity;			//–³ŒÀƒ‹[ƒv
-	bool		reverse;			//‹tÄ‘I
-	bool		pingpong;			//‰•œ
-	bool		independent;		//“Æ—§“®ì
+	int			refStartframe;		//é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ 
+	int			refEndframe;		//çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ 
+	float		refSpeed;			//å†ç”Ÿé€Ÿåº¦
+	int			refloopNum;			//ãƒ«ãƒ¼ãƒ—å›æ•°
+	bool		infinity;			//ç„¡é™ãƒ«ãƒ¼ãƒ—
+	bool		reverse;			//é€†å†é¸
+	bool		pingpong;			//å¾€å¾©
+	bool		independent;		//ç‹¬ç«‹å‹•ä½œ
 	void clear(void)
 	{
-		refStartframe = 0;			//ŠJnƒtƒŒ[ƒ€
-		refEndframe = 1;			//I—¹ƒtƒŒ[ƒ€
-		refSpeed = 1;				//Ä¶‘¬“x
-		refloopNum = 1;				//ƒ‹[ƒv‰ñ”
-		infinity = false;			//–³ŒÀƒ‹[ƒv
-		reverse = false;			//‹tÄ‘I
-		pingpong = false;			//‰•œ
-		independent = false;		//“Æ—§“®ì
+		refStartframe = 0;			//é–‹å§‹ãƒ•ãƒ¬ãƒ¼ãƒ 
+		refEndframe = 1;			//çµ‚äº†ãƒ•ãƒ¬ãƒ¼ãƒ 
+		refSpeed = 1;				//å†ç”Ÿé€Ÿåº¦
+		refloopNum = 1;				//ãƒ«ãƒ¼ãƒ—å›æ•°
+		infinity = false;			//ç„¡é™ãƒ«ãƒ¼ãƒ—
+		reverse = false;			//é€†å†é¸
+		pingpong = false;			//å¾€å¾©
+		independent = false;		//ç‹¬ç«‹å‹•ä½œ
 	}
 };
 

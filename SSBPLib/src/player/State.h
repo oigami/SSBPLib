@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "SS5PlayerTypes.h"
 #include <memory>
@@ -7,56 +7,56 @@ namespace ss{
 
 /**
  * State
- * �p�[�c�̏����i�[���܂��BState�̓��e�����Ƃɕ`�揈�����쐬���Ă��������B
+ * パーツの情報を格納します。Stateの内容をもとに描画処理を作成してください。
  */
 struct State
 {
-	int flags;						/// ���̃t���[���ōX�V���s����X�e�[�^�X�̃t���O
-	int cellIndex;					/// �p�[�c�Ɋ��蓖�Ă�ꂽ�Z���̔ԍ�
-	float x;						/// SS5�A�g���r���[�g�FX���W
-	float y;						/// SS5�A�g���r���[�g�FY���W
-	float z;						/// SS5�A�g���r���[�g�FZ���W
-	float pivotX;					/// ���_X�I�t�Z�b�g�{�Z���ɐݒ肳�ꂽ���_�I�t�Z�b�gX
-	float pivotY;					/// ���_Y�I�t�Z�b�g�{�Z���ɐݒ肳�ꂽ���_�I�t�Z�b�gY
-	float rotationX;				/// X��]
-	float rotationY;				/// Y��]
-	float rotationZ;				/// Z��]
-	float scaleX;					/// X�X�P�[��
-	float scaleY;					/// Y�X�P�[��
-	int opacity;					/// �s�����x�i0�`255�j
-	float size_X;					/// SS5�A�g���r���[�g�FX�T�C�Y
-	float size_Y;					/// SS5�A�g���r���[�g�FX�T�C�Y
-	float uv_move_X;				/// SS5�A�g���r���[�g�FUV X�ړ�
-	float uv_move_Y;				/// SS5�A�g���r���[�g�FUV Y�ړ�
-	float uv_rotation;				/// SS5�A�g���r���[�g�FUV ��]
-	float uv_scale_X;				/// SS5�A�g���r���[�g�FUV X�X�P�[��
-	float uv_scale_Y;				/// SS5�A�g���r���[�g�FUV Y�X�P�[��
-	float boundingRadius;			/// SS5�A�g���r���[�g�F�����蔼�a
-	int colorBlendFunc;				/// SS5�A�g���r���[�g�F�J���[�u�����h�̃u�����h���@
-	int colorBlendType;				/// SS5�A�g���r���[�g�F�J���[�u�����h�̒P�F�����_�J���[���B
-	bool flipX;						/// �����]�i�e�q�֌W�v�Z�ρj
-	bool flipY;						/// �c���]�i�e�q�֌W�v�Z�ρj
-	bool isVisibled;				/// ��\���i�e�q�֌W�v�Z�ρj
-	SSV3F_C4B_T2F_Quad quad;		/// ���_�f�[�^�A���W�A�J���[�l�AUV���܂܂��i���_�ό`�A�T�C�YXY�AUV�ړ�XY�AUV�X�P�[���AUV��]�A���]�����f�ρj
-	TextuerData texture;			/// �Z���ɑΉ������e�N�X�`���ԍ��i�Q�[�����ŊǗ����Ă���ԍ���ݒ肷��j
-	SSRect rect;					/// �Z���ɑΉ������e�N�X�`�����̕\���̈�i�J�n���W�A�������j
-	int blendfunc;					/// �p�[�c�ɐݒ肳�ꂽ�u�����h���@
-	float mat[16];					/// �p�[�c�̈ʒu���Z�o���邽�߂̃}�g���N�X�i�e�q�֌W�v�Z�ρj
-									//�Đ��p�p�����[�^
-	float Calc_rotationX;			/// X��]�i�e�q�֌W�v�Z�ρj
-	float Calc_rotationY;			/// Y��]�i�e�q�֌W�v�Z�ρj
-	float Calc_rotationZ;			/// Z��]�i�e�q�֌W�v�Z�ρj
-	float Calc_scaleX;				/// X�X�P�[���i�e�q�֌W�v�Z�ρj
-	float Calc_scaleY;				/// Y�X�P�[���i�e�q�֌W�v�Z�ρj
-	int Calc_opacity;				/// �s�����x�i0�`255�j�i�e�q�֌W�v�Z�ρj
-									//�C���X�^���X�A�g���r���[�g
+	int flags;						/// このフレームで更新が行われるステータスのフラグ
+	int cellIndex;					/// パーツに割り当てられたセルの番号
+	float x;						/// SS5アトリビュート：X座標
+	float y;						/// SS5アトリビュート：Y座標
+	float z;						/// SS5アトリビュート：Z座標
+	float pivotX;					/// 原点Xオフセット＋セルに設定された原点オフセットX
+	float pivotY;					/// 原点Yオフセット＋セルに設定された原点オフセットY
+	float rotationX;				/// X回転
+	float rotationY;				/// Y回転
+	float rotationZ;				/// Z回転
+	float scaleX;					/// Xスケール
+	float scaleY;					/// Yスケール
+	int opacity;					/// 不透明度（0～255）
+	float size_X;					/// SS5アトリビュート：Xサイズ
+	float size_Y;					/// SS5アトリビュート：Xサイズ
+	float uv_move_X;				/// SS5アトリビュート：UV X移動
+	float uv_move_Y;				/// SS5アトリビュート：UV Y移動
+	float uv_rotation;				/// SS5アトリビュート：UV 回転
+	float uv_scale_X;				/// SS5アトリビュート：UV Xスケール
+	float uv_scale_Y;				/// SS5アトリビュート：UV Yスケール
+	float boundingRadius;			/// SS5アトリビュート：当たり半径
+	int colorBlendFunc;				/// SS5アトリビュート：カラーブレンドのブレンド方法
+	int colorBlendType;				/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
+	bool flipX;						/// 横反転（親子関係計算済）
+	bool flipY;						/// 縦反転（親子関係計算済）
+	bool isVisibled;				/// 非表示（親子関係計算済）
+	SSV3F_C4B_T2F_Quad quad;		/// 頂点データ、座標、カラー値、UVが含まれる（頂点変形、サイズXY、UV移動XY、UVスケール、UV回転、反転が反映済）
+	TextuerData texture;			/// セルに対応したテクスチャ番号（ゲーム側で管理している番号を設定する）
+	SSRect rect;					/// セルに対応したテクスチャ内の表示領域（開始座標、幅高さ）
+	int blendfunc;					/// パーツに設定されたブレンド方法
+	float mat[16];					/// パーツの位置を算出するためのマトリクス（親子関係計算済）
+									//再生用パラメータ
+	float Calc_rotationX;			/// X回転（親子関係計算済）
+	float Calc_rotationY;			/// Y回転（親子関係計算済）
+	float Calc_rotationZ;			/// Z回転（親子関係計算済）
+	float Calc_scaleX;				/// Xスケール（親子関係計算済）
+	float Calc_scaleY;				/// Yスケール（親子関係計算済）
+	int Calc_opacity;				/// 不透明度（0～255）（親子関係計算済）
+									//インスタンスアトリビュート
 	int			instanceValue_curKeyframe;
 	int			instanceValue_startFrame;
 	int			instanceValue_endFrame;
 	int			instanceValue_loopNum;
 	float		instanceValue_speed;
 	int			instanceValue_loopflag;
-	//�G�t�F�N�g�A�g���r���[�g
+	//エフェクトアトリビュート
 	int			effectValue_curKeyframe;
 	int			effectValue_startTime;
 	float		effectValue_speed;

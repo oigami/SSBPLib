@@ -1,11 +1,11 @@
-#pragma once
+ï»¿#pragma once
 #include "SS5PlayerData.h"
 
 namespace ss{
 
 /**
- * ProjectData‚©‚çŠeƒf[ƒ^‚Ö‚ÌƒAƒNƒZƒT
- *  “Á’è‚ÌŒ^‚Ö‚ÌƒAƒNƒZƒX‚µ‚©‚µ‚È‚¢‚Ì‚ÅA“Ç‚İ‚â‚·‚³‚Ì‚½‚ß‚É‚àƒAƒNƒZƒX•û–@‚ğ’ñ‹Ÿ‚µ‚Ä‚¨‚­
+ * ProjectDataã‹ã‚‰å„ãƒ‡ãƒ¼ã‚¿ã¸ã®ã‚¢ã‚¯ã‚»ã‚µ
+ *  ç‰¹å®šã®å‹ã¸ã®ã‚¢ã‚¯ã‚»ã‚¹ã—ã‹ã—ãªã„ã®ã§ã€èª­ã¿ã‚„ã™ã•ã®ãŸã‚ã«ã‚‚ã‚¢ã‚¯ã‚»ã‚¹æ–¹æ³•ã‚’æä¾›ã—ã¦ãŠã
  */
 class ToPointer{
 public:
@@ -41,7 +41,7 @@ public:
 	}
 
 
-	//‚Ù‚©‚ÌƒAƒNƒZƒX‚Í‚Ù‚Æ‚ñ‚Çconst char*‚È‚Ì‚Å‚±‚ê‚Íoffset‚ğæ‚é‚æ‚¤‚É‚µ‚Æ‚­
+	//ã»ã‹ã®ã‚¢ã‚¯ã‚»ã‚¹ã¯ã»ã¨ã‚“ã©const char*ãªã®ã§ã“ã‚Œã¯offsetã‚’å–ã‚‹ã‚ˆã†ã«ã—ã¨ã
 	const char* toString(ss_offset offset) const{
 		return toClass<char>( offset );
 	}
@@ -53,7 +53,7 @@ public:
 	}
 	
 private:
-	//ƒLƒƒƒXƒg‚Ìƒeƒ“ƒvƒŒ[ƒg‰»
+	//ã‚­ãƒ£ã‚¹ãƒˆã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆåŒ–
 	template<class T>
 	const T* toClass(ss_offset offset) const{
 		return static_cast<const T*>(getAddress( offset ));
@@ -64,7 +64,7 @@ private:
 	}
 
 
-	const uint8_t*	m_base;			//ProjectData‚Ìæ“ªƒAƒhƒŒƒX
+	const uint8_t*	m_base;			//ProjectDataã®å…ˆé ­ã‚¢ãƒ‰ãƒ¬ã‚¹
 };
 
 

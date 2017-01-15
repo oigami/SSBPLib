@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "State.h"
 #include "SS5Player.h"
 
@@ -34,18 +34,18 @@ public:
 	float				_liveFrame;
 	SSV3F_C4B_T2F_Quad	_sQuad;
 
-	//ƒGƒtƒFƒNƒg—pƒpƒ‰ƒ[ƒ^
+	//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆç”¨ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿
 	SsEffectRenderV2*	refEffect;
 	SsPartState			partState;
 
-	//ƒ‚[ƒVƒ‡ƒ“ƒuƒŒƒ“ƒh—pƒXƒe[ƒ^ƒX
+	//ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ãƒ–ãƒ¬ãƒ³ãƒ‰ç”¨ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	State				_orgState;
 
-	//ƒGƒtƒFƒNƒg§Œä—pƒ[ƒN
+	//ã‚¨ãƒ•ã‚§ã‚¯ãƒˆåˆ¶å¾¡ç”¨ãƒ¯ãƒ¼ã‚¯
 	bool effectAttrInitialized;
 	float effectTimeTotal;
 
-	//Ver4ŒİŠ·—pƒ[ƒN
+	//Ver4äº’æ›ç”¨ãƒ¯ãƒ¼ã‚¯
 	SsVector3		_temp_position;
 	SsVector3		_temp_rotation;
 	SsVector2		_temp_scale;
