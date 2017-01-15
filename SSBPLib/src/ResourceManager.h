@@ -22,37 +22,6 @@ public:
 	 * @return デフォルトのResourceManagerインスタンス
 	 */
 	static ResourceManager* getInstance();
-#if 0
-	/**
-	 * ssbpファイルを読み込み管理対象とします.
-	 * dataKeyはssbpのファイル名（拡張子なし）になります.
-	 *
-	 * @param  ssbpFilepath  ssbpファイルのパス
-	 * @param  imageBaseDir  画像ファイルの読み込み元ルートパス. 省略時はssbpのある場所をルートとします.
-	 * @return dataKey
-	 */
-	std::string addData(const std::string& ssbpFilepath, const std::string& imageBaseDir = s_null);
-
-	/**
-	 * ssbpファイルを読み込み管理対象とします.
-	 *
-	 * @param  dataKey       dataKeyの指定
-	 * @param  ssbpFilepath  ssbpファイルのパス
-	 * @param  imageBaseDir  画像ファイルの読み込み元ルートパス. 省略時はssbpのある場所をルートとします.
-	 * @return dataKey
-	 */
-	std::string addDataWithKey(const std::string& dataKey, const std::string& ssbpFilepath, const std::string& imageBaseDir = s_null);
-
-	/**
-	 * 指定されたssbpデータを管理対象とします.
-	 *
-	 * @param  dataKey       dataKeyの指定
-	 * @param  data          ssbpデータ
-	 * @param  imageBaseDir  画像ファイルの読み込み元ルートパス. 省略時はssbpのある場所をルートとします.
-	 * @return dataKey
-	 */
-	std::string addData(const std::string& dataKey, const ProjectData* data, const std::string& imageBaseDir = s_null);
-#endif
 
 	/**
 	 * ssbpファイルを登録します
@@ -62,21 +31,15 @@ public:
 	 * @param  dataKey		登録名
 	 * @param  imageBaseDir 画像ファイルの読み込み元ルートパス. 省略時はコンバート時に指定されたパスを使用する
 	 */
-	bool addData(const void *data, size_t dataSize, const std::string &dataKey, const std::string &imageBaseDir = s_null);
+	bool regist(const void *data, size_t dataSize, const std::string &dataKey, const std::string &imageBaseDir = s_null);
 
-
-	/**
-	 * 指定データを解放します.
-	 * パス、拡張子を除いたssbp名を指定してください。
-	 *
-	 * @param  dataKey
-	 */
-	void removeData(const std::string& dataKey);
+	 /** 指定データを解放します。登録名を指定してください */
+	void unregist(const std::string& dataKey);
 
 	/**
 	 * 全てのデータを解放します.
 	 */
-	void removeAllData();
+	void unregistAll();
 
 	/**
 	* 名前に対応するデータ取得します.
@@ -115,7 +78,7 @@ public:
 	static ResourceManager* create();
 
 public:
-	ResourceManager(void);
+	ResourceManager();
 	virtual ~ResourceManager();
 
 	//imageBaseDirの指定がないときはdataの中を見てディレクトリを返す
