@@ -35,8 +35,6 @@ public:
 	/** 全てのデータを解放します */
 	void unregistAll();
 
-	/** 名前に対応するデータ取得します */
-	ResourceSet* getData(const std::string& dataKey);
 #if 0
 	/**
 	 * 指定したセルのテクスチャを変更します.
@@ -66,7 +64,11 @@ public:
 private:
 	//imageBaseDirの指定がないときはdataの中を見てディレクトリを返す
 	std::string getImageBaseDir(const std::string &imageBaseDir, const ProjectData *data) const;
+public:
+	/** 名前に対応するデータ取得します */
+	const ResourceSet* getData(const std::string& dataKey) const;
 
+private:
 	/** regist数をカウントするための構造 */
 	class RefcountResourceSet{
 	public:

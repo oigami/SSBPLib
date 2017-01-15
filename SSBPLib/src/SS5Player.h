@@ -530,7 +530,7 @@ protected:
 
 protected:
 	ResourceManager*	_resman;
-	ResourceSet*		_currentRs;
+	const ResourceSet*		_currentRs;
 	std::string			_currentdataKey;
 	std::string			_currentAnimename;
 	AnimeRef*			_currentAnimeRef;

@@ -229,7 +229,7 @@ bool Player::isFrameSkipEnabled() const
 
 void Player::setData(const std::string& dataKey)
 {
-	ResourceSet* rs = _resman->getData(dataKey);
+	const ResourceSet* rs = _resman->getData(dataKey);
 	_currentdataKey = dataKey;
 	if (rs == NULL)
 	{

@@ -26,15 +26,6 @@ ResourceManager::~ResourceManager()
 }
 
 
-ResourceSet* ResourceManager::getData(const std::string& dataKey)
-{
-	auto it = _dataDic.find(dataKey);
-	SS_ASSERT(it != _dataDic.end());
-
-	RefcountResourceSet* rrs = it->second;
-	return rrs->getResourceSet();
-}
-
 
 int ResourceManager::regist(const void *data, size_t dataSize, const std::string &dataKey, const std::string &imageBaseDir)
 {
@@ -57,20 +48,6 @@ int ResourceManager::regist(const void *data, size_t dataSize, const std::string
 	
 	_dataDic.insert(std::make_pair(dataKey, rs));
 	return rs->getCount();
-}
-
-
-std::string ResourceManager::getImageBaseDir(const std::string &imageBaseDir, const ProjectData *data) const
-{
-	if(imageBaseDir == s_null){	// imageBaseDirの指定がないときはパスを作る
-
-		if(data->imageBaseDir){
-			// コンバート時に指定されたパスを使用する
-			ToPointer ptr(data);
-			return ptr.toString(data->imageBaseDir);
-		}
-	}
-	return imageBaseDir;
 }
 
 
@@ -138,5 +115,28 @@ int ResourceManager::getMaxFrame(std::string ssbpName, std::string animeName)
 	return(rc);
 }
 #endif
+
+
+std::string ResourceManager::getImageBaseDir(const std::string &imageBaseDir, const ProjectData *data) const
+{
+	if(imageBaseDir == s_null){	// imageBaseDirの指定がないときはパスを作る
+
+		if(data->imageBaseDir){
+			// コンバート時に指定されたパスを使用する
+			ToPointer ptr(data);
+			return ptr.toString(data->imageBaseDir);
+		}
+	}
+	return imageBaseDir;
+}
+
+const ResourceSet* ResourceManager::getData(const std::string& dataKey) const
+{
+	auto it = _dataDic.find(dataKey);
+	SS_ASSERT(it != _dataDic.end());
+
+	RefcountResourceSet* rrs = it->second;
+	return rrs->getResourceSet();
+}
 
 } //namespace ss
