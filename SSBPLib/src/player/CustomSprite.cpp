@@ -166,7 +166,7 @@ void CustomSprite::draw(void)
 	}
 
 
-	SS_ASSERT2(!m_pobBatchNode, "If CCSprite is being rendered by CCSpriteBatchNode, CCSprite#draw SHOULD NOT be called");
+	SS_ASSERT_LOG(!m_pobBatchNode, "If CCSprite is being rendered by CCSpriteBatchNode, CCSprite#draw SHOULD NOT be called");
 
 	CC_NODE_DRAW_SETUP();
 

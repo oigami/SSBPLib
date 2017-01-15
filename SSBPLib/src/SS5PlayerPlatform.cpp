@@ -19,7 +19,7 @@ namespace ss
 	unsigned char* SSFileOpen(const char* pszFileName, const char* pszMode, unsigned long * pSize)
 	{
 		unsigned char * pBuffer = NULL;
-		SS_ASSERT2(pszFileName != NULL && pSize != NULL && pszMode != NULL, "Invalid parameters.");
+		SS_ASSERT_LOG(pszFileName != NULL && pSize != NULL && pszMode != NULL, "Invalid parameters.");
 		*pSize = 0;
 		do
 		{
@@ -42,7 +42,7 @@ namespace ss
 			std::string msg = "Get data from file(";
 		    msg.append(pszFileName).append(") failed!");
 		    
-		    SSLOG("%s", msg.c_str());
+		    SS_LOG("%s", msg.c_str());
 
 		}
 		return pBuffer;

@@ -247,7 +247,7 @@ void Player::setData(const std::string& dataKey)
 	if (rs == NULL)
 	{
 		std::string msg = Format("Not found data > %s", dataKey.c_str());
-		SS_ASSERT2(rs != NULL, msg.c_str());
+		SS_ASSERT_LOG(rs != NULL, msg.c_str());
 	}
 	
 	if (_currentRs != rs)
@@ -290,13 +290,13 @@ void Player::play(const std::string& ssaeName, const std::string& motionName, in
 
 void Player::play(const std::string& animeName, int loop, int startFrameNo)
 {
-	SS_ASSERT2(_currentRs != NULL, "Not select data");
+	SS_ASSERT_LOG(_currentRs != NULL, "Not select data");
 
 	AnimeRef* animeRef = _currentRs->animeCache->getReference(animeName);
 	if (animeRef == NULL)
 	{
 		std::string msg = Format("Not found animation > anime=%s", animeName.c_str());
-		SS_ASSERT2(animeRef != NULL, msg.c_str());
+		SS_ASSERT_LOG(animeRef != NULL, msg.c_str());
 	}
 	_currentAnimename = animeName;
 
@@ -408,7 +408,7 @@ void Player::updateFrame(float dt)
 	{ 
 		endFrame = _endFrameOverWrite;
 	}
-	SS_ASSERT2(startFrame < endFrame, "Playframe is out of range.");
+	SS_ASSERT_LOG(startFrame < endFrame, "Playframe is out of range.");
 
 	bool playEnd = false;
 	bool toNextFrame = _isPlaying && !_isPausing;
@@ -421,7 +421,7 @@ void Player::updateFrame(float dt)
 		float fdt = dt;
 		float s = fdt / (1.0f / _currentAnimeRef->animationData->fps);
 		
-		//if (!m_frameSkipEnabled) SSLOG("%f", s);
+		//if (!m_frameSkipEnabled) SS_LOG("%f", s);
 		
 		float next = _playingFrame + (s * _step);
 
@@ -665,7 +665,7 @@ const char* Player::getPartName(int partId) const
 	ToPointer ptr(_currentRs->data);
 
 	const AnimePackData* packData = _currentAnimeRef->animePackData;
-	SS_ASSERT2(partId >= 0 && partId < packData->numParts, "partId is out of range.");
+	SS_ASSERT_LOG(partId >= 0 && partId < packData->numParts, "partId is out of range.");
 
 	const PartData* partData = ptr.toPartDatas(packData);
 	const char* name = ptr.toString(partData[partId].name);

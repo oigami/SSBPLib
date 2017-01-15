@@ -755,7 +755,7 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
 			e->refData->CellName , 
 			e->dispCell ); 
 	}else{
-		DEBUG_PRINTF( "cell not found : %s , %s\n" , 
+		SS_ASSERT_LOG(false, "cell not found : %s , %s\n" , 
 			e->refData->CellMapName.c_str(), 
 			e->refData->CellName.c_str()
 			);

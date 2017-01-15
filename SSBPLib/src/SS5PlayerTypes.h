@@ -8,24 +8,13 @@
 #include <float.h>
 #include <math.h>
 #include <assert.h>
+#include "player/Util.h"
 
 namespace ss
 {
 class SSSize;
 class SSPoint;
 
-
-#ifdef _DEBUG
-	#define SSLOG(...)       do {} while (0)
-	#define SS_ASSERT(cond)    assert(cond)
-	#define SS_ASSERT2(cond, msg) SS_ASSERT(cond)
-	#define SSLOGERROR(format,...)  do {} while (0)
-#else
-	#define SSLOG(...)       do {} while (0)
-	#define SS_ASSERT(cond)
-	#define SS_ASSERT2(cond, msg) ((void)(cond))
-	#define SSLOGERROR(format,...)  do {} while (0)
-#endif
 
 /**
 * 座標クラス
@@ -87,7 +76,7 @@ public:
 
 	SSPoint operator/(float a) const
 	{
-		SS_ASSERT2(a, "SSPoint division by 0.");
+		SS_ASSERT_LOG(a, "SSPoint division by 0.");
 		return SSPoint(this->x / a, this->y / a);
 	}
 
@@ -234,7 +223,7 @@ public:
 
 	SSSize operator/(float a) const
 	{
-		SS_ASSERT2(a, "SSSize division by 0.");
+		SS_ASSERT_LOG(a, "SSSize division by 0.");
 		return SSSize(this->width / a, this->height / a);
 	}
 
@@ -286,7 +275,7 @@ public:
 	void setRect(float x, float y, float width, float height)
 	{
 		// CGRect can support width<0 or height<0
-		SS_ASSERT2(width >= 0.0f && height >= 0.0f, "width and height of Rect must not less than 0.");
+		SS_ASSERT_LOG(width >= 0.0f && height >= 0.0f, "width and height of Rect must not less than 0.");
 
 		origin.x = x;
 		origin.y = y;

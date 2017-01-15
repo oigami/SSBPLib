@@ -133,8 +133,8 @@
     <ClCompile Include="src\common\Animator\ssplayer_effectfunction.cpp" />
     <ClCompile Include="src\common\Animator\ssplayer_matrix.cpp" />
     <ClCompile Include="src\common\Animator\ssplayer_PartState.cpp" />
-    <ClCompile Include="src\common\Helper\DebugPrint.cpp" />
     <ClCompile Include="src\player\CustomSprite.cpp" />
+    <ClCompile Include="src\player\Util.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\SS5Player.cpp" />
     <ClCompile Include="src\SS5PlayerPlatform.cpp" />
@@ -149,7 +149,6 @@
     <ClInclude Include="src\common\Animator\ssplayer_matrix.h" />
     <ClInclude Include="src\common\Animator\ssplayer_PartState.h" />
     <ClInclude Include="src\common\Animator\xorshift32.h" />
-    <ClInclude Include="src\common\Helper\DebugPrint.h" />
     <ClInclude Include="src\common\Loader\SsEffectBehavior.h" />
     <ClInclude Include="src\common\Loader\SsEffectElement.h" />
     <ClInclude Include="src\common\Loader\ssloader.h" />

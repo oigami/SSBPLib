@@ -42,14 +42,14 @@ public:
 		std::map<std::string, SsEffectModel*>::iterator it = _dic.begin();
 		while(it != _dic.end())
 		{
-			SSLOG("%s", (*it).second);
+			SS_LOG("%s", (*it).second);
 			++it;
 		}
 	}
 protected:
 	void init(const ProjectData* data, const std::string& imageBaseDir, CellCache* cellCache)
 	{
-		SS_ASSERT2(data != NULL, "Invalid data");
+		SS_ASSERT_LOG(data != NULL, "Invalid data");
 
 		ToPointer ptr(data);
 
@@ -435,7 +435,7 @@ protected:
 
 
 
-			SSLOG("effect key: %s", effectFileName.c_str());
+			SS_LOG("effect key: %s", effectFileName.c_str());
 			_dic.insert(std::map<std::string, SsEffectModel*>::value_type(effectFileName, effectmodel));
 		}
 	}

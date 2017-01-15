@@ -15,9 +15,6 @@
     <Filter Include="ソース ファイル\common\Loader">
       <UniqueIdentifier>{4c763891-6da8-4680-b235-d572c4cdd243}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ソース ファイル\common\Helper">
-      <UniqueIdentifier>{691b2ea7-f52f-45aa-9bfc-b1940e23adc3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\common\Animator">
       <UniqueIdentifier>{e0df6a47-bb93-4f8b-b5a7-4e6ed4701079}</UniqueIdentifier>
     </Filter>
@@ -31,9 +28,6 @@
     </ClCompile>
     <ClCompile Include="src\SS5PlayerPlatform.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\common\Helper\DebugPrint.cpp">
-      <Filter>ソース ファイル\common\Helper</Filter>
     </ClCompile>
     <ClCompile Include="src\common\Animator\ssplayer_effect.cpp">
       <Filter>ソース ファイル\common\Animator</Filter>
@@ -54,6 +48,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\player\CustomSprite.cpp">
+      <Filter>ソース ファイル\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\player\Util.cpp">
       <Filter>ソース ファイル\player</Filter>
     </ClCompile>
   </ItemGroup>
@@ -87,9 +84,6 @@
     </ClInclude>
     <ClInclude Include="src\common\Loader\sstypes.h">
       <Filter>ソース ファイル\common\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="src\common\Helper\DebugPrint.h">
-      <Filter>ソース ファイル\common\Helper</Filter>
     </ClInclude>
     <ClInclude Include="src\common\Animator\MersenneTwister.h">
       <Filter>ソース ファイル\common\Animator</Filter>

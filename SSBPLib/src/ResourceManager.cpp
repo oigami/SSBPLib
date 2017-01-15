@@ -80,9 +80,9 @@ ResourceSet* ResourceManager::getData(const std::string& dataKey)
 
 std::string ResourceManager::addData(const std::string& dataKey, const ProjectData* data, const std::string& imageBaseDir)
 {
-	SS_ASSERT2(data != NULL, "Invalid data");
-	SS_ASSERT2(data->dataId == DATA_ID, "Not data id matched");
-	SS_ASSERT2(data->version == DATA_VERSION, "Version number of data does not match");
+	SS_ASSERT_LOG(data != NULL, "Invalid data");
+	SS_ASSERT_LOG(data->dataId == DATA_ID, "Not data id matched");
+	SS_ASSERT_LOG(data->version == DATA_VERSION, "Version number of data does not match");
 
 	// imageBaseDirの指定がないときコンバート時に指定されたパスを使用する
 	std::string baseDir = imageBaseDir;
@@ -121,12 +121,12 @@ std::string ResourceManager::addDataWithKey(const std::string& dataKey, const st
 	if(loadData == NULL)
 	{
 		std::string msg = "Can't load project data > " + fullpath;
-		SS_ASSERT2(loadData != NULL, msg.c_str());
+		SS_ASSERT_LOG(loadData != NULL, msg.c_str());
 	}
 
 	const ProjectData* data = static_cast<const ProjectData*>(loadData);
-	SS_ASSERT2(data->dataId == DATA_ID, "Not data id matched");
-	SS_ASSERT2(data->version == DATA_VERSION, "Version number of data does not match");
+	SS_ASSERT_LOG(data->dataId == DATA_ID, "Not data id matched");
+	SS_ASSERT_LOG(data->version == DATA_VERSION, "Version number of data does not match");
 
 	std::string baseDir = imageBaseDir;
 	if(imageBaseDir == s_null)
@@ -147,14 +147,14 @@ std::string ResourceManager::addDataWithKey(const std::string& dataKey, const st
 			splitPath(directory, filename, ssbpFilepath);
 			baseDir = directory;
 		}
-		//SSLOG("imageBaseDir: %s", baseDir.c_str());
+		//SS_LOG("imageBaseDir: %s", baseDir.c_str());
 	}
 
 	addData(dataKey, data, baseDir);
 
 	// リソースが破棄されるとき一緒にロードしたデータも破棄する
 	ResourceSet* rs = getData(dataKey);
-	SS_ASSERT2(rs != NULL, "");
+	SS_ASSERT_LOG(rs != NULL, "");
 	rs->isDataAutoRelease = true;
 
 	return dataKey;
@@ -240,7 +240,7 @@ int ResourceManager::getMaxFrame(std::string ssbpName, std::string animeName)
 	{
 		//std::string msg = Format("Not found animation > anime=%s", animeName.c_str());
 		std::string msg = std::string("Not found animation > anime=") + animeName;
-		SS_ASSERT2(animeRef != NULL, msg.c_str());
+		SS_ASSERT_LOG(animeRef != NULL, msg.c_str());
 	}
 	rc = animeRef->animationData->numFrames;
 

@@ -42,7 +42,7 @@ public:
 	{
 		if(index < 0 || index >= (int)_refs.size())
 		{
-			SSLOGERROR("Index out of range > %d", index);
+			SS_LOG("Index out of range > %d", index);
 			SS_ASSERT(0);
 		}
 		CellRef* ref = _refs.at(index);
@@ -103,7 +103,7 @@ protected:
 	void init(const ProjectData* data, const std::string& imageBaseDir)
 	{
 
-		SS_ASSERT2(data != NULL, "Invalid data");
+		SS_ASSERT_LOG(data != NULL, "Invalid data");
 
 		_textures.clear();
 		_refs.clear();
@@ -173,7 +173,7 @@ protected:
 
 		//テクスチャの読み込み
 		long tex = SSTextureLoad(path.c_str(), wrapmode, filtermode);
-		SSLOG("load: %s", path.c_str());
+		SS_LOG("load: %s", path.c_str());
 		TextuerData texdata;
 		texdata.handle = tex;
 		int w;

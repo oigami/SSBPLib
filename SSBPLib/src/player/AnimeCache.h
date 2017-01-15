@@ -61,7 +61,7 @@ public:
 		std::map<std::string, AnimeRef*>::iterator it = _dic.begin();
 		while(it != _dic.end())
 		{
-			SSLOG("%s", (*it).second);
+			SS_LOG("%s", (*it).second);
 			++it;
 		}
 	}
@@ -69,7 +69,7 @@ public:
 protected:
 	void init(const ProjectData* data)
 	{
-		SS_ASSERT2(data != NULL, "Invalid data");
+		SS_ASSERT_LOG(data != NULL, "Invalid data");
 
 		ToPointer ptr(data);
 		const AnimePackData* animePacks = ptr.toAnimePackDatas(data);
@@ -93,7 +93,7 @@ protected:
 
 				// packName + animeName‚Å‚Ì“o˜^
 				std::string key = toPackAnimeKey(packName, animeName);
-				SSLOG("anime key: %s", key.c_str());
+				SS_LOG("anime key: %s", key.c_str());
 				_dic.insert(std::map<std::string, AnimeRef*>::value_type(key, ref));
 
 				// animeName‚Ì‚Ý‚Å‚Ì“o˜^
