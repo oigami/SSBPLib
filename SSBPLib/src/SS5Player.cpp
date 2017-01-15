@@ -109,8 +109,6 @@ Player::Player(const ResourceSet *resource)
 	,_startFrameOverWrite(-1)	//開始フレームの上書き設定
 	,_endFrameOverWrite(-1)		//終了フレームの上書き設定
 	, _seedOffset(0)
-	, _rootPartFunctionAsVer4(false)
-	, _dontUseMatrixForTransform(false)
 {
 	_currentRs = resource;
 	SS_ASSERT_LOG(_currentRs, "resource is null");
@@ -744,19 +742,6 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 					if (colorName == COLORLABELSTR_GRAY)
 					{
 						result.part_labelcolor = COLORLABEL_GRAY;
-					}
-					if (_dontUseMatrixForTransform == true)
-					{
-						//SS4互換対応
-						//SS4はマトリクスを使用していないので独自の計算結果を反映させる
-						result.x = sprite->_temp_position.x;							//画面上のX座標を取得
-						result.y = sprite->_temp_position.y;							//画面上のY座標を取得
-						result.z = sprite->_state.z;									// Z座標アトリビュートを取得
-						result.rotationZ = sprite->_temp_rotation.z;					// Z回転（親子関係計算済）
-						result.scaleX = sprite->_temp_scale.x;							// Xスケール（親子関係計算済）
-						result.scaleY = sprite->_temp_scale.y;							// Yスケール（親子関係計算済）
-						result.size_X = sprite->_state.size_X * sprite->_temp_scale.x;	// SS5アトリビュート：Xサイズ
-						result.size_Y = sprite->_state.size_Y * sprite->_temp_scale.y;	// SS5アトリビュート：Yサイズ
 					}
 
 					rc = true;
@@ -1667,17 +1652,76 @@ void Player::setFrame(int frameNo, float dt)
 		const PartData* partData = &parts[partIndex];
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
 
-		if (sprite->_isStateChanged)
-		{
-			if (_dontUseMatrixForTransform == true)
+		if (sprite->_isStateChanged){
+			
+			if (partIndex > 0)
 			{
-				//Ver.4互換
-				CustomSprite* parent = nullptr;
-				if (partIndex > 0)
+				//親のマトリクスを適用
+				CustomSprite* parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
+				memcpy(mat, parent->_mat, sizeof(float) * 16);
+			}
+			else
+			{
+				IdentityMatrix(mat);
+				//rootパーツはプレイヤーからステータスを引き継ぐ
+				sprite->_state.x += _state.x;
+				sprite->_state.y += _state.y;
+				sprite->_state.rotationX += _state.rotationX;
+				sprite->_state.rotationY += _state.rotationY;
+				sprite->_state.rotationZ += _state.rotationZ;
+				sprite->_state.scaleX *= _state.scaleX;
+				sprite->_state.scaleY *= _state.scaleY;
+				//プレイヤーのフリップ
+				if (_state.flipX == true)
 				{
-					parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
+					sprite->_state.scaleX = -sprite->_state.scaleX;	//フラグ反転
 				}
-				update_matrix_ss4(sprite, parent, partData);
+				if (_state.flipY == true)
+				{
+					sprite->_state.scaleY = -sprite->_state.scaleY;	//フラグ反転
+				}
+
+				sprite->_state.Calc_rotationX = sprite->_state.rotationX;
+				sprite->_state.Calc_rotationY = sprite->_state.rotationY;
+				sprite->_state.Calc_rotationZ = sprite->_state.rotationZ;
+
+				sprite->_state.Calc_scaleX = sprite->_state.scaleX;
+				sprite->_state.Calc_scaleY = sprite->_state.scaleY;
+			}
+			TranslationMatrix(t, sprite->_state.x, sprite->_state.y, 0.0f);
+			MultiplyMatrix(t, mat, mat);
+
+			Matrix4RotationX(t, SSDegToRad(sprite->_state.rotationX));
+			MultiplyMatrix(t, mat, mat);
+
+			Matrix4RotationY(t, SSDegToRad(sprite->_state.rotationY));
+			MultiplyMatrix(t, mat, mat);
+
+			Matrix4RotationZ(t, SSDegToRad(sprite->_state.rotationZ));
+			MultiplyMatrix(t, mat, mat);
+
+			ScaleMatrix(t, sprite->_state.scaleX, sprite->_state.scaleY, 1.0f);
+			MultiplyMatrix(t, mat, mat);
+
+			memcpy(sprite->_mat, mat, sizeof(float) * 16);
+			memcpy(sprite->_state.mat, mat, sizeof(float) * 16);
+
+			if (partIndex > 0)
+			{
+				CustomSprite* parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
+				//子供は親のステータスを引き継ぐ
+				//座標はマトリクスから取得する
+				if ((parent->_state.Calc_scaleX * parent->_state.Calc_scaleY) < 0)	//スケールのどちらかが-の場合は回転方向を逆にする
+				{
+					sprite->_state.Calc_rotationZ = -sprite->_state.Calc_rotationZ;
+				}
+				sprite->_state.Calc_rotationX += parent->_state.Calc_rotationX;
+				sprite->_state.Calc_rotationY += parent->_state.Calc_rotationY;
+				sprite->_state.Calc_rotationZ += parent->_state.Calc_rotationZ;
+
+				sprite->_state.Calc_scaleX *= parent->_state.Calc_scaleX;
+				sprite->_state.Calc_scaleY *= parent->_state.Calc_scaleY;
+
 				//ルートパーツのアルファ値を反映させる
 				sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _state.opacity) / 255;
 				//インスタンスパーツの親を設定
@@ -1688,90 +1732,9 @@ void Player::setFrame(int frameNo, float dt)
 					sprite->_ssplayer->setRotation(sprite->_state.Calc_rotationX, sprite->_state.Calc_rotationY, sprite->_state.Calc_rotationZ);
 					sprite->_ssplayer->setAlpha(sprite->_state.Calc_opacity);
 				}
+
 			}
-			else
-			{
-				if (partIndex > 0)
-				{
-					//親のマトリクスを適用
-					CustomSprite* parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
-					memcpy(mat, parent->_mat, sizeof(float) * 16);
-				}
-				else
-				{
-					IdentityMatrix(mat);
-					//rootパーツはプレイヤーからステータスを引き継ぐ
-					sprite->_state.x += _state.x;
-					sprite->_state.y += _state.y;
-					sprite->_state.rotationX += _state.rotationX;
-					sprite->_state.rotationY += _state.rotationY;
-					sprite->_state.rotationZ += _state.rotationZ;
-					sprite->_state.scaleX *= _state.scaleX;
-					sprite->_state.scaleY *= _state.scaleY;
-					//プレイヤーのフリップ
-					if (_state.flipX == true)
-					{
-						sprite->_state.scaleX = -sprite->_state.scaleX;	//フラグ反転
-					}
-					if (_state.flipY == true)
-					{
-						sprite->_state.scaleY = -sprite->_state.scaleY;	//フラグ反転
-					}
-
-					sprite->_state.Calc_rotationX = sprite->_state.rotationX;
-					sprite->_state.Calc_rotationY = sprite->_state.rotationY;
-					sprite->_state.Calc_rotationZ = sprite->_state.rotationZ;
-
-					sprite->_state.Calc_scaleX = sprite->_state.scaleX;
-					sprite->_state.Calc_scaleY = sprite->_state.scaleY;
-				}
-				TranslationMatrix(t, sprite->_state.x, sprite->_state.y, 0.0f);
-				MultiplyMatrix(t, mat, mat);
-
-				Matrix4RotationX(t, SSDegToRad(sprite->_state.rotationX));
-				MultiplyMatrix(t, mat, mat);
-
-				Matrix4RotationY(t, SSDegToRad(sprite->_state.rotationY));
-				MultiplyMatrix(t, mat, mat);
-
-				Matrix4RotationZ(t, SSDegToRad(sprite->_state.rotationZ));
-				MultiplyMatrix(t, mat, mat);
-
-				ScaleMatrix(t, sprite->_state.scaleX, sprite->_state.scaleY, 1.0f);
-				MultiplyMatrix(t, mat, mat);
-
-				memcpy(sprite->_mat, mat, sizeof(float) * 16);
-				memcpy(sprite->_state.mat, mat, sizeof(float) * 16);
-
-				if (partIndex > 0)
-				{
-					CustomSprite* parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
-					//子供は親のステータスを引き継ぐ
-					//座標はマトリクスから取得する
-					if ((parent->_state.Calc_scaleX * parent->_state.Calc_scaleY) < 0)	//スケールのどちらかが-の場合は回転方向を逆にする
-					{
-						sprite->_state.Calc_rotationZ = -sprite->_state.Calc_rotationZ;
-					}
-					sprite->_state.Calc_rotationX += parent->_state.Calc_rotationX;
-					sprite->_state.Calc_rotationY += parent->_state.Calc_rotationY;
-					sprite->_state.Calc_rotationZ += parent->_state.Calc_rotationZ;
-
-					sprite->_state.Calc_scaleX *= parent->_state.Calc_scaleX;
-					sprite->_state.Calc_scaleY *= parent->_state.Calc_scaleY;
-
-					//ルートパーツのアルファ値を反映させる
-					sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _state.opacity) / 255;
-					//インスタンスパーツの親を設定
-					if (sprite->_ssplayer)
-					{
-						sprite->_ssplayer->setPosition(sprite->_mat[12], sprite->_mat[13]);
-						sprite->_ssplayer->setScale(sprite->_state.Calc_scaleX, sprite->_state.Calc_scaleY);
-						sprite->_ssplayer->setRotation(sprite->_state.Calc_rotationX, sprite->_state.Calc_rotationY, sprite->_state.Calc_rotationZ);
-						sprite->_ssplayer->setAlpha(sprite->_state.Calc_opacity);
-					}
-
-				}
-			}
+			
 			sprite->_isStateChanged = false;
 		}
 	}

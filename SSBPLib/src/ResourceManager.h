@@ -69,7 +69,7 @@ public:
 private:
 	//imageBaseDirの指定がないときはdataの中を見てディレクトリを返す
 	std::string getImageBaseDir(const std::string &imageBaseDir, const ProjectData *data) const;
-public:
+
 	/** 名前に対応するデータ取得します */
 	const ResourceSet* getData(const std::string& dataKey) const;
 

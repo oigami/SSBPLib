@@ -134,14 +134,9 @@ extern void get_uv_rotation(float *u, float *v, float cu, float cv, float deg);
 //親パーツにマイナススケールを使用した場合に再現できない場合があります。
 #define USE_VERTEX
 
-//互換性設定の親子の座標変換にマトリクス使用しない（Ver4互換）を設定した場合に動作を再現します。
-//互換性設定はssbp内に出力されており、設定によって処理が分岐します。
-//設定がされていないデータはSS5の挙動を再現します。
-#define USE_VER4TRANSFORM
 
 //Ver1.2系と同等の挙動にする場合は
 //#define USE_VERTEX
-//#define USE_VER4TRANSFORM
 //をコメントアウトしてください。
 
 //------------------------------------------------------------------------------
@@ -561,8 +556,6 @@ protected:
 	int					_startFrameOverWrite;			//開始フレームの上書き設定
 	int					_endFrameOverWrite;				//終了フレームの上書き設定
 	int					_seedOffset;					//エフェクトシードオフセット
-	bool				_rootPartFunctionAsVer4;		//不透明度・反転・非表示アトリビュートの継承方法をVer.4と同様にする
-	bool				_dontUseMatrixForTransform;		//親子の座標変換にマトリックスを使用しない（Ver4互換）
 	int					_draw_count;					//表示スプライト数
 
 	UserData			_userData;
