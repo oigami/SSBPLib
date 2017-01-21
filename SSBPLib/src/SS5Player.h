@@ -104,7 +104,7 @@ struct ProjectData;
 class SSSize;
 class Player;
 class ResourceManager;
-class ResluteState;
+struct ResluteState;
 
 //関数定義
 extern void get_uv_rotation(float *u, float *v, float cu, float cv, float deg);
