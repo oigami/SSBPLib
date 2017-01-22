@@ -64,7 +64,7 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 		//ここではロードなどはせずに番号を保存しとくだけに留める
 		imagePathMap[cellMap->index] = ptr.toString(cellMap->imagePath);		//memo:ここは何度も上書きされるだろうがconst char*のコピーなので大丈夫
 
-	#if 1
+	#if 0
 		//todo: これを外側のクラスに任せるようにすること!
 		if(cellMap->index >= (int)m_textures.size())
 		{
@@ -74,7 +74,7 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 	#endif
 
 		CellRef ref = {
-			cell,  cellname, cellMap->index, m_textures[cellMap->index],
+			cell,  cellname, cellMap->index, //m_textures[cellMap->index],
 			SSRect(cell->x, cell->y, cell->width, cell->height)
 		};
 		m_cellRefs[i] = ref;
@@ -97,13 +97,16 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 //キャッシュの削除
 void CellCache::releseReference(void)
 {
+#if 0
 	for(TextuerData& tex : m_textures){
 		SSTextureRelese(tex.handle);
 	}
+#endif
 }
 
 void CellCache::addTexture(const std::string& imagePath, const std::string& imageBaseDir, SsTexWrapMode::_enum  wrapmode, SsTexFilterMode::_enum filtermode)
 {
+#if 0
 	std::string path = "";
 
 	if(isAbsolutePath(imagePath))
@@ -135,6 +138,7 @@ void CellCache::addTexture(const std::string& imagePath, const std::string& imag
 	texdata.size_h = h;
 
 	m_textures.push_back(texdata);
+#endif
 }
 
 

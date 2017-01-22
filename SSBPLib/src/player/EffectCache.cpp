@@ -77,7 +77,8 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 			{
 				behavior.refCell.pivot_X = cellRef->m_cell->pivot_X;
 				behavior.refCell.pivot_Y = cellRef->m_cell->pivot_Y;
-				behavior.refCell.texture = cellRef->m_texture;
+				//behavior.refCell.texture = cellRef->m_texture;
+				behavior.refCell.cellMapIndex = cellRef->m_cellMapIndex;
 				//behavior.refCell.texname = cellRef->m_texname;
 				behavior.refCell.rect = cellRef->m_rect;
 				behavior.refCell.cellIndex = behavior.CellIndex;

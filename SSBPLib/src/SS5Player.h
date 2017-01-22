@@ -412,7 +412,7 @@ public:
 	void draw();
 
 
-protected:
+private:
 	void allocParts(int numParts, bool useCustomShaderProgram);
 	void releaseParts();
 	void setPartsParentage();
@@ -425,7 +425,7 @@ protected:
 	float parcentValRot(float val1, float val2, float parcent);
 	void update_matrix_ss4(CustomSprite *sprite, CustomSprite *parent, const PartData *partData);
 
-protected:
+private:
 	const ResourceSet*		_currentRs;
 	std::string			_currentAnimename;
 	AnimeRef*			_currentAnimeRef;
@@ -461,6 +461,8 @@ protected:
 	UserData			_userData;
 
 	State				_state;
+	std::vector<TextuerData> m_textures;		//_textures[cellMapIndex].handle = textureid;
+
 };
 
 

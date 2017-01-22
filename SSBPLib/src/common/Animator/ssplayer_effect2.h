@@ -399,7 +399,7 @@ public:
 
 
 protected:
-	void 	particleDraw(SsEffectEmitter* e , double t , SsEffectEmitter* parent = 0 , particleDrawData* plp = 0 );
+	void 	particleDraw(SsEffectEmitter* e , double t , SsEffectEmitter* parent , particleDrawData* plp, const std::vector<TextuerData>& textures);
 	void	initEmitter( SsEffectEmitter* e , SsEffectNode* node);
 
 	void	clearEmitterList();
@@ -438,7 +438,7 @@ public:
     virtual float	getFrame(){ return nowFrame; }
 
 	virtual void	update();
-	virtual void	draw();
+	virtual void	draw(const std::vector<TextuerData>& textures);
 
 	virtual void    reload();
 
@@ -463,7 +463,8 @@ public:
 			float     _rotation,
 			float	  direction,
 			SsFColor	_color,
-			SsRenderBlendType::_enum blendType
+			SsRenderBlendType::_enum blendType,
+			const std::vector<TextuerData>& textures	//todo:とりあえず今はこれを渡していくしかない。後で整理する
 		);
 
 	void	setSeedOffset(int offset) {

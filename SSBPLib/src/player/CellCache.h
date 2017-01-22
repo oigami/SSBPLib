@@ -16,7 +16,7 @@ struct CellRef{
 	const char* m_cellName;		//cellの名前
 	int m_cellMapIndex;			//セルマップ番号
 
-	TextuerData m_texture;//todo:後で消す
+//	TextuerData m_texture;//todo:後で消す
 	SSRect		m_rect;			//cellの範囲
 };
 
@@ -58,7 +58,7 @@ private:
 
 	std::string m_imageBaseDir;
 	std::vector<const char *> m_imagePaths;	//テクスチャファイル名(添字はセルマップ番号に対応)
-	std::vector<TextuerData> m_textures; //todo:後で消す
+//	std::vector<TextuerData> m_textures; //todo:後で消す
 	std::vector<CellRef> m_cellRefs;		//数が動的に変化することはないので実体を入れる事にした
 };
 
