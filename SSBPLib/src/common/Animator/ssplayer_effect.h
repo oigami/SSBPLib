@@ -117,7 +117,7 @@ public:
 
 
     virtual void	update(float delta){}
-	virtual void	draw(SsEffectRenderer* render){}
+	virtual void	draw(SsEffectRenderer* render, const std::vector<TextuerData>& textures){}
 
 	virtual void	debugdraw(){}
 
@@ -357,7 +357,7 @@ public:
 	virtual bool	genarate( SsEffectRenderer* render );
 
     virtual void	update(float delta);
-	virtual void	draw(SsEffectRenderer* render);
+	virtual void	draw(SsEffectRenderer* render, const std::vector<TextuerData>& textures);
 
 
 	virtual void	count()
@@ -476,7 +476,7 @@ public:
 
 	void	setSeed( u32 seed ){  mySeed = seed; }
 	virtual void	update(float delta);
-    virtual void	draw();
+    virtual void	draw(const std::vector<TextuerData>& textures);
 	virtual void    reload();
 
     //操作

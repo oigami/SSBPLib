@@ -89,6 +89,31 @@ Player::Player(const ResourceSet *resource)
 		_cellChange[i] = -1;
 	}
 	_state.init();
+
+	//ロードイベントを投げてcellMapのテクスチャを取得する
+	int cellMapNum = _currentRs->m_cellCache->getCellMapNum();
+	m_textures.resize(cellMapNum);
+	for(int i = 0; i < cellMapNum; ++i){
+		std::string textureName = _currentRs->m_cellCache->getTexturePath(i);
+		//todo:イベントリスナーにしたい //TextureID textureid = m_eventListener->SSTextureLoad(textureName.c_str());	//ロードイベント
+		//m_textures[i] = textureid;
+		
+	#if 0
+		//CellCacheからこっちに持ってきた
+		long tex = SSTextureLoad(path.c_str(), wrapmode, filtermode);
+		SS_LOG("load: %s", path.c_str());
+		TextuerData texdata;
+		texdata.handle = tex;
+		int w;
+		int h;
+		SSGetTextureSize(texdata.handle, w, h);
+		texdata.size_w = w;
+		texdata.size_h = h;
+	#endif
+		TextuerData& texdata = m_textures[i];
+		texdata.handle = SSTextureLoad(textureName.c_str(), SsTexWrapMode::clamp, SsTexFilterMode::nearlest); // wrapmode, filtermode);//todo:wrapmode, filtermodeを引っ張ってくる。事前に取得できるようにする
+		SSGetTextureSize(texdata.handle, texdata.size_w, texdata.size_h);
+	}	
 }
 
 Player::~Player()
@@ -100,6 +125,13 @@ Player::~Player()
 	}
 
 	releaseParts();
+
+	//テクスチャの解放イベントを投げる
+	for(TextuerData& texdata : m_textures){
+		//todo:イベントリスナーにしたい	//m_eventListener->SSTextureRelease(textureid);
+		SSTextureRelese(texdata.handle);
+	}
+	m_textures.clear();
 }
 
 
@@ -1005,15 +1037,15 @@ void Player::setFrame(int frameNo, float dt)
 		}
 
 		//セルの原点設定を反映させる
-		CellRef* cellRef = cellIndex >= 0 ? _currentRs->m_cellCache->getReference(cellIndex) : nullptr;
+		const CellRef* cellRef = cellIndex >= 0 ? _currentRs->m_cellCache->getReference(cellIndex) : nullptr;
 		if (cellRef)
 		{
 			float cpx = 0;
 			float cpy = 0;
 
-			cpx = cellRef->cell->pivot_X;
+			cpx = cellRef->m_cell->pivot_X;
 			if (flipX) cpx = -cpx;	// 水平フリップによって原点を入れ替える
-			cpy = cellRef->cell->pivot_Y;
+			cpy = cellRef->m_cell->pivot_Y;
 			if (flipY) cpy = -cpy;	// 垂直フリップによって原点を入れ替える
 
 			pivotX += cpx;
@@ -1097,8 +1129,8 @@ void Player::setFrame(int frameNo, float dt)
 		if (cellRef)
 		{
 			//各パーツのテクスチャ情報を設定
-			state.texture = cellRef->texture;
-			state.rect = cellRef->rect;
+			state.texture = m_textures[cellRef->m_cellMapIndex]; //cellRef->m_texture;
+			state.rect = cellRef->m_rect;
 			state.blendfunc = partData->alphaBlendType;
 
 			if (setBlendEnabled)
@@ -1169,14 +1201,14 @@ void Player::setFrame(int frameNo, float dt)
 			quad.br.texCoords.v = 0;
 			if (cellRef)
 			{
-				quad.tl.texCoords.u = cellRef->cell->u1;
-				quad.tl.texCoords.v = cellRef->cell->v1;
-				quad.tr.texCoords.u = cellRef->cell->u2;
-				quad.tr.texCoords.v = cellRef->cell->v1;
-				quad.bl.texCoords.u = cellRef->cell->u1;
-				quad.bl.texCoords.v = cellRef->cell->v2;
-				quad.br.texCoords.u = cellRef->cell->u2;
-				quad.br.texCoords.v = cellRef->cell->v2;
+				quad.tl.texCoords.u = cellRef->m_cell->u1;
+				quad.tl.texCoords.v = cellRef->m_cell->v1;
+				quad.tr.texCoords.u = cellRef->m_cell->u2;
+				quad.tr.texCoords.v = cellRef->m_cell->v1;
+				quad.bl.texCoords.u = cellRef->m_cell->u1;
+				quad.bl.texCoords.v = cellRef->m_cell->v2;
+				quad.br.texCoords.u = cellRef->m_cell->u2;
+				quad.br.texCoords.v = cellRef->m_cell->v2;
 			}
 		}
 
@@ -1732,7 +1764,7 @@ void Player::draw()
 				if ((sprite->_state.isVisibled == true) && (sprite->_state.opacity > 0))
 				{
 					//エフェクトパーツ
-					sprite->refEffect->draw();
+					sprite->refEffect->draw(m_textures);
 					_draw_count = sprite->refEffect->getDrawSpriteCount();
 				}
 			}

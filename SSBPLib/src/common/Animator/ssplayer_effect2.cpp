@@ -517,7 +517,8 @@ void	SsEffectRenderV2::drawSprite(
 		float     _rotation,
 		float	  direction,
 		SsFColor	_color,
-		SsRenderBlendType::_enum blendType
+		SsRenderBlendType::_enum blendType,
+		const std::vector<TextuerData>& textures
 	)
 {
 
@@ -560,7 +561,8 @@ void	SsEffectRenderV2::drawSprite(
 		state.mat[i] = matrix[i];				//マトリクスのコピー
 	}
 	state.cellIndex = dispCell->refCell.cellIndex;
-	state.texture = dispCell->refCell.texture;	//テクスチャID	
+	//state.texture = dispCell->refCell.texture;	//テクスチャID	
+	state.texture = textures[dispCell->refCell.cellMapIndex];
 	state.rect = dispCell->refCell.rect;		//セルの矩形をコピー	
 	float width_h = state.rect.size.width() / 2;
 	float height_h = state.rect.size.height() / 2;
@@ -658,7 +660,7 @@ void	SsEffectRenderV2::drawSprite(
 }
 
 
-void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectEmitter* parent , particleDrawData* plp )
+void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectEmitter* parent , particleDrawData* plp, const std::vector<TextuerData>& textures)
 {
 	double t = time;
 
@@ -722,7 +724,7 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 			drawSprite( &e->dispCell ,
 						SsVector2(lp.x,lp.y),
 						lp.scale,
-						lp.rot , lp.direc , fcolor , e->refData->blendType );
+						lp.rot , lp.direc , fcolor , e->refData->blendType ,textures);
 
 
 		}
@@ -827,7 +829,7 @@ void	SsEffectRenderV2::update()
 	}
 }
 
-void	SsEffectRenderV2::draw()
+void	SsEffectRenderV2::draw(const std::vector<TextuerData>& textures)
 {
 	_drawSpritecount = 0;	//表示スプライト数のクリア
 
@@ -868,12 +870,12 @@ void	SsEffectRenderV2::draw()
 					float targettime = (targetFrame + 0.0f);
 					float ptime = (targettime - lp.stime );
 
-	  				particleDraw( e , ptime , e->_parent , &lp);
+	  				particleDraw( e , ptime , e->_parent , &lp, textures);
 				}
 			}
 
 		}else{
-			particleDraw( e , targetFrame );
+			particleDraw( e , targetFrame ,nullptr, nullptr, textures);
 		}
 	}
 

@@ -532,7 +532,7 @@ void 	SsEffectRenderParticle::updateForce(float delta)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void	SsEffectRenderParticle::draw(SsEffectRenderer* render)
+void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<TextuerData>& textures)
 {
 
 	if ( this->parentEmitter == NULL  )return;
@@ -572,7 +572,8 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render)
 	{
 		state.mat[i] = matrix[i];				//マトリクスのコピー
 	}
-	state.texture = dispCell->refCell.texture;	//テクスチャID	
+	//state.texture = dispCell->refCell.texture;	//テクスチャID	
+	state.texture = textures[dispCell->refCell.cellMapIndex];
 	state.rect = dispCell->refCell.rect;		//セルの矩形をコピー	
 	float width_h = state.rect.size.width() / 2;
 	float height_h = state.rect.size.height() / 2;
@@ -754,7 +755,7 @@ void	SsEffectRenderer::update(float delta)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
-void	SsEffectRenderer::draw()
+void	SsEffectRenderer::draw(const std::vector<TextuerData>& textures)
 {
 
 	foreach( std::list<SsEffectDrawBatch*> , drawBatchList , e )
@@ -765,7 +766,7 @@ void	SsEffectRenderer::draw()
 			{
 				if (!(*e2)->m_isLive) continue;
 				if ((*e2)->_life <= 0.0f)continue;
-				(*e2)->draw(this);
+				(*e2)->draw(this, textures);
 			}
 		}
 
