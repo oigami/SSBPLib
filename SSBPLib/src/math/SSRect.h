@@ -48,12 +48,13 @@ public:
 		size.width = width;
 		size.height = height;
 	}
-
+#if 0
 	bool equals(const SSRect& rect) const
 	{
 		return (origin.equals(rect.origin) &&
 			size.equals(rect.size));
 	}
+#endif
 
 	float getMaxX() const
 	{

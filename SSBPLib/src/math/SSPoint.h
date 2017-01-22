@@ -30,7 +30,8 @@ public:
 */
 	SSPoint& operator= (const SSPoint& other)
 	{
-		setPoint(other.x, other.y);
+		x = other.x;
+		y = other.y;
 		return *this;
 	}
 /*
@@ -65,7 +66,7 @@ public:
 		SS_ASSERT_LOG(a, "SSPoint division by 0.");
 		return SSPoint(this->x / a, this->y / a);
 	}
-
+#if 0
 	void setPoint(float x, float y)
 	{
 		this->x = x;
@@ -85,6 +86,7 @@ public:
 				return true;
 		return false;
 	}
+#endif
 /*
 	float getAngle(const SSPoint& other) const
 	{
@@ -100,7 +102,7 @@ public:
 		return pivot + (*this - pivot).rotate(SSPoint::forAngle(angle));
 	}
 */
-
+#if 0
 	inline float getLength() const {
 		return sqrtf(x*x + y*y);
 	};
@@ -152,6 +154,7 @@ public:
 	{
 		return SSPoint(cosf(a), sinf(a));
 	}
+#endif
 };
 
 	
