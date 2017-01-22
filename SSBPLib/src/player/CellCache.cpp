@@ -17,7 +17,6 @@ CellCache::CellCache(const ProjectData* data, const std::string& imageBaseDir)
 }
 CellCache::~CellCache()
 {
-	releseReference();
 }
 
 
@@ -64,17 +63,8 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 		//ここではロードなどはせずに番号を保存しとくだけに留める
 		imagePathMap[cellMap->index] = ptr.toString(cellMap->imagePath);		//memo:ここは何度も上書きされるだろうがconst char*のコピーなので大丈夫
 
-	#if 0
-		//todo: これを外側のクラスに任せるようにすること!
-		if(cellMap->index >= (int)m_textures.size())
-		{
-			const char* imagePath = ptr.toString(cellMap->imagePath);
-			addTexture(imagePath, imageBaseDir, (SsTexWrapMode::_enum)cellMap->wrapmode, (SsTexFilterMode::_enum)cellMap->filtermode);
-		}
-	#endif
-
 		CellRef ref = {
-			cell,  cellname, cellMap->index, //m_textures[cellMap->index],
+			cell,  cellname, cellMap->index,
 			SSRect(cell->x, cell->y, cell->width, cell->height)
 		};
 		m_cellRefs[i] = ref;
@@ -91,54 +81,6 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 	for(auto &index_path : imagePathMap){	//詰め替え
 		m_imagePaths[index_path.first] = index_path.second;
 	}
-}
-
-
-//キャッシュの削除
-void CellCache::releseReference(void)
-{
-#if 0
-	for(TextuerData& tex : m_textures){
-		SSTextureRelese(tex.handle);
-	}
-#endif
-}
-
-void CellCache::addTexture(const std::string& imagePath, const std::string& imageBaseDir, SsTexWrapMode::_enum  wrapmode, SsTexFilterMode::_enum filtermode)
-{
-#if 0
-	std::string path = "";
-
-	if(isAbsolutePath(imagePath))
-	{
-		// 絶対パスのときはそのまま扱う
-		path = imagePath;
-	}
-	else
-	{
-		// 相対パスのときはimageBaseDirを付与する
-		path.append(imageBaseDir);
-		size_t pathLen = path.length();
-		if(pathLen && path.at(pathLen - 1) != '/' && path.at(pathLen - 1) != '\\')
-		{
-			path.append("/");
-		}
-		path.append(imagePath);
-	}
-
-	//テクスチャの読み込み
-	long tex = SSTextureLoad(path.c_str(), wrapmode, filtermode);
-	SS_LOG("load: %s", path.c_str());
-	TextuerData texdata;
-	texdata.handle = tex;
-	int w;
-	int h;
-	SSGetTextureSize(texdata.handle, w, h);
-	texdata.size_w = w;
-	texdata.size_h = h;
-
-	m_textures.push_back(texdata);
-#endif
 }
 
 
