@@ -1,7 +1,8 @@
 ﻿#ifndef __SSPLAYER_CELLMAP__
 #define __SSPLAYER_CELLMAP__
 
-#include "../../SS5PlayerTypes.h"
+#include "SS5PlayerTypes.h"
+#include "math/SSRect.h"
 
 namespace ss
 {

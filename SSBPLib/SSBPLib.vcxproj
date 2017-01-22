@@ -76,6 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(ProjectDir)src\;C:\DxLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>C:\DxLib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -157,6 +158,9 @@
     <ClInclude Include="src\common\Loader\ssloader.h" />
     <ClInclude Include="src\common\Loader\ssloader_ssee.h" />
     <ClInclude Include="src\common\Loader\sstypes.h" />
+    <ClInclude Include="src\math\SSPoint.h" />
+    <ClInclude Include="src\math\SSRect.h" />
+    <ClInclude Include="src\math\SSSize.h" />
     <ClInclude Include="src\player\AnimeCache.h" />
     <ClInclude Include="src\player\CellCache.h" />
     <ClInclude Include="src\player\CustomSprite.h" />

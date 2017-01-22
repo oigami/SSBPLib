@@ -2,6 +2,7 @@
 
 #include "SS5PlayerTypes.h"
 #include <memory>
+#include "math/SSRect.h"
 
 namespace ss{
 

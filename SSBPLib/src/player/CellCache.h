@@ -3,6 +3,7 @@
 #include <string>
 #include "SS5PlayerTypes.h"
 #include "common/Loader/sstypes.h"
+#include "math/SSRect.h"
 
 namespace ss{
 struct ProjectData;
