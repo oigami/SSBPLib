@@ -12,6 +12,8 @@ public:
 	float x, y;
 	float u() const { return x; }	//uv扱えるようにしておく
 	float v() const { return y; }	//uv扱えるようにしておく
+	float width() const { return x; }	//旧SSSize用
+	float height() const { return y; }	//旧SSSize用
 
 	static const Vector2 up;
 	static const Vector2 bottom;
@@ -23,6 +25,11 @@ public:
 	Vector2() : x(0.0f), y(0.0f) {}
 	Vector2(float fx, float fy) : x(fx), y(fy) {}
 	Vector2(const Vector2& o) : x(o.x), y(o.y) {}
+
+	void set(float fx, float fy) {
+		x = fx;
+		y = fy;
+	}
 	
 	Vector2& operator =(const Vector2& o) {
 		x = o.x;
@@ -126,6 +133,7 @@ inline const Vector2 operator *(float s, const Vector2& o){
 
 
 using SSPoint = Vector2;
+using SSSize = Vector2;
 
 
 

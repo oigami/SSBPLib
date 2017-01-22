@@ -1,6 +1,12 @@
 ﻿#pragma once
+
+#include "Vector2.h"
+
+#if 0
 #include "SSPoint.h"
 #include "player/Util.h"
+
+
 
 namespace ss {
 
@@ -68,13 +74,15 @@ public:
 		this->width = width;
 		this->height = height;
 	}
-
+#if 0
 	bool equals(const SSSize& target) const
 	{
 		return (fabs(this->width - target.width)  < FLT_EPSILON)
 			&& (fabs(this->height - target.height) < FLT_EPSILON);
 	}
+#endif
 };
 
 
 } //namespace ss
+#endif

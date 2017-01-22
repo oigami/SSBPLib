@@ -101,7 +101,6 @@ class CustomSprite;
 struct AnimeRef;
 class ResourceSet;
 struct ProjectData;
-class SSSize;
 class Player;
 class ResourceManager;
 class ResluteState;

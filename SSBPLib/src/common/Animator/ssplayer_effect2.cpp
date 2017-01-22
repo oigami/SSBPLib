@@ -562,8 +562,8 @@ void	SsEffectRenderV2::drawSprite(
 	state.cellIndex = dispCell->refCell.cellIndex;
 	state.texture = dispCell->refCell.texture;	//テクスチャID	
 	state.rect = dispCell->refCell.rect;		//セルの矩形をコピー	
-	float width_h = state.rect.size.width / 2;
-	float height_h = state.rect.size.height / 2;
+	float width_h = state.rect.size.width() / 2;
+	float height_h = state.rect.size.height() / 2;
 	float x1 = -width_h;
 	float y1 = -height_h;
 	float x2 = width_h;
@@ -594,9 +594,9 @@ void	SsEffectRenderV2::drawSprite(
 	int atlasHeight = state.texture.size_h;
 	float left, right, top, bottom;
 	left = state.rect.origin.x / (float)atlasWidth;
-	right = (state.rect.origin.x + state.rect.size.width) / (float)atlasWidth;
+	right = (state.rect.origin.x + state.rect.size.width()) / (float)atlasWidth;
 	top = state.rect.origin.y / (float)atlasHeight;
-	bottom = (state.rect.origin.y + state.rect.size.height) / (float)atlasHeight;
+	bottom = (state.rect.origin.y + state.rect.size.height()) / (float)atlasHeight;
 
 	state.quad.tl.texCoords.u = left;
 	state.quad.tl.texCoords.v = top;
@@ -641,11 +641,11 @@ void	SsEffectRenderV2::drawSprite(
 	//原点計算を行う
 	float px = 0;
 	float py = 0;
-	float cx = ((state.rect.size.width * state.scaleX) * -(dispCell->refCell.pivot_X));
+	float cx = ((state.rect.size.width() * state.scaleX) * -(dispCell->refCell.pivot_X));
 #ifdef UP_MINUS
-	float cy = ((state.rect.size.height * state.scaleY) * -(dispCell->refCell.pivot_Y));
+	float cy = ((state.rect.size.height() * state.scaleY) * -(dispCell->refCell.pivot_Y));
 #else
-	float cy = ((state.rect.size.height * state.scaleY) * +(dispCell->refCell.pivot_Y));
+	float cy = ((state.rect.size.height() * state.scaleY) * +(dispCell->refCell.pivot_Y));
 #endif
 	get_uv_rotation(&cx, &cy, 0, 0, state.rotationZ);
 

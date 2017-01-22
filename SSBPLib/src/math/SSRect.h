@@ -28,12 +28,12 @@ public:
 
 	SSRect(const SSRect& other)
 	{
-		setRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
+		setRect(other.origin.x, other.origin.y, other.size.width(), other.size.height());
 	}
 
 	SSRect& operator= (const SSRect& other)
 	{
-		setRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
+		setRect(other.origin.x, other.origin.y, other.size.width(), other.size.height());
 		return *this;
 	}
 
@@ -45,8 +45,7 @@ public:
 		origin.x = x;
 		origin.y = y;
 
-		size.width = width;
-		size.height = height;
+		size.set(width, height);
 	}
 #if 0
 	bool equals(const SSRect& rect) const
@@ -58,12 +57,12 @@ public:
 
 	float getMaxX() const
 	{
-		return (float)(origin.x + size.width);
+		return (float)(origin.x + size.width());
 	}
 
 	float getMidX() const
 	{
-		return (float)(origin.x + size.width / 2.0);
+		return (float)(origin.x + size.width() / 2.0);
 	}
 
 	float getMinX() const
@@ -73,12 +72,12 @@ public:
 
 	float getMaxY() const
 	{
-		return origin.y + size.height;
+		return origin.y + size.height();
 	}
 
 	float getMidY() const
 	{
-		return (float)(origin.y + size.height / 2.0);
+		return (float)(origin.y + size.height() / 2.0);
 	}
 
 	float getMinY() const
