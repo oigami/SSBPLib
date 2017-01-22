@@ -36,31 +36,9 @@ public:
 	/** 全てのデータを解放します */
 	void unregistAll();
 
-#if 0
-	/**
-	 * 指定したセルのテクスチャを変更します.
-	 * @param  ssbpName       ssbp名（拡張子を除くファイル名）
-	 * @param  ssceName       ssce名（拡張子を除くファイル名）
-	 * @param  texture        変更後のテクスチャハンドル
-	 * @return 変更を行ったか
-	 */
-	bool changeTexture(char* ssbpName, char* ssceName, long texture);
 
-	/**
-	 * 指定したデータのテクスチャを破棄します。
-	 * @param  dataName       ssbp名（拡張子を除くファイル名）
-	 * @return 成功失敗
-	 */
-	bool releseTexture(char* ssbpName);
-
-	/**
-	 * 読み込んでいるssbpからアニメーションの総フレーム数を取得します。
-	 * @param  ssbpName       ssbp名（拡張子を除くファイル名）
-	 * @param  animeName      ssae/モーション名
-	 * @return アニメーションの総フレーム（存在しない場合はアサート）
-	 */
-	int getMaxFrame(std::string ssbpName, std::string animeName);
-#endif
+	/** 指定したデータが必要とするテクスチャ名のリストを取得 */
+	void getTextureList(std::vector<std::string> *textureList, const std::string &dataKey) const;
 
 	/** SS5Playerの生成 */
 	Player* createPlayer(const std::string &dataKey/*, SS5Renderer *renderer, SS5EventListener *eventListener*/) const;

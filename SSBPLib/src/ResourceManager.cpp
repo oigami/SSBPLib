@@ -75,46 +75,20 @@ void ResourceManager::unregistAll()
 	_dataDic.clear();
 }
 
-#if 0
-//データ名、セル名を指定して、セルで使用しているテクスチャを変更する
-bool ResourceManager::changeTexture(char* ssbpName, char* ssceName, long texture)
+
+
+void ResourceManager::getTextureList(std::vector<std::string> *textureList, const std::string &dataKey) const
 {
-	bool rc = false;
+	const ResourceSet *rs = getData(dataKey);
+	const CellCache *cellCache = rs->m_cellCache.get();
 
-	ResourceSet* rs = getData(ssbpName);
-	rc = rs->m_cellCache->setCellRefTexture(rs->m_data, ssceName, texture);
-
-	return(rc);
-}
-
-//指定したデータのテクスチャを破棄します
-bool ResourceManager::releseTexture(char* ssbpName)
-{
-
-	ResourceSet* rs = getData(ssbpName);
-	bool rc = rs->m_cellCache->releseTexture(rs->m_data);
-
-	return(rc);
-}
-
-//アニメーションの総フレーム数を取得する
-int ResourceManager::getMaxFrame(std::string ssbpName, std::string animeName)
-{
-	int rc = -1;
-
-	ResourceSet* rs = getData(ssbpName);
-	AnimeRef* animeRef = rs->m_animeCache->getReference(animeName);
-	if(animeRef == NULL)
-	{
-		//std::string msg = Format("Not found animation > anime=%s", animeName.c_str());
-		std::string msg = std::string("Not found animation > anime=") + animeName;
-		SS_ASSERT_LOG(animeRef != NULL, msg.c_str());
+	//todo:ss5playerにも似たコードがある・・・resourcesetあたりに一覧取得機能持たせた方がいいかもしれない
+	int cellMapNum = cellCache->getCellMapNum();
+	textureList->resize(cellMapNum);
+	for (int i = 0; i < cellMapNum; ++i){
+		(*textureList)[i] = cellCache->getTexturePath(i);
 	}
-	rc = animeRef->animationData->numFrames;
-
-	return(rc);
 }
-#endif
 
 Player* ResourceManager::createPlayer(const std::string &dataKey/*, SS5Renderer *renderer, SS5EventListener *eventListener*/) const
 {
