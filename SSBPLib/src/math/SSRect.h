@@ -1,6 +1,5 @@
 ﻿#pragma once
-#include "SSPoint.h"
-#include "SSSize.h"
+#include "Vector2.h"
 
 namespace ss {
 

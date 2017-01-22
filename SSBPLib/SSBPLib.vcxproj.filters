@@ -166,12 +166,6 @@
     <ClInclude Include="src\player\EffectCache.h">
       <Filter>ソース ファイル\player</Filter>
     </ClInclude>
-    <ClInclude Include="src\math\SSPoint.h">
-      <Filter>ソース ファイル\math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\math\SSSize.h">
-      <Filter>ソース ファイル\math</Filter>
-    </ClInclude>
     <ClInclude Include="src\math\SSRect.h">
       <Filter>ソース ファイル\math</Filter>
     </ClInclude>

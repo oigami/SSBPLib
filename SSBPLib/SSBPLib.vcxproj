@@ -159,9 +159,7 @@
     <ClInclude Include="src\common\Loader\ssloader.h" />
     <ClInclude Include="src\common\Loader\ssloader_ssee.h" />
     <ClInclude Include="src\common\Loader\sstypes.h" />
-    <ClInclude Include="src\math\SSPoint.h" />
     <ClInclude Include="src\math\SSRect.h" />
-    <ClInclude Include="src\math\SSSize.h" />
     <ClInclude Include="src\math\Vector2.h" />
     <ClInclude Include="src\player\AnimeCache.h" />
     <ClInclude Include="src\player\CellCache.h" />
