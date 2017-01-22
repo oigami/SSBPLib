@@ -1,5 +1,8 @@
 ﻿#pragma once
 
+#include "Vector2.h"
+
+#if 0
 namespace ss {
 
 /**
@@ -160,3 +163,4 @@ public:
 	
 
 } //namespace ss
+#endif
