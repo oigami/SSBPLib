@@ -9,54 +9,63 @@ namespace ss {
  */
 class SSRect{
 public:
-	SSPoint origin;		//min.x, min.y
-	SSSize  size;		//width, height (>= 0)
+	SSPoint m_origin;		//min.x, min.y
+	SSSize  m_size;		//width, height (>= 0)
 
 public:
 	SSRect(float x, float y, float width, float height)
-	: origin(x,y), size(width, height){
+	: m_origin(x,y), m_size(width, height){
 		SS_ASSERT_LOG(width >= 0.0f && height >= 0.0f, "width and height of Rect must not less than 0.");
 	}
-	SSRect(SSPoint origin_, SSSize size_)
-		: SSRect(origin_.x, origin_.y, size_.x, size_.y) {
+	SSRect(SSPoint origin, SSSize size)
+		: SSRect(origin.x, origin.y, size.x, size.y) {
 	}
 	SSRect() : SSRect(0, 0, 0, 0) {
 	}
 
 	bool operator ==(const SSRect& o) {
-		return (origin == o.origin) && (size == o.size);
+		return (m_origin == o.m_origin) && (m_size == o.m_size);
 	}
 	bool operator !=(const SSRect& o) {
-		return (origin != o.origin) || (size == o.size);
+		return (m_origin != o.m_origin) || (m_size == o.m_size);
 	}
 
 	//矩形の移動
 	void move(const Vector2& v) {
-		origin += v;
+		m_origin += v;
 	}
 
 
 	float right() const {
-		return origin.x * size.width();
+		return m_origin.x + m_size.width();
 	}
 	float left() const {
-		return origin.x;
+		return m_origin.x;
 	}
 	float top() const {
-		return origin.y * size.height();	//上方向が+
+		return m_origin.y + m_size.height();	//上方向が+
 	}
 	float bottom() const {
-		return origin.y;
+		return m_origin.y;
+	}
+	float width() const{
+		return m_size.width();
+	}
+	float height() const{
+		return m_size.height();
 	}
 	
 	SSPoint min() const {
-		return origin;
+		return m_origin;
 	}
 	SSPoint max() const {
-		return origin + size;
+		return m_origin + m_size;
 	}
 	SSPoint center() const {
-		return origin + size * 0.5f;
+		return m_origin + m_size * 0.5f;
+	}
+	SSSize size() const{
+		return m_size;
 	}
 
 	bool containsPoint(const SSPoint& point) const {

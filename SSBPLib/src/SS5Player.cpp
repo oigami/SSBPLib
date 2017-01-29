@@ -1164,8 +1164,8 @@ void Player::setFrame(int frameNo, float dt)
 		if (cellRef)
 		{
 			//頂点を設定する
-			float width_h = cellRef->m_rect.size.width() / 2;
-			float height_h = cellRef->m_rect.size.height() / 2;
+			float width_h = cellRef->m_rect.width() / 2;
+			float height_h = cellRef->m_rect.height() / 2;
 			float x1 = -width_h;
 			float y1 = -height_h;
 			float x2 = width_h;

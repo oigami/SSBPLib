@@ -95,9 +95,7 @@ struct State
 		texture.handle = 0;
 		texture.size_w = 0;
 		texture.size_h = 0;
-		rect.size = SSSize::zero;
-		rect.origin.x = 0;
-		rect.origin.y = 0;
+		rect = SSRect(0, 0, 0, 0);
 		blendfunc = 0;
 		memset(&mat, 0, sizeof(mat));
 		instanceValue_curKeyframe = 0;
