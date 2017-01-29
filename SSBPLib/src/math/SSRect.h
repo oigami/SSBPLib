@@ -5,106 +5,76 @@ namespace ss {
 
 
 /**
-* 矩形クラス	memo:tbrl top,bottom,right,leftの形式にしたい
-*/
-class SSRect
-{
+ * 矩形クラス
+ */
+class SSRect{
 public:
-	SSPoint origin;
-	SSSize  size;
+	SSPoint origin;		//min.x, min.y
+	SSSize  size;		//width, height (>= 0)
 
 public:
-
-	SSRect(void)
-	{
-		setRect(0.0f, 0.0f, 0.0f, 0.0f);
-	}
-
 	SSRect(float x, float y, float width, float height)
-	{
-		setRect(x, y, width, height);
-	}
-
-	SSRect(const SSRect& other)
-	{
-		setRect(other.origin.x, other.origin.y, other.size.width(), other.size.height());
-	}
-
-	SSRect& operator= (const SSRect& other)
-	{
-		setRect(other.origin.x, other.origin.y, other.size.width(), other.size.height());
-		return *this;
-	}
-
-	void setRect(float x, float y, float width, float height)
-	{
-		// CGRect can support width<0 or height<0
+	: origin(x,y), size(width, height){
 		SS_ASSERT_LOG(width >= 0.0f && height >= 0.0f, "width and height of Rect must not less than 0.");
-
-		origin.x = x;
-		origin.y = y;
-
-		size.set(width, height);
 	}
-#if 0
-	bool equals(const SSRect& rect) const
-	{
-		return (origin.equals(rect.origin) &&
-			size.equals(rect.size));
+	SSRect(SSPoint origin_, SSSize size_)
+		: SSRect(origin_.x, origin_.y, size_.x, size_.y) {
 	}
-#endif
-
-	float getMaxX() const
-	{
-		return (float)(origin.x + size.width());
+	SSRect() : SSRect(0, 0, 0, 0) {
 	}
 
-	float getMidX() const
-	{
-		return (float)(origin.x + size.width() / 2.0);
+	bool operator ==(const SSRect& o) {
+		return (origin == o.origin) && (size == o.size);
+	}
+	bool operator !=(const SSRect& o) {
+		return (origin != o.origin) || (size == o.size);
 	}
 
-	float getMinX() const
-	{
+	//矩形の移動
+	void move(const Vector2& v) {
+		origin += v;
+	}
+
+
+	float right() const {
+		return origin.x * size.width();
+	}
+	float left() const {
 		return origin.x;
 	}
-
-	float getMaxY() const
-	{
-		return origin.y + size.height();
+	float top() const {
+		return origin.y * size.height();	//上方向が+
 	}
-
-	float getMidY() const
-	{
-		return (float)(origin.y + size.height() / 2.0);
-	}
-
-	float getMinY() const
-	{
+	float bottom() const {
 		return origin.y;
 	}
+	
+	SSPoint min() const {
+		return origin;
+	}
+	SSPoint max() const {
+		return origin + size;
+	}
+	SSPoint center() const {
+		return origin + size * 0.5f;
+	}
 
-	bool containsPoint(const SSPoint& point) const
-	{
-		bool bRet = false;
-
-		if (point.x >= getMinX() && point.x <= getMaxX()
-			&& point.y >= getMinY() && point.y <= getMaxY())
-		{
-			bRet = true;
+	bool containsPoint(const SSPoint& point) const {
+		if (point.x >= left() && point.x <= right()
+			&& point.y >= bottom() && point.y <= top()) {
+			return true;
 		}
-
-		return bRet;
+		return false;
 	}
-
-	bool intersectsRect(const SSRect& rect) const
-	{
-		return !(getMaxX() < rect.getMinX() ||
-			rect.getMaxX() <      getMinX() ||
-			getMaxY() < rect.getMinY() ||
-			rect.getMaxY() <      getMinY());
+	bool intersectsRect(const SSRect& rect) const {
+		if (left() <= rect.right()
+			&& right() >= rect.left()
+			&& bottom() <= rect.top()
+			&& top() >= rect.bottom()) {
+			return true;
+		}
+		return false;
 	}
-
 };
 
 
