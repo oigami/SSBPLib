@@ -8,8 +8,8 @@ namespace ss {
  * 矩形クラス
  */
 class SSRect{
-public:
-	SSPoint m_origin;		//min.x, min.y
+private:
+	SSPoint m_origin;	//min.x, min.y
 	SSSize  m_size;		//width, height (>= 0)
 
 public:
@@ -23,10 +23,10 @@ public:
 	SSRect() : SSRect(0, 0, 0, 0) {
 	}
 
-	bool operator ==(const SSRect& o) {
+	bool operator ==(const SSRect& o) const{
 		return (m_origin == o.m_origin) && (m_size == o.m_size);
 	}
-	bool operator !=(const SSRect& o) {
+	bool operator !=(const SSRect& o) const{
 		return (m_origin != o.m_origin) || (m_size == o.m_size);
 	}
 
