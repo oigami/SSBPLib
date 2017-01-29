@@ -16,7 +16,7 @@ public:
 	float height() const { return y; }	//旧SSSize用
 
 	static const Vector2 up;
-	static const Vector2 bottom;
+	static const Vector2 down;
 	static const Vector2 right;
 	static const Vector2 left;
 	static const Vector2 one;
@@ -25,11 +25,6 @@ public:
 	Vector2() : x(0.0f), y(0.0f) {}
 	Vector2(float fx, float fy) : x(fx), y(fy) {}
 	Vector2(const Vector2& o) : x(o.x), y(o.y) {}
-
-	void set(float fx, float fy) {
-		x = fx;
-		y = fy;
-	}
 	
 	Vector2& operator =(const Vector2& o) {
 		x = o.x;
@@ -88,13 +83,21 @@ public:
 	}
 	
 	
-	//! ベクトルの大きさ
+	//! ベクトルの長さ
 	float length() const {
 		return sqrt(x*x + y*y);
 	}
-	//! ベクトルの大きさの2乗(lengthでsqrt()をとらない)
+	//! ベクトルの長さの2乗(lengthでsqrt()をとらない)
 	float lengthSquare() const {
 		return x*x + y*y;
+	}
+	//! 距離
+	float distance(const Vector2& o) const{
+		return (*this - o).length();
+	}
+	//! 距離の2乗
+	float distanceSquare(const Vector2& o) const{
+		return (*this - o).lengthSquare();
 	}
 
 	//! 正規化する
