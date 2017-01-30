@@ -9,10 +9,10 @@
 #include <math.h>
 #include <assert.h>
 #include "player/Util.h"
+#include "math/Vector2.h"
+#include "math/Vector3.h"
 
-namespace ss
-{
-
+namespace ss{
 	
 /**
 * カラー構造体
@@ -25,15 +25,15 @@ typedef struct _SSColor4B
 	unsigned char a;
 } SSColor4B;
 
-/**
-* 頂点座標構造体
-*/
-typedef struct _SSVertex3F
-{
-	float x;
-	float y;
-	float z;
-} SSVertex3F;
+///**
+//* 頂点座標構造体
+//*/
+//typedef struct _SSVertex3F
+//{
+//	float x;
+//	float y;
+//	float z;
+//} SSVertex3F;
 
 /**
 * ４頂点座標構造体
@@ -45,13 +45,13 @@ typedef struct _SSQuad3 {
 	SSVertex3F        tr;
 } SSQuad3;
 
-/**
-* UV構造体
-*/
-typedef struct _SSTex2F {
-	float u;
-	float v;
-} SSTex2F;
+///**
+//* UV構造体
+//*/
+//typedef struct _SSTex2F {
+//	float u;
+//	float v;
+//} SSTex2F;
 
 /**
 * 頂点構造体

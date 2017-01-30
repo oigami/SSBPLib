@@ -116,15 +116,15 @@ public:
 	}
 
 	//! 回転させる
-	void rotate(float angle) {
+	void rotate(float angleRadian) {
 		float tx = x;
-		x = tx * cos(angle) - y * sin(angle);
-		y = tx * sin(angle) + y * cos(angle);
+		x = tx * cos(angleRadian) - y * sin(angleRadian);
+		y = tx * sin(angleRadian) + y * cos(angleRadian);
 	}
 	//! 基準点を中心として回転させる
-	void rotate(float angle, const Vector2& offset) {
+	void rotate(float angleRadian, const Vector2& offset) {
 		*this -= offset;
-		rotate(angle);
+		rotate(angleRadian);
 		*this += offset;
 	}
 };
@@ -135,9 +135,9 @@ inline const Vector2 operator *(float s, const Vector2& o){
 }
 
 
-using SSPoint = Vector2;
-using SSSize = Vector2;
-
+using SSPoint = Vector2;	//座標クラス
+using SSSize = Vector2;		//サイズクラス
+using SSTex2F = Vector2;	//UV構造体
 
 
 } //namespace ss

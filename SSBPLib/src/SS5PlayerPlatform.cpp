@@ -85,7 +85,7 @@ namespace ss
 		VERTEX_3D v = {
 			{ vct.vertices.x, vct.vertices.y, vct.vertices.z },
 			vct.colors.b, vct.colors.g, vct.colors.r, vct.colors.a,
-			vct.texCoords.u, vct.texCoords.v
+			vct.texCoords.u(), vct.texCoords.v()
 		};
 		return v;
 	}

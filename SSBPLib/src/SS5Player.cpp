@@ -1191,24 +1191,16 @@ void Player::setFrame(int frameNo, float dt)
 			quad.br.vertices.y = y1;
 #endif
 			//UVを設定する
-			quad.tl.texCoords.u = 0;
-			quad.tl.texCoords.v = 0;
-			quad.tr.texCoords.u = 0;
-			quad.tr.texCoords.v = 0;
-			quad.bl.texCoords.u = 0;
-			quad.bl.texCoords.v = 0;
-			quad.br.texCoords.u = 0;
-			quad.br.texCoords.v = 0;
+			quad.tl.texCoords = SSTex2F::zero;
+			quad.tr.texCoords = SSTex2F::zero;
+			quad.bl.texCoords = SSTex2F::zero;
+			quad.br.texCoords = SSTex2F::zero;
 			if (cellRef)
 			{
-				quad.tl.texCoords.u = cellRef->m_cell->u1;
-				quad.tl.texCoords.v = cellRef->m_cell->v1;
-				quad.tr.texCoords.u = cellRef->m_cell->u2;
-				quad.tr.texCoords.v = cellRef->m_cell->v1;
-				quad.bl.texCoords.u = cellRef->m_cell->u1;
-				quad.bl.texCoords.v = cellRef->m_cell->v2;
-				quad.br.texCoords.u = cellRef->m_cell->u2;
-				quad.br.texCoords.v = cellRef->m_cell->v2;
+				quad.tl.texCoords = SSTex2F(cellRef->m_cell->u1, cellRef->m_cell->v1);
+				quad.tr.texCoords = SSTex2F(cellRef->m_cell->u2, cellRef->m_cell->v1);
+				quad.bl.texCoords = SSTex2F(cellRef->m_cell->u1, cellRef->m_cell->v2);
+				quad.br.texCoords = SSTex2F(cellRef->m_cell->u2, cellRef->m_cell->v2);
 			}
 		}
 
@@ -1348,17 +1340,17 @@ void Player::setFrame(int frameNo, float dt)
 		//uvスクロール
 		if (flags & PART_FLAG_U_MOVE)
 		{
-			quad.tl.texCoords.u += uv_move_X;
-			quad.tr.texCoords.u += uv_move_X;
-			quad.bl.texCoords.u += uv_move_X;
-			quad.br.texCoords.u += uv_move_X;
+			quad.tl.texCoords.x/*u*/ += uv_move_X;
+			quad.tr.texCoords.x/*u*/ += uv_move_X;
+			quad.bl.texCoords.x/*u*/ += uv_move_X;
+			quad.br.texCoords.x/*u*/ += uv_move_X;
 		}
 		if (flags & PART_FLAG_V_MOVE)
 		{
-			quad.tl.texCoords.v += uv_move_Y;
-			quad.tr.texCoords.v += uv_move_Y;
-			quad.bl.texCoords.v += uv_move_Y;
-			quad.br.texCoords.v += uv_move_Y;
+			quad.tl.texCoords.y/*v*/ += uv_move_Y;
+			quad.tr.texCoords.y/*v*/ += uv_move_Y;
+			quad.bl.texCoords.y/*v*/ += uv_move_Y;
+			quad.br.texCoords.y/*v*/ += uv_move_Y;
 		}
 
 
@@ -1370,15 +1362,15 @@ void Player::setFrame(int frameNo, float dt)
 		float v_code = 1;
 
 		//UVを作成、反転の結果UVが反転する
-		u_wide = (quad.tr.texCoords.u - quad.tl.texCoords.u) / 2.0f;
-		u_center = quad.tl.texCoords.u + u_wide;
+		u_wide = (quad.tr.texCoords.u() - quad.tl.texCoords.u()) / 2.0f;
+		u_center = quad.tl.texCoords.u() + u_wide;
 		if (flags & PART_FLAG_FLIP_H)
 		{
 			//左右反転を行う場合は符号を逆にする
 			u_code = -1;
 		}
-		v_height = (quad.bl.texCoords.v - quad.tl.texCoords.v) / 2.0f;
-		v_center = quad.tl.texCoords.v + v_height;
+		v_height = (quad.bl.texCoords.v() - quad.tl.texCoords.v()) / 2.0f;
+		v_center = quad.tl.texCoords.v() + v_height;
 		if (flags & PART_FLAG_FLIP_V)
 		{
 			//上下反転を行う場合はテクスチャUVを逆にする
@@ -1388,26 +1380,26 @@ void Player::setFrame(int frameNo, float dt)
 		if (flags & PART_FLAG_UV_ROTATION)
 		{
 			//頂点位置を回転させる
-			get_uv_rotation(&quad.tl.texCoords.u, &quad.tl.texCoords.v, u_center, v_center, uv_rotation);
-			get_uv_rotation(&quad.tr.texCoords.u, &quad.tr.texCoords.v, u_center, v_center, uv_rotation);
-			get_uv_rotation(&quad.bl.texCoords.u, &quad.bl.texCoords.v, u_center, v_center, uv_rotation);
-			get_uv_rotation(&quad.br.texCoords.u, &quad.br.texCoords.v, u_center, v_center, uv_rotation);
+			quad.tl.texCoords.rotate(SSDegToRad(uv_rotation), Vector2(u_center, v_center));
+			quad.tr.texCoords.rotate(SSDegToRad(uv_rotation), Vector2(u_center, v_center));
+			quad.bl.texCoords.rotate(SSDegToRad(uv_rotation), Vector2(u_center, v_center));
+			quad.br.texCoords.rotate(SSDegToRad(uv_rotation), Vector2(u_center, v_center));
 		}
 
 		//UVスケール || 反転
 		if ((flags & PART_FLAG_U_SCALE) || (flags & PART_FLAG_FLIP_H))
 		{
-			quad.tl.texCoords.u = u_center - (u_wide * uv_scale_X * u_code);
-			quad.tr.texCoords.u = u_center + (u_wide * uv_scale_X * u_code);
-			quad.bl.texCoords.u = u_center - (u_wide * uv_scale_X * u_code);
-			quad.br.texCoords.u = u_center + (u_wide * uv_scale_X * u_code);
+			quad.tl.texCoords.x/*u*/ = u_center - (u_wide * uv_scale_X * u_code);
+			quad.tr.texCoords.x/*u*/ = u_center + (u_wide * uv_scale_X * u_code);
+			quad.bl.texCoords.x/*u*/ = u_center - (u_wide * uv_scale_X * u_code);
+			quad.br.texCoords.x/*u*/ = u_center + (u_wide * uv_scale_X * u_code);
 		}
 		if ((flags & PART_FLAG_V_SCALE) || (flags & PART_FLAG_FLIP_V))
 		{
-			quad.tl.texCoords.v = v_center - (v_height * uv_scale_Y * v_code);
-			quad.tr.texCoords.v = v_center - (v_height * uv_scale_Y * v_code);
-			quad.bl.texCoords.v = v_center + (v_height * uv_scale_Y * v_code);
-			quad.br.texCoords.v = v_center + (v_height * uv_scale_Y * v_code);
+			quad.tl.texCoords.y/*v*/ = v_center - (v_height * uv_scale_Y * v_code);
+			quad.tr.texCoords.y/*v*/ = v_center - (v_height * uv_scale_Y * v_code);
+			quad.bl.texCoords.y/*v*/ = v_center + (v_height * uv_scale_Y * v_code);
+			quad.br.texCoords.y/*v*/ = v_center + (v_height * uv_scale_Y * v_code);
 		}
 		state.quad = quad;
 

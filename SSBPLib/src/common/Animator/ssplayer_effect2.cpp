@@ -600,14 +600,10 @@ void	SsEffectRenderV2::drawSprite(
 	top = state.rect.bottom() / (float)atlasHeight;	//todo:座標系後で直す
 	bottom = state.rect.top() / (float)atlasHeight;	//todo:座標系後で直す
 
-	state.quad.tl.texCoords.u = left;
-	state.quad.tl.texCoords.v = top;
-	state.quad.tr.texCoords.u = right;
-	state.quad.tr.texCoords.v = top;
-	state.quad.bl.texCoords.u = left;
-	state.quad.bl.texCoords.v = bottom;
-	state.quad.br.texCoords.u = right;
-	state.quad.br.texCoords.v = bottom;
+	state.quad.tl.texCoords = SSTex2F(left, top);
+	state.quad.tr.texCoords = SSTex2F(right, top);
+	state.quad.bl.texCoords = SSTex2F(left, bottom);
+	state.quad.br.texCoords = SSTex2F(right, bottom);
 
 	//ブレンドタイプを設定
 	if (dispCell->blendType == SsRenderBlendType::Mix)
