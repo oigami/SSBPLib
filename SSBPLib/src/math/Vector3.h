@@ -129,7 +129,5 @@ inline const Vector3 operator *(float s, const Vector3& o){
 }
 
 
-using SSVertex3F = Vector3;	//頂点座標構造体
-
 
 } //namespace ss
