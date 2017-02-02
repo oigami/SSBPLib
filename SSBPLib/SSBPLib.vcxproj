@@ -137,6 +137,7 @@
     <ClCompile Include="src\common\Animator\ssplayer_effectfunction.cpp" />
     <ClCompile Include="src\common\Animator\ssplayer_matrix.cpp" />
     <ClCompile Include="src\common\Animator\ssplayer_PartState.cpp" />
+    <ClCompile Include="src\math\Matrix.cpp" />
     <ClCompile Include="src\math\Vector2.cpp" />
     <ClCompile Include="src\math\Vector3.cpp" />
     <ClCompile Include="src\player\AnimeCache.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="src\common\Loader\ssloader.h" />
     <ClInclude Include="src\common\Loader\ssloader_ssee.h" />
     <ClInclude Include="src\common\Loader\sstypes.h" />
+    <ClInclude Include="src\math\Matrix.h" />
     <ClInclude Include="src\math\SSRect.h" />
     <ClInclude Include="src\math\Vector2.h" />
     <ClInclude Include="src\math\Vector3.h" />
