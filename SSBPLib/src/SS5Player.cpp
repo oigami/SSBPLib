@@ -1153,8 +1153,7 @@ void Player::setFrame(int frameNo, float dt)
 
 
 		// カラーブレンドの反映
-		if (state.flags & PART_FLAG_COLOR_BLEND)
-		{
+		if (state.flags & PART_FLAG_COLOR_BLEND){
 
 			int typeAndFlags = reader.readU16();
 			int funcNo = typeAndFlags & 0xff;
@@ -1167,11 +1166,8 @@ void Player::setFrame(int frameNo, float dt)
 
 			//ssbpではカラーブレンドのレート（％）は使用できません。
 			//制限となります。
-			if (cb_flags & VERTEX_FLAG_ONE)
-			{
-				blend_rate = reader.readFloat();
-				reader.readColor(color4);
-
+			if (cb_flags & VERTEX_FLAG_ONE){
+				color4.readColorWithRate(reader);
 
 				color4.r = color4.r * _col_r / 255;
 				color4.g = color4.g * _col_g / 255;
@@ -1183,31 +1179,18 @@ void Player::setFrame(int frameNo, float dt)
 				quad.bl.colors =
 				quad.br.colors = color4;
 			}
-			else
-			{
-				if (cb_flags & VERTEX_FLAG_LT)
-				{
-					blend_rate = reader.readFloat();
-					reader.readColor(color4);
-					quad.tl.colors = color4;
+			else{
+				if (cb_flags & VERTEX_FLAG_LT){
+					quad.tl.colors.readColorWithRate(reader);
 				}
-				if (cb_flags & VERTEX_FLAG_RT)
-				{
-					blend_rate = reader.readFloat();
-					reader.readColor(color4);
-					quad.tr.colors = color4;
+				if (cb_flags & VERTEX_FLAG_RT){
+					quad.tr.colors.readColorWithRate(reader);
 				}
-				if (cb_flags & VERTEX_FLAG_LB)
-				{
-					blend_rate = reader.readFloat();
-					reader.readColor(color4);
-					quad.bl.colors = color4;
+				if (cb_flags & VERTEX_FLAG_LB){
+					quad.bl.colors.readColorWithRate(reader);
 				}
-				if (cb_flags & VERTEX_FLAG_RB)
-				{
-					blend_rate = reader.readFloat();
-					reader.readColor(color4);
-					quad.br.colors = color4;
+				if (cb_flags & VERTEX_FLAG_RB){
+					quad.br.colors.readColorWithRate(reader);
 				}
 			}
 		}

@@ -149,6 +149,7 @@
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\SS5Player.cpp" />
     <ClCompile Include="src\SS5PlayerPlatform.cpp" />
+    <ClCompile Include="src\SS5PlayerTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common\Animator\MersenneTwister.h" />
