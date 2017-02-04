@@ -957,64 +957,6 @@ void Player::setFrame(int frameNo, float dt)
 		State state;
 		state.readData(reader, init);
 
-	#if 0
-		// optional parameters
-		int flags      = reader.readU32();
-		int cellIndex  = flags & PART_FLAG_CELL_INDEX ? reader.readS16() : init->cellIndex;
-		float x        = flags & PART_FLAG_POSITION_X ? reader.readFloat() : init->positionX;
-#ifdef UP_MINUS
-		float y        = flags & PART_FLAG_POSITION_Y ? -reader.readFloat() : -init->positionY;		//上がマイナスなので反転させる
-#else
-		float y        = flags & PART_FLAG_POSITION_Y ? reader.readFloat() : init->positionY;
-#endif
-		float z        = flags & PART_FLAG_POSITION_Z ? reader.readFloat() : init->positionZ;
-		float pivotX   = flags & PART_FLAG_PIVOT_X ? reader.readFloat() : init->pivotX;
-#ifdef UP_MINUS
-		float pivotY = flags & PART_FLAG_PIVOT_Y ? -reader.readFloat() : -init->pivotY;
-#else
-		float pivotY = flags & PART_FLAG_PIVOT_Y ? reader.readFloat() : init->pivotY;
-#endif
-#ifdef UP_MINUS
-		float rotationX = flags & PART_FLAG_ROTATIONX ? -reader.readFloat() : -init->rotationX;
-		float rotationY = flags & PART_FLAG_ROTATIONY ? -reader.readFloat() : -init->rotationY;
-		float rotationZ = flags & PART_FLAG_ROTATIONZ ? -reader.readFloat() : -init->rotationZ;
-#else
-		float rotationX = flags & PART_FLAG_ROTATIONX ? reader.readFloat() : init->rotationX;
-		float rotationY = flags & PART_FLAG_ROTATIONY ? reader.readFloat() : init->rotationY;
-		float rotationZ = flags & PART_FLAG_ROTATIONZ ? reader.readFloat() : init->rotationZ;
-#endif
-		float scaleX = flags & PART_FLAG_SCALE_X ? reader.readFloat() : init->scaleX;
-		float scaleY   = flags & PART_FLAG_SCALE_Y ? reader.readFloat() : init->scaleY;
-		int opacity    = flags & PART_FLAG_OPACITY ? reader.readU16() : init->opacity;
-		float size_X   = flags & PART_FLAG_SIZE_X ? reader.readFloat() : init->size_X;
-		float size_Y   = flags & PART_FLAG_SIZE_Y ? reader.readFloat() : init->size_Y;
-		float uv_move_X   = flags & PART_FLAG_U_MOVE ? reader.readFloat() : init->uv_move_X;
-		float uv_move_Y   = flags & PART_FLAG_V_MOVE ? reader.readFloat() : init->uv_move_Y;
-		float uv_rotation = flags & PART_FLAG_UV_ROTATION ? reader.readFloat() : init->uv_rotation;
-		float uv_scale_X  = flags & PART_FLAG_U_SCALE ? reader.readFloat() : init->uv_scale_X;
-		float uv_scale_Y  = flags & PART_FLAG_V_SCALE ? reader.readFloat() : init->uv_scale_Y;
-		float boundingRadius = flags & PART_FLAG_BOUNDINGRADIUS ? reader.readFloat() : init->boundingRadius;
-
-		//インスタンスアトリビュート
-		int		instanceValue_curKeyframe	= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_curKeyframe;
-		int		instanceValue_startFrame	= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_startFrame;
-		int		instanceValue_endFrame		= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_endFrame;
-		int		instanceValue_loopNum		= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_loopNum;
-		float	instanceValue_speed			= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readFloat() : init->instanceValue_speed;
-		int		instanceValue_loopflag		= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_loopflag;
-		//エフェクトアトリビュート
-		int		effectValue_curKeyframe		= flags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_curKeyframe;
-		int		effectValue_startTime		= flags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_startTime;
-		float	effectValue_speed			= flags & PART_FLAG_EFFECT_KEYFRAME ? reader.readFloat() : init->effectValue_speed;
-		int		effectValue_loopflag		= flags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_loopflag;
-
-
-		bool flipX = (bool)(flags & PART_FLAG_FLIP_H);
-		bool flipY = (bool)(flags & PART_FLAG_FLIP_V);
-
-		bool isVisibled = !(flags & PART_FLAG_INVISIBLE);
-	#endif
-
 		
 		if (_partVisible[index] == false)
 		{
@@ -1077,51 +1019,6 @@ void Player::setFrame(int frameNo, float dt)
 
 		}
 
-	#if 0
-		//ステータス保存
-		state.flags = flags;
-		state.cellIndex = cellIndex;
-		state.x = x;
-		state.y = y;
-		state.z = z;
-		state.pivotX = pivotX;
-		state.pivotY = pivotY;
-		state.rotationX = rotationX;
-		state.rotationY = rotationY;
-		state.rotationZ = rotationZ;
-		state.scaleX = scaleX;
-		state.scaleY = scaleY;
-		state.opacity = opacity;
-		state.size_X = size_X;
-		state.size_Y = size_Y;
-		state.uv_move_X = uv_move_X;
-		state.uv_move_Y = uv_move_Y;
-		state.uv_rotation = uv_rotation;
-		state.uv_scale_X = uv_scale_X;
-		state.uv_scale_Y = uv_scale_Y;
-		state.boundingRadius = boundingRadius;
-		state.isVisibled = isVisibled;
-		state.flipX = flipX;
-		state.flipY = flipY;
-
-		state.instanceValue_curKeyframe = instanceValue_curKeyframe;
-		state.instanceValue_startFrame = instanceValue_startFrame;
-		state.instanceValue_endFrame = instanceValue_endFrame;
-		state.instanceValue_loopNum = instanceValue_loopNum;
-		state.instanceValue_speed = instanceValue_speed;
-		state.instanceValue_loopflag = instanceValue_loopflag;
-		state.effectValue_curKeyframe = effectValue_curKeyframe;
-		state.effectValue_startTime = effectValue_startTime;
-		state.effectValue_speed = effectValue_speed;
-		state.effectValue_loopflag = effectValue_loopflag;
-
-		state.Calc_rotationX = state.rotationX;
-		state.Calc_rotationY = state.rotationY;
-		state.Calc_rotationZ = state.rotationZ;
-		state.Calc_scaleX = state.scaleX;
-		state.Calc_scaleY = state.scaleY;
-		state.Calc_opacity = state.opacity;
-	#endif
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
 
 		//反転
