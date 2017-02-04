@@ -8,7 +8,9 @@
 #include "math/Vector3.h"
 
 namespace ss{
-	
+class DataArrayReader;
+
+
 /**
  * カラー構造体
  */
@@ -17,6 +19,18 @@ struct SSColor4B {
 	unsigned char g;
 	unsigned char b;
 	unsigned char a;
+
+	using uchar = unsigned char;
+	SSColor4B(uchar r_, uchar g_, uchar b_, uchar a_) :r(r_), g(g_), b(b_), a(a_){}
+	SSColor4B() : SSColor4B(0, 0, 0, 0){}
+	
+	//カラーの読み取り
+	void readColor(DataArrayReader& reader);
+	//カラーの読み取り(rateを考慮して読む)
+	void readColorWithRate(DataArrayReader& reader);
+
+	//unsigned longにパラメータを固める
+	unsigned long packARGB() const;
 };
 
 
