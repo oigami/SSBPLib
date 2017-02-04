@@ -122,4 +122,75 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 }
 
 
+void State::uvCompute(SSV3F_C4B_T2F_Quad *q/*, const SSRect &cellRect, int imgWidth, int imgHeight*/) const
+{
+		//uvスクロール
+	if (this->flags & PART_FLAG_U_MOVE)
+	{
+		q->tl.texCoords.x/*u*/ += this->uv_move_X;
+		q->tr.texCoords.x/*u*/ += this->uv_move_X;
+		q->bl.texCoords.x/*u*/ += this->uv_move_X;
+		q->br.texCoords.x/*u*/ += this->uv_move_X;
+	}
+	if (this->flags & PART_FLAG_V_MOVE)
+	{
+		q->tl.texCoords.y/*v*/ += this->uv_move_Y;
+		q->tr.texCoords.y/*v*/ += this->uv_move_Y;
+		q->bl.texCoords.y/*v*/ += this->uv_move_Y;
+		q->br.texCoords.y/*v*/ += this->uv_move_Y;
+	}
+
+
+	float u_wide = 0;
+	float v_height = 0;
+	float u_center = 0;
+	float v_center = 0;
+	float u_code = 1;
+	float v_code = 1;
+
+	//UVを作成、反転の結果UVが反転する
+	u_wide = (q->tr.texCoords.u() - q->tl.texCoords.u()) / 2.0f;
+	u_center = q->tl.texCoords.u() + u_wide;
+	if (this->flags & PART_FLAG_FLIP_H)
+	{
+		//左右反転を行う場合は符号を逆にする
+		u_code = -1;
+	}
+	v_height = (q->bl.texCoords.v() - q->tl.texCoords.v()) / 2.0f;
+	v_center = q->tl.texCoords.v() + v_height;
+	if (this->flags & PART_FLAG_FLIP_V)
+	{
+		//上下反転を行う場合はテクスチャUVを逆にする
+		v_code = -1;
+	}
+	//UV回転
+	if (this->flags & PART_FLAG_UV_ROTATION)
+	{
+		//頂点位置を回転させる
+		q->tl.texCoords.rotate(SSDegToRad(this->uv_rotation), Vector2(u_center, v_center));
+		q->tr.texCoords.rotate(SSDegToRad(this->uv_rotation), Vector2(u_center, v_center));
+		q->bl.texCoords.rotate(SSDegToRad(this->uv_rotation), Vector2(u_center, v_center));
+		q->br.texCoords.rotate(SSDegToRad(this->uv_rotation), Vector2(u_center, v_center));
+	}
+
+	//UVスケール || 反転
+	if ((this->flags & PART_FLAG_U_SCALE) || (this->flags & PART_FLAG_FLIP_H))
+	{
+		q->tl.texCoords.x/*u*/ = u_center - (u_wide * this->uv_scale_X * u_code);
+		q->tr.texCoords.x/*u*/ = u_center + (u_wide * this->uv_scale_X * u_code);
+		q->bl.texCoords.x/*u*/ = u_center - (u_wide * this->uv_scale_X * u_code);
+		q->br.texCoords.x/*u*/ = u_center + (u_wide * this->uv_scale_X * u_code);
+	}
+	if ((this->flags & PART_FLAG_V_SCALE) || (this->flags & PART_FLAG_FLIP_V))
+	{
+		q->tl.texCoords.y/*v*/ = v_center - (v_height * this->uv_scale_Y * v_code);
+		q->tr.texCoords.y/*v*/ = v_center - (v_height * this->uv_scale_Y * v_code);
+		q->bl.texCoords.y/*v*/ = v_center + (v_height * this->uv_scale_Y * v_code);
+		q->br.texCoords.y/*v*/ = v_center + (v_height * this->uv_scale_Y * v_code);
+	}
+}
+
+
+
+
 } //namespace ss

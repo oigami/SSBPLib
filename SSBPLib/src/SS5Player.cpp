@@ -1223,6 +1223,10 @@ void Player::setFrame(int frameNo, float dt)
 				}
 			}
 		}
+
+		state.uvCompute(&quad);
+
+	#if 0
 		//uvスクロール
 		if (state.flags & PART_FLAG_U_MOVE)
 		{
@@ -1287,6 +1291,8 @@ void Player::setFrame(int frameNo, float dt)
 			quad.bl.texCoords.y/*v*/ = v_center + (v_height * state.uv_scale_Y * v_code);
 			quad.br.texCoords.y/*v*/ = v_center + (v_height * state.uv_scale_Y * v_code);
 		}
+	#endif
+
 		state.quad = quad;
 
 
