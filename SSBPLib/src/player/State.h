@@ -5,6 +5,9 @@
 #include "math/SSRect.h"
 
 namespace ss{
+class DataArrayReader;
+struct AnimationInitialData;
+
 
 /**
  * State
@@ -32,6 +35,7 @@ struct State{
 	float uv_scale_X;				/// SS5アトリビュート：UV Xスケール
 	float uv_scale_Y;				/// SS5アトリビュート：UV Yスケール
 	float boundingRadius;			/// SS5アトリビュート：当たり半径
+	
 	bool flipX;						/// 横反転（親子関係計算済）
 	bool flipY;						/// 縦反転（親子関係計算済）
 	bool isVisibled;				/// 非表示（親子関係計算済）
@@ -67,7 +71,7 @@ struct State{
 
 
 	//readerを介してデータを読み取る
-	//void readData(DataArrayReader &reader, const AnimationInitialData *init);
+	void readData(DataArrayReader& reader, const AnimationInitialData* init);
 
 
 	////現在のStateの情報を元にuvを計算する
