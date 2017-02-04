@@ -122,9 +122,14 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 }
 
 
-void State::uvCompute(SSV3F_C4B_T2F_Quad *q/*, const SSRect &cellRect, int imgWidth, int imgHeight*/) const
+void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 {
-		//uvスクロール
+	q->tl.texCoords = uv_tl;
+	q->tr.texCoords = SSTex2F(uv_br.u(), uv_tl.v());
+	q->bl.texCoords = SSTex2F(uv_tl.u(), uv_br.v());
+	q->br.texCoords = uv_br;
+
+	//uvスクロール
 	if (this->flags & PART_FLAG_U_MOVE)
 	{
 		q->tl.texCoords.x/*u*/ += this->uv_move_X;

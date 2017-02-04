@@ -1214,18 +1214,12 @@ void Player::setFrame(int frameNo, float dt)
 
 
 		//UVを設定する
-		quad.tl.texCoords = SSTex2F::zero;
-		quad.tr.texCoords = SSTex2F::zero;
-		quad.bl.texCoords = SSTex2F::zero;
-		quad.br.texCoords = SSTex2F::zero;
-		if(cellRef)
-		{
-			quad.tl.texCoords = SSTex2F(cellRef->m_cell->u1, cellRef->m_cell->v1);
-			quad.tr.texCoords = SSTex2F(cellRef->m_cell->u2, cellRef->m_cell->v1);
-			quad.bl.texCoords = SSTex2F(cellRef->m_cell->u1, cellRef->m_cell->v2);
-			quad.br.texCoords = SSTex2F(cellRef->m_cell->u2, cellRef->m_cell->v2);
+		SSTex2F uv_tl, uv_br;
+		if(cellRef){
+			uv_tl = SSTex2F(cellRef->m_cell->u1, cellRef->m_cell->v1);
+			uv_br = SSTex2F(cellRef->m_cell->u2, cellRef->m_cell->v2);
 		}
-		state.uvCompute(&quad);
+		state.uvCompute(&quad, uv_tl, uv_br);
 
 		state.quad = quad;
 
