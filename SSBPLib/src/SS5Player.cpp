@@ -948,37 +948,31 @@ void Player::setFrame(int frameNo, float dt)
 	const AnimationInitialData* initialDataList = ptr.toAnimationInitialDatas(animeData);
 
 
-	for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
-	{
+	for (int index = 0; index < _currentAnimeRef->m_numParts; index++){
+
 		int partIndex = reader.readS16();
-		const PartData* partData = &parts[partIndex];
+		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
 		const AnimationInitialData* init = &initialDataList[partIndex];
 
 		State state;
 		state.readData(reader, init);
 
-		
-		if (_partVisible[index] == false)
-		{
-			//ユーザーが任意に非表示としたパーツは非表示に設定
+		//ユーザーが任意に非表示としたパーツは非表示に設定
+		if (_partVisible[index] == false){
 			state.isVisibled = false;					//todo:これは描画のときに見ればいいはず
 		}
-		if (_cellChange[index] != -1)
-		{
-			//ユーザーがセルを上書きした
+		//ユーザーがセルを上書きした
+		if (_cellChange[index] != -1){
 			state.cellIndex = _cellChange[index];
 		}
 
 		_partIndex[index] = partIndex;
 
-		if ( _state.flipX == true )
-		{
-			//プレイヤーのXフリップ
+		//プレイヤーのフリップ
+		if ( _state.flipX == true ){
 			state.flipX = !state.flipX;	//フラグ反転		//todo:全体を反転するのはスケール==-1で十分なはず
 		}
-		if (_state.flipY == true)
-		{
-			//プレイヤーのYフリップ
+		if (_state.flipY == true){
 			state.flipY = !state.flipY;	//フラグ反転		//todo:全体を反転するのはスケール==-1で十分なはず
 		}
 

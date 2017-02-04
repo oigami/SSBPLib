@@ -115,8 +115,8 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 	effectValue_loopflag		= flags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_loopflag;
 
 
-	flipX = (bool)(flags & PART_FLAG_FLIP_H);
-	flipY = (bool)(flags & PART_FLAG_FLIP_V);
+	flipX = (flags & PART_FLAG_FLIP_H);
+	flipY = (flags & PART_FLAG_FLIP_V);
 
 	isVisibled = !(flags & PART_FLAG_INVISIBLE);
 }
