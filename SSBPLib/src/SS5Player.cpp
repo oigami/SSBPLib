@@ -1076,18 +1076,6 @@ void Player::setFrame(int frameNo, float dt)
 			quad.br.vertices.x = x2;
 			quad.br.vertices.y = y1;
 #endif
-			//UVを設定する
-			quad.tl.texCoords = SSTex2F::zero;
-			quad.tr.texCoords = SSTex2F::zero;
-			quad.bl.texCoords = SSTex2F::zero;
-			quad.br.texCoords = SSTex2F::zero;
-			if (cellRef)
-			{
-				quad.tl.texCoords = SSTex2F(cellRef->m_cell->u1, cellRef->m_cell->v1);
-				quad.tr.texCoords = SSTex2F(cellRef->m_cell->u2, cellRef->m_cell->v1);
-				quad.bl.texCoords = SSTex2F(cellRef->m_cell->u1, cellRef->m_cell->v2);
-				quad.br.texCoords = SSTex2F(cellRef->m_cell->u2, cellRef->m_cell->v2);
-			}
 		}
 
 		//サイズ設定
@@ -1224,6 +1212,19 @@ void Player::setFrame(int frameNo, float dt)
 			}
 		}
 
+
+		//UVを設定する
+		quad.tl.texCoords = SSTex2F::zero;
+		quad.tr.texCoords = SSTex2F::zero;
+		quad.bl.texCoords = SSTex2F::zero;
+		quad.br.texCoords = SSTex2F::zero;
+		if(cellRef)
+		{
+			quad.tl.texCoords = SSTex2F(cellRef->m_cell->u1, cellRef->m_cell->v1);
+			quad.tr.texCoords = SSTex2F(cellRef->m_cell->u2, cellRef->m_cell->v1);
+			quad.bl.texCoords = SSTex2F(cellRef->m_cell->u1, cellRef->m_cell->v2);
+			quad.br.texCoords = SSTex2F(cellRef->m_cell->u2, cellRef->m_cell->v2);
+		}
 		state.uvCompute(&quad);
 
 		state.quad = quad;
