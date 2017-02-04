@@ -62,6 +62,41 @@ struct SSV3F_C4B_T2F_Quad {
 	SSV3F_C4B_T2F bl;
 	SSV3F_C4B_T2F tr;
 	SSV3F_C4B_T2F br;
+
+	//4頂点座標の加算
+	void add(const SSQuad3& coordinates){
+		tl.vertices += coordinates.tl;
+		bl.vertices += coordinates.bl;
+		tr.vertices += coordinates.tr;
+		br.vertices += coordinates.br;
+	}
+
+	//vertex各要素に演算を適用させる
+	template<class F>
+	void vertexForeach(F func){	//[](Vector3& v){}
+		func(tl.vertices);
+		func(tr.vertices);
+		func(bl.vertices);
+		func(br.vertices);
+	}
+
+	//uv各要素に演算を適用させる
+	template<class F>
+	void uvForeach(F func){		//[](SSTex2F& uv){}
+		func(tl.texCoords);
+		func(tr.texCoords);
+		func(bl.texCoords);
+		func(br.texCoords);
+	}
+
+	//color各要素に演算を適用させる
+	template<class F>
+	void colorsForeach(F func){	//[](SSColor4B& color){}
+		func(tl.colors);
+		func(tr.colors);
+		func(bl.colors);
+		func(br.colors);
+	}
 };
 
 //テクスチャデータ
