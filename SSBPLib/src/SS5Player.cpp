@@ -1139,18 +1139,11 @@ void Player::setFrame(int frameNo, float dt)
 		}
 		
 		//頂点情報の取得
-		unsigned char alpha = (unsigned char)state.opacity;
 		SSColor4B color4 = { 0xff, 0xff, 0xff, 0xff };
-
-		color4.r = color4.r * _col_r / 255;
-		color4.g = color4.g * _col_g / 255;
-		color4.b = color4.b * _col_b / 255;
-
 		quad.tl.colors =
 		quad.tr.colors =
 		quad.bl.colors =
 		quad.br.colors = color4;
-
 
 		// カラーブレンドの反映
 		if (state.flags & PART_FLAG_COLOR_BLEND){
@@ -1167,13 +1160,8 @@ void Player::setFrame(int frameNo, float dt)
 			//ssbpではカラーブレンドのレート（％）は使用できません。
 			//制限となります。
 			if (cb_flags & VERTEX_FLAG_ONE){
+
 				color4.readColorWithRate(reader);
-
-				color4.r = color4.r * _col_r / 255;
-				color4.g = color4.g * _col_g / 255;
-				color4.b = color4.b * _col_b / 255;
-				color4.a = color4.a * alpha / 255;
-
 				quad.tl.colors =
 				quad.tr.colors =
 				quad.bl.colors =
@@ -1194,6 +1182,12 @@ void Player::setFrame(int frameNo, float dt)
 				}
 			}
 		}
+		quad.colorsForeach([&](SSColor4B& color){
+			color.r *= (_col_r / 255.0);
+			color.g *= (_col_g / 255.0);
+			color.b *= (_col_b / 255.0);
+			color.a *= (state.opacity / 255.0);
+		});
 
 
 		//UVを設定する
