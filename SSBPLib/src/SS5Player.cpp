@@ -480,12 +480,11 @@ void Player::setPartsParentage()
 
 	ToPointer ptr(_currentRs->m_data);
 	int numParts = _currentAnimeRef->m_numParts;
-	const PartData* parts = _currentAnimeRef->m_partDatas;
-
+	
 	//親子関係を設定
 	for (int partIndex = 0; partIndex < numParts; partIndex++)
 	{
-		const PartData* partData = &parts[partIndex];
+		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
 		
 		if (partIndex > 0)
@@ -597,13 +596,11 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 
 			ToPointer ptr(_currentRs->m_data);
 
-			const PartData* parts = _currentAnimeRef->m_partDatas;
-
 			for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
 			{
 				int partIndex = _partIndex[index];
 
-				const PartData* partData = &parts[partIndex];
+				const PartData* partData = _currentAnimeRef->getPartData(partIndex);
 				const char* partName = ptr.toString(partData->name);
 				if (strcmp(partName, name) == 0)
 				{
@@ -782,13 +779,11 @@ void Player::setPartCell(std::string partsname, std::string sscename, std::strin
 			}
 		}
 
-		const PartData* parts = _currentAnimeRef->m_partDatas;
-
 		for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
 		{
 			int partIndex = _partIndex[index];
 
-			const PartData* partData = &parts[partIndex];
+			const PartData* partData = _currentAnimeRef->getPartData(partIndex);
 			const char* partName = ptr.toString(partData->name);
 			if (strcmp(partName, partsname.c_str()) == 0)
 			{
@@ -809,13 +804,11 @@ bool Player::changeInstanceAnime(std::string partsname, std::string animename, b
 	{
 		ToPointer ptr(_currentRs->m_data);
 
-		const PartData* parts = _currentAnimeRef->m_partDatas;
-
 		for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
 		{
 			int partIndex = _partIndex[index];
 
-			const PartData* partData = &parts[partIndex];
+			const PartData* partData = _currentAnimeRef->getPartData(partIndex);
 			const char* partName = ptr.toString(partData->name);
 			if (strcmp(partName, partsname.c_str()) == 0)
 			{
@@ -936,9 +929,6 @@ void Player::setFrame(int frameNo, float dt)
 	//	if (!forceUpdate && frameNo == _prevDrawFrameNo) return;
 
 	ToPointer ptr(_currentRs->m_data);
-
-	const PartData* parts = _currentAnimeRef->m_partDatas;
-
 	const AnimationData* animeData = _currentAnimeRef->m_animationData;
 	const ss_offset* frameDataIndex = static_cast<const ss_offset*>(ptr(animeData->frameData));
 	
@@ -1440,7 +1430,7 @@ void Player::setFrame(int frameNo, float dt)
 	// 親に変更があるときは自分も更新するようフラグを設定する
 	for (int partIndex = 1; partIndex < _currentAnimeRef->m_numParts; partIndex++)
 	{
-		const PartData* partData = &parts[partIndex];
+		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
 		CustomSprite* parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
 		
@@ -1455,7 +1445,7 @@ void Player::setFrame(int frameNo, float dt)
 	float t[16];
 	for (int partIndex = 0; partIndex < _currentAnimeRef->m_numParts; partIndex++)
 	{
-		const PartData* partData = &parts[partIndex];
+		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
 
 		if (sprite->_isStateChanged){
@@ -1548,7 +1538,6 @@ void Player::setFrame(int frameNo, float dt)
 	// 特殊パーツのアップデート
 	for (int partIndex = 0; partIndex < _currentAnimeRef->m_numParts; partIndex++)
 	{
-		const PartData* partData = &parts[partIndex];
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
 
 		//インスタンスパーツのアップデート
@@ -1676,7 +1665,6 @@ void Player::checkUserData(int frameNo)
 	ToPointer ptr(_currentRs->m_data);
 
 	const AnimationData* animeData = _currentAnimeRef->m_animationData;
-	const PartData* parts = _currentAnimeRef->m_partDatas;
 
 	if (!animeData->userData) return;
 	const ss_offset* userDataIndex = static_cast<const ss_offset*>(ptr(animeData->userData));
@@ -1747,7 +1735,8 @@ void Player::checkUserData(int frameNo)
 			_userData.strSize = 0;
 		}
 		
-		_userData.partName = ptr.toString(parts[partIndex].name);
+		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
+		_userData.partName = ptr.toString(partData->name);
 		_userData.frameNo = frameNo;
 		
 		SSonUserData(this, &_userData);
