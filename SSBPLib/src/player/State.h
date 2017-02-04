@@ -32,24 +32,27 @@ struct State{
 	float uv_scale_X;				/// SS5アトリビュート：UV Xスケール
 	float uv_scale_Y;				/// SS5アトリビュート：UV Yスケール
 	float boundingRadius;			/// SS5アトリビュート：当たり半径
-	int colorBlendFunc;				/// SS5アトリビュート：カラーブレンドのブレンド方法
-	int colorBlendType;				/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
 	bool flipX;						/// 横反転（親子関係計算済）
 	bool flipY;						/// 縦反転（親子関係計算済）
 	bool isVisibled;				/// 非表示（親子関係計算済）
+
+
+	int colorBlendFunc;				/// SS5アトリビュート：カラーブレンドのブレンド方法
+	int colorBlendType;				/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
 	SSV3F_C4B_T2F_Quad quad;		/// 頂点データ、座標、カラー値、UVが含まれる（頂点変形、サイズXY、UV移動XY、UVスケール、UV回転、反転が反映済）
 	TextuerData texture;			/// セルに対応したテクスチャ番号（ゲーム側で管理している番号を設定する）
 	SSRect rect;					/// セルに対応したテクスチャ内の表示領域（開始座標、幅高さ）
 	int blendfunc;					/// パーツに設定されたブレンド方法
 	float mat[16];					/// パーツの位置を算出するためのマトリクス（親子関係計算済）
-									//再生用パラメータ
+																
+	//再生用パラメータ
 	float Calc_rotationX;			/// X回転（親子関係計算済）
 	float Calc_rotationY;			/// Y回転（親子関係計算済）
 	float Calc_rotationZ;			/// Z回転（親子関係計算済）
 	float Calc_scaleX;				/// Xスケール（親子関係計算済）
 	float Calc_scaleY;				/// Yスケール（親子関係計算済）
 	int Calc_opacity;				/// 不透明度（0～255）（親子関係計算済）
-									//インスタンスアトリビュート
+	//インスタンスアトリビュート
 	int			instanceValue_curKeyframe;
 	int			instanceValue_startFrame;
 	int			instanceValue_endFrame;

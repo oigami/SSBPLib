@@ -25,11 +25,12 @@ void State::init()
 	uv_scale_X = 1.0f;
 	uv_scale_Y = 1.0f;
 	boundingRadius = 0.0f;
-	colorBlendFunc = 0;
-	colorBlendType = 0;
 	flipX = false;
 	flipY = false;
 	isVisibled = false;
+
+	colorBlendFunc = 0;
+	colorBlendType = 0;
 	memset(&quad, 0, sizeof(quad));
 	texture.handle = 0;
 	texture.size_w = 0;
@@ -37,6 +38,7 @@ void State::init()
 	rect = SSRect(0, 0, 0, 0);
 	blendfunc = 0;
 	memset(&mat, 0, sizeof(mat));
+
 	instanceValue_curKeyframe = 0;
 	instanceValue_startFrame = 0;
 	instanceValue_endFrame = 0;
