@@ -152,6 +152,8 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 	}
 	
 
+	//計算用にuv中心を求めておく
+	SSTex2F uvCenter = (q->br.texCoords + q->tl.texCoords) / 2.0f;
 	float u_wide = 0;
 	float v_height = 0;
 	float u_center = 0;
@@ -172,18 +174,15 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 		q->br.texCoords.rotate(SSDegToRad(this->uv_rotation), Vector2(u_center, v_center));
 	}
 
-	//UVスケール || 反転
-	if (this->flags & PART_FLAG_U_SCALE){
-		q->tl.texCoords.x/*u*/ = u_center - (u_wide * this->uv_scale_X);
-		q->tr.texCoords.x/*u*/ = u_center + (u_wide * this->uv_scale_X);
-		q->bl.texCoords.x/*u*/ = u_center - (u_wide * this->uv_scale_X);
-		q->br.texCoords.x/*u*/ = u_center + (u_wide * this->uv_scale_X);
-	}
-	if (this->flags & PART_FLAG_V_SCALE){
-		q->tl.texCoords.y/*v*/ = v_center - (v_height * this->uv_scale_Y);
-		q->tr.texCoords.y/*v*/ = v_center - (v_height * this->uv_scale_Y);
-		q->bl.texCoords.y/*v*/ = v_center + (v_height * this->uv_scale_Y);
-		q->br.texCoords.y/*v*/ = v_center + (v_height * this->uv_scale_Y);
+	//UVスケール
+	if(this->flags & (PART_FLAG_U_SCALE | PART_FLAG_V_SCALE)){
+		q->uvForeach([&](SSTex2F &uv){
+			//中心を基準として拡大縮小させる
+			uv -= uvCenter;
+			uv.x/*u*/ *= this->uv_scale_X;
+			uv.y/*v*/ *= this->uv_scale_Y;
+			uv += uvCenter;
+		});
 	}
 
 	//UV反転
