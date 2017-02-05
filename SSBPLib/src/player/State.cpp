@@ -154,24 +154,15 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 
 	//計算用にuv中心を求めておく
 	SSTex2F uvCenter = (q->br.texCoords + q->tl.texCoords) / 2.0f;
-	float u_wide = 0;
-	float v_height = 0;
-	float u_center = 0;
-	float v_center = 0;
-
-	//UVを作成、反転の結果UVが反転する
-	u_wide = (q->tr.texCoords.u() - q->tl.texCoords.u()) / 2.0f;
-	v_height = (q->bl.texCoords.v() - q->tl.texCoords.v()) / 2.0f;
-	u_center = q->tl.texCoords.u() + u_wide;
-	v_center = q->tl.texCoords.v() + v_height;
 	
 	//UV回転
 	if (this->flags & PART_FLAG_UV_ROTATION){
 		//頂点位置を回転させる
-		q->tl.texCoords.rotate(SSDegToRad(this->uv_rotation), Vector2(u_center, v_center));
-		q->tr.texCoords.rotate(SSDegToRad(this->uv_rotation), Vector2(u_center, v_center));
-		q->bl.texCoords.rotate(SSDegToRad(this->uv_rotation), Vector2(u_center, v_center));
-		q->br.texCoords.rotate(SSDegToRad(this->uv_rotation), Vector2(u_center, v_center));
+		float rotateRadian = SSDegToRad(this->uv_rotation);
+		q->tl.texCoords.rotate(rotateRadian, uvCenter);
+		q->tr.texCoords.rotate(rotateRadian, uvCenter);
+		q->bl.texCoords.rotate(rotateRadian, uvCenter);
+		q->br.texCoords.rotate(rotateRadian, uvCenter);
 	}
 
 	//UVスケール
