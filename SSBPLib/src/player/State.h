@@ -74,10 +74,11 @@ struct State{
 	void readData(DataArrayReader& reader, const AnimationInitialData* init);
 
 
+
 	//現在のStateの情報を元にuvを計算する
-	void uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl/*top,left*/, SSTex2F uv_br/*bottom,right*/) const;
-	////現在のStateの情報を元にverexを計算する
-	//void vertexCompute(SSV3F_C4B_T2F_Quad *q, const SSRect &cellRect, const SSQuad3 &vertexTransform) const;
+	void uvCompute(SSV3F_C4B_T2F_Quad* q, SSTex2F uv_tl/*top,left*/, SSTex2F uv_br/*bottom,right*/) const;
+	//現在のStateの情報を元にverexを計算する
+	void vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const SSQuad3& vertexTransform*/) const;
 	////現在のStateの情報を元にmatrixを計算する。setIdentityから始めます
 	//void matrixCompute(Matrix *matrix) const;
 

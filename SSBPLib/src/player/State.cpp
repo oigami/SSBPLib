@@ -196,6 +196,72 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 }
 
 
+void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const SSQuad3& vertexTransform*/) const
+{
+	//頂点を設定する
+	float width_h = cellRect.width() / 2;
+	float height_h = cellRect.height() / 2;
+	float x1 = -width_h;
+	float y1 = -height_h;
+	float x2 = width_h;
+	float y2 = height_h;
+
+#ifdef UP_MINUS
+	q->tl.vertices.x = x1;
+	q->tl.vertices.y = y1;
+	q->tr.vertices.x = x2;
+	q->tr.vertices.y = y1;
+	q->bl.vertices.x = x1;
+	q->bl.vertices.y = y2;
+	q->br.vertices.x = x2;
+	q->br.vertices.y = y2;
+#else
+	q->tl.vertices.x = x1;
+	q->tl.vertices.y = y2;
+	q->tr.vertices.x = x2;
+	q->tr.vertices.y = y2;
+	q->bl.vertices.x = x1;
+	q->bl.vertices.y = y1;
+	q->br.vertices.x = x2;
+	q->br.vertices.y = y1;
+#endif
+
+	//サイズ設定
+	//頂点をサイズに合わせて変形させる
+	if (this->flags & PART_FLAG_SIZE_X)
+	{
+		float w = 0;
+		float center = 0;
+		w = (q->tr.vertices.x - q->tl.vertices.x) / 2.0f;
+		if (w!= 0.0f)
+		{
+			center = q->tl.vertices.x + w;
+			float scale = (this->size_X / 2.0f) / w;
+
+			q->bl.vertices.x = center - (w * scale);
+			q->br.vertices.x = center + (w * scale);
+			q->tl.vertices.x = center - (w * scale);
+			q->tr.vertices.x = center + (w * scale);
+		}
+	}
+	if (this->flags & PART_FLAG_SIZE_Y)
+	{
+		float h = 0;
+		float center = 0;
+		h = (q->bl.vertices.y - q->tl.vertices.y) / 2.0f;
+		if (h != 0.0f)
+		{
+			center = q->tl.vertices.y + h;
+			float scale = (this->size_Y / 2.0f) / h;
+
+			q->bl.vertices.y = center - (h * scale);
+			q->br.vertices.y = center - (h * scale);
+			q->tl.vertices.y = center + (h * scale);
+			q->tr.vertices.y = center + (h * scale);
+		}
+	}
+}
+
 
 
 } //namespace ss

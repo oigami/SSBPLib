@@ -1047,8 +1047,11 @@ void Player::setFrame(int frameNo, float dt)
 		//quadにはプリミティブの座標（頂点変形を含む）、UV、カラー値が設定されます。
 		SSV3F_C4B_T2F_Quad quad;
 		memset(&quad, 0, sizeof(quad));
+		SSRect cellRect;
 		if (cellRef)
 		{
+			cellRect = cellRef->m_rect;
+#if 0
 			//頂点を設定する
 			float width_h = cellRef->m_rect.width() / 2;
 			float height_h = cellRef->m_rect.height() / 2;
@@ -1076,8 +1079,10 @@ void Player::setFrame(int frameNo, float dt)
 			quad.br.vertices.x = x2;
 			quad.br.vertices.y = y1;
 #endif
+#endif
 		}
-
+		state.vertexCompute(&quad, cellRect);
+#if 0
 		//サイズ設定
 		//頂点をサイズに合わせて変形させる
 		if (state.flags & PART_FLAG_SIZE_X)
@@ -1112,6 +1117,7 @@ void Player::setFrame(int frameNo, float dt)
 				quad.tr.vertices.y = center + (h * scale);
 			}
 		}
+#endif
 		// 頂点変形のオフセット値を反映
 		if (state.flags & PART_FLAG_VERTEX_TRANSFORM){
 			SSQuad3 positionOffsets;
