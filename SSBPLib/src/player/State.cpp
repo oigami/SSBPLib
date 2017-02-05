@@ -226,12 +226,11 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const
 		if (w!= 0.0f){
 
 			float center = q->tl.vertices.x + w;
-			float scale = (this->size_X / 2.0f) / w;
 
-			q->bl.vertices.x = center - (w * scale);
-			q->br.vertices.x = center + (w * scale);
-			q->tl.vertices.x = center - (w * scale);
-			q->tr.vertices.x = center + (w * scale);
+			q->bl.vertices.x = center - (this->size_X / 2.0f);
+			q->br.vertices.x = center + (this->size_X / 2.0f);
+			q->tl.vertices.x = center - (this->size_X / 2.0f);
+			q->tr.vertices.x = center + (this->size_X / 2.0f);
 		}
 	}
 	if (this->flags & PART_FLAG_SIZE_Y){
@@ -239,12 +238,11 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const
 		if (h != 0.0f){
 
 			float center = q->tl.vertices.y + h;
-			float scale = (this->size_Y / 2.0f) / h;
 
-			q->bl.vertices.y = center - (h * scale);
-			q->br.vertices.y = center - (h * scale);
-			q->tl.vertices.y = center + (h * scale);
-			q->tr.vertices.y = center + (h * scale);
+			q->bl.vertices.y = center - (this->size_Y / 2.0f);
+			q->br.vertices.y = center - (this->size_Y / 2.0f);
+			q->tl.vertices.y = center + (this->size_Y / 2.0f);
+			q->tr.vertices.y = center + (this->size_Y / 2.0f);
 		}
 	}
 }
