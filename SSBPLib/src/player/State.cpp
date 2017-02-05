@@ -153,6 +153,7 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 	
 
 	//計算用にuv中心を求めておく
+	//memo:回転・スケールで中央への戻し処理が多発するのでボトルネックになるようなら最初から中心合わせで計算して最後にオフセットを足すようにするのがいいかもしれない
 	SSTex2F uvCenter = (q->br.texCoords + q->tl.texCoords) / 2.0f;
 	
 	//UV回転
@@ -220,14 +221,11 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const
 
 	//サイズ設定
 	//頂点をサイズに合わせて変形させる
-	if (this->flags & PART_FLAG_SIZE_X)
-	{
-		float w = 0;
-		float center = 0;
-		w = (q->tr.vertices.x - q->tl.vertices.x) / 2.0f;
-		if (w!= 0.0f)
-		{
-			center = q->tl.vertices.x + w;
+	if (this->flags & PART_FLAG_SIZE_X){
+		float w = (q->tr.vertices.x - q->tl.vertices.x) / 2.0f;
+		if (w!= 0.0f){
+
+			float center = q->tl.vertices.x + w;
 			float scale = (this->size_X / 2.0f) / w;
 
 			q->bl.vertices.x = center - (w * scale);
@@ -236,14 +234,11 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const
 			q->tr.vertices.x = center + (w * scale);
 		}
 	}
-	if (this->flags & PART_FLAG_SIZE_Y)
-	{
-		float h = 0;
-		float center = 0;
-		h = (q->bl.vertices.y - q->tl.vertices.y) / 2.0f;
-		if (h != 0.0f)
-		{
-			center = q->tl.vertices.y + h;
+	if (this->flags & PART_FLAG_SIZE_Y){
+		float h = (q->bl.vertices.y - q->tl.vertices.y) / 2.0f;
+		if (h != 0.0f){
+
+			float center = q->tl.vertices.y + h;
 			float scale = (this->size_Y / 2.0f) / h;
 
 			q->bl.vertices.y = center - (h * scale);
