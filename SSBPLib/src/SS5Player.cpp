@@ -1113,29 +1113,11 @@ void Player::setFrame(int frameNo, float dt)
 			}
 		}
 		// 頂点変形のオフセット値を反映
-		if (state.flags & PART_FLAG_VERTEX_TRANSFORM)
-		{
-			int vt_flags = reader.readU16();
-			if (vt_flags & VERTEX_FLAG_LT)
-			{
-				quad.tl.vertices.x += reader.readS16();
-				quad.tl.vertices.y += reader.readS16();
-			}
-			if (vt_flags & VERTEX_FLAG_RT)
-			{
-				quad.tr.vertices.x += reader.readS16();
-				quad.tr.vertices.y += reader.readS16();
-			}
-			if (vt_flags & VERTEX_FLAG_LB)
-			{
-				quad.bl.vertices.x += reader.readS16();
-				quad.bl.vertices.y += reader.readS16();
-			}
-			if (vt_flags & VERTEX_FLAG_RB)
-			{
-				quad.br.vertices.x += reader.readS16();
-				quad.br.vertices.y += reader.readS16();
-			}
+		if (state.flags & PART_FLAG_VERTEX_TRANSFORM){
+			SSQuad3 positionOffsets;
+			positionOffsets.readVertexTransform(reader);
+			
+			quad.add(positionOffsets);
 		}
 		
 		//頂点情報の取得

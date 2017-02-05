@@ -42,6 +42,9 @@ struct SSQuad3 {
 	Vector3 br;
 	Vector3 tl;
 	Vector3 tr;
+
+	//頂点オフセットの読み取り
+	void readVertexTransform(DataArrayReader& reader);
 };
 
 
@@ -64,11 +67,11 @@ struct SSV3F_C4B_T2F_Quad {
 	SSV3F_C4B_T2F br;
 
 	//4頂点座標の加算
-	void add(const SSQuad3& coordinates){
-		tl.vertices += coordinates.tl;
-		bl.vertices += coordinates.bl;
-		tr.vertices += coordinates.tr;
-		br.vertices += coordinates.br;
+	void add(const SSQuad3& positions){
+		tl.vertices += positions.tl;
+		bl.vertices += positions.bl;
+		tr.vertices += positions.tr;
+		br.vertices += positions.br;
 	}
 
 	//vertex各要素に演算を適用させる
