@@ -1048,76 +1048,11 @@ void Player::setFrame(int frameNo, float dt)
 		SSV3F_C4B_T2F_Quad quad;
 		memset(&quad, 0, sizeof(quad));
 		SSRect cellRect;
-		if (cellRef)
-		{
+		if (cellRef){
 			cellRect = cellRef->m_rect;
-#if 0
-			//頂点を設定する
-			float width_h = cellRef->m_rect.width() / 2;
-			float height_h = cellRef->m_rect.height() / 2;
-			float x1 = -width_h;
-			float y1 = -height_h;
-			float x2 = width_h;
-			float y2 = height_h;
-
-#ifdef UP_MINUS
-			quad.tl.vertices.x = x1;
-			quad.tl.vertices.y = y1;
-			quad.tr.vertices.x = x2;
-			quad.tr.vertices.y = y1;
-			quad.bl.vertices.x = x1;
-			quad.bl.vertices.y = y2;
-			quad.br.vertices.x = x2;
-			quad.br.vertices.y = y2;
-#else
-			quad.tl.vertices.x = x1;
-			quad.tl.vertices.y = y2;
-			quad.tr.vertices.x = x2;
-			quad.tr.vertices.y = y2;
-			quad.bl.vertices.x = x1;
-			quad.bl.vertices.y = y1;
-			quad.br.vertices.x = x2;
-			quad.br.vertices.y = y1;
-#endif
-#endif
 		}
 		state.vertexCompute(&quad, cellRect);
-#if 0
-		//サイズ設定
-		//頂点をサイズに合わせて変形させる
-		if (state.flags & PART_FLAG_SIZE_X)
-		{
-			float w = 0;
-			float center = 0;
-			w = (quad.tr.vertices.x - quad.tl.vertices.x) / 2.0f;
-			if (w!= 0.0f)
-			{
-				center = quad.tl.vertices.x + w;
-				float scale = (state.size_X / 2.0f) / w;
 
-				quad.bl.vertices.x = center - (w * scale);
-				quad.br.vertices.x = center + (w * scale);
-				quad.tl.vertices.x = center - (w * scale);
-				quad.tr.vertices.x = center + (w * scale);
-			}
-		}
-		if (state.flags & PART_FLAG_SIZE_Y)
-		{
-			float h = 0;
-			float center = 0;
-			h = (quad.bl.vertices.y - quad.tl.vertices.y) / 2.0f;
-			if (h != 0.0f)
-			{
-				center = quad.tl.vertices.y + h;
-				float scale = (state.size_Y / 2.0f) / h;
-
-				quad.bl.vertices.y = center - (h * scale);
-				quad.br.vertices.y = center - (h * scale);
-				quad.tl.vertices.y = center + (h * scale);
-				quad.tr.vertices.y = center + (h * scale);
-			}
-		}
-#endif
 		// 頂点変形のオフセット値を反映
 		if (state.flags & PART_FLAG_VERTEX_TRANSFORM){
 			SSQuad3 positionOffsets;
