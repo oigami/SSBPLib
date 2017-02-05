@@ -124,53 +124,47 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 
 void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 {
+	/* MEMO: AnimationInitialDataの値について。
+	 * 通常は最初のフレームの値がセットされているが、
+	 * uvに関しては、値は次のようになっている
+	 * SS5SDK\Build\Converter\main.cpp
+	 * static Lump* parseParts(SsProject* proj, const std::string& imageBaseDir)
+	 *     ...
+	 * 			init.uv_move_X = 0;
+	 *			init.uv_move_Y = 0;
+	 *			init.uv_rotation = 0;
+	 *			init.uv_scale_X = 1;
+	 *			init.uv_scale_Y = 1;
+	 */
+
 	q->tl.texCoords = uv_tl;
 	q->tr.texCoords = SSTex2F(uv_br.u(), uv_tl.v());
 	q->bl.texCoords = SSTex2F(uv_tl.u(), uv_br.v());
 	q->br.texCoords = uv_br;
 
 	//uvスクロール
-	if (this->flags & PART_FLAG_U_MOVE)
-	{
-		q->tl.texCoords.x/*u*/ += this->uv_move_X;
-		q->tr.texCoords.x/*u*/ += this->uv_move_X;
-		q->bl.texCoords.x/*u*/ += this->uv_move_X;
-		q->br.texCoords.x/*u*/ += this->uv_move_X;
+	if(flags & (PART_FLAG_U_MOVE | PART_FLAG_V_MOVE)){
+		SSTex2F uvMove(this->uv_move_X, this->uv_move_Y);
+		q->tl.texCoords += uvMove;
+		q->tr.texCoords += uvMove;
+		q->bl.texCoords += uvMove;
+		q->br.texCoords += uvMove;
 	}
-	if (this->flags & PART_FLAG_V_MOVE)
-	{
-		q->tl.texCoords.y/*v*/ += this->uv_move_Y;
-		q->tr.texCoords.y/*v*/ += this->uv_move_Y;
-		q->bl.texCoords.y/*v*/ += this->uv_move_Y;
-		q->br.texCoords.y/*v*/ += this->uv_move_Y;
-	}
-
+	
 
 	float u_wide = 0;
 	float v_height = 0;
 	float u_center = 0;
 	float v_center = 0;
-	float u_code = 1;
-	float v_code = 1;
 
 	//UVを作成、反転の結果UVが反転する
 	u_wide = (q->tr.texCoords.u() - q->tl.texCoords.u()) / 2.0f;
-	u_center = q->tl.texCoords.u() + u_wide;
-	if (this->flags & PART_FLAG_FLIP_H)
-	{
-		//左右反転を行う場合は符号を逆にする
-		u_code = -1;
-	}
 	v_height = (q->bl.texCoords.v() - q->tl.texCoords.v()) / 2.0f;
+	u_center = q->tl.texCoords.u() + u_wide;
 	v_center = q->tl.texCoords.v() + v_height;
-	if (this->flags & PART_FLAG_FLIP_V)
-	{
-		//上下反転を行う場合はテクスチャUVを逆にする
-		v_code = -1;
-	}
+	
 	//UV回転
-	if (this->flags & PART_FLAG_UV_ROTATION)
-	{
+	if (this->flags & PART_FLAG_UV_ROTATION){
 		//頂点位置を回転させる
 		q->tl.texCoords.rotate(SSDegToRad(this->uv_rotation), Vector2(u_center, v_center));
 		q->tr.texCoords.rotate(SSDegToRad(this->uv_rotation), Vector2(u_center, v_center));
@@ -179,19 +173,27 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 	}
 
 	//UVスケール || 反転
-	if ((this->flags & PART_FLAG_U_SCALE) || (this->flags & PART_FLAG_FLIP_H))
-	{
-		q->tl.texCoords.x/*u*/ = u_center - (u_wide * this->uv_scale_X * u_code);
-		q->tr.texCoords.x/*u*/ = u_center + (u_wide * this->uv_scale_X * u_code);
-		q->bl.texCoords.x/*u*/ = u_center - (u_wide * this->uv_scale_X * u_code);
-		q->br.texCoords.x/*u*/ = u_center + (u_wide * this->uv_scale_X * u_code);
+	if (this->flags & PART_FLAG_U_SCALE){
+		q->tl.texCoords.x/*u*/ = u_center - (u_wide * this->uv_scale_X);
+		q->tr.texCoords.x/*u*/ = u_center + (u_wide * this->uv_scale_X);
+		q->bl.texCoords.x/*u*/ = u_center - (u_wide * this->uv_scale_X);
+		q->br.texCoords.x/*u*/ = u_center + (u_wide * this->uv_scale_X);
 	}
-	if ((this->flags & PART_FLAG_V_SCALE) || (this->flags & PART_FLAG_FLIP_V))
-	{
-		q->tl.texCoords.y/*v*/ = v_center - (v_height * this->uv_scale_Y * v_code);
-		q->tr.texCoords.y/*v*/ = v_center - (v_height * this->uv_scale_Y * v_code);
-		q->bl.texCoords.y/*v*/ = v_center + (v_height * this->uv_scale_Y * v_code);
-		q->br.texCoords.y/*v*/ = v_center + (v_height * this->uv_scale_Y * v_code);
+	if (this->flags & PART_FLAG_V_SCALE){
+		q->tl.texCoords.y/*v*/ = v_center - (v_height * this->uv_scale_Y);
+		q->tr.texCoords.y/*v*/ = v_center - (v_height * this->uv_scale_Y);
+		q->bl.texCoords.y/*v*/ = v_center + (v_height * this->uv_scale_Y);
+		q->br.texCoords.y/*v*/ = v_center + (v_height * this->uv_scale_Y);
+	}
+
+	//UV反転
+	if (this->flags & PART_FLAG_FLIP_H){	//左右反転を行う場合はlr入れ替え
+		std::swap(q->tr.texCoords.x/*u*/, q->tl.texCoords.x/*u*/);
+		std::swap(q->br.texCoords.x/*u*/, q->bl.texCoords.x/*u*/);
+	}
+	if (this->flags & PART_FLAG_FLIP_H){	//上下反転を行う場合はtb入れ替え
+		std::swap(q->tr.texCoords.y/*v*/, q->br.texCoords.y/*v*/);
+		std::swap(q->tl.texCoords.y/*v*/, q->bl.texCoords.y/*v*/);
 	}
 }
 
