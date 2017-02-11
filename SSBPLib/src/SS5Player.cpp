@@ -455,8 +455,7 @@ void Player::allocParts(int numParts, bool useCustomShaderProgram)
 	for (int i = 0; i < numParts; i++){
 		CustomSprite* sprite =  CustomSprite::create();
 		sprite->_ssplayer = NULL;
-		sprite->changeShaderProgram(useCustomShaderProgram);
-
+		
 		_parts.push_back(sprite);
 	}
 }
@@ -1010,39 +1009,20 @@ void Player::setFrame(int frameNo, float dt)
 		sprite->setFlippedX(state.flipX);
 		sprite->setFlippedY(state.flipY);
 
-		bool setBlendEnabled = true;
-
-		if (cellRef)
-		{
+		if (cellRef){
 			//各パーツのテクスチャ情報を設定
 			state.texture = m_textures[cellRef->m_cellMapIndex]; //cellRef->m_texture;
 			state.rect = cellRef->m_rect;
 			state.blendfunc = partData->alphaBlendType;
-
-			if (setBlendEnabled)
-			{
-				if (state.flags & PART_FLAG_COLOR_BLEND)
-				{
-					//カラーブレンドを行うときはカスタムシェーダーを使用する
-					sprite->changeShaderProgram(true);
-				}
-				else
-				{
-					sprite->changeShaderProgram(false);
-				}
-			}
 		}
-		else
-		{
+		else{
 			state.texture.handle = -1;
 			//セルが無く通常パーツ、ヌルパーツの時は非表示にする
-			if ((partData->type == PARTTYPE_NORMAL) || (partData->type == PARTTYPE_NULL))
-			{
+			if ((partData->type == PARTTYPE_NORMAL) || (partData->type == PARTTYPE_NULL)){
 				state.isVisibled = false;
 			}
 		}
-		sprite->setOpacity(state.opacity);
-
+		
 		//頂点データの設定
 		//quadにはプリミティブの座標（頂点変形を含む）、UV、カラー値が設定されます。
 		SSV3F_C4B_T2F_Quad quad;
@@ -1076,7 +1056,6 @@ void Player::setFrame(int frameNo, float dt)
 			int cb_flags = (typeAndFlags >> 8) & 0xff;
 			float blend_rate = 1.0f;
 
-			sprite->setColorBlendFunc(funcNo);
 			sprite->_state.colorBlendFunc = funcNo;
 			sprite->_state.colorBlendType = cb_flags;
 

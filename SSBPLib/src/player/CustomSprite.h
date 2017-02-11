@@ -7,18 +7,8 @@ namespace ss{
 /**
  * CustomSprite
  */
-class CustomSprite
-{
+class CustomSprite{
 private:
-	static unsigned int ssSelectorLocation;
-	static unsigned int	ssAlphaLocation;
-	static unsigned int	sshasPremultipliedAlpha;
-
-private:
-	bool				_useCustomShaderProgram;
-	float				_opacity;
-	int					_hasPremultipliedAlpha;
-	int					_colorBlendFuncNo;
 	bool				_flipX;
 	bool				_flipY;
 
@@ -151,21 +141,10 @@ public:
 	}
 
 
-	// override
-	virtual void draw(void);
-	virtual void setOpacity(unsigned char opacity);
-
-	// original functions
-	void changeShaderProgram(bool useCustomShaderProgram);
-	bool isCustomShaderProgramEnabled() const;
-	void setColorBlendFunc(int colorBlendFuncNo);
-	SSV3F_C4B_T2F_Quad& getAttributeRef();
-
 	void setFlippedX(bool flip);
 	void setFlippedY(bool flip);
 	bool isFlippedX();
 	bool isFlippedY();
-	void sethasPremultipliedAlpha(int PremultipliedAlpha);
 
 public:
 };
