@@ -83,7 +83,7 @@ void Matrix::zeroTranslation(){									//平行移動成分を0移動に置き�
 
 void Matrix::addTranslation(float x, float y, float z){			//平行移動させる
 	//memo:作業内容はthis * setuptransration(x,y,z) なのだが、計算するとここの成分しか変わらない
-	_m[12] += x;	_m[13] += y;	_m[14] = +z;	//_m[15] = 1.0f;
+	_m[12] += x;	_m[13] += y;	_m[14] += z;	//_m[15] = 1.0f;
 }
 
 void Matrix::getTranslation(float* x, float* y, float* z) const{	//平行移動成分を取り出す
