@@ -200,29 +200,11 @@ namespace ss
 		quad.br.vertices.x += cx;
 		quad.br.vertices.y += cy;
 
-		//todo:matrix演算簡単にする
-		Matrix tmp;
-		tmp.setupTranslation(quad.tl.vertices.x, quad.tl.vertices.y, 0.0f); //TranslationMatrix(t, quad.tl.vertices.x, quad.tl.vertices.y, 0.0f);
+		//vertexにworldMatrixをかける
+		quad.vertexForeach([&](Vector3& vertex){
+			vertex *= state.mat;
+		});
 
-		tmp = tmp * state.mat; //MultiplyMatrix(t, state.mat, t);
-		tmp.getTranslation(&quad.tl.vertices.x, &quad.tl.vertices.y);
-		//quad.tl.vertices.x = t[12];
-		//quad.tl.vertices.y = t[13];
-		tmp.setupTranslation(quad.tr.vertices.x, quad.tr.vertices.y, 0.0f); //TranslationMatrix(t, quad.tr.vertices.x, quad.tr.vertices.y, 0.0f);
-		tmp = tmp * state.mat; //MultiplyMatrix(t, state.mat, t);
-		tmp.getTranslation(&quad.tr.vertices.x, &quad.tr.vertices.y);
-		//quad.tr.vertices.x = t[12];
-		//quad.tr.vertices.y = t[13];
-		tmp.setupTranslation(quad.bl.vertices.x, quad.bl.vertices.y, 0.0f); //TranslationMatrix(t, quad.bl.vertices.x, quad.bl.vertices.y, 0.0f);
-		tmp = tmp * state.mat;//MultiplyMatrix(t, state.mat, t);
-		tmp.getTranslation(&quad.bl.vertices.x, &quad.bl.vertices.y);
-		//quad.bl.vertices.x = t[12];
-		//quad.bl.vertices.y = t[13];
-		tmp.setupTranslation(quad.br.vertices.x, quad.br.vertices.y, 0.0f); //TranslationMatrix(t, quad.br.vertices.x, quad.br.vertices.y, 0.0f);
-		tmp = tmp * state.mat; //MultiplyMatrix(t, state.mat, t);
-		tmp.getTranslation(&quad.br.vertices.x, &quad.br.vertices.y);
-		//quad.br.vertices.x = t[12];
-		//quad.br.vertices.y = t[13];
 #else
 		float x = state.mat[12];	/// 表示座標はマトリクスから取得します。
 		float y = state.mat[13];	/// 表示座標はマトリクスから取得します。
