@@ -14,10 +14,7 @@ private:
 	static unsigned int	ssAlphaLocation;
 	static unsigned int	sshasPremultipliedAlpha;
 
-	//	static CCGLProgram* getCustomShaderProgram();
-
 private:
-	//	CCGLProgram*	_defaultShaderProgram;
 	bool				_useCustomShaderProgram;
 	float				_opacity;
 	int					_hasPremultipliedAlpha;
