@@ -1263,9 +1263,7 @@ void Player::setFrame(int frameNo, float dt)
 				CustomSprite* parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
 				mat = parent->_mat;
 			}
-			else{
-				//mat.setupIdentity();		//コンストラクタで単位行列設定済み
-				
+			else{				
 				//rootパーツはプレイヤーからステータスを引き継ぐ
 				sprite->_state.x += _state.x;
 				sprite->_state.y += _state.y;
@@ -1275,12 +1273,10 @@ void Player::setFrame(int frameNo, float dt)
 				sprite->_state.scaleX *= _state.scaleX;
 				sprite->_state.scaleY *= _state.scaleY;
 				//プレイヤーのフリップ
-				if (_state.flipX == true)
-				{
+				if (_state.flipX == true){
 					sprite->_state.scaleX = -sprite->_state.scaleX;	//フラグ反転
 				}
-				if (_state.flipY == true)
-				{
+				if (_state.flipY == true){
 					sprite->_state.scaleY = -sprite->_state.scaleY;	//フラグ反転
 				}
 
@@ -1291,22 +1287,15 @@ void Player::setFrame(int frameNo, float dt)
 				sprite->_state.Calc_scaleX = sprite->_state.scaleX;
 				sprite->_state.Calc_scaleY = sprite->_state.scaleY;
 			}
-			//todo:matrix演算簡単にする
+			// SRzRyRxT mat
 			Matrix tmp;
-			tmp.setupTranslation(sprite->_state.x, sprite->_state.y, 0.0f);	//TranslationMatrix(t, sprite->_state.x, sprite->_state.y, 0.0f);
-			mat = tmp * mat;	//MultiplyMatrix(t, mat, mat);
-
-			tmp.setupRotationX(SSDegToRad(sprite->_state.rotationX)); //Matrix4RotationX(t, SSDegToRad(sprite->_state.rotationX));
-			mat = tmp * mat;	//MultiplyMatrix(t, mat, mat);
-
-			tmp.setupRotationY(SSDegToRad(sprite->_state.rotationY)); //Matrix4RotationY(t, SSDegToRad(sprite->_state.rotationY));
-			mat = tmp * mat;	//MultiplyMatrix(t, mat, mat);
-
-			tmp.setupRotationZ(SSDegToRad(sprite->_state.rotationZ)); //Matrix4RotationZ(t, SSDegToRad(sprite->_state.rotationZ));
-			mat = tmp * mat;	//MultiplyMatrix(t, mat, mat);
-
-			tmp.setupScale(sprite->_state.scaleX, sprite->_state.scaleY, 1.0f); //ScaleMatrix(t, sprite->_state.scaleX, sprite->_state.scaleY, 1.0f);
-			mat = tmp * mat;	//MultiplyMatrix(t, mat, mat);
+			Matrix localTransformMatrix;
+			localTransformMatrix *= tmp.setupScale(sprite->_state.scaleX, sprite->_state.scaleY, 1.0f);
+			localTransformMatrix *= tmp.setupRotationZ(SSDegToRad(sprite->_state.rotationZ));
+			localTransformMatrix *= tmp.setupRotationY(SSDegToRad(sprite->_state.rotationY));
+			localTransformMatrix *= tmp.setupRotationX(SSDegToRad(sprite->_state.rotationX));
+			localTransformMatrix *= tmp.setupTranslation(sprite->_state.x, sprite->_state.y, 0.0f);
+			mat = localTransformMatrix * mat;
 
 			sprite->_mat = mat;
 			sprite->_state.mat = mat;
@@ -1703,16 +1692,14 @@ void Player::update_matrix_ss4(CustomSprite *sprite, CustomSprite *parent, const
 //	sprite->_temp_scale.x;
 //	sprite->_temp_scale.y;
 	
-	//todo:matrix演算簡単にする
 	//単位行列にする
-	Matrix mat;		//IdentityMatrix(mat);
+	Matrix mat;
 	Matrix tmp;
-	mat = tmp.setupTranslation(sprite->_temp_position.x, sprite->_temp_position.y, sprite->_temp_position.z) * mat;	//TranslationMatrixM(mat, sprite->_temp_position.x, sprite->_temp_position.y, sprite->_temp_position.z);//
-	//RotationXYZMatrixM(mat, DegreeToRadian(0), DegreeToRadian(0), DegreeToRadian(sprite->_temp_rotation.z * temp));
-	mat = tmp.setupRotationX(DegreeToRadian(0)) * mat;
-	mat = tmp.setupRotationY(DegreeToRadian(0)) * mat;
-	mat = tmp.setupRotationZ(DegreeToRadian(sprite->_temp_rotation.z * temp)) * mat;
-	mat = tmp.setupScale(sprite->_temp_scale.x, sprite->_temp_scale.y, 1.0f) * mat;
+	mat *= tmp.setupScale(sprite->_temp_scale.x, sprite->_temp_scale.y, 1.0f);
+	mat *= tmp.setupRotationZ(DegreeToRadian(sprite->_temp_rotation.z * temp));
+//	mat *= tmp.setupRotationY(DegreeToRadian(0));
+//	mat *= tmp.setupRotationX(DegreeToRadian(0));
+	mat *= tmp.setupTranslation(sprite->_temp_position.x, sprite->_temp_position.y, sprite->_temp_position.z);
 
 	sprite->_mat = mat;
 	sprite->_state.mat = mat;
