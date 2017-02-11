@@ -11,6 +11,7 @@
 #include "../../SS5PlayerPlatform.h"
 #include "player/CustomSprite.h"
 #include "player/PlayerDef.h"
+#include "math/Matrix.h"
 
 namespace ss
 {
@@ -539,25 +540,32 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 	if ( refBehavior == NULL ) return;
 	if (dispCell->refCell.cellIndex == -1) return;
 
-	float		matrix[4 * 4];	///< 行列
-	IdentityMatrix( matrix );
+	//todo:matrix演算簡単にする
+	Matrix matrix;	//float		matrix[4 * 4];	///< 行列
+	//IdentityMatrix( matrix );
 
 
 	if (render->parentState)
 	{
-		memcpy( matrix , render->parentState->matrix , sizeof( float ) * 16 );
+		matrix = render->parentState->matrix;
 		this->alpha = render->render_root->alpha;
 	}
 
+	Matrix tmp;
 #ifdef UP_MINUS
-	TranslationMatrixM(matrix, _position.x, -_position.y, 0.0f);	//上がマイナスなので反転する
+	matrix = tmp.setupTranslation(_position.x, -_position.y, 0.0f) * matrix;
+	//TranslationMatrixM(matrix, _position.x, -_position.y, 0.0f);	//上がマイナスなので反転する
 #else
-	TranslationMatrixM(matrix, _position.x, _position.y, 0.0f);
+	matrix = tmp.setupTranslation(_position.x, _position.y, 0.0f) * matrix;
+	//TranslationMatrixM(matrix, _position.x, _position.y, 0.0f);
 #endif
 
-	RotationXYZMatrixM( matrix , 0 , 0 , DegreeToRadian(_rotation)+direction);
+	//RotationXYZMatrixM( matrix , 0 , 0 , DegreeToRadian(_rotation)+direction);
+	matrix = tmp.setupRotationX(0) * matrix;
+	matrix = tmp.setupRotationY(0) * matrix;
+	matrix = tmp.setupRotationZ(DegreeToRadian(_rotation) + direction) * matrix;
 
-    ScaleMatrixM(  matrix , _size.x, _size.y, 1.0f );
+	matrix = tmp.setupScale(_size.x, _size.y, 1.0f) * matrix; //ScaleMatrixM(  matrix , _size.x, _size.y, 1.0f );
 
 	SsFColor fcolor;
 	fcolor.fromARGB( _color.toARGB() );
@@ -568,10 +576,7 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 	}
 	State state;
 	state = render->_parentSprite->_state;		//親パーツの情報をコピー
-	for (int i = 0; i < 16; i++)
-	{
-		state.mat[i] = matrix[i];				//マトリクスのコピー
-	}
+	state.mat = matrix;							//マトリクスのコピー
 	//state.texture = dispCell->refCell.texture;	//テクスチャID	
 	state.texture = textures[dispCell->refCell.cellMapIndex];
 	state.rect = dispCell->refCell.rect;		//セルの矩形をコピー	
@@ -658,8 +663,9 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 #endif
 	get_uv_rotation(&cx, &cy, 0, 0, state.rotationZ);
 
-	state.mat[12] += cx;
-	state.mat[13] += cy;
+	//state.mat[12] += cx;
+	//state.mat[13] += cy;
+	state.mat.addTranslation(cx, cy);
 
 	SSDrawSprite(state);	//描画
 }
@@ -688,9 +694,11 @@ void	SsEffectRenderer::update(float delta)
 	if ( parentState )
 	{
 		
-		SsVector3 pos = SsVector3( parentState->matrix[3*4] ,
-								   parentState->matrix[3*4+1] ,
-								   parentState->matrix[3*4+2] );
+		//SsVector3 pos = SsVector3( parentState->matrix[3*4] ,
+		//						   parentState->matrix[3*4+1] ,
+		//						   parentState->matrix[3*4+2] );
+		SsVector3 pos;
+		parentState->matrix.getTranslation(&pos.x, &pos.y, &pos.z);
 
 		layoutPosition = pos;
 

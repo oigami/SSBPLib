@@ -12,7 +12,7 @@
 #include "../../SS5PlayerPlatform.h"
 #include "player/CustomSprite.h"
 #include "player/PlayerDef.h"
-
+#include "math/Matrix.h"
 
 #define DEBUG_DISP (0)
 #define BUILD_ERROR_0418 (0)
@@ -524,27 +524,33 @@ void	SsEffectRenderV2::drawSprite(
 
 	if (dispCell->refCell.cellIndex == -1) return;
 
-	float		matrix[4 * 4];	///< 行列
-	IdentityMatrix( matrix );
+	//todo:matrix演算簡単にする
+	Matrix matrix;	//float		matrix[4 * 4];	///< 行列
+	//IdentityMatrix( matrix );
 
 	float parentAlpha = 1.0f;
 
 	if (_parentSprite)
 	{
-		memcpy( matrix , _parentSprite->_state.mat , sizeof( float ) * 16 );
+		matrix = _parentSprite->_state.mat;
     	parentAlpha = _parentSprite->_state.opacity / 255.0f;
 	}
 
-
+	Matrix tmp;
 #ifdef UP_MINUS
-	TranslationMatrixM(matrix, _position.x * layoutScale.x, -_position.y * layoutScale.y, 0.0f);	//上がマイナスなので反転する
+	matrix = tmp.setupTranslation(_position.x * layoutScale.x, -_position.y * layoutScale.y, 0.0f) * matrix;
+	//TranslationMatrixM(matrix, _position.x * layoutScale.x, -_position.y * layoutScale.y, 0.0f);	//上がマイナスなので反転する
 #else
-	TranslationMatrixM(matrix, _position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f);	//レイアウトスケールの反映
+	matrix = tmp.setupTranslation(_position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f) * matrix;
+	//TranslationMatrixM(matrix, _position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f);	//レイアウトスケールの反映
 #endif
 
-	RotationXYZMatrixM( matrix , 0 , 0 , DegreeToRadian(_rotation)+direction );
+	//RotationXYZMatrixM( matrix , 0 , 0 , DegreeToRadian(_rotation)+direction );
+	matrix = tmp.setupRotationX(0) * matrix;
+	matrix = tmp.setupRotationY(0) * matrix;
+	matrix = tmp.setupRotationZ(DegreeToRadian(_rotation) + direction) * matrix;
 
-    ScaleMatrixM(  matrix , _size.x, _size.y, 1.0f );
+	matrix = tmp.setupScale(_size.x, _size.y, 1.0f) * matrix; //ScaleMatrixM(  matrix , _size.x, _size.y, 1.0f );
 
 	SsFColor fcolor;
 	fcolor.fromARGB( _color.toARGB() );
@@ -556,10 +562,7 @@ void	SsEffectRenderV2::drawSprite(
 
 	State state;
 	state = _parentSprite->_state;		//親パーツの情報をコピー
-	for (int i = 0; i < 16; i++)
-	{
-		state.mat[i] = matrix[i];				//マトリクスのコピー
-	}
+	state.mat = matrix;					//マトリクスのコピー
 	state.cellIndex = dispCell->refCell.cellIndex;
 	//state.texture = dispCell->refCell.texture;	//テクスチャID	
 	state.texture = textures[dispCell->refCell.cellMapIndex];
@@ -647,8 +650,9 @@ void	SsEffectRenderV2::drawSprite(
 #endif
 	get_uv_rotation(&cx, &cy, 0, 0, state.rotationZ);
 
-	state.mat[12] += cx;
-	state.mat[13] += cy;
+	//state.mat[12] += cx;
+	//state.mat[13] += cy;
+	state.mat.addTranslation(cx, cy);
 
 	SSDrawSprite(state);	//描画
 

@@ -3,6 +3,7 @@
 #include "SS5PlayerTypes.h"
 #include <memory>
 #include "math/SSRect.h"
+#include "math/Matrix.h"
 
 namespace ss{
 class DataArrayReader;
@@ -47,7 +48,7 @@ struct State{
 	TextuerData texture;			/// セルに対応したテクスチャ番号（ゲーム側で管理している番号を設定する）
 	SSRect rect;					/// セルに対応したテクスチャ内の表示領域（開始座標、幅高さ）
 	int blendfunc;					/// パーツに設定されたブレンド方法
-	float mat[16];					/// パーツの位置を算出するためのマトリクス（親子関係計算済）
+	Matrix mat;						/// パーツの位置を算出するためのマトリクス（親子関係計算済）
 																
 	//再生用パラメータ
 	float Calc_rotationX;			/// X回転（親子関係計算済）

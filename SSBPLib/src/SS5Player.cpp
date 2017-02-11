@@ -607,16 +607,12 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 					//当たり判定などのパーツに付属するフラグを取得する場合は　partData　のメンバを参照してください。
 					//親から継承したスケールを反映させる場合はxスケールは_mat.m[0]、yスケールは_mat.m[5]をかけて使用してください。
 					CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
-					result.x = sprite->_state.mat[12];
-					result.y = sprite->_state.mat[13];
-
 					//パーツアトリビュート
 //					sprite->_state;												//SpriteStudio上のアトリビュートの値は_stateから取得してください
 					result.flags = sprite->_state.flags;						// このフレームで更新が行われるステータスのフラグ
 					result.cellIndex = sprite->_state.cellIndex;				// パーツに割り当てられたセルの番号
-					result.x = sprite->_state.mat[12];
-					result.y = sprite->_state.mat[13];
-					result.z = sprite->_state.z;
+					sprite->_state.mat.getTranslation(&result.x, &result.y);
+					result.z = sprite->_state.z;				//todo:意味合いとしてはgetTranslationで取得すればいいはず
 					result.pivotX = sprite->_state.pivotX;						// 原点Xオフセット＋セルに設定された原点オフセットX
 					result.pivotY = sprite->_state.pivotY;						// 原点Yオフセット＋セルに設定された原点オフセットY
 					result.rotationX = sprite->_state.rotationX;				// X回転（親子関係計算済）
@@ -1254,24 +1250,22 @@ void Player::setFrame(int frameNo, float dt)
 	}
 
 	// 行列の更新
-	float mat[16];
-	float t[16];
 	for (int partIndex = 0; partIndex < _currentAnimeRef->m_numParts; partIndex++)
 	{
 		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
 
 		if (sprite->_isStateChanged){
+			Matrix mat;
 			
-			if (partIndex > 0)
-			{
+			if (partIndex > 0){
 				//親のマトリクスを適用
 				CustomSprite* parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
-				memcpy(mat, parent->_mat, sizeof(float) * 16);
+				mat = parent->_mat;
 			}
-			else
-			{
-				IdentityMatrix(mat);
+			else{
+				//mat.setupIdentity();		//コンストラクタで単位行列設定済み
+				
 				//rootパーツはプレイヤーからステータスを引き継ぐ
 				sprite->_state.x += _state.x;
 				sprite->_state.y += _state.y;
@@ -1297,23 +1291,25 @@ void Player::setFrame(int frameNo, float dt)
 				sprite->_state.Calc_scaleX = sprite->_state.scaleX;
 				sprite->_state.Calc_scaleY = sprite->_state.scaleY;
 			}
-			TranslationMatrix(t, sprite->_state.x, sprite->_state.y, 0.0f);
-			MultiplyMatrix(t, mat, mat);
+			//todo:matrix演算簡単にする
+			Matrix tmp;
+			tmp.setupTranslation(sprite->_state.x, sprite->_state.y, 0.0f);	//TranslationMatrix(t, sprite->_state.x, sprite->_state.y, 0.0f);
+			mat = tmp * mat;	//MultiplyMatrix(t, mat, mat);
 
-			Matrix4RotationX(t, SSDegToRad(sprite->_state.rotationX));
-			MultiplyMatrix(t, mat, mat);
+			tmp.setupRotationX(SSDegToRad(sprite->_state.rotationX)); //Matrix4RotationX(t, SSDegToRad(sprite->_state.rotationX));
+			mat = tmp * mat;	//MultiplyMatrix(t, mat, mat);
 
-			Matrix4RotationY(t, SSDegToRad(sprite->_state.rotationY));
-			MultiplyMatrix(t, mat, mat);
+			tmp.setupRotationY(SSDegToRad(sprite->_state.rotationY)); //Matrix4RotationY(t, SSDegToRad(sprite->_state.rotationY));
+			mat = tmp * mat;	//MultiplyMatrix(t, mat, mat);
 
-			Matrix4RotationZ(t, SSDegToRad(sprite->_state.rotationZ));
-			MultiplyMatrix(t, mat, mat);
+			tmp.setupRotationZ(SSDegToRad(sprite->_state.rotationZ)); //Matrix4RotationZ(t, SSDegToRad(sprite->_state.rotationZ));
+			mat = tmp * mat;	//MultiplyMatrix(t, mat, mat);
 
-			ScaleMatrix(t, sprite->_state.scaleX, sprite->_state.scaleY, 1.0f);
-			MultiplyMatrix(t, mat, mat);
+			tmp.setupScale(sprite->_state.scaleX, sprite->_state.scaleY, 1.0f); //ScaleMatrix(t, sprite->_state.scaleX, sprite->_state.scaleY, 1.0f);
+			mat = tmp * mat;	//MultiplyMatrix(t, mat, mat);
 
-			memcpy(sprite->_mat, mat, sizeof(float) * 16);
-			memcpy(sprite->_state.mat, mat, sizeof(float) * 16);
+			sprite->_mat = mat;
+			sprite->_state.mat = mat;
 
 			if (partIndex > 0)
 			{
@@ -1336,7 +1332,10 @@ void Player::setFrame(int frameNo, float dt)
 				//インスタンスパーツの親を設定
 				if (sprite->_ssplayer)
 				{
-					sprite->_ssplayer->setPosition(sprite->_mat[12], sprite->_mat[13]);
+					float x, y;
+					sprite->_mat.getTranslation(&x, &y);
+
+					sprite->_ssplayer->setPosition(x, y);
 					sprite->_ssplayer->setScale(sprite->_state.Calc_scaleX, sprite->_state.Calc_scaleY);
 					sprite->_ssplayer->setRotation(sprite->_state.Calc_rotationX, sprite->_state.Calc_rotationY, sprite->_state.Calc_rotationZ);
 					sprite->_ssplayer->setAlpha(sprite->_state.Calc_opacity);
@@ -1636,8 +1635,6 @@ float Player::parcentValRot(float val1, float val2, float parcent)
 
 void Player::update_matrix_ss4(CustomSprite *sprite, CustomSprite *parent, const PartData *partData)
 {
-
-
 	if (partData->index == 0)
 	{
 		//rootパーツ
@@ -1706,15 +1703,19 @@ void Player::update_matrix_ss4(CustomSprite *sprite, CustomSprite *parent, const
 //	sprite->_temp_scale.x;
 //	sprite->_temp_scale.y;
 	
+	//todo:matrix演算簡単にする
 	//単位行列にする
-	float mat[16];
-	IdentityMatrix(mat);
-	TranslationMatrixM(mat, sprite->_temp_position.x, sprite->_temp_position.y, sprite->_temp_position.z);//
-	RotationXYZMatrixM(mat, DegreeToRadian(0), DegreeToRadian(0), DegreeToRadian(sprite->_temp_rotation.z * temp));
-	ScaleMatrixM(mat, sprite->_temp_scale.x, sprite->_temp_scale.y, 1.0f);
+	Matrix mat;		//IdentityMatrix(mat);
+	Matrix tmp;
+	mat = tmp.setupTranslation(sprite->_temp_position.x, sprite->_temp_position.y, sprite->_temp_position.z) * mat;	//TranslationMatrixM(mat, sprite->_temp_position.x, sprite->_temp_position.y, sprite->_temp_position.z);//
+	//RotationXYZMatrixM(mat, DegreeToRadian(0), DegreeToRadian(0), DegreeToRadian(sprite->_temp_rotation.z * temp));
+	mat = tmp.setupRotationX(DegreeToRadian(0)) * mat;
+	mat = tmp.setupRotationY(DegreeToRadian(0)) * mat;
+	mat = tmp.setupRotationZ(DegreeToRadian(sprite->_temp_rotation.z * temp)) * mat;
+	mat = tmp.setupScale(sprite->_temp_scale.x, sprite->_temp_scale.y, 1.0f) * mat;
 
-	memcpy(sprite->_mat, mat, sizeof(float) * 16);
-	memcpy(sprite->_state.mat, mat, sizeof(float) * 16);
+	sprite->_mat = mat;
+	sprite->_state.mat = mat;
 	sprite->_state.Calc_rotationX = 0;
 	sprite->_state.Calc_rotationY = 0;
 	sprite->_state.Calc_rotationZ = sprite->_temp_rotation.z * temp;

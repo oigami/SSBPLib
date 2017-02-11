@@ -1,6 +1,7 @@
 ﻿#ifndef __SSPLAYER_PARTSTATE__
 #define __SSPLAYER_PARTSTATE__
 
+#include "math/Matrix.h"
 //#include "../loader/ssloader.h"
 //#include "../Helper/ssHelper.h"
 namespace ss
@@ -18,7 +19,7 @@ struct SsPartState
 	float			vertices[3 * 5];	///< 座標
 	float			colors[4 * 4];		///< カラー (４頂点分）
 	float			uvs[2 * 5];			///< UV		(４隅＋中央)
-	float			matrix[4 * 4];		///< 行列
+	Matrix			matrix;				///< 行列
 
 	SsBlendType::_enum	alphaBlendType;
 	float			alpha;			///< 不透明度 0~1

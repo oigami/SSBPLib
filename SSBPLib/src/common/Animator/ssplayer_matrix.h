@@ -1,7 +1,7 @@
 ﻿#ifndef __SSPLAYER_MATRIX__
 #define __SSPLAYER_MATRIX__
 
-
+#if 0
 #include <memory>
 
 namespace ss
@@ -78,3 +78,4 @@ inline	void	MatrixCopy(float* src, float* dst)
 
 #endif
 
+#endif

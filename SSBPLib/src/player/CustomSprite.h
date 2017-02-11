@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "State.h"
 #include "SS5Player.h"
+#include "math/Matrix.h"
 
 namespace ss{
 
@@ -13,7 +14,7 @@ private:
 	bool				_flipY;
 
 public:
-	float				_mat[16];
+	Matrix				_mat;
 	State				_state;
 	bool				_isStateChanged;
 	CustomSprite*		_parent;

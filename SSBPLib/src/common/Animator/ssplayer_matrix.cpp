@@ -1,4 +1,5 @@
-﻿#include "ssplayer_matrix.h"
+﻿#if 0
+#include "ssplayer_matrix.h"
 #include <stdio.h>
 #include <stdlib.h>
 //#include <malloc.h>
@@ -154,3 +155,4 @@ void    Matrix4RotationZ( float* _matrix ,const float radians )
 
 
 };
+#endif

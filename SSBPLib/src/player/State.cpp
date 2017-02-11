@@ -1,6 +1,7 @@
 ﻿#include "State.h"
 #include "DataArrayReader.h"
 #include "PlayerDef.h"
+#include "math/Matrix.h"
 
 namespace ss{
 
@@ -39,7 +40,7 @@ void State::init()
 	texture.size_h = 0;
 	rect = SSRect(0, 0, 0, 0);
 	blendfunc = 0;
-	memset(&mat, 0, sizeof(mat));
+	mat.setupIdentity();
 
 	instanceValue_curKeyframe = 0;
 	instanceValue_startFrame = 0;
