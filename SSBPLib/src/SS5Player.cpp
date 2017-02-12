@@ -1399,8 +1399,6 @@ void Player::draw()
 
 	if (!_currentAnimeRef) return;
 
-	ToPointer ptr(_currentRs->m_data);
-
 	for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
 	{
 		int partIndex = _partIndex[index];
