@@ -167,8 +167,8 @@ namespace ss
 		quad = state.quad;
 
 		//原点補正
-		float cx = ((state.rect.width()) * -(state.pivotX - 0.5f));
-		float cy = ((state.rect.height()) * +(state.pivotY - 0.5f));
+		float cx = (state.rect.width() * -(state.pivotX - 0.5f));	//デフォルトがpivotX == 0.5になってる
+		float cy = (state.rect.height() * +(state.pivotY - 0.5f));
 
 		quad.tl.vertices.x += cx;
 		quad.tl.vertices.y += cy;
