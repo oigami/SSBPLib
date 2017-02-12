@@ -69,27 +69,13 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 	flags      = reader.readU32();
 	cellIndex  = flags & PART_FLAG_CELL_INDEX ? reader.readS16() : init->cellIndex;
 	x        = flags & PART_FLAG_POSITION_X ? reader.readFloat() : init->positionX;
-#ifdef UP_MINUS
-	y        = flags & PART_FLAG_POSITION_Y ? -reader.readFloat() : -init->positionY;		//上がマイナスなので反転させる
-#else
 	y        = flags & PART_FLAG_POSITION_Y ? reader.readFloat() : init->positionY;
-#endif
 	z        = flags & PART_FLAG_POSITION_Z ? reader.readFloat() : init->positionZ;
 	pivotX   = flags & PART_FLAG_PIVOT_X ? reader.readFloat() : init->pivotX;
-#ifdef UP_MINUS
-	pivotY = flags & PART_FLAG_PIVOT_Y ? -reader.readFloat() : -init->pivotY;
-#else
-	pivotY = flags & PART_FLAG_PIVOT_Y ? reader.readFloat() : init->pivotY;
-#endif
-#ifdef UP_MINUS
-	rotationX = flags & PART_FLAG_ROTATIONX ? -reader.readFloat() : -init->rotationX;
-	rotationY = flags & PART_FLAG_ROTATIONY ? -reader.readFloat() : -init->rotationY;
-	rotationZ = flags & PART_FLAG_ROTATIONZ ? -reader.readFloat() : -init->rotationZ;
-#else
+	pivotY   = flags & PART_FLAG_PIVOT_Y ? reader.readFloat() : init->pivotY;
 	rotationX = flags & PART_FLAG_ROTATIONX ? reader.readFloat() : init->rotationX;
 	rotationY = flags & PART_FLAG_ROTATIONY ? reader.readFloat() : init->rotationY;
 	rotationZ = flags & PART_FLAG_ROTATIONZ ? reader.readFloat() : init->rotationZ;
-#endif
 	scaleX = flags & PART_FLAG_SCALE_X ? reader.readFloat() : init->scaleX;
 	scaleY   = flags & PART_FLAG_SCALE_Y ? reader.readFloat() : init->scaleY;
 	opacity    = flags & PART_FLAG_OPACITY ? reader.readU16() : init->opacity;
@@ -198,7 +184,7 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const
 	q->bl.vertices = Vector3(0, 0, 0);
 	q->br.vertices = Vector3(width, 0, 0);
 	q->tl.vertices = Vector3(0, height, 0);
-	q->tr.vertices = Vector3(width, height, 0);  //yが上方向+と考えれば、左下基準(0,0)の矩形になる
+	q->tr.vertices = Vector3(width, height, 0);  //yが上方向+なので、左下基準(0,0)の矩形になる
 
 	//サイズ指定があるならそちらに合わせる
 	//詳しくは http://www.webtech.co.jp/help/ja/spritestudio/guide/window/main/attribute/
@@ -211,12 +197,6 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const
 		q->tl.vertices.y = this->size_Y;
 		q->tr.vertices.y = this->size_Y;
 	}
-
-#ifdef UP_MINUS
-	//座標系がy上方向が-になるように調整
-	std::swap(q->tl.vertices.y, q->bl.vertices.y);
-	std::swap(q->tr.vertices.y, q->br.vertices.y);
-#endif
 
 	//中心が(0,0)になるようにオフセットを追加
 	Vector3 center = (q->bl.vertices + q->tr.vertices) / 2;

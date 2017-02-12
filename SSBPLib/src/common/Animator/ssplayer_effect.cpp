@@ -468,11 +468,7 @@ void	SsEffectRenderParticle::update(float delta)
 //------------------------------------------------------------------------------
 void	SsEffectRenderParticle::updateDelta(float delta)
 {
-#ifdef UP_MINUS
-	_rotation -= (_rotationAdd*delta);
-#else
 	_rotation += (_rotationAdd*delta);
-#endif
 
 	_exsitTime+=delta;
 	_life = _lifetime - _exsitTime;
@@ -512,13 +508,8 @@ void 	SsEffectRenderParticle::updateForce(float delta)
 	SsVector2 ff = (this->vector * this->speed) + this->_execforce + this->_force;
 
 
-	if ( isTurnDirection )
-	{
-#ifdef UP_MINUS
-		this->direction = -SsPoint2::get_angle_360(SsVector2(1.0f, 0.0f), ff) + (float)DegreeToRadian(90);	//上がマイナスの場合
-#else
+	if ( isTurnDirection ){
 		this->direction =  SsPoint2::get_angle_360( SsVector2( 1.0f , 0.0f ) , ff ) - (float)DegreeToRadian(90);
-#endif
 	}
 	else{
         this->direction = 0;
@@ -552,13 +543,8 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 	}
 
 	Matrix tmp;
-#ifdef UP_MINUS
-	matrix = tmp.setupTranslation(_position.x, -_position.y, 0.0f) * matrix;
-	//TranslationMatrixM(matrix, _position.x, -_position.y, 0.0f);	//上がマイナスなので反転する
-#else
 	matrix = tmp.setupTranslation(_position.x, _position.y, 0.0f) * matrix;
 	//TranslationMatrixM(matrix, _position.x, _position.y, 0.0f);
-#endif
 
 	//RotationXYZMatrixM( matrix , 0 , 0 , DegreeToRadian(_rotation)+direction);
 	matrix = tmp.setupRotationX(0) * matrix;
@@ -587,16 +573,6 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 	float x2 = width_h;
 	float y2 = height_h;
 
-#ifdef UP_MINUS
-	state.quad.tl.vertices.x = x1;
-	state.quad.tl.vertices.y = y1;
-	state.quad.tr.vertices.x = x2;
-	state.quad.tr.vertices.y = y1;
-	state.quad.bl.vertices.x = x1;
-	state.quad.bl.vertices.y = y2;
-	state.quad.br.vertices.x = x2;
-	state.quad.br.vertices.y = y2;
-#else
 	state.quad.tl.vertices.x = x1;
 	state.quad.tl.vertices.y = y2;
 	state.quad.tr.vertices.x = x2;
@@ -605,7 +581,6 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 	state.quad.bl.vertices.y = y1;
 	state.quad.br.vertices.x = x2;
 	state.quad.br.vertices.y = y1;
-#endif
 
 	//UVを設定する
 	int atlasWidth = state.texture.size_w;
@@ -656,11 +631,7 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 	float px = 0;
 	float py = 0;
 	float cx = ((state.rect.width() * state.scaleX) * -(dispCell->refCell.pivot_X));
-#ifdef UP_MINUS
-	float cy = ((state.rect.height() * state.scaleY) * -(dispCell->refCell.pivot_Y));
-#else
 	float cy = ((state.rect.height() * state.scaleY) * +(dispCell->refCell.pivot_Y));
-#endif
 	get_uv_rotation(&cx, &cy, 0, 0, state.rotationZ);
 
 	//state.mat[12] += cx;

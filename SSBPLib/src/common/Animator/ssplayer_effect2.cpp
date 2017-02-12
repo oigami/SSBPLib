@@ -537,13 +537,8 @@ void	SsEffectRenderV2::drawSprite(
 	}
 
 	Matrix tmp;
-#ifdef UP_MINUS
-	matrix = tmp.setupTranslation(_position.x * layoutScale.x, -_position.y * layoutScale.y, 0.0f) * matrix;
-	//TranslationMatrixM(matrix, _position.x * layoutScale.x, -_position.y * layoutScale.y, 0.0f);	//上がマイナスなので反転する
-#else
 	matrix = tmp.setupTranslation(_position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f) * matrix;
 	//TranslationMatrixM(matrix, _position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f);	//レイアウトスケールの反映
-#endif
 
 	//RotationXYZMatrixM( matrix , 0 , 0 , DegreeToRadian(_rotation)+direction );
 	matrix = tmp.setupRotationX(0) * matrix;
@@ -574,16 +569,6 @@ void	SsEffectRenderV2::drawSprite(
 	float x2 = width_h;
 	float y2 = height_h;
 
-#ifdef UP_MINUS
-	state.quad.tl.vertices.x = x1;
-	state.quad.tl.vertices.y = y1;
-	state.quad.tr.vertices.x = x2;
-	state.quad.tr.vertices.y = y1;
-	state.quad.bl.vertices.x = x1;
-	state.quad.bl.vertices.y = y2;
-	state.quad.br.vertices.x = x2;
-	state.quad.br.vertices.y = y2;
-#else
 	state.quad.tl.vertices.x = x1;
 	state.quad.tl.vertices.y = y2;
 	state.quad.tr.vertices.x = x2;
@@ -592,7 +577,6 @@ void	SsEffectRenderV2::drawSprite(
 	state.quad.bl.vertices.y = y1;
 	state.quad.br.vertices.x = x2;
 	state.quad.br.vertices.y = y1;
-#endif
 
 	//UVを設定する
 	int atlasWidth = state.texture.size_w;
@@ -643,11 +627,7 @@ void	SsEffectRenderV2::drawSprite(
 	float px = 0;
 	float py = 0;
 	float cx = ((state.rect.width() * state.scaleX) * -(dispCell->refCell.pivot_X));
-#ifdef UP_MINUS
-	float cy = ((state.rect.height() * state.scaleY) * -(dispCell->refCell.pivot_Y));
-#else
 	float cy = ((state.rect.height() * state.scaleY) * +(dispCell->refCell.pivot_Y));
-#endif
 	get_uv_rotation(&cx, &cy, 0, 0, state.rotationZ);
 
 	//state.mat[12] += cx;

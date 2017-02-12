@@ -157,22 +157,6 @@ namespace ss
 
 		}
 
-#ifdef UP_MINUS
-		/**
-		* DXライブラリのスプライト表示機能ではXとY同時拡大なので、とりあえずXスケールを使用する
-		* Y反転できないので未対応
-		* DrawRectRotaGraphはxとyが中心になるように、テクスチャの矩形を表示します。
-		* DXライブラリのスプライト表示機能は上方向がマイナスになります。
-		*/
-		SetDrawBright(state.quad.bl.colors.r, state.quad.bl.colors.g, state.quad.bl.colors.b);
-		DrawRectRotaGraph(
-			(int)x, (int)y,	//この座標が画像の中心になります。
-			(int)state.rect.origin.x, (int)state.rect.origin.y, (int)state.rect.size.width, (int)state.rect.size.height,
-			scaleX, SSDegToRad(rotationZ),
-			state.texture.handle, TRUE, state.flipX
-			);
-		SetDrawBright(255, 255, 255);
-#else
 		/**
 		* DXライブラリの3D機能を使用してスプライトを表示します。
 		* DXライブラリの3D機能は上方向がプラスになります。
@@ -185,11 +169,7 @@ namespace ss
 #ifdef USE_VERTEX
 		//原点補正
 		float cx = ((state.rect.width()) * -(state.pivotX - 0.5f));
-#ifdef UP_MINUS
-		float cy = ((state.rect.sheight()) * -(state.pivotY - 0.5f));
-#else
 		float cy = ((state.rect.height()) * +(state.pivotY - 0.5f));
-#endif
 
 		quad.tl.vertices.x += cx;
 		quad.tl.vertices.y += cy;
@@ -215,11 +195,7 @@ namespace ss
 
 		//原点計算を行う
 		float cx = ((state.rect.size.width * scaleX) * -(state.pivotX - 0.5f));
-#ifdef UP_MINUS
-		float cy = ((state.rect.size.height * scaleY) * -(state.pivotY - 0.5f));
-#else
 		float cy = ((state.rect.size.height * scaleY) * +(state.pivotY - 0.5f));
-#endif
 		get_uv_rotation(&cx, &cy, 0, 0, rotationZ);
 
 		x += cx;
@@ -264,8 +240,6 @@ namespace ss
 		};
 		//3Dプリミティブの表示
 		DrawPolygon3DBase(vertex, 4, DX_PRIMTYPE_TRIANGLESTRIP, state.texture.handle, true);
-#endif
-
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);	//ブレンドステートを通常へ戻す
 	}
 
