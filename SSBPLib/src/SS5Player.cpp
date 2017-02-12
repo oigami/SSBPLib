@@ -48,7 +48,6 @@ Player::Player(const ResourceSet *resource)
 	, _currentAnimeRef(NULL)
 	, _frameSkipEnabled(true)
 	, _playingFrame(0.0f)
-	, _step(1.0f)
 	, _loop(0)
 	, _loopCount(0)
 	, _isPlaying(false)
@@ -139,16 +138,6 @@ void Player::setFrameNo(int frameNo)
 	_playingFrame = (float)frameNo;
 }
 
-float Player::getStep() const
-{
-	return _step;
-}
-
-void Player::setStep(float step)
-{
-	_step = step;
-}
-
 int Player::getLoop() const
 {
 	return _loop;
@@ -210,7 +199,6 @@ void Player::play(AnimeRef* animeRef, int loop, int startFrameNo)
 		setPartsParentage();
 	}
 	_playingFrame = static_cast<float>(startFrameNo);
-	_step = 1.0f;
 	_loop = loop;
 	_loopCount = 0;
 	_isPlaying = true;
@@ -239,7 +227,6 @@ void Player::motionBlendPlay(const std::string& animeName, int loop, int startFr
 			loopnum = _loop - _loopCount;
 		}
 		_motionBlendPlayer->play(_currentAnimename, loopnum, getFrameNo());
-		_motionBlendPlayer->setStep(_step);
 		if (_loop > 0)
 		{
 			if (_loop == _loopCount)	//アニメは最後まで終了している
@@ -309,7 +296,7 @@ void Player::update(float dt)
 		const int numFrames = endFrame;
 
 		float s = dt * getAnimeFPS();
-		float next = _playingFrame + (s * _step);
+		float next = _playingFrame + s;
 
 		int nextFrameNo = static_cast<int>(next);
 		float nextFrameDecimal = next - static_cast<float>(nextFrameNo);
@@ -322,7 +309,7 @@ void Player::update(float dt)
 			_isPlayFirstUserdataChack = false;
 		}
 
-		if (_step >= 0)
+		if (true)
 		{
 			// 順再生時.
 			// normal plays.

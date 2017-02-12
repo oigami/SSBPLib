@@ -232,12 +232,6 @@ public:
 
 	/** 再生フレームNoを設定します. */
 	void setFrameNo(int frameNo);
-
-	/** 再生スピードを取得します. (1.0f:標準) */
-	float getStep() const;
-
-	/** 再生スピードを設定します. (1.0f:標準) */
-	void setStep(float step);
 	
 	/** 指定されている再生ループ回数を取得します. (0:指定なし) */
 	int getLoop() const;
@@ -433,7 +427,6 @@ private:
 
 	bool				_frameSkipEnabled;
 	float				_playingFrame;
-	float				_step;
 	int					_loop;
 	int					_loopCount;
 	bool				_isPlaying;
