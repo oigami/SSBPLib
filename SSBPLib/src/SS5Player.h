@@ -403,7 +403,6 @@ private:
 	void checkUserData(int frameNo);
 	float parcentVal(float val1, float val2, float parcent);
 	float parcentValRot(float val1, float val2, float parcent);
-	void update_matrix_ss4(CustomSprite *sprite, CustomSprite *parent, const PartData *partData);
 
 private:
 	const ResourceSet*		_currentRs;
