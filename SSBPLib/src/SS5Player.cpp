@@ -22,21 +22,6 @@
 namespace ss{
 
 
-//座標回転処理
-//指定した座標を中心に回転後した座標を取得します
-void get_uv_rotation(float *u, float *v, float cu, float cv, float deg)
-{
-	float dx = *u - cu; // 中心からの距離(X)
-	float dy = *v - cv; // 中心からの距離(Y)
-
-	float tmpX = (dx * cosf(SSDegToRad(deg))) - (dy * sinf(SSDegToRad(deg))); // 回転
-	float tmpY = (dx * sinf(SSDegToRad(deg))) + (dy * cosf(SSDegToRad(deg)));
-
-	*u = (cu + tmpX); // 元の座標にオフセットする
-	*v = (cv + tmpY);
-
-}
-
 //乱数シードに利用するユニークIDを作成します。
 //この値は全てのSS5プレイヤー共通で使用します
 int seedMakeID = 123456;

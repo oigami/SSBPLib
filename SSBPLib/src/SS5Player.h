@@ -104,10 +104,6 @@ class Player;
 class ResourceManager;
 struct ResluteState;
 
-//関数定義
-extern void get_uv_rotation(float *u, float *v, float cu, float cv, float deg);
-
-
 
 //------------------------------------------------------------------------------
 //プレイヤーの設定定義

@@ -624,15 +624,13 @@ void	SsEffectRenderV2::drawSprite(
 	}
 
 	//原点計算を行う
-	float px = 0;
-	float py = 0;
-	float cx = ((state.rect.width() * state.scaleX) * -(dispCell->refCell.pivot_X));
-	float cy = ((state.rect.height() * state.scaleY) * +(dispCell->refCell.pivot_Y));
-	get_uv_rotation(&cx, &cy, 0, 0, state.rotationZ);
+	Vector2 cxy(
+		((state.rect.width() * state.scaleX) * -(dispCell->refCell.pivot_X)),
+		((state.rect.height() * state.scaleY) * +(dispCell->refCell.pivot_Y))
+	);
+	cxy.rotate(SSDegToRad(state.rotationZ));
 
-	//state.mat[12] += cx;
-	//state.mat[13] += cy;
-	state.mat.addTranslation(cx, cy);
+	state.mat.addTranslation(cxy.x, cxy.y);
 
 	SSDrawSprite(state);	//描画
 
