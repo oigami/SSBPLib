@@ -121,15 +121,12 @@ void init( void )
 
 	//表示位置を設定
 	ssplayer->setPosition(800/2, 150);
-	//スケール設定
+	//スケール設定	//反転させたいときは-の値を指定してください
 	ssplayer->setScale(0.5f, 0.5f);
 	//回転を設定
 	ssplayer->setRotation(0.0f, 0.0f, 0.0f);
 	//透明度を設定
 	ssplayer->setAlpha(255);
-	//反転を設定
-	ssplayer->setFlip(false, false);
-
 }
 
 //メインループ

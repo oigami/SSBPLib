@@ -916,13 +916,6 @@ void Player::setFrame(int frameNo, float dt)
 
 		_partIndex[index] = partIndex;
 
-		//プレイヤーのフリップ
-		if ( _state.flipX == true ){
-			state.flipX = !state.flipX;	//フラグ反転		//todo:全体を反転するのはスケール==-1で十分なはず
-		}
-		if (_state.flipY == true){
-			state.flipY = !state.flipY;	//フラグ反転		//todo:全体を反転するのはスケール==-1で十分なはず
-		}
 
 		//セルの原点設定を反映させる
 		const CellRef* cellRef = state.cellIndex >= 0 ? _currentRs->m_cellCache->getReference(state.cellIndex) : nullptr;
@@ -1226,13 +1219,6 @@ void Player::setFrame(int frameNo, float dt)
 				sprite->_state.rotationZ += _state.rotationZ;
 				sprite->_state.scaleX *= _state.scaleX;
 				sprite->_state.scaleY *= _state.scaleY;
-				//プレイヤーのフリップ
-				if (_state.flipX == true){
-					sprite->_state.scaleX = -sprite->_state.scaleX;	//フラグ反転
-				}
-				if (_state.flipY == true){
-					sprite->_state.scaleY = -sprite->_state.scaleY;	//フラグ反転
-				}
 
 				sprite->_state.Calc_rotationX = sprite->_state.rotationX;
 				sprite->_state.Calc_rotationY = sprite->_state.rotationY;
@@ -1520,11 +1506,6 @@ void  Player::setAlpha(int a)
 	_state.opacity = a;
 }
 
-void  Player::setFlip(bool flipX, bool flipY)
-{
-	_state.flipX = flipX;
-	_state.flipY = flipY;
-}
 
 //割合に応じた中間値を取得します
 float Player::parcentValRot(float val1, float val2, float parcent)

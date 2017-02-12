@@ -368,8 +368,6 @@ public:
 	 */
 	void setEndFrameToLabelName(char *findLabelName);
 
-	/** プレイヤー本体の反転を設定します。*/
-	void  setFlip(bool flipX, bool flipY);
 
 	/*
 	 * パーツ番号に対応したスプライト情報を取得します。
