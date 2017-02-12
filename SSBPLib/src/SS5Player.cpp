@@ -286,11 +286,6 @@ const std::string& Player::getPlayAnimeName() const
 
 void Player::update(float dt)
 {
-	updateFrame(dt);
-}
-
-void Player::updateFrame(float dt)
-{
 	if (!_currentAnimeRef) return;
 	if (!_currentRs->m_data) return;
 

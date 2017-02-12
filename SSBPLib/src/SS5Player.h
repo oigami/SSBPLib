@@ -407,7 +407,6 @@ private:
 	void setPartsParentage();
 
 	void play(AnimeRef* animeRef, int loop, int startFrameNo);
-	void updateFrame(float dt);
 	void setFrame(int frameNo, float dt = 0.0f);
 	void checkUserData(int frameNo);
 	float parcentValRot(float val1, float val2, float parcent);
