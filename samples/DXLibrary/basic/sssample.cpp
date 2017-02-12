@@ -147,7 +147,7 @@ void update(float dt)
 	ssplayer->getPartState(result, "body");
 
 	//取得座用の表示
-	sprintf(str, "body = x:%f y:%f", result.x, result.y);
+	sprintf_s(str, "body = x:%f y:%f", result.x, result.y);
 	DrawString(100, 120, str, GetColor(255, 255, 255));
 
 
@@ -240,7 +240,7 @@ void update(float dt)
 	}
 
 	//アニメーションのフレームを表示
-	sprintf(str, "play:%d frame:%d drawCount:%d", (int)sstest_pause, sstest_count, ssplayer->getDrawSpriteCount());
+	sprintf_s(str, "play:%d frame:%d drawCount:%d", (int)sstest_pause, sstest_count, ssplayer->getDrawSpriteCount());
 	DrawString(100, 100, str, GetColor(255, 255, 255));
 
 	//プレイヤーの更新、引数は前回の更新処理から経過した時間
