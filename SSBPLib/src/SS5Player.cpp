@@ -882,17 +882,12 @@ void Player::setEndFrameToLabelName(char *findLabelName)
 }
 
 //スプライト情報の取得
-CustomSprite* Player::getSpriteData(int partIndex)
+const CustomSprite* Player::getSpriteData(int partIndex) const
 {
-	CustomSprite* sprite = NULL;
-	if (_parts.size() < partIndex)
-	{
+	if(_parts.size() < partIndex){
+		return nullptr;		//todo:assertでいいような気がする
 	}
-	else
-	{
-		sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
-	}
-	return(sprite);
+	return _parts.at(partIndex);
 }
 
 /*
@@ -964,7 +959,7 @@ void Player::setFrame(int frameNo, float dt)
 		//モーションブレンド
 		if (_motionBlendPlayer)
 		{
-			CustomSprite* blendSprite = _motionBlendPlayer->getSpriteData(partIndex);
+			const CustomSprite* blendSprite = _motionBlendPlayer->getSpriteData(partIndex);
 			if (blendSprite)
 			{ 
 				float percent = _blendTime / _blendTimeMax;

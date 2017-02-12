@@ -377,10 +377,9 @@ public:
 
 	/*
 	 * パーツ番号に対応したスプライト情報を取得します。
-	 * 
 	 * @param  partIndex			パーツ番号
 	 */
-	CustomSprite* getSpriteData(int partIndex);
+	const CustomSprite* getSpriteData(int partIndex) const;
 
 	/** 表示を行うパーツ数を取得します */
 	int getDrawSpriteCount(void);
