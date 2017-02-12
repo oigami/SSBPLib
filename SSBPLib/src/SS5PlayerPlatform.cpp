@@ -166,7 +166,6 @@ namespace ss
 		SSV3F_C4B_T2F_Quad quad;
 		quad = state.quad;
 
-#ifdef USE_VERTEX
 		//原点補正
 		float cx = ((state.rect.width()) * -(state.pivotX - 0.5f));
 		float cy = ((state.rect.height()) * +(state.pivotY - 0.5f));
@@ -185,46 +184,6 @@ namespace ss
 			vertex *= state.mat;
 		});
 
-#else
-		float x = state.mat[12];	/// 表示座標はマトリクスから取得します。
-		float y = state.mat[13];	/// 表示座標はマトリクスから取得します。
-		float rotationZ = state.Calc_rotationZ;		/// 回転値
-		float scaleX = state.Calc_scaleX;							/// 拡大率
-		float scaleY = state.Calc_scaleY;							/// 拡大率
-
-
-		//原点計算を行う
-		float cx = ((state.rect.size.width * scaleX) * -(state.pivotX - 0.5f));
-		float cy = ((state.rect.size.height * scaleY) * +(state.pivotY - 0.5f));
-		get_uv_rotation(&cx, &cy, 0, 0, rotationZ);
-
-		x += cx;
-		y += cy;
-
-		quad.tl.vertices.x *= scaleX;
-		quad.tl.vertices.y *= scaleY;
-		quad.tr.vertices.x *= scaleX;
-		quad.tr.vertices.y *= scaleY;
-		quad.bl.vertices.x *= scaleX;
-		quad.bl.vertices.y *= scaleY;
-		quad.br.vertices.x *= scaleX;
-		quad.br.vertices.y *= scaleY;
-
-		//頂点の回転、3D描画はY方向が逆なので角度をマイナスで計算する
-		get_uv_rotation(&quad.tl.vertices.x, &quad.tl.vertices.y, 0, 0, rotationZ);
-		get_uv_rotation(&quad.tr.vertices.x, &quad.tr.vertices.y, 0, 0, rotationZ);
-		get_uv_rotation(&quad.bl.vertices.x, &quad.bl.vertices.y, 0, 0, rotationZ);
-		get_uv_rotation(&quad.br.vertices.x, &quad.br.vertices.y, 0, 0, rotationZ);
-
-		quad.tl.vertices.x += x;
-		quad.tl.vertices.y += y;
-		quad.tr.vertices.x += x;
-		quad.tr.vertices.y += y;
-		quad.bl.vertices.x += x;
-		quad.bl.vertices.y += y;
-		quad.br.vertices.x += x;
-		quad.br.vertices.y += y;
-#endif
 		//頂点カラーにアルファを設定
 		quad.tl.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
 		quad.tr.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
