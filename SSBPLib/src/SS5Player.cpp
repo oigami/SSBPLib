@@ -54,9 +54,6 @@ Player::Player(const ResourceSet *resource)
 	, _isPlaying(false)
 	, _isPausing(false)
 	, _prevDrawFrameNo(-1)
-	, _col_r(255)
-	, _col_g(255)
-	, _col_b(255)
 	, _instanceOverWrite(false)
 	, _motionBlendPlayer(NULL)
 	, _blendTime(0.0f)
@@ -73,7 +70,6 @@ Player::Player(const ResourceSet *resource)
 		_partIndex[i] = -1;
 		_cellChange[i] = -1;
 	}
-	_playerState.init();
 
 	//ロードイベントを投げてcellMapのテクスチャを取得する
 	int cellMapNum = _currentRs->m_cellCache->getCellMapNum();
@@ -826,14 +822,6 @@ void Player::getInstanceParam(bool *overWrite, Instance *keyParam)
 	*keyParam = _instanseParam;			//インスタンスパラメータ
 }
 
-//アニメーションの色成分を変更します
-void Player::setColor(int r, int g, int b)
-{
-	_col_r = r;
-	_col_g = g;
-	_col_b = b;
-}
-
 //アニメーションのループ範囲を設定します
 void Player::setStartFrame(int frame)
 {
@@ -1028,9 +1016,9 @@ void Player::setFrame(int frameNo, float dt)
 			}
 		}
 		quad.colorsForeach([&](SSColor4B& color){
-			color.r *= (_col_r / 255.0);
-			color.g *= (_col_g / 255.0);
-			color.b *= (_col_b / 255.0);
+			color.r *= (_playerSetting.m_col_r / 255.0);
+			color.g *= (_playerSetting.m_col_g / 255.0);
+			color.b *= (_playerSetting.m_col_b / 255.0);
 			color.a *= (state.opacity / 255.0);
 		});
 
@@ -1170,7 +1158,7 @@ void Player::setFrame(int frameNo, float dt)
 			}
 
 			//インスタンスパラメータを設定
-			sprite->_ssplayer->setColor(_col_r, _col_g, _col_b);
+			sprite->_ssplayer->setColor(_playerSetting.m_col_r, _playerSetting.m_col_g, _playerSetting.m_col_b);
 
 			//インスタンス用SSPlayerに再生フレームを設定する
 			sprite->_ssplayer->setFrameNo(_time);
@@ -1212,13 +1200,13 @@ void Player::setFrame(int frameNo, float dt)
 			}
 			else{				
 				//rootパーツはプレイヤーからステータスを引き継ぐ
-				sprite->_state.x += _playerState.x;
-				sprite->_state.y += _playerState.y;
-				sprite->_state.rotationX += _playerState.rotationX;
-				sprite->_state.rotationY += _playerState.rotationY;
-				sprite->_state.rotationZ += _playerState.rotationZ;
-				sprite->_state.scaleX *= _playerState.scaleX;
-				sprite->_state.scaleY *= _playerState.scaleY;
+				sprite->_state.x += _playerSetting.m_position.x;
+				sprite->_state.y += _playerSetting.m_position.y;
+				sprite->_state.rotationX += _playerSetting.m_rotation.x;
+				sprite->_state.rotationY += _playerSetting.m_rotation.y;
+				sprite->_state.rotationZ += _playerSetting.m_rotation.z;
+				sprite->_state.scaleX *= _playerSetting.m_scale.x;
+				sprite->_state.scaleY *= _playerSetting.m_scale.y;
 
 				sprite->_state.Calc_rotationX = sprite->_state.rotationX;
 				sprite->_state.Calc_rotationY = sprite->_state.rotationY;
@@ -1257,7 +1245,7 @@ void Player::setFrame(int frameNo, float dt)
 				sprite->_state.Calc_scaleY *= parent->_state.Calc_scaleY;
 
 				//ルートパーツのアルファ値を反映させる
-				sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _playerState.opacity) / 255;
+				sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _playerSetting.m_opacity) / 255;
 				//インスタンスパーツの親を設定
 				if (sprite->_ssplayer)
 				{
@@ -1483,29 +1471,29 @@ void Player::checkUserData(int frameNo)
 
 }
 
-void  Player::setPosition(float x, float y)
-{
-	_playerState.x = x;
-	_playerState.y = y;
+/** プレイヤーへの各種設定 ------------------------------*/
+void Player::setPosition(float x, float y){
+	_playerSetting.m_position = Vector3(x, y, 0.0f);
 }
-void  Player::setRotation(float x, float y, float z)
-{
-	_playerState.rotationX = x;
-	_playerState.rotationY = y;
-	_playerState.rotationZ = z;
+void Player::setRotation(float x, float y, float z){
+	_playerSetting.m_rotation = Vector3(x, y, z);
 }
-
-void  Player::setScale(float x, float y)
-{
-	_playerState.scaleX = x;
-	_playerState.scaleY = y;
+void Player::setScale(float x, float y){
+	_playerSetting.m_scale = Vector3(x, y, 1.0f);
 }
 
-void  Player::setAlpha(int a)
-{
-	_playerState.opacity = a;
+void Player::setAlpha(int a){
+	_playerSetting.m_opacity = a;
 }
 
+//アニメーションの色成分を変更します
+void Player::setColor(int r, int g, int b)
+{
+	_playerSetting.m_col_r = r;
+	_playerSetting.m_col_g = g;
+	_playerSetting.m_col_b = b;
+}
+/*-------------------------------------------------------*/
 
 //割合に応じた中間値を取得します
 float Player::parcentValRot(float val1, float val2, float parcent)

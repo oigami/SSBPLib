@@ -118,6 +118,22 @@ struct ResluteState;
 //------------------------------------------------------------------------------
 
 
+/** Playerが再生するパーツ全体に影響を与える設定を抱えておく */
+struct PlayerSetting{
+	PlayerSetting() : m_opacity(255), m_col_r(255), m_col_g(255), m_col_b(255){}
+
+	Vector3 m_position;	//位置
+	Vector3 m_rotation;	//回転(deg)
+	Vector3 m_scale;	//スケール
+	
+	int     m_opacity;	//不透明度[0:255]
+	int		m_col_r;
+	int		m_col_g;
+	int		m_col_b;
+};
+
+
+
 /**
  * Player
  */
@@ -419,9 +435,6 @@ private:
 	int					_cellChange[PART_VISIBLE_MAX];
 	int					_partIndex[PART_VISIBLE_MAX];
 	int					_animefps;
-	int					_col_r;
-	int					_col_g;
-	int					_col_b;
 	bool				_instanceOverWrite;				//インスタンス情報を上書きするか？
 	Instance			_instanseParam;					//インスタンスパラメータ
 	int					_startFrameOverWrite;			//開始フレームの上書き設定
@@ -431,7 +444,8 @@ private:
 
 	UserData			_userData;
 
-	State				_playerState;
+	PlayerSetting		_playerSetting;			//プレイヤー単位での操作設定についてを抱えておく(移動、回転など)
+
 	std::vector<TextuerData> m_textures;		//_textures[cellMapIndex].handle = textureid;
 
 };
