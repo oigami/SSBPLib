@@ -1032,8 +1032,7 @@ void Player::setFrame(int frameNo, float dt)
 
 
 		//インスタンスパーツの場合
-		if (partData->type == PARTTYPE_INSTANCE)
-		{
+		if (partData->type == PARTTYPE_INSTANCE){
 			bool overWrite;
 			Instance keyParam;
 			sprite->_ssplayer->getInstanceParam(&overWrite, &keyParam);
@@ -1049,29 +1048,20 @@ void Player::setFrame(int frameNo, float dt)
 			bool independent = false;
 
 			int lflags = state.instanceValue_loopflag;
-			if (lflags & INSTANCE_LOOP_FLAG_INFINITY )
-			{
-				//無限ループ
-				infinity = true;
+			if (lflags & INSTANCE_LOOP_FLAG_INFINITY ){
+				infinity = true;	//無限ループ
 			}
-			if (lflags & INSTANCE_LOOP_FLAG_REVERSE)
-			{
-				//逆再生
-				reverse = true;
+			if (lflags & INSTANCE_LOOP_FLAG_REVERSE){
+				reverse = true;		//逆再生
 			}
-			if (lflags & INSTANCE_LOOP_FLAG_PINGPONG)
-			{
-				//往復
-				pingpong = true;
+			if (lflags & INSTANCE_LOOP_FLAG_PINGPONG){
+				pingpong = true;	//往復
 			}
-			if (lflags & INSTANCE_LOOP_FLAG_INDEPENDENT)
-			{
-				//独立
-				independent = true;
+			if (lflags & INSTANCE_LOOP_FLAG_INDEPENDENT){
+				independent = true;	//独立
 			}
 			//インスタンスパラメータを上書きする
-			if (overWrite == true)
-			{
+			if (overWrite == true){
 				refStartframe = keyParam.refStartframe;		//開始フレーム
 				refEndframe = keyParam.refEndframe;			//終了フレーム
 				refSpeed = keyParam.refSpeed;				//再生速度
@@ -1086,8 +1076,7 @@ void Player::setFrame(int frameNo, float dt)
 			int time = frameNo;
 
 			//独立動作の場合
-			if (independent)
-			{
+			if (independent){
 				float delta = dt / (1.0f / _animefps);						//	独立動作時は親アニメのfpsを使用する
 //				float delta = fdt / (1.0f / sprite->_ssplayer->_animefps);
 
@@ -1116,10 +1105,8 @@ void Player::setFrame(int frameNo, float dt)
 			if (pingpong) checkloopnum = checkloopnum * 2;
 
 			//無限ループで無い時にループ数をチェック
-			if (!infinity)   //無限フラグが有効な場合はチェックせず
-			{
-				if (nowloop >= checkloopnum)
-				{
+			if (!infinity){   //無限フラグが有効な場合はチェックせず
+				if (nowloop >= checkloopnum){
 					reftime = inst_scale - 1;
 					nowloop = checkloopnum - 1;
 				}
@@ -1130,20 +1117,16 @@ void Player::setFrame(int frameNo, float dt)
 			//参照位置を決める
 			//現在の再生フレームの計算
 			int _time = 0;
-			if (pingpong && (nowloop % 2 == 1))
-			{
-				if (reverse)
-				{
+			if (pingpong && (nowloop % 2 == 1)){
+				if (reverse){
 					reverse = false;//反転
 				}
-				else
-				{
+				else{
 					reverse = true;//反転
 				}
 			}
 
-			if (reverse)
-			{
+			if (reverse){
 				//リバースの時
 				_time = refEndframe - temp_frame;
 			}
@@ -1173,8 +1156,7 @@ void Player::setFrame(int frameNo, float dt)
 		CustomSprite* sprite = _parts.at(partIndex);
 		CustomSprite* parent = _parts.at(partData->parentIndex);
 		
-		if (parent->_isStateChanged)
-		{
+		if (parent->_isStateChanged){
 			sprite->_isStateChanged = true;
 		}
 	}
@@ -1495,33 +1477,26 @@ float Player::parcentValRot(float val1, float val2, float parcent)
 {
 	int ival1 = (int)(val1 * 10.0f) % 3600;
 	int ival2 = (int)(val2 * 10.0f) % 3600;
-	if (ival1 < 0)
-	{
+	if (ival1 < 0){
 		ival1 += 3600;
 	}
-	if (ival2 < 0)
-	{
+	if (ival2 < 0){
 		ival2 += 3600;
 	}
 	int islr = ival1 - ival2;
-	if (islr < 0)
-	{
+	if (islr < 0){
 		islr += 3600;
 	}
 	int inewval;
-	if (islr == 0)
-	{
+	if (islr == 0){
 		inewval = ival1;
 	}
-	else
-	{
-		if (islr > 1800)
-		{
+	else{
+		if (islr > 1800){
 			int isa = 3600 - islr;
 			inewval = ival2 - ((float)isa * parcent);
 		}
-		else
-		{
+		else{
 			int isa = islr;
 			inewval = ival2 + ((float)isa * parcent);
 		}
