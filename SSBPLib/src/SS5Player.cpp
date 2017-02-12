@@ -1185,12 +1185,14 @@ void Player::setFrame(int frameNo, float dt)
 				sprite->_state.scaleX *= _playerSetting.m_scale.x;
 				sprite->_state.scaleY *= _playerSetting.m_scale.y;
 
+			#if 0
 				sprite->_state.Calc_rotationX = sprite->_state.rotationX;
 				sprite->_state.Calc_rotationY = sprite->_state.rotationY;
 				sprite->_state.Calc_rotationZ = sprite->_state.rotationZ;
 
 				sprite->_state.Calc_scaleX = sprite->_state.scaleX;
 				sprite->_state.Calc_scaleY = sprite->_state.scaleY;
+			#endif
 			}
 			// SRzRyRxT mat
 			Matrix tmp;
@@ -1210,6 +1212,7 @@ void Player::setFrame(int frameNo, float dt)
 				CustomSprite* parent = _parts.at(partData->parentIndex);
 				//子供は親のステータスを引き継ぐ
 				//座標はマトリクスから取得する
+			#if 0
 				if ((parent->_state.Calc_scaleX * parent->_state.Calc_scaleY) < 0)	//スケールのどちらかが-の場合は回転方向を逆にする
 				{
 					sprite->_state.Calc_rotationZ = -sprite->_state.Calc_rotationZ;
@@ -1220,18 +1223,27 @@ void Player::setFrame(int frameNo, float dt)
 
 				sprite->_state.Calc_scaleX *= parent->_state.Calc_scaleX;
 				sprite->_state.Calc_scaleY *= parent->_state.Calc_scaleY;
-
+			#endif
 				//ルートパーツのアルファ値を反映させる
 				sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _playerSetting.m_opacity) / 255;
 				//インスタンスパーツの親を設定
 				if (sprite->_ssplayer)
 				{
-					float x, y;
+					//行列から情報を取り出せるのでそれをセットする //todo:2Dだけじゃ足りないはずなのでその内Vector3を渡すようにする
+					float x, y, z;
 					sprite->_mat.getTranslation(&x, &y);
-
 					sprite->_ssplayer->setPosition(x, y);
+
+					sprite->_mat.getScale(&x, &y, &z);
+					sprite->_ssplayer->setScale(x, y);
+
+					sprite->_mat.getRotation(&x, &y, &z);
+					sprite->_ssplayer->setRotation(x, y, z);
+
+				#if 0
 					sprite->_ssplayer->setScale(sprite->_state.Calc_scaleX, sprite->_state.Calc_scaleY);
 					sprite->_ssplayer->setRotation(sprite->_state.Calc_rotationX, sprite->_state.Calc_rotationY, sprite->_state.Calc_rotationZ);
+				#endif
 					sprite->_ssplayer->setAlpha(sprite->_state.Calc_opacity);
 				}
 
