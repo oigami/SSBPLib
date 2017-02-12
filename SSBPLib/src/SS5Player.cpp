@@ -453,7 +453,7 @@ void Player::allocParts(int numParts, bool useCustomShaderProgram)
 
 	// パーツ数だけCustomSpriteを作成する
 	for (int i = 0; i < numParts; i++){
-		CustomSprite* sprite =  CustomSprite::create();
+		CustomSprite* sprite =  new CustomSprite();
 		sprite->_ssplayer = NULL;
 		
 		_parts.push_back(sprite);

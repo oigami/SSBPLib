@@ -10,6 +10,8 @@ CustomSprite::CustomSprite() :
 	, effectAttrInitialized(false)
 	, effectTimeTotal(0)
 {
+	_state.init();
+	_isStateChanged = true;
 }
 
 CustomSprite::~CustomSprite()
@@ -17,18 +19,6 @@ CustomSprite::~CustomSprite()
 	//エフェクトクラスがある場合は解放する
 	SS_SAFE_DELETE(refEffect);
 	SS_SAFE_DELETE(_ssplayer);
-}
-
-
-CustomSprite* CustomSprite::create()
-{
-	CustomSprite *pSprite = new CustomSprite();
-	if(pSprite){
-		pSprite->initState();
-		return pSprite;
-	}
-	SS_SAFE_DELETE(pSprite);
-	return NULL;
 }
 
 

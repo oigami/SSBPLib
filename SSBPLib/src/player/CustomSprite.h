@@ -20,7 +20,6 @@ public:
 	CustomSprite*		_parent;
 	Player*				_ssplayer;
 	float				_liveFrame;
-	SSV3F_C4B_T2F_Quad	_sQuad;
 
 	//エフェクト用パラメータ
 	SsEffectRenderV2*	refEffect;
@@ -36,14 +35,6 @@ public:
 public:
 	CustomSprite();
 	virtual ~CustomSprite();
-
-	static CustomSprite* create();
-
-	void initState()
-	{
-		_state.init();
-		_isStateChanged = true;
-	}
 
 	void setStateValue(float& ref, float value)
 	{
@@ -64,8 +55,6 @@ public:
 	void setFlippedY(bool flip);
 	bool isFlippedX();
 	bool isFlippedY();
-
-public:
 };
 
 } //namespace ss
