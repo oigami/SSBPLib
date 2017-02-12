@@ -443,7 +443,6 @@ private:
 	bool				_partVisible[PART_VISIBLE_MAX];
 	int					_cellChange[PART_VISIBLE_MAX];
 	int					_partIndex[PART_VISIBLE_MAX];
-	int					_animefps;
 	bool				_instanceOverWrite;				//インスタンス情報を上書きするか？
 	Instance			_instanseParam;					//インスタンスパラメータ
 	int					_startFrameOverWrite;			//開始フレームの上書き設定
@@ -457,6 +456,7 @@ private:
 
 	std::vector<TextuerData> m_textures;		//_textures[cellMapIndex].handle = textureid;
 
+	int getAnimeFPS() const;
 };
 
 

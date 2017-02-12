@@ -217,7 +217,6 @@ void Player::play(AnimeRef* animeRef, int loop, int startFrameNo)
 	_isPausing = false;
 	_prevDrawFrameNo = -1;
 	_isPlayFirstUserdataChack = true;
-	_animefps = _currentAnimeRef->m_animationData->fps;
 	setStartFrame(-1);
 	setEndFrame(-1);
 
@@ -309,7 +308,7 @@ void Player::update(float dt)
 		// forward frame.
 		const int numFrames = endFrame;
 
-		float s = dt * _currentAnimeRef->m_animationData->fps;
+		float s = dt * getAnimeFPS();
 		float next = _playingFrame + (s * _step);
 
 		int nextFrameNo = static_cast<int>(next);
@@ -1073,7 +1072,7 @@ void Player::setFrame(int frameNo, float dt)
 
 			//独立動作の場合
 			if (independent){
-				float delta = dt / (1.0f / _animefps);						//	独立動作時は親アニメのfpsを使用する
+				float delta = dt / (1.0f / getAnimeFPS());						//	独立動作時は親アニメのfpsを使用する
 //				float delta = fdt / (1.0f / sprite->_ssplayer->_animefps);
 
 				sprite->_liveFrame += delta;
@@ -1259,7 +1258,7 @@ void Player::setFrame(int frameNo, float dt)
 					//独立動作
 					if (sprite->effectAttrInitialized)
 					{
-						float delta = dt / (1.0f / _animefps);						//	独立動作時は親アニメのfpsを使用する
+						float delta = dt / (1.0f / getAnimeFPS());						//	独立動作時は親アニメのfpsを使用する
 						sprite->effectTimeTotal += delta * refSpeed;
 						sprite->refEffect->setLoop(true);
 						sprite->refEffect->setFrame(sprite->effectTimeTotal);
@@ -1422,6 +1421,12 @@ void Player::checkUserData(int frameNo)
 		SSonUserData(this, &_userData);
 	}
 
+}
+
+
+int Player::getAnimeFPS() const{
+	SS_ASSERT(_currentAnimeRef);
+	return _currentAnimeRef->m_animationData->fps;
 }
 
 /** プレイヤーへの各種設定 ------------------------------*/
