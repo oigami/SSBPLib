@@ -130,6 +130,16 @@ struct PlayerSetting{
 	int		m_col_r;
 	int		m_col_g;
 	int		m_col_b;
+
+	void getTransformMatrix(Matrix* matrix) const{
+		Matrix tmp;
+		matrix->setupIdentity();
+		*matrix *= tmp.setupScale(m_scale.x, m_scale.y, m_scale.z);
+		*matrix *= tmp.setupRotationZ(DegreeToRadian(m_rotation.z));
+		*matrix *= tmp.setupRotationY(DegreeToRadian(m_rotation.y));
+		*matrix *= tmp.setupRotationX(DegreeToRadian(m_rotation.x));
+		*matrix *= tmp.setupTranslation(m_position.x, m_position.y, m_position.z);
+	}
 };
 
 

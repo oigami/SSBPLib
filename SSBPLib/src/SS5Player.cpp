@@ -1177,13 +1177,7 @@ void Player::setFrame(int frameNo, float dt)
 			}
 			else{				
 				//rootパーツはプレイヤーからステータスを引き継ぐ
-				sprite->_state.x += _playerSetting.m_position.x;
-				sprite->_state.y += _playerSetting.m_position.y;
-				sprite->_state.rotationX += _playerSetting.m_rotation.x;
-				sprite->_state.rotationY += _playerSetting.m_rotation.y;
-				sprite->_state.rotationZ += _playerSetting.m_rotation.z;
-				sprite->_state.scaleX *= _playerSetting.m_scale.x;
-				sprite->_state.scaleY *= _playerSetting.m_scale.y;
+				_playerSetting.getTransformMatrix(&mat);
 			}
 			// SRzRyRxT mat
 			Matrix tmp;
