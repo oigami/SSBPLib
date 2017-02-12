@@ -10,9 +10,6 @@ CustomSprite::CustomSprite() :
 	, effectAttrInitialized(false)
 	, effectTimeTotal(0)
 {
-	_temp_position = SsVector3(0, 0, 0);
-	_temp_rotation = SsVector3(0, 0, 0);
-	_temp_scale = SsVector2(1.0f, 1.0f);
 }
 
 CustomSprite::~CustomSprite()

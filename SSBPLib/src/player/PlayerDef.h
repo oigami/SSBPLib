@@ -2,11 +2,6 @@
 
 namespace ss{
 
-//プロジェクトフラグ
-enum {
-	HEAD_FLAG_rootPartFunctionAsVer4 = 1 << 0,		//不透明度・反転・非表示アトリビュートの継承方法をVer.4と同様にする
-	HEAD_FLAG_dontUseMatrixForTransform = 1 << 1,	//親子の座標変換にマトリックスを使用しない（Ver4互換）
-};
 
 /**
  * 再生するフレームに含まれるパーツデータのフラグ

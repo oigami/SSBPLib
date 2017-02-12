@@ -33,11 +33,6 @@ public:
 	bool effectAttrInitialized;
 	float effectTimeTotal;
 
-	//Ver4互換用ワーク
-	SsVector3		_temp_position;
-	SsVector3		_temp_rotation;
-	SsVector2		_temp_scale;
-
 public:
 	CustomSprite();
 	virtual ~CustomSprite();
