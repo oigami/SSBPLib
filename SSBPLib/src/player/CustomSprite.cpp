@@ -22,21 +22,5 @@ CustomSprite::~CustomSprite()
 }
 
 
-void CustomSprite::setFlippedX(bool flip)
-{
-	_flipX = flip;
-}
-void CustomSprite::setFlippedY(bool flip)
-{
-	_flipY = flip;
-}
-bool CustomSprite::isFlippedX()
-{
-	return (_flipX);
-}
-bool CustomSprite::isFlippedY()
-{
-	return (_flipY);
-}
 
 } //namespace ss

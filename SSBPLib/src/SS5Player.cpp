@@ -908,21 +908,6 @@ void Player::setFrame(int frameNo, float dt)
 	if (!_currentAnimeRef) return;
 	if (!_currentRs->m_data) return;
 
-	bool forceUpdate = false;
-	{
-		// フリップに変化があったときは必ず描画を更新する
-		CustomSprite* root = static_cast<CustomSprite*>(_parts.at(0));
-		float scaleX = root->isFlippedX() ? -1.0f : 1.0f;
-		float scaleY = root->isFlippedY() ? -1.0f : 1.0f;
-		root->setStateValue(root->_state.x, scaleX);
-		root->setStateValue(root->_state.y, scaleY);
-		forceUpdate = root->_isStateChanged;
-	}
-	
-	// 前回の描画フレームと同じときはスキップ
-	//インスタンスアニメがあるので毎フレーム更新するためコメントに変更
-	//	if (!forceUpdate && frameNo == _prevDrawFrameNo) return;
-
 	ToPointer ptr(_currentRs->m_data);
 	const AnimationData* animeData = _currentAnimeRef->m_animationData;
 	const ss_offset* frameDataIndex = static_cast<const ss_offset*>(ptr(animeData->frameData));
@@ -999,11 +984,6 @@ void Player::setFrame(int frameNo, float dt)
 		}
 
 		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
-
-		//反転
-		//反転はUVにも反映させておくので使いやすい方で反転してください。
-		sprite->setFlippedX(state.flipX);
-		sprite->setFlippedY(state.flipY);
 
 		if (cellRef){
 			//各パーツのテクスチャ情報を設定

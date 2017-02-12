@@ -36,25 +36,11 @@ public:
 	CustomSprite();
 	virtual ~CustomSprite();
 
-	void setStateValue(float& ref, float value)
-	{
-		if(ref != value)
-		{
-			ref = value;
-			_isStateChanged = true;
-		}
-	}
 
 	void setState(const State& state){
 		_isStateChanged = true;
 		_state = state;
 	}
-
-
-	void setFlippedX(bool flip);
-	void setFlippedY(bool flip);
-	bool isFlippedX();
-	bool isFlippedY();
 };
 
 } //namespace ss
