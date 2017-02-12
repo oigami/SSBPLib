@@ -73,7 +73,7 @@ Player::Player(const ResourceSet *resource)
 		_partIndex[i] = -1;
 		_cellChange[i] = -1;
 	}
-	_state.init();
+	_playerState.init();
 
 	//ロードイベントを投げてcellMapのテクスチャを取得する
 	int cellMapNum = _currentRs->m_cellCache->getCellMapNum();
@@ -1212,13 +1212,13 @@ void Player::setFrame(int frameNo, float dt)
 			}
 			else{				
 				//rootパーツはプレイヤーからステータスを引き継ぐ
-				sprite->_state.x += _state.x;
-				sprite->_state.y += _state.y;
-				sprite->_state.rotationX += _state.rotationX;
-				sprite->_state.rotationY += _state.rotationY;
-				sprite->_state.rotationZ += _state.rotationZ;
-				sprite->_state.scaleX *= _state.scaleX;
-				sprite->_state.scaleY *= _state.scaleY;
+				sprite->_state.x += _playerState.x;
+				sprite->_state.y += _playerState.y;
+				sprite->_state.rotationX += _playerState.rotationX;
+				sprite->_state.rotationY += _playerState.rotationY;
+				sprite->_state.rotationZ += _playerState.rotationZ;
+				sprite->_state.scaleX *= _playerState.scaleX;
+				sprite->_state.scaleY *= _playerState.scaleY;
 
 				sprite->_state.Calc_rotationX = sprite->_state.rotationX;
 				sprite->_state.Calc_rotationY = sprite->_state.rotationY;
@@ -1257,7 +1257,7 @@ void Player::setFrame(int frameNo, float dt)
 				sprite->_state.Calc_scaleY *= parent->_state.Calc_scaleY;
 
 				//ルートパーツのアルファ値を反映させる
-				sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _state.opacity) / 255;
+				sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _playerState.opacity) / 255;
 				//インスタンスパーツの親を設定
 				if (sprite->_ssplayer)
 				{
@@ -1485,25 +1485,25 @@ void Player::checkUserData(int frameNo)
 
 void  Player::setPosition(float x, float y)
 {
-	_state.x = x;
-	_state.y = y;
+	_playerState.x = x;
+	_playerState.y = y;
 }
 void  Player::setRotation(float x, float y, float z)
 {
-	_state.rotationX = x;
-	_state.rotationY = y;
-	_state.rotationZ = z;
+	_playerState.rotationX = x;
+	_playerState.rotationY = y;
+	_playerState.rotationZ = z;
 }
 
 void  Player::setScale(float x, float y)
 {
-	_state.scaleX = x;
-	_state.scaleY = y;
+	_playerState.scaleX = x;
+	_playerState.scaleY = y;
 }
 
 void  Player::setAlpha(int a)
 {
-	_state.opacity = a;
+	_playerState.opacity = a;
 }
 
 

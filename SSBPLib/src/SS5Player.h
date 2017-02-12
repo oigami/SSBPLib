@@ -431,7 +431,7 @@ private:
 
 	UserData			_userData;
 
-	State				_state;
+	State				_playerState;
 	std::vector<TextuerData> m_textures;		//_textures[cellMapIndex].handle = textureid;
 
 };
