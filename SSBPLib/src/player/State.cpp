@@ -53,13 +53,6 @@ void State::init()
 	effectValue_speed = 0;
 	effectValue_loopflag = 0;
 
-#if 0
-	Calc_rotationX = 0.0f;
-	Calc_rotationY = 0.0f;
-	Calc_rotationZ = 0.0f;
-	Calc_scaleX = 1.0f;
-	Calc_scaleY = 1.0f;
-#endif
 	Calc_opacity = 255;
 
 }

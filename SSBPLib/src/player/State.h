@@ -51,13 +51,6 @@ struct State{
 	Matrix mat;						/// パーツの位置を算出するためのマトリクス（親子関係計算済）
 																
 	//再生用パラメータ
-#if 0
-	float Calc_rotationX;			/// X回転（親子関係計算済）
-	float Calc_rotationY;			/// Y回転（親子関係計算済）
-	float Calc_rotationZ;			/// Z回転（親子関係計算済）
-	float Calc_scaleX;				/// Xスケール（親子関係計算済）
-	float Calc_scaleY;				/// Yスケール（親子関係計算済）
-#endif
 	int Calc_opacity;				/// 不透明度（0～255）（親子関係計算済）
 	//インスタンスアトリビュート
 	int			instanceValue_curKeyframe;
