@@ -309,11 +309,7 @@ void Player::update(float dt)
 		// forward frame.
 		const int numFrames = endFrame;
 
-		float fdt = dt;
-		float s = fdt / (1.0f / _currentAnimeRef->m_animationData->fps);
-		
-		//if (!m_frameSkipEnabled) SS_LOG("%f", s);
-		
+		float s = dt * _currentAnimeRef->m_animationData->fps;
 		float next = _playingFrame + (s * _step);
 
 		int nextFrameNo = static_cast<int>(next);
