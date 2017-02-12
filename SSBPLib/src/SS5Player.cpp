@@ -948,19 +948,15 @@ void Player::setFrame(int frameNo, float dt)
 
 		//セルの原点設定を反映させる
 		const CellRef* cellRef = state.cellIndex >= 0 ? _currentRs->m_cellCache->getReference(state.cellIndex) : nullptr;
-		if (cellRef)
-		{
-			float cpx = 0;
-			float cpy = 0;
+		if (cellRef){
+			float cpx = cellRef->m_cell->pivot_X;
+			float cpy = cellRef->m_cell->pivot_Y;
 
-			cpx = cellRef->m_cell->pivot_X;
-			if (state.flipX) cpx = -cpx;	// 水平フリップによって原点を入れ替える
-			cpy = cellRef->m_cell->pivot_Y;
-			if (state.flipY) cpy = -cpy;	// 垂直フリップによって原点を入れ替える
+			if(state.flipX){ cpx = -cpx; }	// 水平フリップによって原点を入れ替える
+			if(state.flipY){ cpy = -cpy; }	// 垂直フリップによって原点を入れ替える
 
 			state.pivotX += cpx;
 			state.pivotY += cpy;
-
 		}
 		state.pivotX += 0.5f;
 		state.pivotY += 0.5f;
