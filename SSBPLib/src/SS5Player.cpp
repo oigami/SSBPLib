@@ -972,10 +972,10 @@ void Player::setFrame(int frameNo, float dt)
 			if (blendSprite)
 			{ 
 				float percent = _blendTime / _blendTimeMax;
-				state.x = parcentVal(state.x, blendSprite->_orgState.x, percent);
-				state.y = parcentVal(state.y, blendSprite->_orgState.y, percent);
-				state.scaleX = parcentVal(state.scaleX, blendSprite->_orgState.scaleX, percent);
-				state.scaleY = parcentVal(state.scaleY, blendSprite->_orgState.scaleY, percent);
+				state.x = lerp(blendSprite->_orgState.x, state.x, percent);
+				state.y = lerp(blendSprite->_orgState.y, state.y, percent);
+				state.scaleX = lerp(blendSprite->_orgState.scaleX, state.scaleX, percent);
+				state.scaleY = lerp(blendSprite->_orgState.scaleY, state.scaleY, percent);
 				state.rotationX = parcentValRot(state.rotationX, blendSprite->_orgState.rotationX, percent);
 				state.rotationY = parcentValRot(state.rotationY, blendSprite->_orgState.rotationY, percent);
 				state.rotationZ = parcentValRot(state.rotationZ, blendSprite->_orgState.rotationZ, percent);
@@ -1555,12 +1555,6 @@ void  Player::setFlip(bool flipX, bool flipY)
 }
 
 //割合に応じた中間値を取得します
-float Player::parcentVal(float val1, float val2, float parcent)
-{
-	float sa = val1 - val2;
-	float newval = val2 + (sa * parcent);
-	return (newval);
-}
 float Player::parcentValRot(float val1, float val2, float parcent)
 {
 	int ival1 = (int)(val1 * 10.0f) % 3600;

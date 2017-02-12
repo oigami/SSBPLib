@@ -401,7 +401,6 @@ private:
 	void updateFrame(float dt);
 	void setFrame(int frameNo, float dt = 0.0f);
 	void checkUserData(int frameNo);
-	float parcentVal(float val1, float val2, float parcent);
 	float parcentValRot(float val1, float val2, float parcent);
 
 private:
