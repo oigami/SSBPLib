@@ -484,15 +484,13 @@ void Player::setPartsParentage()
 	for (int partIndex = 0; partIndex < numParts; partIndex++)
 	{
 		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
-		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
+		CustomSprite* sprite = _parts.at(partIndex);
 		
-		if (partIndex > 0)
-		{
-			CustomSprite* parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
+		if (partIndex > 0){
+			CustomSprite* parent = _parts.at(partData->parentIndex);
 			sprite->_parent = parent;
 		}
-		else
-		{
+		else{
 			sprite->_parent = NULL;
 		}
 
@@ -606,7 +604,7 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 					//必要に応じて取得するパラメータを追加してください。
 					//当たり判定などのパーツに付属するフラグを取得する場合は　partData　のメンバを参照してください。
 					//親から継承したスケールを反映させる場合はxスケールは_mat.m[0]、yスケールは_mat.m[5]をかけて使用してください。
-					CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
+					CustomSprite* sprite = _parts.at(partIndex);
 					//パーツアトリビュート
 //					sprite->_state;												//SpriteStudio上のアトリビュートの値は_stateから取得してください
 					result.flags = sprite->_state.flags;						// このフレームで更新が行われるステータスのフラグ
@@ -807,7 +805,7 @@ bool Player::changeInstanceAnime(std::string partsname, std::string animename, b
 			const char* partName = ptr.toString(partData->name);
 			if (strcmp(partName, partsname.c_str()) == 0)
 			{
-				CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
+				CustomSprite* sprite = _parts.at(partIndex);
 				if (sprite->_ssplayer)
 				{
 					//パーツがインスタンスパーツの場合は再生するアニメを設定する
@@ -974,7 +972,7 @@ void Player::setFrame(int frameNo, float dt)
 
 		}
 
-		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
+		CustomSprite* sprite = _parts.at(partIndex);
 
 		if (cellRef){
 			//各パーツのテクスチャ情報を設定
@@ -1211,8 +1209,8 @@ void Player::setFrame(int frameNo, float dt)
 	for (int partIndex = 1; partIndex < _currentAnimeRef->m_numParts; partIndex++)
 	{
 		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
-		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
-		CustomSprite* parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
+		CustomSprite* sprite = _parts.at(partIndex);
+		CustomSprite* parent = _parts.at(partData->parentIndex);
 		
 		if (parent->_isStateChanged)
 		{
@@ -1224,14 +1222,14 @@ void Player::setFrame(int frameNo, float dt)
 	for (int partIndex = 0; partIndex < _currentAnimeRef->m_numParts; partIndex++)
 	{
 		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
-		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
+		CustomSprite* sprite = _parts.at(partIndex);
 
 		if (sprite->_isStateChanged){
 			Matrix mat;
 			
 			if (partIndex > 0){
 				//親のマトリクスを適用
-				CustomSprite* parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
+				CustomSprite* parent = _parts.at(partData->parentIndex);
 				mat = parent->_mat;
 			}
 			else{				
@@ -1273,7 +1271,7 @@ void Player::setFrame(int frameNo, float dt)
 
 			if (partIndex > 0)
 			{
-				CustomSprite* parent = static_cast<CustomSprite*>(_parts.at(partData->parentIndex));
+				CustomSprite* parent = _parts.at(partData->parentIndex);
 				//子供は親のステータスを引き継ぐ
 				//座標はマトリクスから取得する
 				if ((parent->_state.Calc_scaleX * parent->_state.Calc_scaleY) < 0)	//スケールのどちらかが-の場合は回転方向を逆にする
@@ -1310,7 +1308,7 @@ void Player::setFrame(int frameNo, float dt)
 	// 特殊パーツのアップデート
 	for (int partIndex = 0; partIndex < _currentAnimeRef->m_numParts; partIndex++)
 	{
-		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
+		CustomSprite* sprite = _parts.at(partIndex);
 
 		//インスタンスパーツのアップデート
 		if (sprite->_ssplayer)
@@ -1394,7 +1392,7 @@ void Player::draw()
 	{
 		int partIndex = _partIndex[index];
 		//スプライトの表示
-		CustomSprite* sprite = static_cast<CustomSprite*>(_parts.at(partIndex));
+		CustomSprite* sprite = _parts.at(partIndex);
 		if (sprite->_ssplayer)
 		{
 			if ((sprite->_state.isVisibled == true) && (sprite->_state.opacity > 0))
