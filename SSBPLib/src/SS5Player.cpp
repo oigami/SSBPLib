@@ -46,7 +46,6 @@ static const std::string s_nullString;
 Player::Player(const ResourceSet *resource)
 	: _currentRs(NULL)
 	, _currentAnimeRef(NULL)
-	, _frameSkipEnabled(true)
 	, _playingFrame(0.0f)
 	, _loop(0)
 	, _loopCount(0)
@@ -157,17 +156,6 @@ int Player::getLoopCount() const
 void Player::clearLoopCount()
 {
 	_loopCount = 0;
-}
-
-void Player::setFrameSkipEnabled(bool enabled)
-{
-	_frameSkipEnabled = enabled;
-	_playingFrame = (float)((int)_playingFrame);
-}
-
-bool Player::isFrameSkipEnabled() const
-{
-	return _frameSkipEnabled;
 }
 
 

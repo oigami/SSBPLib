@@ -244,12 +244,6 @@ public:
 	/** 現在までのループ再生回数をクリアします. */
 	void clearLoopCount();
 
-	/** フレームスキップ（フレームレートに合わせ再生フレームをスキップする）の設定をします. (default: true) */
-	void setFrameSkipEnabled(bool enabled);
-	
-	/** フレームスキップの設定状態を返します. */
-	bool isFrameSkipEnabled() const;
-
 	/** ラベル名からフレーム位置を取得します. */
 	int getLabelToFrame(char* findLabelName);
 
@@ -424,7 +418,6 @@ private:
 	float				_blendTime;
 	float				_blendTimeMax;
 
-	bool				_frameSkipEnabled;
 	float				_playingFrame;
 	int					_loop;
 	int					_loopCount;
