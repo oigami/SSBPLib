@@ -308,7 +308,7 @@ void Player::update(float dt)
 			_isPlayFirstUserdataChack = false;
 		}
 
-		if (true)
+		if (dt > 0)
 		{
 			// 順再生時.
 			// normal plays.
@@ -1189,7 +1189,7 @@ void Player::setFrame(int frameNo, float dt)
 					sprite->_mat.getScale(&x, &y, &z);
 					sprite->_ssplayer->setScale(x, y);
 
-					sprite->_mat.getRotation(&x, &y, &z);
+					sprite->_mat.getRotation(&x, &y, &z);		//tood:行列そのものを渡すようにすべき
 					sprite->_ssplayer->setRotation(x, y, z);
 
 					sprite->_ssplayer->setAlpha(sprite->_state.Calc_opacity);
