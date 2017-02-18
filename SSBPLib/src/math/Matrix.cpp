@@ -71,6 +71,47 @@ Matrix& Matrix::setupIdentity(){
 	return *this;
 }
 	
+Matrix& Matrix::setupSRzyxT(Vector3 scale, Vector3 rotationRadian, Vector3 translation){
+#if 0
+	Matrix tmp;
+	setupIdentity();
+	*this *= tmp.setupScale(scale.x, scale.y, scale.z);
+	*this *= tmp.setupRotationZ(rotationRadian.z);
+	*this *= tmp.setupRotationY(rotationRadian.y);
+	*this *= tmp.setupRotationX(rotationRadian.x);
+	*this *= tmp.setupTranslation(translation.x, translation.y, translation.z);
+#endif
+	float sin_x = sin(rotationRadian.x);
+	float cos_x = cos(rotationRadian.x);
+	float sin_y = sin(rotationRadian.y);
+	float cos_y = cos(rotationRadian.y);
+	float sin_z = sin(rotationRadian.z);
+	float cos_z = cos(rotationRadian.z);
+
+	_m[0] = scale.x * (cos_z * cos_y);
+	_m[1] = scale.x * (sin_z * cos_x  +  cos_z * sin_y * sin_x);
+	_m[2] = scale.x * (sin_z * sin_x  -  cos_z * sin_y * cos_x);
+	_m[3] = 0;
+
+	_m[4] = scale.y * (-sin_z * cos_y);
+	_m[5] = scale.y * (cos_z * cos_x  -  sin_z * sin_y * sin_x);
+	_m[6] = scale.y * (cos_z * sin_x  +  sin_z * sin_y * cos_x);
+	_m[7] = 0;
+
+	_m[8] = scale.z * sin_y;
+	_m[9] = scale.z * (-cos_y * sin_x);
+	_m[10] = scale.z * (cos_y * cos_x);
+	_m[11] = 0;
+
+	_m[12] = translation.x;
+	_m[13] = translation.y;
+	_m[14] = translation.z;
+	_m[15] = 1.0f;
+
+	return *this;
+}
+
+
 
 /* 平行移動だけは簡単な演算で済むので別枠で定義しておく ----------*/
 void Matrix::setTranslation(float x, float y, float z){			//平行移動成分をxyzで置き換え

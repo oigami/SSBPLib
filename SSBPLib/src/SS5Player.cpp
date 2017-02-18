@@ -295,8 +295,7 @@ void Player::update(float dt)
 		// forward frame.
 		const int numFrames = endFrame;
 
-		float s = dt * getAnimeFPS();
-		float next = _playingFrame + s;
+		float next = _playingFrame + (dt * getAnimeFPS());
 
 		int nextFrameNo = static_cast<int>(next);
 		float nextFrameDecimal = next - static_cast<float>(nextFrameNo);
@@ -1162,13 +1161,12 @@ void Player::setFrame(int frameNo, float dt)
 				_playerSetting.getTransformMatrix(&mat);
 			}
 			// SRzRyRxT mat
-			Matrix tmp;
 			Matrix localTransformMatrix;
-			localTransformMatrix *= tmp.setupScale(sprite->_state.scaleX, sprite->_state.scaleY, 1.0f);
-			localTransformMatrix *= tmp.setupRotationZ(SSDegToRad(sprite->_state.rotationZ));
-			localTransformMatrix *= tmp.setupRotationY(SSDegToRad(sprite->_state.rotationY));
-			localTransformMatrix *= tmp.setupRotationX(SSDegToRad(sprite->_state.rotationX));
-			localTransformMatrix *= tmp.setupTranslation(sprite->_state.x, sprite->_state.y, 0.0f);
+			localTransformMatrix.setupSRzyxT(
+				Vector3(sprite->_state.scaleX, sprite->_state.scaleY, 1.0f),
+				Vector3(SSDegToRad(sprite->_state.rotationX), SSDegToRad(sprite->_state.rotationY), SSDegToRad(sprite->_state.rotationZ)),
+				Vector3(sprite->_state.x, sprite->_state.y, 0.0f)
+			);
 			mat = localTransformMatrix * mat;
 
 			sprite->_mat = mat;

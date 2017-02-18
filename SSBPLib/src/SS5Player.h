@@ -132,13 +132,12 @@ struct PlayerSetting{
 	int		m_col_b;
 
 	void getTransformMatrix(Matrix* matrix) const{
-		Matrix tmp;
-		matrix->setupIdentity();
-		*matrix *= tmp.setupScale(m_scale.x, m_scale.y, m_scale.z);
-		*matrix *= tmp.setupRotationZ(DegreeToRadian(m_rotation.z));
-		*matrix *= tmp.setupRotationY(DegreeToRadian(m_rotation.y));
-		*matrix *= tmp.setupRotationX(DegreeToRadian(m_rotation.x));
-		*matrix *= tmp.setupTranslation(m_position.x, m_position.y, m_position.z);
+		Vector3 rotRadian = Vector3(
+			DegreeToRadian(m_rotation.x),
+			DegreeToRadian(m_rotation.y),
+			DegreeToRadian(m_rotation.z)
+		);
+		matrix->setupSRzyxT(m_scale, rotRadian, m_position);
 	}
 };
 

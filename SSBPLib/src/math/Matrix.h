@@ -22,6 +22,7 @@ public:
 	Matrix& setupRotationZ(float radian);
 	Matrix& setupScale(float x, float y, float z=1);
 	Matrix& setupIdentity();
+	Matrix& setupSRzyxT(Vector3 scale, Vector3 rotationRadian, Vector3 translation);	//回転はZYX順でかけます
 	
 	//平行移動だけは簡単な演算で済むので別枠で定義しておく
 	void setTranslation(float x, float y, float z=0);			//平行移動成分をxyzで置き換え
@@ -30,10 +31,10 @@ public:
 	void getTranslation(float* x, float* y, float* z) const;	//平行移動成分を取り出す
 	void getTranslation(float* x, float* y) const;				//平行移動成分を取り出す
 
-	//スケール値の抽出
+	//スケール値の抽出(SRT行列限定)
 	void getScale(float* x, float* y, float* z) const;
 
-	//回転の抽出
+	//回転の抽出(SRT行列限定)
 	void getRotation(float* x, float* y, float* z) const; //ラジアンでかえります
 	Matrix getRotationMatrix() const;		//回転成分だけ行列として取り出す
 
