@@ -49,7 +49,6 @@ Player::Player(const ResourceSet *resource)
 	, _playingFrame(0.0f)
 	, _loop(0)
 	, _loopCount(0)
-	, _isPlaying(false)
 	, _isPausing(false)
 	, _prevDrawFrameNo(-1)
 	, _instanceOverWrite(false)
@@ -189,7 +188,6 @@ void Player::play(AnimeRef* animeRef, int loop, int startFrameNo)
 	_playingFrame = static_cast<float>(startFrameNo);
 	_loop = loop;
 	_loopCount = 0;
-	_isPlaying = true;
 	_isPausing = false;
 	_prevDrawFrameNo = -1;
 	_isPlayFirstUserdataChack = true;
@@ -219,7 +217,7 @@ void Player::motionBlendPlay(const std::string& animeName, int loop, int startFr
 		{
 			if (_loop == _loopCount)	//アニメは最後まで終了している
 			{
-				_motionBlendPlayer->animePause();
+				_motionBlendPlayer->stop();
 			}
 		}
 		_blendTime = 0;
@@ -232,19 +230,14 @@ void Player::motionBlendPlay(const std::string& animeName, int loop, int startFr
 
 
 
-void Player::animePause()
-{
-	_isPausing = true;
-}
-
-void Player::animeResume()
+void Player::resume()
 {
 	_isPausing = false;
 }
 
 void Player::stop()
 {
-	_isPlaying = false;
+	_isPausing = true;
 }
 
 const std::string& Player::getPlayPackName() const
@@ -276,7 +269,7 @@ void Player::update(float dt)
 	SS_ASSERT_LOG(startFrame < endFrame, "Playframe is out of range.");
 
 	bool playEnd = false;
-	bool toNextFrame = _isPlaying && !_isPausing;
+	bool toNextFrame = !_isPausing;
 	if (toNextFrame && (_loop == 0 || _loopCount < _loop))
 	{
 		// フレームを進める.
@@ -448,7 +441,7 @@ void Player::setPartsParentage()
 			//インスタンスパーツが設定されている
 			sprite->_ssplayer = new Player(_currentRs);
 			sprite->_ssplayer->play(refanimeName);				 // アニメーション名を指定(ssae名/アニメーション名も可能、詳しくは後述)
-			sprite->_ssplayer->animePause();
+			sprite->_ssplayer->stop();
 		}
 
 		//エフェクトパーツの生成
@@ -759,7 +752,7 @@ bool Player::changeInstanceAnime(std::string partsname, std::string animename, b
 					{
 						sprite->_ssplayer->play(animename);
 						sprite->_ssplayer->setInstanceParam(overWrite, keyParam);	//インスタンスパラメータの設定
-						sprite->_ssplayer->animeResume();		//アニメ切り替え時にがたつく問題の対応
+						sprite->_ssplayer->resume();			//アニメ切り替え時にがたつく問題の対応
 						sprite->_liveFrame = 0;					//独立動作の場合再生位置をリセット
 						rc = true;
 					}

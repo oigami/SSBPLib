@@ -204,17 +204,11 @@ public:
 	 */
 	void motionBlendPlay(const std::string& animeName, int loop = 0, int startFrameNo = 0, float blendTime = 0.1f);
 
-	/** 再生を中断します. */
-	void animePause();
 
 	/** 再生を再開します. */
-	void animeResume();
+	void resume();
 
-	/**
-	 * 再生を停止します.
-	 * ゲーム側でアニメーションの表示フレームを制御する場合はstop()を呼び出した後
-	 * ゲーム側の更新処理でsetFrameNo()を呼び出し指定のフレームを表示してください。
-	 */
+	/** 再生を停止します. */
 	void stop();
 
 	/** 再生しているアニメーションのパック名(ssae)を返します. */
@@ -421,7 +415,6 @@ private:
 	float				_playingFrame;
 	int					_loop;
 	int					_loopCount;
-	bool				_isPlaying;
 	bool				_isPausing;
 	bool				_isPlayFirstUserdataChack;
 	int					_prevDrawFrameNo;

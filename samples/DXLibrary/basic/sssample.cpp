@@ -163,12 +163,12 @@ void update(float dt)
 			{
 				sstest_pause = true;
 				sstest_count = ssplayer->getFrameNo();;
-				ssplayer->animePause();
+				ssplayer->stop();
 			}
 			else
 			{
 				sstest_pause = false;
-				ssplayer->animeResume();
+				ssplayer->resume();
 			}
 		}
 		sstest_push = true;
