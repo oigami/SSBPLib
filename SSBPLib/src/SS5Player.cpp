@@ -111,15 +111,10 @@ Player::~Player()
 
 int Player::getMaxFrame() const
 {
-	if (_currentAnimeRef )
-	{
+	if (_currentAnimeRef ){	//todo:playerが作られた時点で、_currentAnimeRefがセットされていることにしたい(ifがなくなる)
 		return(_currentAnimeRef->m_animationData->numFrames);
 	}
-	else
-	{
-		return(0);
-	}
-
+	return 0;
 }
 
 int Player::getFrameNo() const
@@ -232,16 +227,14 @@ void Player::update(float dt)
 	if (!_currentAnimeRef) return;
 	if (!_currentRs->m_data) return;
 
-	int startFrame = 0;
-	int endFrame = _currentAnimeRef->m_animationData->numFrames;
-	SS_ASSERT_LOG(startFrame < endFrame, "Playframe is out of range.");
-
 	bool playEnd = false;
-	bool toNextFrame = !_isPausing;
-	if (toNextFrame){
+	if(_isPausing){
+		//アニメを手動で更新する場合
+		checkUserData(getFrameNo());
+	}
+	else{
 		// フレームを進める.
-		// forward frame.
-		const int numFrames = endFrame;
+		const int numFrames = getMaxFrame();
 
 		float next = _playingFrame + (dt * getAnimeFPS());
 
@@ -268,7 +261,7 @@ void Player::update(float dt)
 					// アニメが一巡
 					playEnd = true;
 					//break;
-					incFrameNo = startFrame;
+					incFrameNo = 0;
 					_seedOffset++;	//シードオフセットを加算
 				}
 				currentFrameNo = incFrameNo;
@@ -285,7 +278,7 @@ void Player::update(float dt)
 			for (int c = currentFrameNo - nextFrameNo; c; c--)
 			{
 				int decFrameNo = currentFrameNo - 1;
-				if (decFrameNo < startFrame)
+				if (decFrameNo < 0)
 				{
 					// アニメが一巡
 					playEnd = true;
@@ -305,11 +298,7 @@ void Player::update(float dt)
 
 
 	}
-	else
-	{
-		//アニメを手動で更新する場合
-		checkUserData(getFrameNo());
-	}
+
 	//モーションブレンド用アップデート
 	if (_motionBlendPlayer)
 	{
@@ -326,12 +315,9 @@ void Player::update(float dt)
 
 	setFrame(getFrameNo(), dt);
 	
-	if (playEnd)
-	{
-		//stop();
-	
+	if (playEnd){
 		// 再生終了コールバックの呼び出し
-		SSPlayEnd(this);
+		SSPlayEnd(this);	//stop();
 	}
 }
 
