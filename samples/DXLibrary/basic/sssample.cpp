@@ -162,7 +162,7 @@ void update(float dt)
 			if (sstest_pause == false )
 			{
 				sstest_pause = true;
-				sstest_count = ssplayer->getFrameNo();;
+				sstest_count = ssplayer->getCurrentFrame();;
 				ssplayer->stop();
 			}
 			else
@@ -229,11 +229,11 @@ void update(float dt)
 
 	if (sstest_pause == true)
 	{
-		ssplayer->setFrameNo(sstest_count % animax);
+		ssplayer->setCurrentFrame(sstest_count % animax);
 	}
 	else
 	{
-		sstest_count = ssplayer->getFrameNo();
+		sstest_count = ssplayer->getCurrentFrame();
 	}
 
 	//アニメーションのフレームを表示

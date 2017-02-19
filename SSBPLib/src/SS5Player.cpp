@@ -46,7 +46,7 @@ static const std::string s_nullString;
 Player::Player(const ResourceSet *resource)
 	: _currentRs(NULL)
 	, _currentAnimeRef(NULL)
-	, _playingFrame(0.0f)
+	, _currentFrameTime(0.0f)
 	, _isPausing(false)
 	, _prevDrawFrameNo(-1)
 	, _instanceOverWrite(false)
@@ -117,14 +117,14 @@ int Player::getMaxFrame() const
 	return 0;
 }
 
-int Player::getFrameNo() const
+int Player::getCurrentFrame() const
 {
-	return static_cast<int>(_playingFrame);
+	return static_cast<int>(_currentFrameTime);
 }
 
-void Player::setFrameNo(int frameNo)
+void Player::setCurrentFrame(int frame)
 {
-	_playingFrame = (float)frameNo;
+	_currentFrameTime = frame;
 }
 
 
@@ -155,14 +155,14 @@ void Player::play(AnimeRef* animeRef, int startFrameNo)
 		allocParts(animeRef->m_numParts, false);
 		setPartsParentage();
 	}
-	_playingFrame = startFrameNo;
+	_currentFrameTime = startFrameNo;
 	_isPausing = false;
 	_prevDrawFrameNo = -1;
 	
-	setFrame(static_cast<int>(_playingFrame));
+	setFrame(static_cast<int>(_currentFrameTime));
 
 	//play実行時に最初のフレームのユーザーデータを確認する
-	checkUserData(static_cast<int>(_playingFrame));
+	checkUserData(static_cast<int>(_currentFrameTime));
 }
 
 //モーションブレンドしつつ再生
@@ -191,7 +191,7 @@ void Player::motionBlendPlay(const std::string& animeName, /*int loop,*/ int sta
 		}
 	#else
 		//todo:モーションブレンドでのループは別途考える
-		_motionBlendPlayer->play(_currentAnimename, getFrameNo());
+		_motionBlendPlayer->play(_currentAnimename, getCurrentFrame());
 	#endif
 		_blendTime = 0;
 		_blendTimeMax = blendTime;
@@ -232,60 +232,61 @@ void Player::update(float dt)
 	bool playEnd = false;
 	if(_isPausing){
 		//アニメを手動で更新する場合
-		checkUserData(getFrameNo());
+		checkUserData(getCurrentFrame());
 	}
 	else{
 		// フレームを進める.
-		float nextFrame = _playingFrame + (dt * getAnimeFPS());
+		float nextFrameTime = _currentFrameTime + (dt * getAnimeFPS());
 
-		int nextFrameNo = static_cast<int>(nextFrame);
-		float nextFrameDecimal = nextFrame - static_cast<float>(nextFrameNo);
-		int currentFrameNo = static_cast<int>(_playingFrame);
+		int nextFrameNo = static_cast<int>(nextFrameTime);
+		float nextFrameDecimal = nextFrameTime - static_cast<float>(nextFrameNo);
+		
+		int checkFrame = getCurrentFrame();
 
 		if (dt > 0)
 		{
 			// 順再生時.
-			int seekCount = nextFrameNo - currentFrameNo;
+			int seekCount = nextFrameNo - getCurrentFrame();
 			for(int i = 0; i < seekCount; ++i){
-				if(currentFrameNo == getMaxFrame() - 1){
+				if(checkFrame == getMaxFrame() - 1){
 					playEnd = true;
 					//break;
 				}
 				
-				currentFrameNo++;
-				currentFrameNo = wrap<int>(currentFrameNo, 0, getMaxFrame());	//範囲制限
+				checkFrame++;
+				checkFrame = wrap<int>(checkFrame, 0, getMaxFrame());	//範囲制限
 				
-				if(currentFrameNo == 0){	//一巡した
+				if(checkFrame == 0){	//一巡した
 					_seedOffset++;	//シードオフセットを加算
 				}
 				
 				// このフレームのユーザーデータをチェック
-				checkUserData(currentFrameNo);
+				checkUserData(checkFrame);
 			}
 		}
 		else
 		{
 			// 逆再生時.
-			int seekCount = currentFrameNo - nextFrameNo;
+			int seekCount = getCurrentFrame() - nextFrameNo;
 			for(int i = 0; i < seekCount; ++i){
-				if(currentFrameNo == 0){
+				if(checkFrame == 0){
 					playEnd = true;
 					//break;
 				}
 
-				currentFrameNo--;
-				currentFrameNo = wrap<int>(currentFrameNo, 0, getMaxFrame());	//範囲制限
+				checkFrame--;
+				checkFrame = wrap<int>(checkFrame, 0, getMaxFrame());	//範囲制限
 
-				if(currentFrameNo == getMaxFrame()-1){	//一巡した
+				if(checkFrame == getMaxFrame()-1){	//一巡した
 					_seedOffset++;	//シードオフセットを加算
 				}
 
 				// このフレームのユーザーデータをチェック
-				checkUserData(currentFrameNo);
+				checkUserData(checkFrame);
 			}
 		}
 		
-		_playingFrame = static_cast<float>(currentFrameNo) + nextFrameDecimal;
+		_currentFrameTime = static_cast<float>(checkFrame) + nextFrameDecimal;
 
 
 	}
@@ -304,7 +305,7 @@ void Player::update(float dt)
 		}
 	}
 
-	setFrame(getFrameNo(), dt);
+	setFrame(getCurrentFrame(), dt);
 	
 	if (playEnd){
 		// 再生終了コールバックの呼び出し
@@ -447,10 +448,10 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 			if (frameNo == -1)
 			{
 				//フレームの指定が省略された場合は現在のフレームを使用する
-				frameNo = getFrameNo();
+				frameNo = getCurrentFrame();
 			}
 
-			if (frameNo != getFrameNo())
+			if (frameNo != getCurrentFrame())
 			{
 				//取得する再生フレームのデータが違う場合プレイヤーを更新する
 				//パーツステータスの更新
@@ -543,11 +544,11 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 				}
 			}
 			//パーツステータスを表示するフレームの内容で更新
-			if (frameNo != getFrameNo())
+			if (frameNo != getCurrentFrame())
 			{
 				//取得する再生フレームのデータが違う場合プレイヤーの状態をもとに戻す
 				//パーツステータスの更新
-				setFrame(getFrameNo());
+				setFrame(getCurrentFrame());
 			}
 		}
 	}
@@ -1000,7 +1001,7 @@ void Player::setFrame(int frameNo, float dt)
 			sprite->_ssplayer->setColor(_playerSetting.m_col_r, _playerSetting.m_col_g, _playerSetting.m_col_b);
 
 			//インスタンス用SSPlayerに再生フレームを設定する
-			sprite->_ssplayer->setFrameNo(_time);
+			sprite->_ssplayer->setCurrentFrame(_time);
 		}
 
 		//スプライトステータスの保存

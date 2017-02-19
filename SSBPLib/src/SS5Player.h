@@ -218,10 +218,10 @@ public:
 	int getMaxFrame() const;
 
 	/** 再生フレームNoを取得します. */
-	int getFrameNo() const;
+	int getCurrentFrame() const;
 
 	/** 再生フレームNoを設定します. */
-	void setFrameNo(int frameNo);
+	void setCurrentFrame(int frame);
 
 
 	/** ラベル名からフレーム位置を取得します. */
@@ -369,7 +369,7 @@ private:
 	float				_blendTimeMax;
 
 
-	float				_playingFrame;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い
+	float				_currentFrameTime;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い
 	bool				_isPausing;
 	int					_prevDrawFrameNo;
 	bool				_partVisible[PART_VISIBLE_MAX];
