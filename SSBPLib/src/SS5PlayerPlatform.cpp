@@ -211,11 +211,13 @@ namespace ss
 	}
 
 	/**
-	* ユーザーデータの取得
+	* 最終フレームを踏んだときの通知
 	*/
 	void SSPlayEnd(Player *player)
 	{
 		//ゲーム側へアニメ再生終了を設定する関数を呼び出してください。
+		//player->stop();
+		//player->setFrameNo(player->getMaxFrame() -1);
 	}
 
 

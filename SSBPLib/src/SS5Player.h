@@ -158,10 +158,9 @@ public:
 	 *
 	 * @param  ssaeName      パック名(ssae名）
 	 * @param  motionName    再生するモーション名
-	 * @param  loop          再生ループ数の指定. 省略時は0
 	 * @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
 	 */
-	void play(const std::string& ssaeName, const std::string& motionName, int loop = 0, int startFrameNo = 0);
+	void play(const std::string& ssaeName, const std::string& motionName, int startFrameNo = 0);
 
 	/**
 	 * アニメーションの再生を開始します.
@@ -171,10 +170,9 @@ public:
 	 * ※ver1.1からモーション名のみで指定する事はできなくなりました。
 	 *
 	 * @param  animeName     再生するアニメーション名
-	 * @param  loop          再生ループ数の指定. 省略時は0
 	 * @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
 	 */
-	void play(const std::string& animeName, int loop = 0, int startFrameNo = 0);
+	void play(const std::string& animeName, int startFrameNo = 0);
 
 	/**
 	 * 現在再生しているモーションとブレンドしながら再生します。
@@ -198,11 +196,10 @@ public:
 	 * 
 	 *
 	 * @param  animeName     再生するアニメーション名
-	 * @param  loop          再生ループ数の指定. 省略時は0
 	 * @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
 	 * @param  blendTime		モーションブレンドを行う時間、単位は秒　省略時は1秒
 	 */
-	void motionBlendPlay(const std::string& animeName, int loop = 0, int startFrameNo = 0, float blendTime = 0.1f);
+	void motionBlendPlay(const std::string& animeName, int startFrameNo = 0, float blendTime = 0.1f);
 
 
 	/** 再生を再開します. */
@@ -225,18 +222,7 @@ public:
 
 	/** 再生フレームNoを設定します. */
 	void setFrameNo(int frameNo);
-	
-	/** 指定されている再生ループ回数を取得します. (0:指定なし) */
-	int getLoop() const;
 
-	/** 再生ループ回数を設定します. (0:指定なし) */
-	void setLoop(int loop);
-
-	/** 現在までのループ再生回数を取得します. */
-	int getLoopCount() const;
-
-	/** 現在までのループ再生回数をクリアします. */
-	void clearLoopCount();
 
 	/** ラベル名からフレーム位置を取得します. */
 	int getLabelToFrame(char* findLabelName);
@@ -346,36 +332,6 @@ public:
 	 */
 	void getInstanceParam(bool *overWrite, Instance *keyParam);
 
-	/**
-	 * アニメーションのループ範囲（再生位置）を上書きします。
-	 *
-	 * @param  frame			開始フレーム（-1で上書き解除）
-	 */
-	void setStartFrame(int frame);
-
-	/*
-	 * アニメーションのループ範囲（終了位置）を上書きします。
-	 * SpriteStudioのフレーム数+1を設定してください。
-	 *
-	 * @param  frame			終了フレーム（-1で上書き解除）
-	 */
-	void setEndFrame(int frame);
-
-	/*
-	 * アニメーションのループ範囲（再生位置）を上書きします。
-	 *
-	 * @param  labelname			開始フレームとなるラベル名（""で上書き解除）
-	 */
-	void setStartFrameToLabelName(char *findLabelName);
-
-	/*
-	 * アニメーションのループ範囲（終了位置）を上書きします。
-	 *
-	 * @param  labelname			終了フレームとなるラベル名（""で上書き解除）
-	 */
-	void setEndFrameToLabelName(char *findLabelName);
-
-
 	/*
 	 * パーツ番号に対応したスプライト情報を取得します。
 	 * @param  partIndex			パーツ番号
@@ -397,7 +353,7 @@ private:
 	void releaseParts();
 	void setPartsParentage();
 
-	void play(AnimeRef* animeRef, int loop, int startFrameNo);
+	void play(AnimeRef* animeRef, int startFrameNo);
 	void setFrame(int frameNo, float dt = 0.0f);
 	void checkUserData(int frameNo);
 	float parcentValRot(float val1, float val2, float parcent);
@@ -412,9 +368,8 @@ private:
 	float				_blendTime;
 	float				_blendTimeMax;
 
+
 	float				_playingFrame;
-	int					_loop;
-	int					_loopCount;
 	bool				_isPausing;
 	bool				_isPlayFirstUserdataChack;
 	int					_prevDrawFrameNo;
@@ -423,8 +378,6 @@ private:
 	int					_partIndex[PART_VISIBLE_MAX];
 	bool				_instanceOverWrite;				//インスタンス情報を上書きするか？
 	Instance			_instanseParam;					//インスタンスパラメータ
-	int					_startFrameOverWrite;			//開始フレームの上書き設定
-	int					_endFrameOverWrite;				//終了フレームの上書き設定
 	int					_seedOffset;					//エフェクトシードオフセット
 	int					_draw_count;					//表示スプライト数
 
@@ -435,6 +388,14 @@ private:
 	std::vector<TextuerData> m_textures;		//_textures[cellMapIndex].handle = textureid;
 
 	int getAnimeFPS() const;
+
+
+	/**
+	 * todo:
+	 * ループ、ループカウント、範囲指定のループ の機能を削ったので、代替手段を用意する事
+	 *     フレームを進めるタイミングで、次のフレームを指定できるようにできれば十分なはず
+	 *     モーションブレンドでのループは別途考える
+	 */
 };
 
 

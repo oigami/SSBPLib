@@ -47,16 +47,12 @@ Player::Player(const ResourceSet *resource)
 	: _currentRs(NULL)
 	, _currentAnimeRef(NULL)
 	, _playingFrame(0.0f)
-	, _loop(0)
-	, _loopCount(0)
 	, _isPausing(false)
 	, _prevDrawFrameNo(-1)
 	, _instanceOverWrite(false)
 	, _motionBlendPlayer(NULL)
 	, _blendTime(0.0f)
 	, _blendTimeMax(0.0f)
-	,_startFrameOverWrite(-1)	//開始フレームの上書き設定
-	,_endFrameOverWrite(-1)		//終了フレームの上書き設定
 	, _seedOffset(0)
 {
 	_currentRs = resource;
@@ -136,35 +132,14 @@ void Player::setFrameNo(int frameNo)
 	_playingFrame = (float)frameNo;
 }
 
-int Player::getLoop() const
-{
-	return _loop;
-}
 
-void Player::setLoop(int loop)
-{
-	if (loop < 0) return;
-	_loop = loop;
-}
-
-int Player::getLoopCount() const
-{
-	return _loopCount;
-}
-
-void Player::clearLoopCount()
-{
-	_loopCount = 0;
-}
-
-
-void Player::play(const std::string& ssaeName, const std::string& motionName, int loop, int startFrameNo)
+void Player::play(const std::string& ssaeName, const std::string& motionName, int startFrameNo)
 {
 	std::string animeName = ssaeName + "/" + motionName;
-	play(animeName, loop, startFrameNo);
+	play(animeName, startFrameNo);
 }
 
-void Player::play(const std::string& animeName, int loop, int startFrameNo)
+void Player::play(const std::string& animeName, int startFrameNo)
 {
 	SS_ASSERT_LOG(_currentRs != NULL, "Not select data");
 
@@ -173,10 +148,10 @@ void Player::play(const std::string& animeName, int loop, int startFrameNo)
 	
 	_currentAnimename = animeName;
 
-	play(animeRef, loop, startFrameNo);
+	play(animeRef, startFrameNo);
 }
 
-void Player::play(AnimeRef* animeRef, int loop, int startFrameNo)
+void Player::play(AnimeRef* animeRef, int startFrameNo)
 {
 	if (_currentAnimeRef != animeRef)
 	{
@@ -186,19 +161,15 @@ void Player::play(AnimeRef* animeRef, int loop, int startFrameNo)
 		setPartsParentage();
 	}
 	_playingFrame = static_cast<float>(startFrameNo);
-	_loop = loop;
-	_loopCount = 0;
 	_isPausing = false;
 	_prevDrawFrameNo = -1;
 	_isPlayFirstUserdataChack = true;
-	setStartFrame(-1);
-	setEndFrame(-1);
 
 	setFrame((int)_playingFrame);
 }
 
 //モーションブレンドしつつ再生
-void Player::motionBlendPlay(const std::string& animeName, int loop, int startFrameNo, float blendTime)
+void Player::motionBlendPlay(const std::string& animeName, /*int loop,*/ int startFrameNo, float blendTime)
 {
 	if (_currentAnimename != "")
 	{
@@ -207,12 +178,13 @@ void Player::motionBlendPlay(const std::string& animeName, int loop, int startFr
 		{
 			_motionBlendPlayer = new Player(_currentRs);
 		}
+	#if 0
 		int loopnum = _loop;
 		if (_loop > 0)
 		{
 			loopnum = _loop - _loopCount;
 		}
-		_motionBlendPlayer->play(_currentAnimename, loopnum, getFrameNo());
+		_motionBlendPlayer->play(_currentAnimename, loopnum, getFrameNo());	//今までのアニメーションの状態(ループ含む)を持ち越すらしいが、start,endとかの伝播ができてないようだ
 		if (_loop > 0)
 		{
 			if (_loop == _loopCount)	//アニメは最後まで終了している
@@ -220,11 +192,15 @@ void Player::motionBlendPlay(const std::string& animeName, int loop, int startFr
 				_motionBlendPlayer->stop();
 			}
 		}
+	#else
+		//todo:モーションブレンドでのループは別途考える
+		_motionBlendPlayer->play(_currentAnimename, getFrameNo());
+	#endif
 		_blendTime = 0;
 		_blendTimeMax = blendTime;
 
 	}
-	play(animeName, loop, startFrameNo);
+	play(animeName, startFrameNo);
 
 }
 
@@ -258,20 +234,11 @@ void Player::update(float dt)
 
 	int startFrame = 0;
 	int endFrame = _currentAnimeRef->m_animationData->numFrames;
-	if (_startFrameOverWrite != -1)
-	{
-		startFrame = _startFrameOverWrite;
-	}
-	if (_endFrameOverWrite != -1 )
-	{ 
-		endFrame = _endFrameOverWrite;
-	}
 	SS_ASSERT_LOG(startFrame < endFrame, "Playframe is out of range.");
 
 	bool playEnd = false;
 	bool toNextFrame = !_isPausing;
-	if (toNextFrame && (_loop == 0 || _loopCount < _loop))
-	{
+	if (toNextFrame){
 		// フレームを進める.
 		// forward frame.
 		const int numFrames = endFrame;
@@ -299,16 +266,8 @@ void Player::update(float dt)
 				if (incFrameNo >= numFrames)
 				{
 					// アニメが一巡
-					// turned animation.
-					_loopCount += 1;
-					if (_loop && _loopCount >= _loop)
-					{
-						// 再生終了.
-						// play end.
-						playEnd = true;
-						break;
-					}
-					
+					playEnd = true;
+					//break;
 					incFrameNo = startFrame;
 					_seedOffset++;	//シードオフセットを加算
 				}
@@ -329,16 +288,8 @@ void Player::update(float dt)
 				if (decFrameNo < startFrame)
 				{
 					// アニメが一巡
-					// turned animation.
-					_loopCount += 1;
-					if (_loop && _loopCount >= _loop)
-					{
-						// 再生終了.
-						// play end.
-						playEnd = true;
-						break;
-					}
-				
+					playEnd = true;
+					//break;
 					decFrameNo = numFrames - 1;
 					_seedOffset++;	//シードオフセットを加算
 				}
@@ -377,7 +328,7 @@ void Player::update(float dt)
 	
 	if (playEnd)
 	{
-		stop();
+		//stop();
 	
 		// 再生終了コールバックの呼び出し
 		SSPlayEnd(this);
@@ -779,35 +730,6 @@ void Player::getInstanceParam(bool *overWrite, Instance *keyParam)
 	*keyParam = _instanseParam;			//インスタンスパラメータ
 }
 
-//アニメーションのループ範囲を設定します
-void Player::setStartFrame(int frame)
-{
-	_startFrameOverWrite = frame;	//開始フレームの上書き設定
-	//現在フレームより後の場合は先頭フレームに設定する
-	if (getFrameNo() < frame)
-	{
-		setFrameNo(frame);
-	}
-}
-void Player::setEndFrame(int frame)
-{
-	_endFrameOverWrite = frame;		//終了フレームの上書き設定
-}
-//アニメーションのループ範囲をラベル名で設定します
-void Player::setStartFrameToLabelName(char *findLabelName)
-{
-	int frame = getLabelToFrame(findLabelName);
-	setStartFrame(frame);
-}
-void Player::setEndFrameToLabelName(char *findLabelName)
-{
-	int frame = getLabelToFrame(findLabelName);
-	if (frame != -1)
-	{
-		frame += 1;
-	}
-	setEndFrame(frame);
-}
 
 //スプライト情報の取得
 const CustomSprite* Player::getSpriteData(int partIndex) const
