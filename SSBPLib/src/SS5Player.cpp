@@ -247,15 +247,18 @@ void Player::update(float dt)
 			// 順再生時.
 			int seekCount = nextFrameNo - currentFrameNo;
 			for(int i = 0; i < seekCount; ++i){
-				currentFrameNo++;
-				if (currentFrameNo >= getMaxFrame()){
-					// アニメが一巡
+				if(currentFrameNo == getMaxFrame() - 1){
 					playEnd = true;
 					//break;
-					currentFrameNo = 0;
+				}
+				
+				currentFrameNo++;
+				currentFrameNo = wrap<int>(currentFrameNo, 0, getMaxFrame());	//範囲制限
+				
+				if(currentFrameNo == 0){	//一巡した
 					_seedOffset++;	//シードオフセットを加算
 				}
-
+				
 				// このフレームのユーザーデータをチェック
 				checkUserData(currentFrameNo);
 			}
@@ -265,15 +268,18 @@ void Player::update(float dt)
 			// 逆再生時.
 			int seekCount = currentFrameNo - nextFrameNo;
 			for(int i = 0; i < seekCount; ++i){
-				currentFrameNo--;
-				if (currentFrameNo < 0){
-					// アニメが一巡
+				if(currentFrameNo == 0){
 					playEnd = true;
 					//break;
-					currentFrameNo = getMaxFrame() - 1;
+				}
+
+				currentFrameNo--;
+				currentFrameNo = wrap<int>(currentFrameNo, 0, getMaxFrame());	//範囲制限
+
+				if(currentFrameNo == getMaxFrame()-1){	//一巡した
 					_seedOffset++;	//シードオフセットを加算
 				}
-				
+
 				// このフレームのユーザーデータをチェック
 				checkUserData(currentFrameNo);
 			}
