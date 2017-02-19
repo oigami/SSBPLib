@@ -236,55 +236,45 @@ void Player::update(float dt)
 	}
 	else{
 		// フレームを進める.
-		const int numFrames = getMaxFrame();
+		float nextFrame = _playingFrame + (dt * getAnimeFPS());
 
-		float next = _playingFrame + (dt * getAnimeFPS());
-
-		int nextFrameNo = static_cast<int>(next);
-		float nextFrameDecimal = next - static_cast<float>(nextFrameNo);
+		int nextFrameNo = static_cast<int>(nextFrame);
+		float nextFrameDecimal = nextFrame - static_cast<float>(nextFrameNo);
 		int currentFrameNo = static_cast<int>(_playingFrame);
 
 		if (dt > 0)
 		{
 			// 順再生時.
-			// normal plays.
-			for (int c = nextFrameNo - currentFrameNo; c; c--)
-			{
-				int incFrameNo = currentFrameNo + 1;
-				if (incFrameNo >= numFrames)
-				{
+			int seekCount = nextFrameNo - currentFrameNo;
+			for(int i = 0; i < seekCount; ++i){
+				currentFrameNo++;
+				if (currentFrameNo >= getMaxFrame()){
 					// アニメが一巡
 					playEnd = true;
 					//break;
-					incFrameNo = 0;
+					currentFrameNo = 0;
 					_seedOffset++;	//シードオフセットを加算
 				}
-				currentFrameNo = incFrameNo;
 
 				// このフレームのユーザーデータをチェック
-				// check the user data of this frame.
 				checkUserData(currentFrameNo);
 			}
 		}
 		else
 		{
 			// 逆再生時.
-			// reverse play.
-			for (int c = currentFrameNo - nextFrameNo; c; c--)
-			{
-				int decFrameNo = currentFrameNo - 1;
-				if (decFrameNo < 0)
-				{
+			int seekCount = currentFrameNo - nextFrameNo;
+			for(int i = 0; i < seekCount; ++i){
+				currentFrameNo--;
+				if (currentFrameNo < 0){
 					// アニメが一巡
 					playEnd = true;
 					//break;
-					decFrameNo = numFrames - 1;
+					currentFrameNo = getMaxFrame() - 1;
 					_seedOffset++;	//シードオフセットを加算
 				}
-				currentFrameNo = decFrameNo;
 				
 				// このフレームのユーザーデータをチェック
-				// check the user data of this frame.
 				checkUserData(currentFrameNo);
 			}
 		}
