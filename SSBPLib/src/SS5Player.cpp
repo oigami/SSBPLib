@@ -155,12 +155,14 @@ void Player::play(AnimeRef* animeRef, int startFrameNo)
 		allocParts(animeRef->m_numParts, false);
 		setPartsParentage();
 	}
-	_playingFrame = static_cast<float>(startFrameNo);
+	_playingFrame = startFrameNo;
 	_isPausing = false;
 	_prevDrawFrameNo = -1;
-	_isPlayFirstUserdataChack = true;
+	
+	setFrame(static_cast<int>(_playingFrame));
 
-	setFrame((int)_playingFrame);
+	//play実行時に最初のフレームのユーザーデータを確認する
+	checkUserData(static_cast<int>(_playingFrame));
 }
 
 //モーションブレンドしつつ再生
@@ -241,13 +243,6 @@ void Player::update(float dt)
 		int nextFrameNo = static_cast<int>(next);
 		float nextFrameDecimal = next - static_cast<float>(nextFrameNo);
 		int currentFrameNo = static_cast<int>(_playingFrame);
-
-		//playを行って最初のupdateでは現在のフレームのユーザーデータを確認する
-		if (_isPlayFirstUserdataChack == true)
-		{
-			checkUserData(currentFrameNo);
-			_isPlayFirstUserdataChack = false;
-		}
 
 		if (dt > 0)
 		{

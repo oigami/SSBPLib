@@ -371,7 +371,6 @@ private:
 
 	float				_playingFrame;
 	bool				_isPausing;
-	bool				_isPlayFirstUserdataChack;
 	int					_prevDrawFrameNo;
 	bool				_partVisible[PART_VISIBLE_MAX];
 	int					_cellChange[PART_VISIBLE_MAX];
