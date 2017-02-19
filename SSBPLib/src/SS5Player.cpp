@@ -237,16 +237,14 @@ void Player::update(float dt)
 	else{
 		// フレームを進める.
 		float nextFrameTime = _currentFrameTime + (dt * getAnimeFPS());
-
-		int nextFrame = static_cast<int>(nextFrameTime);
-		float nextFrameDecimal = nextFrameTime - nextFrame;
+		float nextFrameDecimal = nextFrameTime - static_cast<int>(nextFrameTime);
 		
 		int checkFrame = getCurrentFrame();
 
 		if (dt > 0)
 		{
 			// 順再生時.
-			int seekCount = nextFrame - getCurrentFrame();
+			int seekCount = nextFrameTime - getCurrentFrame();
 			for(int i = 0; i < seekCount; ++i){
 				if(checkFrame == getMaxFrame() - 1){
 					playEnd = true;
@@ -267,7 +265,7 @@ void Player::update(float dt)
 		else
 		{
 			// 逆再生時.
-			int seekCount = getCurrentFrame() - nextFrame;
+			int seekCount = getCurrentFrame() - nextFrameTime;
 			for(int i = 0; i < seekCount; ++i){
 				if(checkFrame == 0){
 					playEnd = true;
