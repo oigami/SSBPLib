@@ -21,7 +21,6 @@ namespace ss
 	extern void SSDrawSprite(State state);
 	extern bool SSGetTextureSize(long handle, int &w, int &h);
 	extern void SSonUserData(Player *player, UserData *userData);
-	extern void SSPlayEnd(Player *player);
 	extern int  SSLimitFrame(int frame, int maxFrame);
 
 

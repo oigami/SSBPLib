@@ -229,7 +229,6 @@ void Player::update(float dt)
 	if (!_currentAnimeRef) return;
 	if (!_currentRs->m_data) return;
 
-	bool playEnd = false;
 	if(_isPausing){
 		//アニメを手動で更新する場合
 		checkUserData(getCurrentFrame());
@@ -284,11 +283,6 @@ void Player::update(float dt)
 	}
 
 	setFrame(getCurrentFrame(), dt);
-	
-	if (playEnd){
-		// 再生終了コールバックの呼び出し
-		SSPlayEnd(this);	//stop();
-	}
 }
 
 
