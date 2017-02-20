@@ -237,54 +237,48 @@ void Player::update(float dt)
 	else{
 		// フレームを進める.
 		float nextFrameTime = _currentFrameTime + (dt * getAnimeFPS());
-		float nextFrameDecimal = nextFrameTime - static_cast<int>(nextFrameTime);
+		float nextFrameRemainder = nextFrameTime - static_cast<int>(nextFrameTime);
 		
 		int checkFrame = getCurrentFrame();
 
-		if (dt > 0)
-		{
-			// 順再生時.
-			int seekCount = nextFrameTime - getCurrentFrame();
-			for(int i = 0; i < seekCount; ++i){
-				if(checkFrame == getMaxFrame() - 1){
-					playEnd = true;
-					//break;
-				}
-				
-				checkFrame++;
-				checkFrame = wrap<int>(checkFrame, 0, getMaxFrame());	//範囲制限
-				
-				if(checkFrame == 0){	//一巡した
-					_seedOffset++;	//シードオフセットを加算
-				}
-				
-				// このフレームのユーザーデータをチェック
-				checkUserData(checkFrame);
+		
+		int seekCount = nextFrameTime - getCurrentFrame();
+		// 順再生時.
+		for(int i = 0; i < seekCount; ++i){
+			if(checkFrame == getMaxFrame() - 1){
+				playEnd = true;
+				//break;
 			}
+				
+			checkFrame++;
+			checkFrame = wrap<int>(checkFrame, 0, getMaxFrame());	//範囲制限
+				
+			if(checkFrame == 0){	//一巡した
+				_seedOffset++;	//シードオフセットを加算
+			}
+				
+			// このフレームのユーザーデータをチェック
+			checkUserData(checkFrame);
 		}
-		else
-		{
-			// 逆再生時.
-			int seekCount = getCurrentFrame() - nextFrameTime;
-			for(int i = 0; i < seekCount; ++i){
-				if(checkFrame == 0){
-					playEnd = true;
-					//break;
-				}
-
-				checkFrame--;
-				checkFrame = wrap<int>(checkFrame, 0, getMaxFrame());	//範囲制限
-
-				if(checkFrame == getMaxFrame()-1){	//一巡した
-					_seedOffset++;	//シードオフセットを加算
-				}
-
-				// このフレームのユーザーデータをチェック
-				checkUserData(checkFrame);
+		// 逆再生時.
+		for(int i = 0; i > seekCount; --i){
+			if(checkFrame == 0){
+				playEnd = true;
+				//break;
 			}
+
+			checkFrame--;
+			checkFrame = wrap<int>(checkFrame, 0, getMaxFrame());	//範囲制限
+
+			if(checkFrame == getMaxFrame()-1){	//一巡した
+				_seedOffset++;	//シードオフセットを加算
+			}
+
+			// このフレームのユーザーデータをチェック
+			checkUserData(checkFrame);
 		}
 		
-		_currentFrameTime = static_cast<float>(checkFrame) + nextFrameDecimal;
+		_currentFrameTime = static_cast<float>(checkFrame) + nextFrameRemainder;
 
 
 	}
