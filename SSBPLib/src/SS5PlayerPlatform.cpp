@@ -220,6 +220,22 @@ namespace ss
 		//player->setFrameNo(player->getMaxFrame() -1);
 	}
 
+	/**
+	 * フレームに制限をつけるためのイベント
+	 * @param frame		これからPlayerが処理したいフレーム番号
+	 * @param maxFrame	アニメーションの総フレーム数
+	 * @return 制限をかけた後のフレーム番号
+	 */
+	int SSLimitFrame(int frame, int maxFrame){
+		return ss::wrap<int>(frame, 0, maxFrame);		//ループ再生になります
+		
+		//例:
+		//return ss::clamp<int>(frame, 0, maxFrame-1);	//最終フレームで止める
+		//return ss::wrap<int>(frame, 3, 7);			//3～6フレームでループさせる
+		//if(frame>10){ return 5; }else{ return frame; }//10フレームを過ぎたら5フレームに飛ばす
+	}
+
+
 
 	/**
 	* 文字コード変換

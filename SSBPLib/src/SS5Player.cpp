@@ -240,47 +240,33 @@ void Player::update(float dt)
 		float nextFrameRemainder = nextFrameTime - static_cast<int>(nextFrameTime);
 		
 		int checkFrame = getCurrentFrame();
-
-		
 		int seekCount = nextFrameTime - getCurrentFrame();
 		// 順再生時.
 		for(int i = 0; i < seekCount; ++i){
-			if(checkFrame == getMaxFrame() - 1){
-				playEnd = true;
-				//break;
-			}
-				
-			checkFrame++;
-			checkFrame = wrap<int>(checkFrame, 0, getMaxFrame());	//範囲制限
-				
+			checkFrame = SSLimitFrame(checkFrame + 1, getMaxFrame());	//範囲制限
+			SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
+			
+			// このフレームのユーザーデータをチェック
+			checkUserData(checkFrame);
+
 			if(checkFrame == 0){	//一巡した
 				_seedOffset++;	//シードオフセットを加算
 			}
-				
-			// このフレームのユーザーデータをチェック
-			checkUserData(checkFrame);
 		}
 		// 逆再生時.
 		for(int i = 0; i > seekCount; --i){
-			if(checkFrame == 0){
-				playEnd = true;
-				//break;
-			}
+			checkFrame = SSLimitFrame(checkFrame - 1, getMaxFrame());	//範囲制限
+			SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
 
-			checkFrame--;
-			checkFrame = wrap<int>(checkFrame, 0, getMaxFrame());	//範囲制限
+			// このフレームのユーザーデータをチェック
+			checkUserData(checkFrame);
 
 			if(checkFrame == getMaxFrame()-1){	//一巡した
 				_seedOffset++;	//シードオフセットを加算
 			}
-
-			// このフレームのユーザーデータをチェック
-			checkUserData(checkFrame);
 		}
 		
-		_currentFrameTime = static_cast<float>(checkFrame) + nextFrameRemainder;
-
-
+		_currentFrameTime = checkFrame + nextFrameRemainder;
 	}
 
 	//モーションブレンド用アップデート
