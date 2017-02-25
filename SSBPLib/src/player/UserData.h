@@ -16,16 +16,16 @@ struct UserData{
 		FLAG_STRING = 1 << 3
 	};
 
-	const char*	partName;		/// Part name
-	int			frameNo;		/// Frame no
+	const char*	m_partName;		/// Part name
+	int			m_frameNo;		/// Frame no
 
-	int			flags;			/// 含まれるデータの種類
-	int			partIndex;		/// パーツインデックス
-	int			integer;		/// 整数データ
-	int			rect[4];		/// 矩形データ[Left, Top, Right, Bottom]
-	int			point[2];		/// 座標データ[X, Y]
-	const char*	str;			/// 文字列データ (zero terminated)
-	int			strSize;		/// 文字列のサイズ (byte count)
+	int			m_flags;		/// 含まれるデータの種類
+	int			m_partIndex;	/// パーツインデックス
+	int			m_integer;		/// 整数データ
+	int			m_rect[4];		/// 矩形データ[Left, Top, Right, Bottom]
+	int			m_point[2];		/// 座標データ[X, Y]
+	const char*	m_str;			/// 文字列データ (zero terminated)
+	int			m_strSize;		/// 文字列のサイズ (byte count)
 
 	
 	//readerを介してデータを読み取る

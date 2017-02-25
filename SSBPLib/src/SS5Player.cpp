@@ -1194,70 +1194,10 @@ void Player::checkUserData(int frameNo)
 
 	for (int i = 0; i < numUserData; i++){
 		_userData.readData(reader, ptr);
-		
-	#if 0
-		int flags = reader.readU16();
-		int partIndex = reader.readU16();
-
-		_userData.flags = 0;
-
-		if (flags & UserData::FLAG_INTEGER)
-		{
-			_userData.flags |= UserData::FLAG_INTEGER;
-			_userData.integer = reader.readS32();
-		}
-		else
-		{
-			_userData.integer = 0;
-		}
-		
-		if (flags & UserData::FLAG_RECT)
-		{
-			_userData.flags |= UserData::FLAG_RECT;
-			_userData.rect[0] = reader.readS32();
-			_userData.rect[1] = reader.readS32();
-			_userData.rect[2] = reader.readS32();
-			_userData.rect[3] = reader.readS32();
-		}
-		else
-		{
-			_userData.rect[0] =
-			_userData.rect[1] =
-			_userData.rect[2] =
-			_userData.rect[3] = 0;
-		}
-		
-		if (flags & UserData::FLAG_POINT)
-		{
-			_userData.flags |= UserData::FLAG_POINT;
-			_userData.point[0] = reader.readS32();
-			_userData.point[1] = reader.readS32();
-		}
-		else
-		{
-			_userData.point[0] =
-			_userData.point[1] = 0;
-		}
-		
-		if (flags & UserData::FLAG_STRING)
-		{
-			_userData.flags |= UserData::FLAG_STRING;
-			int size = reader.readU16();
-			ss_offset offset = reader.readOffset();
-			const char* str = ptr.toString(offset);
-			_userData.str = str;
-			_userData.strSize = size;
-		}
-		else
-		{
-			_userData.str = 0;
-			_userData.strSize = 0;
-		}
-	#endif		
-		const PartData* partData = _currentAnimeRef->getPartData(_userData.partIndex);
-		_userData.partName = ptr.toString(partData->name);
-		_userData.frameNo = frameNo;
-
+			
+		const PartData* partData = _currentAnimeRef->getPartData(_userData.m_partIndex);
+		_userData.m_partName = ptr.toString(partData->name);
+		_userData.m_frameNo = frameNo;
 
 		SSonUserData(this, &_userData);
 	}

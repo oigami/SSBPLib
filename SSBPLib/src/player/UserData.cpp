@@ -8,61 +8,61 @@ namespace ss{
 void UserData::readData(DataArrayReader& reader, const ToPointer& ptr)
 {
 	int flags = reader.readU16();
-	this->partIndex = reader.readU16();
+	m_partIndex = reader.readU16();
 
-	this->flags = 0;
+	m_flags = 0;
 
 	if(flags & UserData::FLAG_INTEGER)
 	{
-		this->flags |= UserData::FLAG_INTEGER;
-		this->integer = reader.readS32();
+		m_flags |= UserData::FLAG_INTEGER;
+		m_integer = reader.readS32();
 	}
 	else
 	{
-		this->integer = 0;
+		m_integer = 0;
 	}
 
 	if(flags & UserData::FLAG_RECT)
 	{
-		this->flags |= UserData::FLAG_RECT;
-		this->rect[0] = reader.readS32();
-		this->rect[1] = reader.readS32();
-		this->rect[2] = reader.readS32();
-		this->rect[3] = reader.readS32();
+		m_flags |= UserData::FLAG_RECT;
+		m_rect[0] = reader.readS32();
+		m_rect[1] = reader.readS32();
+		m_rect[2] = reader.readS32();
+		m_rect[3] = reader.readS32();
 	}
 	else
 	{
-		this->rect[0] =
-			this->rect[1] =
-			this->rect[2] =
-			this->rect[3] = 0;
+		m_rect[0] =
+			m_rect[1] =
+			m_rect[2] =
+			m_rect[3] = 0;
 	}
 
 	if(flags & UserData::FLAG_POINT)
 	{
-		this->flags |= UserData::FLAG_POINT;
-		this->point[0] = reader.readS32();
-		this->point[1] = reader.readS32();
+		m_flags |= UserData::FLAG_POINT;
+		m_point[0] = reader.readS32();
+		m_point[1] = reader.readS32();
 	}
 	else
 	{
-		this->point[0] =
-			this->point[1] = 0;
+		m_point[0] =
+			m_point[1] = 0;
 	}
 
 	if(flags & UserData::FLAG_STRING)
 	{
-		this->flags |= UserData::FLAG_STRING;
+		m_flags |= UserData::FLAG_STRING;
 		int size = reader.readU16();
 		ss_offset offset = reader.readOffset();
 		const char* str = ptr.toString(offset);
-		this->str = str;
-		this->strSize = size;
+		m_str = str;
+		m_strSize = size;
 	}
 	else
 	{
-		this->str = 0;
-		this->strSize = 0;
+		m_str = 0;
+		m_strSize = 0;
 	}
 }
 
