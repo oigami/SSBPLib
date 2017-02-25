@@ -30,6 +30,8 @@ struct UserData{
 	
 	//readerを介してデータを読み取る
 	void readData(DataArrayReader& reader, const ToPointer& ptr);
+private:
+	void init();
 };
 
 
