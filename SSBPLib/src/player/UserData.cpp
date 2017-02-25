@@ -17,37 +17,32 @@ void UserData::init(){
 //データ読み取り
 void UserData::readData(DataArrayReader& reader, const ToPointer& ptr)
 {
-	init();
+	init();		//最初に0クリアしておく
 
-	int flags = reader.readU16();
+	m_flags = reader.readU16();
 	m_partIndex = reader.readU16();
 
-	if(flags & UserData::FLAG_INTEGER){
-		m_flags |= UserData::FLAG_INTEGER;
+	if(m_flags & UserData::FLAG_INTEGER){
 		m_integer = reader.readS32();
 	}
 
-	if(flags & UserData::FLAG_RECT){
-		m_flags |= UserData::FLAG_RECT;
+	if(m_flags & UserData::FLAG_RECT){
 		m_rect[0] = reader.readS32();
 		m_rect[1] = reader.readS32();
 		m_rect[2] = reader.readS32();
 		m_rect[3] = reader.readS32();
 	}
 
-	if(flags & UserData::FLAG_POINT){
-		m_flags |= UserData::FLAG_POINT;
+	if(m_flags & UserData::FLAG_POINT){
 		m_point[0] = reader.readS32();
 		m_point[1] = reader.readS32();
 	}
 
-	if(flags & UserData::FLAG_STRING){
-		m_flags |= UserData::FLAG_STRING;
-		int size = reader.readU16();
+	if(m_flags & UserData::FLAG_STRING){
+		m_strSize = reader.readU16();
+
 		ss_offset offset = reader.readOffset();
-		const char* str = ptr.toString(offset);
-		m_str = str;
-		m_strSize = size;
+		m_str = ptr.toString(offset);
 	}
 }
 
