@@ -520,8 +520,6 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 //ラベル名が全角でついていると取得に失敗します。
 int Player::getLabelToFrame(char* findLabelName)
 {
-	int rc = -1;
-
 	ToPointer ptr(_currentRs->m_data);
 	const AnimationData* animeData = _currentAnimeRef->m_animationData;
 
@@ -529,9 +527,8 @@ int Player::getLabelToFrame(char* findLabelName)
 	const ss_offset* labelDataIndex = static_cast<const ss_offset*>(ptr(animeData->labelData));
 
 
-	int idx = 0;
-	for (idx = 0; idx < animeData->labelNum; idx++ )
-	{
+	for (int idx = 0; idx < animeData->labelNum; idx++ ){
+
 		if (!labelDataIndex[idx]) return -1;
 		const ss_u16* labelDataArray = static_cast<const ss_u16*>(ptr(labelDataIndex[idx]));
 
@@ -544,14 +541,12 @@ int Player::getLabelToFrame(char* findLabelName)
 		ldata.str = str;
 		ldata.frameNo = labelFrame;
 
-		if (ldata.str.compare(findLabelName) == 0 )
-		{
-			//同じ名前のラベルが見つかった
-			return (ldata.frameNo);
+		if (ldata.str.compare(findLabelName) == 0 ){
+			return ldata.frameNo;		//同じ名前のラベルが見つかった
 		}
 	}
 
-	return (rc);
+	return -1;
 }
 
 //特定パーツの表示、非表示を設定します
