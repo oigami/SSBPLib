@@ -356,7 +356,6 @@ private:
 	void play(AnimeRef* animeRef, int startFrameNo);
 	void setFrame(int frameNo, float dt = 0.0f);
 	void checkUserData(int frameNo);
-	float parcentValRot(float val1, float val2, float parcent);
 
 private:
 	const ResourceSet*		_currentRs;

@@ -735,9 +735,9 @@ void Player::setFrame(int frameNo, float dt)
 				state.y = lerp(blendSprite->_orgState.y, state.y, percent);
 				state.scaleX = lerp(blendSprite->_orgState.scaleX, state.scaleX, percent);
 				state.scaleY = lerp(blendSprite->_orgState.scaleY, state.scaleY, percent);
-				state.rotationX = parcentValRot(state.rotationX, blendSprite->_orgState.rotationX, percent);
-				state.rotationY = parcentValRot(state.rotationY, blendSprite->_orgState.rotationY, percent);
-				state.rotationZ = parcentValRot(state.rotationZ, blendSprite->_orgState.rotationZ, percent);
+				state.rotationX = lerpAngle(blendSprite->_orgState.rotationX, state.rotationX, percent);
+				state.rotationY = lerpAngle(blendSprite->_orgState.rotationY, state.rotationY, percent);
+				state.rotationZ = lerpAngle(blendSprite->_orgState.rotationZ, state.rotationZ, percent);
 			}
 
 		}
@@ -1204,42 +1204,6 @@ void Player::setColor(int r, int g, int b)
 	_playerSetting.m_col_b = b;
 }
 /*-------------------------------------------------------*/
-
-//割合に応じた中間値を取得します
-float Player::parcentValRot(float val1, float val2, float parcent)
-{
-	int ival1 = (int)(val1 * 10.0f) % 3600;
-	int ival2 = (int)(val2 * 10.0f) % 3600;
-	if (ival1 < 0){
-		ival1 += 3600;
-	}
-	if (ival2 < 0){
-		ival2 += 3600;
-	}
-	int islr = ival1 - ival2;
-	if (islr < 0){
-		islr += 3600;
-	}
-	int inewval;
-	if (islr == 0){
-		inewval = ival1;
-	}
-	else{
-		if (islr > 1800){
-			int isa = 3600 - islr;
-			inewval = ival2 - ((float)isa * parcent);
-		}
-		else{
-			int isa = islr;
-			inewval = ival2 + ((float)isa * parcent);
-		}
-	}
-
-
-	float newval = (float)inewval / 10.0f;
-	return (newval);
-}
-
 
 
 };

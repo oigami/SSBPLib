@@ -52,6 +52,9 @@ T lerp(const T &from, const T &to, double t){
 	return from + diff*t;
 }
 
+/** 角度を[0:360)の範囲で補完する t[0:1] */
+float lerpAngle(float from, float to, double t);
+
 
 } //namespace ss
 

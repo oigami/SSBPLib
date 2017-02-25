@@ -29,5 +29,11 @@ void DebugPrintToConsole(const char *filename, int line, const char *format, ...
 }
 
 
+float lerpAngle(float from, float to, double t){
+	float diff = fwrap<float>(to - from, -180.0f, 180.0f);	//角度差を-180...180の範囲に収める
+	float angle = from + diff*t;
+	return fwrap<float>(angle, 0.0f, 360.0f);
+}
+
 
 } //namespace ss
