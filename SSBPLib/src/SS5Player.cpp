@@ -568,19 +568,14 @@ void Player::setPartVisible(std::string partsname, bool flg)
 //パーツに割り当たるセルを変更します
 void Player::setPartCell(std::string partsname, std::string sscename, std::string cellname)
 {
-	bool rc = false;
-	if (_currentAnimeRef)
-	{
-
-		int changeCellIndex = -1;
-		if ((sscename != "") && (cellname != "")){
-			changeCellIndex = _currentRs->m_cellCache->indexOfCell(cellname, sscename);
-		}
-
-		int partIndex = indexOfPart(partsname.c_str());
-		_cellChange[partIndex] = changeCellIndex;	//セル番号を設定
-		//memo:元の実装では_partInex[]のインデックスを使っていたので動作がおかしいときはそのあたりを疑ってみる
+	int changeCellIndex = -1;
+	if ((sscename != "") && (cellname != "")){
+		changeCellIndex = _currentRs->m_cellCache->indexOfCell(cellname, sscename);
 	}
+
+	int partIndex = indexOfPart(partsname.c_str());
+	_cellChange[partIndex] = changeCellIndex;	//セル番号を設定
+	//memo:元の実装では_partInex[]のインデックスを使っていたので動作がおかしいときはそのあたりを疑ってみる
 }
 
 // インスタンスパーツが再生するアニメを変更します。
