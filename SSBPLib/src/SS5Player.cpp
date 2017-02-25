@@ -571,31 +571,10 @@ void Player::setPartCell(std::string partsname, std::string sscename, std::strin
 	bool rc = false;
 	if (_currentAnimeRef)
 	{
-		ToPointer ptr(_currentRs->m_data);
 
 		int changeCellIndex = -1;
-		if ((sscename != "") && (cellname != ""))
-		{
-			//セルマップIDを取得する
-			const Cell* cells = ptr.toCells(_currentRs->m_data);
-
-			//名前からインデックスの取得
-			int cellindex = -1;
-			for (int i = 0; i < _currentRs->m_data->numCells; i++)
-			{
-				const Cell* cell = &cells[i];
-				const char* name1 = ptr.toString(cell->name);
-				const CellMap* cellMap = ptr.toCellMap(cell);
-				const char* name2 = ptr.toString(cellMap->name);
-				if (strcmp(cellname.c_str(), name1) == 0)
-				{
-					if (strcmp(sscename.c_str(), name2) == 0)
-					{
-						changeCellIndex = i;
-						break;
-					}
-				}
-			}
+		if ((sscename != "") && (cellname != "")){
+			changeCellIndex = _currentRs->m_cellCache->indexOfCell(cellname, sscename);
 		}
 
 		for (int index = 0; index < _currentAnimeRef->m_numParts; index++)

@@ -15,7 +15,8 @@ struct Cell;
 struct CellRef{
 	const Cell* m_cell;
 	const char* m_cellName;		//cellの名前
-	int m_cellMapIndex;			//セルマップ番号
+	int			m_cellMapIndex;	//セルマップ番号
+	const char* m_cellMapName;	//セルマップ名
 	SSRect		m_rect;			//cellの範囲
 };
 
@@ -35,7 +36,7 @@ public:
 	const CellRef* getReference(int index) const;
 	
 	/** cell名からindexを返す */
-	int indexOfCell(const std::string &cellName) const;
+	int indexOfCell(const std::string& cellName, const std::string& cellMapName) const;
 
 	//指定したCellMapのテクスチャ名を取得する
 	std::string getTexturePath(int cellMapIndex) const;

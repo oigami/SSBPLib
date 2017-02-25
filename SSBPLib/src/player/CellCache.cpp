@@ -26,12 +26,12 @@ const CellRef* CellCache::getReference(int index) const
 	return &(m_cellRefs[index]);
 }
 
-int CellCache::indexOfCell(const std::string &cellName) const
+int CellCache::indexOfCell(const std::string& cellName, const std::string& cellMapName) const
 {
 	//cellnameは同名も存在できるようだが、ひとまず最初に見つかったものを返すことにする
 	for(int i = 0; i < m_cellRefs.size(); ++i){
 		const CellRef *ref = getReference(i);
-		if(cellName == ref->m_cellName){
+		if(cellName == ref->m_cellName && cellMapName == ref->m_cellMapName){
 			return i;		//名前一致したので返す
 		}
 	}
@@ -58,13 +58,13 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 		const CellMap* cellMap = ptr.toCellMap(cell);
 
 		const char* cellname = ptr.toString(cell->name);			//セル名
-		//const char* cellmapname = ptr.toString(cellMap->name);	//セルマップ名
+		const char* cellmapname = ptr.toString(cellMap->name);		//セルマップ名
 
 		//ここではロードなどはせずに番号を保存しとくだけに留める
 		imagePathMap[cellMap->index] = ptr.toString(cellMap->imagePath);		//memo:ここは何度も上書きされるだろうがconst char*のコピーなので大丈夫
 
 		CellRef ref = {
-			cell,  cellname, cellMap->index,
+			cell,  cellname, cellMap->index, cellmapname,
 			SSRect(cell->x, cell->y, cell->width, cell->height)
 		};
 		m_cellRefs[i] = ref;
