@@ -577,18 +577,9 @@ void Player::setPartCell(std::string partsname, std::string sscename, std::strin
 			changeCellIndex = _currentRs->m_cellCache->indexOfCell(cellname, sscename);
 		}
 
-		for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
-		{
-			int partIndex = _partIndex[index];	//todo:_cellChange[]の使われ方を見るに、これは描画順のインデックスを取得する必要はなく、普通にパーツインデックスを使えばいいはず
-
-			const char* partName = getPartName(partIndex);
-			if (strcmp(partName, partsname.c_str()) == 0)
-			{
-				//セル番号を設定
-				_cellChange[index] = changeCellIndex;	//上書き解除
-				break;
-			}
-		}
+		int partIndex = indexOfPart(partsname.c_str());
+		_cellChange[partIndex] = changeCellIndex;	//セル番号を設定
+		//memo:元の実装では_partInex[]のインデックスを使っていたので動作がおかしいときはそのあたりを疑ってみる
 	}
 }
 
