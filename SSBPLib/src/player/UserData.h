@@ -1,12 +1,14 @@
 ﻿#pragma once
+#include <string>
 
 namespace ss{
+class DataArrayReader;
+class ToPointer;
 
 /**
  * UserData
  */
-struct UserData
-{
+struct UserData{
 	enum {
 		FLAG_INTEGER = 1 << 0,
 		FLAG_RECT = 1 << 1,
@@ -17,12 +19,17 @@ struct UserData
 	const char*	partName;		/// Part name
 	int			frameNo;		/// Frame no
 
-	int			flags;			/// Flags of valid data
-	int			integer;		/// Integer
-	int			rect[4];		/// Rectangle Left, Top, Right, Bottom
-	int			point[2];		/// Position X, Y
-	const char*	str;			/// String (zero terminated)
-	int			strSize;		/// String size (byte count)
+	int			flags;			/// 含まれるデータの種類
+	int			partIndex;		/// パーツインデックス
+	int			integer;		/// 整数データ
+	int			rect[4];		/// 矩形データ[Left, Top, Right, Bottom]
+	int			point[2];		/// 座標データ[X, Y]
+	const char*	str;			/// 文字列データ (zero terminated)
+	int			strSize;		/// 文字列のサイズ (byte count)
+
+	
+	//readerを介してデータを読み取る
+	void readData(DataArrayReader& reader, const ToPointer& ptr);
 };
 
 

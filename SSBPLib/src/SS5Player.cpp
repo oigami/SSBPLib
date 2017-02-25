@@ -1192,8 +1192,10 @@ void Player::checkUserData(int frameNo)
 	DataArrayReader reader(userDataArray);
 	int numUserData = reader.readU16();
 
-	for (int i = 0; i < numUserData; i++)
-	{
+	for (int i = 0; i < numUserData; i++){
+		_userData.readData(reader, ptr);
+		
+	#if 0
 		int flags = reader.readU16();
 		int partIndex = reader.readU16();
 
@@ -1251,11 +1253,12 @@ void Player::checkUserData(int frameNo)
 			_userData.str = 0;
 			_userData.strSize = 0;
 		}
-		
-		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
+	#endif		
+		const PartData* partData = _currentAnimeRef->getPartData(_userData.partIndex);
 		_userData.partName = ptr.toString(partData->name);
 		_userData.frameNo = frameNo;
-		
+
+
 		SSonUserData(this, &_userData);
 	}
 
