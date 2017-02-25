@@ -28,7 +28,7 @@ struct AnimeRef{
 
 	//PartDataへのアクセサ
 	const PartData* getPartData(int partIndex) const{
-		SS_ASSERT(partIndex >= 0 && partIndex < m_numParts);
+		SS_ASSERT_LOG(partIndex >= 0 && partIndex < m_numParts, "partId is out of range.");
 		return &m_partDatas[partIndex];
 	}
 };
