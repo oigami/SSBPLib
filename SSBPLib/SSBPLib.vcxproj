@@ -144,6 +144,7 @@
     <ClCompile Include="src\player\CellCache.cpp" />
     <ClCompile Include="src\player\CustomSprite.cpp" />
     <ClCompile Include="src\player\EffectCache.cpp" />
+    <ClCompile Include="src\player\InstancePartStatus.cpp" />
     <ClCompile Include="src\player\State.cpp" />
     <ClCompile Include="src\player\UserData.cpp" />
     <ClCompile Include="src\player\Util.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="src\player\CustomSprite.h" />
     <ClInclude Include="src\player\DataArrayReader.h" />
     <ClInclude Include="src\player\EffectCache.h" />
+    <ClInclude Include="src\player\InstancePartStatus.h" />
     <ClInclude Include="src\player\PlayerDef.h" />
     <ClInclude Include="src\player\ResourceSet.h" />
     <ClInclude Include="src\player\State.h" />

@@ -15,6 +15,7 @@
 #include "player/State.h"
 #include "player/ResourceSet.h"
 #include "player/PlayerDef.h"
+#include "player/InstancePartStatus.h"
 #include "ResluteState.h"
 #include "ResourceManager.h"
 
@@ -574,7 +575,7 @@ void Player::setPartCell(std::string partsname, std::string sscename, std::strin
 }
 
 // インスタンスパーツが再生するアニメを変更します。
-bool Player::changeInstanceAnime(std::string partsname, std::string animename, bool overWrite, Instance keyParam)
+bool Player::changeInstanceAnime(std::string partsname, std::string animename, bool overWrite, const InstancePartStatus& keyParam)
 {
 	//名前からパーツを取得
 	bool rc = false;
@@ -602,14 +603,14 @@ bool Player::changeInstanceAnime(std::string partsname, std::string animename, b
 	return (rc);
 }
 //インスタンスパラメータを設定します
-void Player::setInstanceParam(bool overWrite, Instance keyParam)
+void Player::setInstanceParam(bool overWrite, const InstancePartStatus& keyParam)
 {
 	_instanceOverWrite = overWrite;		//インスタンス情報を上書きするか？
 	_instanseParam = keyParam;			//インスタンスパラメータ
 
 }
 //インスタンスパラメータを取得します
-void Player::getInstanceParam(bool *overWrite, Instance *keyParam)
+void Player::getInstanceParam(bool *overWrite, InstancePartStatus *keyParam)
 {
 	*overWrite = _instanceOverWrite;		//インスタンス情報を上書きするか？
 	*keyParam = _instanseParam;			//インスタンスパラメータ
@@ -803,7 +804,7 @@ void Player::setFrame(int frameNo, float dt)
 		//インスタンスパーツの場合
 		if (partData->type == PARTTYPE_INSTANCE){
 			bool overWrite;
-			Instance keyParam;
+			InstancePartStatus keyParam;
 			sprite->_ssplayer->getInstanceParam(&overWrite, &keyParam);
 			//描画
 			int refKeyframe = state.instanceValue_curKeyframe;

@@ -83,6 +83,7 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
 #include <time.h>
 #include "player/UserData.h"
 #include "player/State.h"
+#include "player/InstancePartStatus.h"
 
 //エフェクト関連
 #include "Common/loader/ssloader.h"
@@ -315,14 +316,14 @@ public:
 	 * @param  overWrite			インスタンスキーの上書きフラグ
 	 * @param  keyParam			インスタンスキーのパラメータ
 	 */
-	bool changeInstanceAnime(std::string partsname, std::string animeName, bool overWrite, Instance keyParam);
+	bool changeInstanceAnime(std::string partsname, std::string animeName, bool overWrite, const InstancePartStatus& keyParam);
 
 	/**
 	 * プレイヤーにインスタンスパラメータを設定します。
 	 * @param  overWrite		インスタンスキーの上書きフラグ
 	 * @param  keyParam			インスタンスキーのパラメータ
 	 */
-	void setInstanceParam(bool overWrite, Instance keyParam);
+	void setInstanceParam(bool overWrite, const InstancePartStatus& keyParam);
 
 	/**
 	 * プレイヤーからインスタンスパラメータを取得します。
@@ -330,7 +331,7 @@ public:
 	 * @param  overWrite		インスタンスキーの上書きフラグ
 	 * @param  keyParam			インスタンスキーのパラメータ
 	 */
-	void getInstanceParam(bool *overWrite, Instance *keyParam);
+	void getInstanceParam(bool *overWrite, InstancePartStatus *keyParam);
 
 	/*
 	 * パーツ番号に対応したスプライト情報を取得します。
@@ -375,7 +376,7 @@ private:
 	int					_cellChange[PART_VISIBLE_MAX];
 	int					_partIndex[PART_VISIBLE_MAX];
 	bool				_instanceOverWrite;				//インスタンス情報を上書きするか？
-	Instance			_instanseParam;					//インスタンスパラメータ
+	InstancePartStatus	_instanseParam;					//インスタンスパラメータ
 	int					_seedOffset;					//エフェクトシードオフセット
 	int					_draw_count;					//表示スプライト数
 

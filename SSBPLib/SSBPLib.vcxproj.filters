@@ -83,6 +83,9 @@
     <ClCompile Include="src\player\UserData.cpp">
       <Filter>ソース ファイル\player</Filter>
     </ClCompile>
+    <ClCompile Include="src\player\InstancePartStatus.cpp">
+      <Filter>ソース ファイル\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\SS5Player.h">
@@ -192,6 +195,9 @@
     </ClInclude>
     <ClInclude Include="src\math\Matrix.h">
       <Filter>ソース ファイル\math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player\InstancePartStatus.h">
+      <Filter>ソース ファイル\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
