@@ -380,8 +380,6 @@ private:
 	int					_seedOffset;					//エフェクトシードオフセット
 	int					_draw_count;					//表示スプライト数
 
-	UserData			_userData;
-
 	PlayerSetting		_playerSetting;			//プレイヤー単位での操作設定についてを抱えておく(移動、回転など)
 
 	std::vector<TextuerData> m_textures;		//_textures[cellMapIndex].handle = textureid;

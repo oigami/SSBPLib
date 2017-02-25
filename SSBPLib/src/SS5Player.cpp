@@ -1168,8 +1168,9 @@ void Player::checkUserData(int frameNo)
 	int numUserData = reader.readU16();
 
 	for (int i = 0; i < numUserData; i++){
-		_userData.readData(reader, ptr);
-		SSonUserData(this, &_userData, frameNo);
+		UserData userData;
+		userData.readData(reader, ptr);
+		SSonUserData(this, userData, frameNo);
 	}
 
 }
