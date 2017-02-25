@@ -1170,10 +1170,8 @@ void Player::checkUserData(int frameNo)
 	for (int i = 0; i < numUserData; i++){
 		_userData.readData(reader, ptr);
 			
-		_userData.m_partName = getPartName(_userData.m_partIndex);
-		_userData.m_frameNo = frameNo;
-
-		SSonUserData(this, &_userData);
+		const char* partName = getPartName(_userData.m_partIndex);
+		SSonUserData(this, &_userData, partName, frameNo);
 	}
 
 }

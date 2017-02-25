@@ -16,9 +16,6 @@ struct UserData{
 		FLAG_STRING = 1 << 3
 	};
 
-	const char*	m_partName;		/// Part name
-	int			m_frameNo;		/// Frame no
-
 	int			m_flags;		/// 含まれるデータの種類
 	int			m_partIndex;	/// パーツインデックス
 	int			m_integer;		/// 整数データ

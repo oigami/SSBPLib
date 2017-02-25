@@ -205,7 +205,7 @@ namespace ss
 	/**
 	* ユーザーデータの取得
 	*/
-	void SSonUserData(Player *player, UserData *userData)
+	void SSonUserData(Player *player, UserData *userData, const char* partName, int frame)
 	{
 		//ゲーム側へユーザーデータを設定する関数を呼び出してください。
 	}

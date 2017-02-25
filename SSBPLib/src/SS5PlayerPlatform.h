@@ -20,7 +20,7 @@ namespace ss
 	extern bool isAbsolutePath(const std::string& strPath);
 	extern void SSDrawSprite(State state);
 	extern bool SSGetTextureSize(long handle, int &w, int &h);
-	extern void SSonUserData(Player *player, UserData *userData);
+	extern void SSonUserData(Player *player, UserData *userData, const char* partName/*todo:必要か?*/, int frame);
 	extern int  SSLimitFrame(int frame, int maxFrame);
 
 
