@@ -826,7 +826,7 @@ void Player::setFrame(int frameNo, float dt)
 				sprite->_liveFrame += delta;
 				time = (int)sprite->_liveFrame;
 			}
-			int _time = ips.getFrame(frameNo);
+			int _time = ips.getFrame(time);
 			
 			//インスタンスパラメータを設定
 			sprite->_ssplayer->setColor(_playerSetting.m_col_r, _playerSetting.m_col_g, _playerSetting.m_col_b);
