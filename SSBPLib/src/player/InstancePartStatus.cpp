@@ -80,27 +80,21 @@ int InstancePartStatus::getFrame(int frame) const
 
 	int temp_frame = reftime % inst_scale;  //ループを加味しないインスタンスアニメ内のフレーム
 
-	//参照位置を決める
 	//現在の再生フレームの計算
-	int _time = 0;
-	bool _reverse = m_reverse;
+	bool isReverse = m_reverse;
 	if(m_pingpong && (nowloop % 2 == 1)){
 		if(m_reverse){
-			_reverse = false;//反転
+			isReverse = false;//反転
 		}
 		else{
-			_reverse = true;//反転
+			isReverse = true;//反転
 		}
 	}
 
-	if(_reverse){
-		//リバースの時
-		_time = m_refEndframe - temp_frame;
+	if(isReverse){
+		return m_refEndframe - temp_frame;	//リバース時
 	}
-	else{
-		//通常時
-		_time = temp_frame + m_refStartframe;
-	}
+	return m_refStartframe + temp_frame;	//通常時
 }
 
 
