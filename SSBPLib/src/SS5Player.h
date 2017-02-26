@@ -104,7 +104,7 @@ struct ProjectData;
 class Player;
 class ResourceManager;
 struct ResluteState;
-
+class SS5EventListener;
 
 //------------------------------------------------------------------------------
 //プレイヤーの設定定義
@@ -150,7 +150,7 @@ struct PlayerSetting{
 class Player{
 public:
 	/** Playerインスタンスを構築します。利用するときはResourceManger::create, destroyを使ってください */
-	Player(const ResourceSet *resource/*, SS5Renderer *renderer, SS5EventListener *eventListener*/);
+	Player(const ResourceSet* resource,/* SS5Renderer *renderer,*/ SS5EventListener* eventListener);
 //	Player(const ResourceSet *resource/*, SS5Renderer *renderer, SS5EventListener *eventListener, const std::string& animeName*/);
 	~Player();	//memo:なるべくResourceManger.create, destroyを使ってほしい
 
@@ -359,7 +359,9 @@ private:
 	void checkUserData(int frameNo);
 
 private:
-	const ResourceSet*		_currentRs;
+	SS5EventListener*	_eventListener;
+
+	const ResourceSet*	_currentRs;
 	std::string			_currentAnimename;
 	AnimeRef*			_currentAnimeRef;
 	std::vector<CustomSprite *>	_parts;

@@ -202,6 +202,7 @@ namespace ss
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);	//ブレンドステートを通常へ戻す
 	}
 
+#if 0
 	/**
 	* ユーザーデータの取得
 	*/
@@ -225,7 +226,7 @@ namespace ss
 		//return ss::wrap<int>(frame, 3, 7);			//3～6フレームでループさせる
 		//if(frame>10){ return 5; }else{ return frame; }//10フレームを過ぎたら5フレームに飛ばす
 	}
-
+#endif
 
 
 	/**

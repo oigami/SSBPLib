@@ -21,10 +21,11 @@ namespace ss
 	extern void SSDrawSprite(State state);
 	extern bool SSGetTextureSize(long handle, int &w, int &h);
 
+#if 0
 	//userDataは一時オブジェクトなのでコピーして使ってください
 	extern void SSonUserData(Player *player, const UserData &userData, int frame);
 	extern int  SSLimitFrame(int frame, int maxFrame);
-
+#endif
 
 
 };	// namespace ss

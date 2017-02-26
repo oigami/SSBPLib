@@ -186,6 +186,7 @@
     <ClInclude Include="src\player\Util.h" />
     <ClInclude Include="src\ResluteState.h" />
     <ClInclude Include="src\ResourceManager.h" />
+    <ClInclude Include="src\SS5EventListener.h" />
     <ClInclude Include="src\SS5Player.h" />
     <ClInclude Include="src\SS5PlayerData.h" />
     <ClInclude Include="src\SS5PlayerPlatform.h" />

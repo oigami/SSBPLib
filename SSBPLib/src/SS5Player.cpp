@@ -18,6 +18,7 @@
 #include "player/InstancePartStatus.h"
 #include "ResluteState.h"
 #include "ResourceManager.h"
+#include "SS5EventListener.h"
 
 
 namespace ss{
@@ -44,19 +45,20 @@ unsigned int getRandomSeed()
 
 static const std::string s_nullString;
 
-Player::Player(const ResourceSet *resource)
-	: _currentRs(NULL)
-	, _currentAnimeRef(NULL)
+Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
+	: _eventListener(eventListener)
+	, _currentRs(resource)
+	, _currentAnimeRef(nullptr)
 	, _currentFrameTime(0.0f)
 	, _isPausing(false)
 	, _prevDrawFrameNo(-1)
 	, _instanceOverWrite(false)
-	, _motionBlendPlayer(NULL)
+	, _motionBlendPlayer(nullptr)
 	, _blendTime(0.0f)
 	, _blendTimeMax(0.0f)
 	, _seedOffset(0)
 {
-	_currentRs = resource;
+	SS_ASSERT_LOG(_eventListener, "eventListener is null");
 	SS_ASSERT_LOG(_currentRs, "resource is null");
 
 	for (int i = 0; i < PART_VISIBLE_MAX; i++){
@@ -174,7 +176,7 @@ void Player::motionBlendPlay(const std::string& animeName, /*int loop,*/ int sta
 		//現在のアニメーションをブレンド用プレイヤーで再生
 		if (_motionBlendPlayer == NULL)
 		{
-			_motionBlendPlayer = new Player(_currentRs);
+			_motionBlendPlayer = new Player(_currentRs, _eventListener);	//とりあえず今のイベントリスナーを突っ込んでおく	//todo:後で整理する
 		}
 	#if 0
 		int loopnum = _loop;
@@ -243,7 +245,7 @@ void Player::update(float dt)
 		int seekCount = nextFrameTime - getCurrentFrame();
 		// 順再生時.
 		for(int i = 0; i < seekCount; ++i){
-			checkFrame = SSLimitFrame(checkFrame + 1, getMaxFrame());	//範囲制限
+			checkFrame = _eventListener->limitFrame(this, checkFrame + 1, getMaxFrame());	//範囲制限
 			SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
 			
 			// このフレームのユーザーデータをチェック
@@ -255,7 +257,7 @@ void Player::update(float dt)
 		}
 		// 逆再生時.
 		for(int i = 0; i > seekCount; --i){
-			checkFrame = SSLimitFrame(checkFrame - 1, getMaxFrame());	//範囲制限
+			checkFrame = _eventListener->limitFrame(this, checkFrame - 1, getMaxFrame());	//範囲制限
 			SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
 
 			// このフレームのユーザーデータをチェック
@@ -341,7 +343,7 @@ void Player::setPartsParentage()
 		if (refanimeName != "")
 		{
 			//インスタンスパーツが設定されている
-			sprite->_ssplayer = new Player(_currentRs);
+			sprite->_ssplayer = new Player(_currentRs, _eventListener);	//todo:ひとまず_eventListenerを突っ込むことにするが、後で整理する
 			sprite->_ssplayer->play(refanimeName);				 // アニメーション名を指定(ssae名/アニメーション名も可能、詳しくは後述)
 			sprite->_ssplayer->stop();
 		}
@@ -1054,7 +1056,7 @@ void Player::checkUserData(int frameNo)
 	for (int i = 0; i < numUserData; i++){
 		UserData userData;
 		userData.readData(reader, ptr);
-		SSonUserData(this, userData, frameNo);
+		_eventListener->onUserData(this, userData, frameNo);
 	}
 
 }

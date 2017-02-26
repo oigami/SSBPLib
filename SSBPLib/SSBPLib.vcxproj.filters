@@ -199,5 +199,8 @@
     <ClInclude Include="src\player\InstancePartStatus.h">
       <Filter>ソース ファイル\player</Filter>
     </ClInclude>
+    <ClInclude Include="src\SS5EventListener.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
