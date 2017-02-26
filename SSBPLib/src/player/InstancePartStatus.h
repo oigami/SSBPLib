@@ -26,11 +26,12 @@ struct InstancePartStatus{
 	//readerを介してデータを読み取る
 	void readData(int readFlags, DataArrayReader &reader, const AnimationInitialData* init);
 
-#if 0
+
 	//読み取り後になんか計算してる部分を抜き出した
 	//親の時間を元に、インスタンスパーツのフレームを計算する
-	int getFrame(int frame) const;
+	int getFrame(int time) const;
 
+#if 0
 private:
 	int endFrame() const;	//フラグ情報をみて終了フレームを返す
 #endif
