@@ -76,16 +76,17 @@ int InstancePartStatus::getFrame(int frame) const
 //フラグを考慮して最終フレームを返す
 int InstancePartStatus::endFrame() const
 {
-	//反転してるかを調べる
-	bool isReverse = m_reverse;
-	if(m_pingpong){
-		isReverse = !isReverse;	//反転
+	if(m_pingpong && m_reverse){
+		return m_refEndframe;		//pingpong && 反転
 	}
-	//最終フレームを返す
-	if(isReverse){
-		return m_refStartframe;	//反転時の最終フレーム
+	else if(m_pingpong){
+		return m_refStartframe;		//pingpong
 	}
-	return m_refEndframe;		//通常時の最終フレーム
+	else if(m_reverse){
+		return m_refStartframe;		//反転
+	}
+
+	return m_refEndframe;			//通常
 }
 
 
