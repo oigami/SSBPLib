@@ -803,50 +803,30 @@ void Player::setFrame(int frameNo, float dt)
 
 		//インスタンスパーツの場合
 		if (partData->type == PARTTYPE_INSTANCE){
+			//描画
 			bool overWrite;
 			InstancePartStatus keyParam;
 			sprite->_ssplayer->getInstanceParam(&overWrite, &keyParam);
-			//描画
-			int refKeyframe = state.instanceValue_curKeyframe;
-			int refStartframe = state.instanceValue_startFrame;
-			int refEndframe = state.instanceValue_endFrame;
-			float refSpeed = state.instanceValue_speed;
-			int refloopNum = state.instanceValue_loopNum;
-			bool infinity = false;
-			bool reverse = false;
-			bool pingpong = false;
-			bool independent = false;
-
-			int lflags = state.instanceValue_loopflag;
-			if (lflags & INSTANCE_LOOP_FLAG_INFINITY ){
-				infinity = true;	//無限ループ
-			}
-			if (lflags & INSTANCE_LOOP_FLAG_REVERSE){
-				reverse = true;		//逆再生
-			}
-			if (lflags & INSTANCE_LOOP_FLAG_PINGPONG){
-				pingpong = true;	//往復
-			}
-			if (lflags & INSTANCE_LOOP_FLAG_INDEPENDENT){
-				independent = true;	//独立
-			}
+			InstancePartStatus ips = state.instanceValue;
+			
+			
 			//インスタンスパラメータを上書きする
-			if (overWrite == true){
-				refStartframe = keyParam.refStartframe;		//開始フレーム
-				refEndframe = keyParam.refEndframe;			//終了フレーム
-				refSpeed = keyParam.refSpeed;				//再生速度
-				refloopNum = keyParam.refloopNum;			//ループ回数
-				infinity = keyParam.infinity;				//無限ループ
-				reverse = keyParam.reverse;					//逆再選
-				pingpong = keyParam.pingpong;				//往復
-				independent = keyParam.independent;			//独立動作
+			if(overWrite == true){	//ips.refKeyframe = 
+				ips.refStartframe = keyParam.refStartframe;		//開始フレーム
+				ips.refEndframe = keyParam.refEndframe;			//終了フレーム
+				ips.refSpeed = keyParam.refSpeed;				//再生速度
+				ips.refloopNum = keyParam.refloopNum;			//ループ回数
+				ips.infinity = keyParam.infinity;				//無限ループ
+				ips.reverse = keyParam.reverse;					//逆再選
+				ips.pingpong = keyParam.pingpong;				//往復
+				ips.independent = keyParam.independent;			//独立動作
 			}
 
 			//タイムライン上の時間 （絶対時間）
 			int time = frameNo;
 
 			//独立動作の場合
-			if (independent){
+			if (ips.independent){
 				float delta = dt / (1.0f / getAnimeFPS());						//	独立動作時は親アニメのfpsを使用する
 //				float delta = fdt / (1.0f / sprite->_ssplayer->_animefps);
 
@@ -855,27 +835,27 @@ void Player::setFrame(int frameNo, float dt)
 			}
 
 			//このインスタンスが配置されたキーフレーム（絶対時間）
-			int	selfTopKeyframe = refKeyframe;
+			int	selfTopKeyframe = ips.refKeyframe;
 
 
-			int	reftime = (int)((float)(time - selfTopKeyframe) * refSpeed); //開始から現在の経過時間
+			int	reftime = (int)((float)(time - selfTopKeyframe) * ips.refSpeed); //開始から現在の経過時間
 			if (reftime < 0) continue;							//そもそも生存時間に存在していない
 			if (selfTopKeyframe > time) continue;
 
-			int inst_scale = (refEndframe - refStartframe) + 1; //インスタンスの尺
+			int inst_scale = (ips.refEndframe - ips.refStartframe) + 1; //インスタンスの尺
 
 
 			//尺が０もしくはマイナス（あり得ない
 			if (inst_scale <= 0) continue;
 			int	nowloop = (reftime / inst_scale);	//現在までのループ数
 
-			int checkloopnum = refloopNum;
+			int checkloopnum = ips.refloopNum;
 
 			//pingpongの場合では２倍にする
-			if (pingpong) checkloopnum = checkloopnum * 2;
+			if (ips.pingpong) checkloopnum = checkloopnum * 2;
 
 			//無限ループで無い時にループ数をチェック
-			if (!infinity){   //無限フラグが有効な場合はチェックせず
+			if (!ips.infinity){   //無限フラグが有効な場合はチェックせず
 				if (nowloop >= checkloopnum){
 					reftime = inst_scale - 1;
 					nowloop = checkloopnum - 1;
@@ -887,22 +867,22 @@ void Player::setFrame(int frameNo, float dt)
 			//参照位置を決める
 			//現在の再生フレームの計算
 			int _time = 0;
-			if (pingpong && (nowloop % 2 == 1)){
-				if (reverse){
-					reverse = false;//反転
+			if (ips.pingpong && (nowloop % 2 == 1)){
+				if (ips.reverse){
+					ips.reverse = false;//反転
 				}
 				else{
-					reverse = true;//反転
+					ips.reverse = true;//反転
 				}
 			}
 
-			if (reverse){
+			if (ips.reverse){
 				//リバースの時
-				_time = refEndframe - temp_frame;
+				_time = ips.refEndframe - temp_frame;
 			}
 			else{
 				//通常時
-				_time = temp_frame + refStartframe;
+				_time = temp_frame + ips.refStartframe;
 			}
 
 			//インスタンスパラメータを設定

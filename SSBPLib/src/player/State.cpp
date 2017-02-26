@@ -2,6 +2,7 @@
 #include "DataArrayReader.h"
 #include "PlayerDef.h"
 #include "math/Matrix.h"
+#include "InstancePartStatus.h"
 
 namespace ss{
 
@@ -42,12 +43,7 @@ void State::init()
 	blendfunc = 0;
 	mat.setupIdentity();
 
-	instanceValue_curKeyframe = 0;
-	instanceValue_startFrame = 0;
-	instanceValue_endFrame = 0;
-	instanceValue_loopNum = 0;
-	instanceValue_speed = 0;
-	instanceValue_loopflag = 0;
+	instanceValue = InstancePartStatus();
 	effectValue_curKeyframe = 0;
 	effectValue_startTime = 0;
 	effectValue_speed = 0;
@@ -84,12 +80,8 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 	boundingRadius = flags & PART_FLAG_BOUNDINGRADIUS ? reader.readFloat() : init->boundingRadius;
 
 	//インスタンスアトリビュート
-	instanceValue_curKeyframe	= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_curKeyframe;
-	instanceValue_startFrame	= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_startFrame;
-	instanceValue_endFrame		= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_endFrame;
-	instanceValue_loopNum		= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_loopNum;
-	instanceValue_speed			= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readFloat() : init->instanceValue_speed;
-	instanceValue_loopflag		= flags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_loopflag;
+	instanceValue.readData(flags, reader, init);
+
 	//エフェクトアトリビュート
 	effectValue_curKeyframe		= flags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_curKeyframe;
 	effectValue_startTime		= flags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_startTime;

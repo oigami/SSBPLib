@@ -4,6 +4,7 @@
 #include <memory>
 #include "math/SSRect.h"
 #include "math/Matrix.h"
+#include "InstancePartStatus.h"
 
 namespace ss{
 class DataArrayReader;
@@ -53,12 +54,7 @@ struct State{
 	//再生用パラメータ
 	int Calc_opacity;				/// 不透明度（0～255）（親子関係計算済）
 	//インスタンスアトリビュート
-	int			instanceValue_curKeyframe;
-	int			instanceValue_startFrame;
-	int			instanceValue_endFrame;
-	int			instanceValue_loopNum;
-	float		instanceValue_speed;
-	int			instanceValue_loopflag;
+	InstancePartStatus instanceValue;
 	//エフェクトアトリビュート
 	int			effectValue_curKeyframe;
 	int			effectValue_startTime;
