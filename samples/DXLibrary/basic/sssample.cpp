@@ -3,6 +3,7 @@
 #include "SS5Player.h"
 #include "ResourceManager.h"
 #include "ResluteState.h"
+#include "SS5EventListener.h"
 
 //メモリリークチェック用---------------------------------------------------------
 #ifdef _DEBUG
@@ -26,6 +27,18 @@ void relese(void);
 /// SS5プレイヤー
 ss::Player *ssplayer;
 ss::ResourceManager *resman;
+
+/*イベントリスナーの実装*/
+class SimpleSS5EventListener: public ss::SS5EventListener{
+public:
+	void onUserData(ss::Player* player, const ss::UserData& userData, int frameNo) override{}	//ユーザーデータは特に何も処理しない
+	int limitFrame(ss::Player* player, int frame, int maxFrame){
+		return ss::SS5EventListener::limitFrame(player, frame, maxFrame);	//フレーム制限はデフォルト実装に任せる
+	}
+};
+SimpleSS5EventListener g_eventListener;
+
+
 
 /**
 * メイン関数
@@ -115,7 +128,7 @@ void init( void )
 		"Resources/character_template_comipo/"	//画像ファイルの読み込み元ルートパス
 	);
 	//プレイヤーにリソースを割り当て
-	ssplayer = resman->createPlayer("character_template1");       //addDataで指定した登録名
+	ssplayer = resman->createPlayer("character_template1", &g_eventListener);       //addDataで指定した登録名
 	//再生するモーションを設定
 	ssplayer->play("character_template_3head/stance");				 // アニメーション名を指定(ssae名/アニメーション名も可能、詳しくは後述)
 
