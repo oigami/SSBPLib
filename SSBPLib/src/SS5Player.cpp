@@ -812,9 +812,7 @@ void Player::setFrame(int frameNo, float dt)
 			sprite->_ssplayer->getInstanceParam(&overWrite, &keyParam);
 			//インスタンスパラメータを上書きする
 			if(overWrite == true){
-				float refKeyFrame = ips.m_refKeyframe;
 				ips = keyParam;
-				ips.m_refKeyframe = refKeyFrame;
 			}
 
 			//タイムライン上の時間 （絶対時間）
