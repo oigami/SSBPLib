@@ -6,15 +6,15 @@
 namespace ss{
 
 InstancePartStatus::InstancePartStatus()
-	: refKeyframe(0)
-	, refStartframe(0)
-	, refEndframe(0)
-	, refSpeed(0)
-	, refloopNum(0)
-	, infinity(false)
-	, reverse(false)
-	, pingpong(false)
-	, independent(false)
+	: m_refKeyframe(0)
+	, m_refStartframe(0)
+	, m_refEndframe(0)
+	, m_refSpeed(0)
+	, m_refloopNum(0)
+	, m_infinity(false)
+	, m_reverse(false)
+	, m_pingpong(false)
+	, m_independent(false)
 {
 	/**/
 }
@@ -22,44 +22,44 @@ InstancePartStatus::InstancePartStatus()
 
 void InstancePartStatus::readData(int readFlags, DataArrayReader &reader, const AnimationInitialData* init)
 {
-	refKeyframe		= readFlags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_curKeyframe;
-	refStartframe	= readFlags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_startFrame;
-	refEndframe		= readFlags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_endFrame;
-	refloopNum		= readFlags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_loopNum;
-	refSpeed		= readFlags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readFloat() : init->instanceValue_speed;
+	m_refKeyframe	= readFlags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_curKeyframe;
+	m_refStartframe	= readFlags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_startFrame;
+	m_refEndframe	= readFlags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_endFrame;
+	m_refloopNum	= readFlags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_loopNum;
+	m_refSpeed		= readFlags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readFloat() : init->instanceValue_speed;
 
 	int loopflag	= readFlags & PART_FLAG_INSTANCE_KEYFRAME ? reader.readS32() : init->instanceValue_loopflag;
-	infinity	= (loopflag & INSTANCE_LOOP_FLAG_INFINITY);
-	reverse		= (loopflag & INSTANCE_LOOP_FLAG_REVERSE);
-	pingpong	= (loopflag & INSTANCE_LOOP_FLAG_PINGPONG);
-	independent	= (loopflag & INSTANCE_LOOP_FLAG_INDEPENDENT);
+	m_infinity		= (loopflag & INSTANCE_LOOP_FLAG_INFINITY);
+	m_reverse		= (loopflag & INSTANCE_LOOP_FLAG_REVERSE);
+	m_pingpong		= (loopflag & INSTANCE_LOOP_FLAG_PINGPONG);
+	m_independent	= (loopflag & INSTANCE_LOOP_FLAG_INDEPENDENT);
 }
 
 
-int InstancePartStatus::getFrame(int time) const
+int InstancePartStatus::getFrame(int frame) const
 {
 	//このインスタンスが配置されたキーフレーム（絶対時間）
-	int	selfTopKeyframe = this->refKeyframe;
+	int	selfTopKeyframe = m_refKeyframe;
 
 
-	int	reftime = (int)((float)(time - selfTopKeyframe) * this->refSpeed); //開始から現在の経過時間
-	if(reftime < 0){ return time; }							//そもそも生存時間に存在していない
-	if(selfTopKeyframe > time){ return time; }
+	int	reftime = (int)((float)(frame - selfTopKeyframe) * m_refSpeed); //開始から現在の経過時間
+	if(reftime < 0){ return frame; }							//そもそも生存時間に存在していない
+	if(selfTopKeyframe > frame){ return frame; }
 
-	int inst_scale = (this->refEndframe - this->refStartframe) + 1; //インスタンスの尺
+	int inst_scale = (m_refEndframe - m_refStartframe) + 1; //インスタンスの尺
 
 
 	//尺が０もしくはマイナス（あり得ない
-	if(inst_scale <= 0){ return time; }
+	if(inst_scale <= 0){ return frame; }
 	int	nowloop = (reftime / inst_scale);	//現在までのループ数
 
-	int checkloopnum = this->refloopNum;
+	int checkloopnum = m_refloopNum;
 
 	//pingpongの場合では２倍にする
-	if(this->pingpong) checkloopnum = checkloopnum * 2;
+	if(m_pingpong) checkloopnum = checkloopnum * 2;
 
 	//無限ループで無い時にループ数をチェック
-	if(!this->infinity){   //無限フラグが有効な場合はチェックせず
+	if(!m_infinity){   //無限フラグが有効な場合はチェックせず
 		if(nowloop >= checkloopnum){
 			reftime = inst_scale - 1;
 			nowloop = checkloopnum - 1;
@@ -71,9 +71,9 @@ int InstancePartStatus::getFrame(int time) const
 											//参照位置を決める
 											//現在の再生フレームの計算
 	int _time = 0;
-	bool _reverse = this->reverse;
-	if(this->pingpong && (nowloop % 2 == 1)){
-		if(this->reverse){
+	bool _reverse = m_reverse;
+	if(m_pingpong && (nowloop % 2 == 1)){
+		if(m_reverse){
 			_reverse = false;//反転
 		}
 		else{
@@ -83,11 +83,11 @@ int InstancePartStatus::getFrame(int time) const
 
 	if(_reverse){
 		//リバースの時
-		_time = this->refEndframe - temp_frame;
+		_time = m_refEndframe - temp_frame;
 	}
 	else{
 		//通常時
-		_time = temp_frame + this->refStartframe;
+		_time = temp_frame + m_refStartframe;
 	}
 }
 

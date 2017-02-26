@@ -8,17 +8,17 @@ struct AnimationInitialData;
 /** インスタンスパーツの状態 */
 struct InstancePartStatus{
 
-	int			refKeyframe;		//このインスタンスが配置されたキーフレーム /*instanceValue_curKeyframe*/
-	int			refStartframe;		//開始フレーム	/*instanceValue_startFrame*/
-	int			refEndframe;		//終了フレーム	/*instanceValue_endFrame*/
-	int			refloopNum;			//ループ回数	/*instanceValue_loopNum*/
-	float		refSpeed;			//再生速度		/*instanceValue_speed*/
+	int		m_refKeyframe;		//このインスタンスが配置されたキーフレーム /*instanceValue_curKeyframe*/
+	int		m_refStartframe;	//開始フレーム	/*instanceValue_startFrame*/
+	int		m_refEndframe;		//終了フレーム	/*instanceValue_endFrame*/
+	int		m_refloopNum;		//ループ回数	/*instanceValue_loopNum*/
+	float	m_refSpeed;			//再生速度		/*instanceValue_speed*/
 
 	/*instanceValue_loopflag*/
-	bool		infinity;			//無限ループ
-	bool		reverse;			//逆再生
-	bool		pingpong;			//往復
-	bool		independent;		//独立動作
+	bool	m_infinity;			//無限ループ
+	bool	m_reverse;			//逆再生
+	bool	m_pingpong;			//往復
+	bool	m_independent;		//独立動作
 
 
 	InstancePartStatus();
@@ -27,9 +27,8 @@ struct InstancePartStatus{
 	void readData(int readFlags, DataArrayReader &reader, const AnimationInitialData* init);
 
 
-	//読み取り後になんか計算してる部分を抜き出した
 	//親の時間を元に、インスタンスパーツのフレームを計算する
-	int getFrame(int time) const;
+	int getFrame(int frame) const;
 
 #if 0
 private:
