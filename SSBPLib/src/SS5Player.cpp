@@ -804,22 +804,17 @@ void Player::setFrame(int frameNo, float dt)
 		//インスタンスパーツの場合
 		if (partData->type == PARTTYPE_INSTANCE){
 			//描画
-			bool overWrite;
-			InstancePartStatus keyParam;
-			sprite->_ssplayer->getInstanceParam(&overWrite, &keyParam);
 			InstancePartStatus ips = state.instanceValue;
 			
 			
+			bool overWrite;
+			InstancePartStatus keyParam;
+			sprite->_ssplayer->getInstanceParam(&overWrite, &keyParam);
 			//インスタンスパラメータを上書きする
-			if(overWrite == true){	//ips.refKeyframe = 
-				ips.refStartframe = keyParam.refStartframe;		//開始フレーム
-				ips.refEndframe = keyParam.refEndframe;			//終了フレーム
-				ips.refSpeed = keyParam.refSpeed;				//再生速度
-				ips.refloopNum = keyParam.refloopNum;			//ループ回数
-				ips.infinity = keyParam.infinity;				//無限ループ
-				ips.reverse = keyParam.reverse;					//逆再選
-				ips.pingpong = keyParam.pingpong;				//往復
-				ips.independent = keyParam.independent;			//独立動作
+			if(overWrite == true){
+				float refKeyFrame = ips.refKeyframe;
+				ips = keyParam;
+				ips.refKeyframe = refKeyFrame;
 			}
 
 			//タイムライン上の時間 （絶対時間）
