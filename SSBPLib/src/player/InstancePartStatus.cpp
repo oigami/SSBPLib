@@ -54,16 +54,7 @@ int InstancePartStatus::getFrame(int frame) const
 		if(m_pingpong){ checkloopnum *= 2; }	//pingpongの場合では２倍にする
 
 		if(nowloop >= checkloopnum){
-			//反転してるかを調べる
-			bool isReverse = m_reverse;
-			if(m_pingpong){
-				isReverse = !isReverse;	//反転
-			}
-			//最終フレームを返す
-			if(isReverse){
-				return m_refStartframe;	//反転時の最終フレーム
-			}
-			return m_refEndframe;		//通常時の最終フレーム
+			return endFrame();
 		}
 	}
 
@@ -80,6 +71,23 @@ int InstancePartStatus::getFrame(int frame) const
 	}
 	return m_refStartframe + nowframe;		//通常時
 }
+
+
+//フラグを考慮して最終フレームを返す
+int InstancePartStatus::endFrame() const
+{
+	//反転してるかを調べる
+	bool isReverse = m_reverse;
+	if(m_pingpong){
+		isReverse = !isReverse;	//反転
+	}
+	//最終フレームを返す
+	if(isReverse){
+		return m_refStartframe;	//反転時の最終フレーム
+	}
+	return m_refEndframe;		//通常時の最終フレーム
+}
+
 
 
 } //namespace ss

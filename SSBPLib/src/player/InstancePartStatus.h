@@ -30,10 +30,8 @@ struct InstancePartStatus{
 	//親の時間を元に、インスタンスパーツのフレームを計算する
 	int getFrame(int frame) const;
 
-#if 0
 private:
 	int endFrame() const;	//フラグ情報をみて終了フレームを返す
-#endif
 };
 
 
