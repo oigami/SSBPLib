@@ -38,19 +38,13 @@ void InstancePartStatus::readData(int readFlags, DataArrayReader &reader, const 
 
 int InstancePartStatus::getFrame(int frame) const
 {
-	//このインスタンスが配置されたキーフレーム（絶対時間）
-	int	selfTopKeyframe = m_refKeyframe;
-
-
-	int	reftime = (int)((float)(frame - selfTopKeyframe) * m_refSpeed); //開始から現在の経過時間
-	if(reftime < 0){ return frame; }							//そもそも生存時間に存在していない
-	if(selfTopKeyframe > frame){ return frame; }
+	int	reftime = static_cast<int>((frame - m_refKeyframe) * m_refSpeed);	//開始から現在の経過時間
+	if(reftime < 0){ return frame; }										//そもそも生存時間に存在していない
+	if(m_refKeyframe > frame){ return frame; }		//memo:このあたりの制限特に要らない気がする。時間がエラー範囲のときに返すべきフレームもないと思うので。
 
 	int inst_scale = (m_refEndframe - m_refStartframe) + 1; //インスタンスの尺
-
-
-	//尺が０もしくはマイナス（あり得ない
-	if(inst_scale <= 0){ return frame; }
+	if(inst_scale <= 0){ return frame; }					//尺が０もしくはマイナス（あり得ない
+	
 	int	nowloop = (reftime / inst_scale);	//現在までのループ数
 
 	int checkloopnum = m_refloopNum;
@@ -68,8 +62,8 @@ int InstancePartStatus::getFrame(int frame) const
 
 	int temp_frame = reftime % inst_scale;  //ループを加味しないインスタンスアニメ内のフレーム
 
-											//参照位置を決める
-											//現在の再生フレームの計算
+	//参照位置を決める
+	//現在の再生フレームの計算
 	int _time = 0;
 	bool _reverse = m_reverse;
 	if(m_pingpong && (nowloop % 2 == 1)){
