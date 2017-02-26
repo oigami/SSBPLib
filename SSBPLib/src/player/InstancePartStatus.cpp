@@ -47,16 +47,34 @@ int InstancePartStatus::getFrame(int frame) const
 	
 	int	nowloop = (reftime / inst_scale);	//現在までのループ数
 
-	int checkloopnum = m_refloopNum;
 
-	//pingpongの場合では２倍にする
-	if(m_pingpong) checkloopnum = checkloopnum * 2;
-
-	//無限ループで無い時にループ数をチェック
-	if(!m_infinity){   //無限フラグが有効な場合はチェックせず
+	//無限ループで無い時 --> 回数制限があるので終端チェックをする
+	if(!m_infinity){
+		int checkloopnum = m_refloopNum;		//ループ終了数
+		if(m_pingpong){ checkloopnum *= 2; }	//pingpongの場合では２倍にする
+	
 		if(nowloop >= checkloopnum){
 			reftime = inst_scale - 1;
 			nowloop = checkloopnum - 1;
+			/**
+			 * memo:ここを通過したときの_timeは、計算上こうなる。
+			 * リバース時:
+			 * m_refEndframe - temp_frame;
+			 * --> m_refEndframe - (reftime % inst_scale)
+			 * --> m_refEndframe - ((inst_scale - 1) % inst_scale)
+			 * --> m_refEndframe - ((m_refEndframe - m_refStartframe + 1 - 1) % (m_refEndframe - m_refStartframe + 1))
+			 * --> m_refEndframe - ((m_refEndframe - m_refStartframe) % (m_refEndframe - m_refStartframe + 1))
+			 * --> m_refEndframe - (m_refEndframe - m_refStartframe)
+			 * --> m_refStartframe
+			 * 
+			 * 通常時
+			 * temp_frame + m_refStartframe
+			 * --> m_refStartFrame + temp_frame
+			 * --> m_refStartFrame + (m_refEndframe - m_refStartframe)
+			 * --> m_refEndframe
+			 *
+			 * ということなので、結局reverseに応じてm_refStartFrameかm_refEndframeを返せば良いという事になる
+			 */
 		}
 	}
 
