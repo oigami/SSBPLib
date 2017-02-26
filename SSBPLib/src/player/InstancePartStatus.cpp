@@ -54,11 +54,9 @@ int InstancePartStatus::getFrame(int frame) const
 		if(m_pingpong){ checkloopnum *= 2; }	//pingpongの場合では２倍にする
 
 		if(nowloop >= checkloopnum){
-			nowloop = checkloopnum - 1;
-
 			//反転してるかを調べる
 			bool isReverse = m_reverse;
-			if(m_pingpong && (nowloop % 2 == 1)){
+			if(m_pingpong){
 				isReverse = !isReverse;	//反転
 			}
 			//最終フレームを返す
