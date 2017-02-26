@@ -67,7 +67,7 @@ float lerpAngle(float from, float to, double t);
 #ifdef _DEBUG
 #define SS_LOG(...)					ss::DebugPrintToConsole(__FILE__, __LINE__, __VA_ARGS__)
 #define SS_ASSERT(cond)				assert(cond)
-#define SS_ASSERT_LOG(cond, ...)	{ SS_LOG(__VA_ARGS__); SS_ASSERT(cond); }
+#define SS_ASSERT_LOG(cond, ...)	{ if(!(cond)){ SS_LOG(__VA_ARGS__); SS_ASSERT(cond); } }
 #else
 #define SS_LOG(...)
 #define SS_ASSERT(cond)				
