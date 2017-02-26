@@ -54,42 +54,31 @@ int InstancePartStatus::getFrame(int frame) const
 		if(m_pingpong){ checkloopnum *= 2; }	//pingpongの場合では２倍にする
 	
 		if(nowloop >= checkloopnum){
-			reftime = inst_scale - 1;
-			nowloop = checkloopnum - 1;
-			/**
-			 * memo:ここを通過したときの_timeは、計算上こうなる。
-			 * リバース時:
-			 * m_refEndframe - temp_frame;
-			 * --> m_refEndframe - (reftime % inst_scale)
-			 * --> m_refEndframe - ((inst_scale - 1) % inst_scale)
-			 * --> m_refEndframe - ((m_refEndframe - m_refStartframe + 1 - 1) % (m_refEndframe - m_refStartframe + 1))
-			 * --> m_refEndframe - ((m_refEndframe - m_refStartframe) % (m_refEndframe - m_refStartframe + 1))
-			 * --> m_refEndframe - (m_refEndframe - m_refStartframe)
-			 * --> m_refStartframe
-			 * 
-			 * 通常時
-			 * temp_frame + m_refStartframe
-			 * --> m_refStartFrame + temp_frame
-			 * --> m_refStartFrame + (m_refEndframe - m_refStartframe)
-			 * --> m_refEndframe
-			 *
-			 * ということなので、結局reverseに応じてm_refStartFrameかm_refEndframeを返せば良いという事になる
-			 */
+			//反転してるかを調べる
+			bool isReverse = m_reverse;
+			if(m_pingpong && (nowloop % 2 == 1)){
+				isReverse = !isReverse;	//反転
+			}
+			//最終フレームを返す
+			if(isReverse){
+				return m_refStartframe;	//反転時の最終フレーム
+			}
+			return m_refEndframe;		//通常時の最終フレーム
 		}
 	}
 
-	int nowframe = reftime % inst_scale;  //ループ分のフレームを差し引いたときの現在のフレーム
-
-	//現在の再生フレームの計算
+	
+	//反転してるかを調べる
 	bool isReverse = m_reverse;
 	if(m_pingpong && (nowloop % 2 == 1)){
 		isReverse = !isReverse;	//反転
 	}
-
+	
+	int nowframe = reftime % inst_scale;  //ループ分のフレームを差し引いたときの現在のフレーム
 	if(isReverse){
 		return m_refEndframe - nowframe;	//リバース時
 	}
-	return m_refStartframe + nowframe;	//通常時
+	return m_refStartframe + nowframe;		//通常時
 }
 
 
