@@ -48,6 +48,17 @@ public:
 	void SSGetTextureSize(ss::TextureID handle, int* width, int* height) override{
 		GetGraphSize(handle, width, height);
 	}
+
+
+	//インスタンスアニメーションのイベント
+	bool ChildPlayerLoad(int parentPartIndex, const std::string& parentPartName, const std::string& animName){ return false; }
+	void ChildPlayerRelease(int parentPartIndex, const std::string& parentPartName){}
+	void ChildPlayerSetFrame(
+		int parentPartIndex, const std::string& parentPartName,
+		const ss::ParentPartState& parentPartState, int frame, bool independent
+	)override{}
+	void ChildPlayerDraw(int parentPartIndex, const std::string& parentPartName){}
+
 };
 SimpleSS5EventListener g_eventListener;
 
