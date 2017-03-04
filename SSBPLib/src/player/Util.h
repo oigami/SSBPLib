@@ -60,14 +60,14 @@ float lerpAngle(float from, float to, double t);
 
 
 
-#define SS_SAFE_DELETE(p)           { delete (p); (p) = nullptr; }
-#define SS_SAFE_DELETE_ARRAY(p)     { delete[] (p); (p) = nullptr; }
+#define SS_SAFE_DELETE(p)           do{ delete (p); (p) = nullptr; }while(0)
+#define SS_SAFE_DELETE_ARRAY(p)     do{ delete[] (p); (p) = nullptr; }while(0)
 
 
 #ifdef _DEBUG
 #define SS_LOG(...)					ss::DebugPrintToConsole(__FILE__, __LINE__, __VA_ARGS__)
-#define SS_ASSERT(cond)				assert(cond)
-#define SS_ASSERT_LOG(cond, ...)	{ if(!(cond)){ SS_LOG(__VA_ARGS__); SS_ASSERT(cond); } }
+#define SS_ASSERT(cond)				do{ if(!(cond)){ SS_LOG(#cond); abort(); } }while(0)
+#define SS_ASSERT_LOG(cond, ...)	do{ if(!(cond)){ SS_LOG(__VA_ARGS__); abort(); } }while(0)
 #else
 #define SS_LOG(...)
 #define SS_ASSERT(cond)				
