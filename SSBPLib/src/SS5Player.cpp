@@ -51,8 +51,6 @@ Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
 	, _currentAnimeRef(nullptr)
 	, _currentFrameTime(0.0f)
 	, _isPausing(false)
-	, _prevDrawFrameNo(-1)
-	, _instanceOverWrite(false)
 	, _motionBlendPlayer(nullptr)
 	, _blendTime(0.0f)
 	, _blendTimeMax(0.0f)
@@ -156,7 +154,6 @@ void Player::play(AnimeRef* animeRef, int startFrameNo)
 	}
 	_currentFrameTime = startFrameNo;
 	_isPausing = false;
-	_prevDrawFrameNo = -1;
 	
 	setFrame(static_cast<int>(_currentFrameTime));
 
@@ -568,50 +565,6 @@ void Player::setPartCell(std::string partsname, std::string sscename, std::strin
 	//memo:元の実装では_partInex[]のインデックスを使っていたので動作がおかしいときはそのあたりを疑ってみる
 }
 
-#if 0
-// インスタンスパーツが再生するアニメを変更します。
-bool Player::changeInstanceAnime(std::string partsname, std::string animename, bool overWrite, const InstancePartStatus& keyParam)
-{
-	//名前からパーツを取得
-	bool rc = false;
-	if (_currentAnimeRef)
-	{
-		int partIndex = indexOfPart(partsname.c_str());
-		
-		if (partIndex != 0){
-			CustomSprite* sprite = _parts.at(partIndex);
-			if (sprite->_ssplayer){
-				//パーツがインスタンスパーツの場合は再生するアニメを設定する
-				//アニメが入れ子にならないようにチェックする
-				if (_currentAnimename != animename)
-				{
-					sprite->_ssplayer->play(animename);
-					sprite->_ssplayer->setInstanceParam(overWrite, keyParam);	//インスタンスパラメータの設定
-					sprite->_ssplayer->resume();			//アニメ切り替え時にがたつく問題の対応
-					sprite->_liveFrame = 0;					//独立動作の場合再生位置をリセット
-					rc = true;
-				}
-			}
-		}
-	}
-
-	return (rc);
-}
-
-//インスタンスパラメータを設定します
-void Player::setInstanceParam(bool overWrite, const InstancePartStatus& keyParam)
-{
-	_instanceOverWrite = overWrite;		//インスタンス情報を上書きするか？
-	_instanseParam = keyParam;			//インスタンスパラメータ
-
-}
-//インスタンスパラメータを取得します
-void Player::getInstanceParam(bool *overWrite, InstancePartStatus *keyParam)
-{
-	*overWrite = _instanceOverWrite;		//インスタンス情報を上書きするか？
-	*keyParam = _instanseParam;			//インスタンスパラメータ
-}
-#endif
 
 //スプライト情報の取得
 const CustomSprite* Player::getSpriteData(int partIndex) const
@@ -941,7 +894,6 @@ void Player::setFrame(int frameNo, float dt)
 			}
 		}
 	}
-	_prevDrawFrameNo = frameNo;	//再生したフレームを保存
 }
 
 //プレイヤーの描画

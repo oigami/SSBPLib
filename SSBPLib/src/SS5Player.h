@@ -292,46 +292,6 @@ public:
 	 */
 	void setColor(int r, int g, int b);
 
-	/**
-	 * 名前を指定してパーツの再生するインスタンスアニメを変更します。
-	 * 指定したパーツがインスタンスパーツでない場合、falseを返します.
-	 * インスタンスパーツ名はディフォルトでは「ssae名:モーション名」とつけられています。
-	 * 再生するアニメの名前は"ssae名/アニメーション名"として再生してください。
-	 * 現在再生しているアニメを指定することは入れ子となり無限ループとなるためできません。
-	 * 変更するアニメーションは同じssbpに含まれる必要があります。
-	 *
-	 * インスタンスキーを手動で設定する事が出来ます。
-	 * アニメーションに合わせて開始フレーム、終了フレーム等のインスタンスアトリビュート情報を設定してください。
-	 * 終了フレーム最大値は総フレーム-1になります。
-	 * 上書きフラグがfalseの場合、SS上に設定されたインスタンスアトリビュートの設定を使用します。
-	 * 使用例：
-	 * ss::Instance param;
-	 * param.clear();
-	 * param.refEndframe = resman->getMaxFrame("ssbp名","ssae名/モーション名") - 1;	//アニメーションの長さを取得
-	 * param.infinity = true;														//無限ループを設定
-	 * ssplayer->changeInstanceAnime("再生しているアニメーションに含まれるインスタンスパーツ名", "ssae名/モーション名", true, param);
-	 *
-	 * @param  partsname			SS上のパーツ名
-	 * @param  animeName			参照するアニメ名
-	 * @param  overWrite			インスタンスキーの上書きフラグ
-	 * @param  keyParam			インスタンスキーのパラメータ
-	 */
-	bool changeInstanceAnime(std::string partsname, std::string animeName, bool overWrite, const InstancePartStatus& keyParam);
-
-	/**
-	 * プレイヤーにインスタンスパラメータを設定します。
-	 * @param  overWrite		インスタンスキーの上書きフラグ
-	 * @param  keyParam			インスタンスキーのパラメータ
-	 */
-	void setInstanceParam(bool overWrite, const InstancePartStatus& keyParam);
-
-	/**
-	 * プレイヤーからインスタンスパラメータを取得します。
-	 *
-	 * @param  overWrite		インスタンスキーの上書きフラグ
-	 * @param  keyParam			インスタンスキーのパラメータ
-	 */
-	void getInstanceParam(bool *overWrite, InstancePartStatus *keyParam);
 
 	/*
 	 * パーツ番号に対応したスプライト情報を取得します。
@@ -373,12 +333,9 @@ private:
 
 	float				_currentFrameTime;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い
 	bool				_isPausing;
-	int					_prevDrawFrameNo;
 	bool				_partVisible[PART_VISIBLE_MAX];
 	int					_cellChange[PART_VISIBLE_MAX];
 	int					_partIndex[PART_VISIBLE_MAX];
-	bool				_instanceOverWrite;				//インスタンス情報を上書きするか？
-	InstancePartStatus	_instanseParam;					//インスタンスパラメータ
 	int					_seedOffset;					//エフェクトシードオフセット
 	int					_draw_count;					//表示スプライト数
 
