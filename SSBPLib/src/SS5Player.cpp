@@ -71,10 +71,7 @@ Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
 	int cellMapNum = _currentRs->m_cellCache->getCellMapNum();
 	m_textures.resize(cellMapNum);
 	for(int i = 0; i < cellMapNum; ++i){
-		std::string textureName = _currentRs->m_cellCache->getTexturePath(i);
-		//todo:イベントリスナーにしたい //TextureID textureid = m_eventListener->SSTextureLoad(textureName.c_str());	//ロードイベント
-		//m_textures[i] = textureid;
-		
+		std::string textureName = _currentRs->m_cellCache->getTexturePath(i);		
 	#if 0
 		//CellCacheからこっちに持ってきた
 		long tex = SSTextureLoad(path.c_str(), wrapmode, filtermode);
@@ -88,8 +85,8 @@ Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
 		texdata.size_h = h;
 	#endif
 		TextuerData& texdata = m_textures[i];
-		texdata.handle = SSTextureLoad(textureName.c_str(), SsTexWrapMode::clamp, SsTexFilterMode::nearlest); // wrapmode, filtermode);//todo:wrapmode, filtermodeを引っ張ってくる。事前に取得できるようにする
-		SSGetTextureSize(texdata.handle, texdata.size_w, texdata.size_h);
+		texdata.handle = _eventListener->SSTextureLoad(textureName.c_str(), SsTexWrapMode::clamp, SsTexFilterMode::nearlest); // wrapmode, filtermode);//todo:wrapmode, filtermodeを引っ張ってくる。事前に取得できるようにする
+		_eventListener->SSGetTextureSize(texdata.handle, &(texdata.size_w), &(texdata.size_h));
 	}	
 }
 
@@ -105,8 +102,7 @@ Player::~Player()
 
 	//テクスチャの解放イベントを投げる
 	for(TextuerData& texdata : m_textures){
-		//todo:イベントリスナーにしたい	//m_eventListener->SSTextureRelease(textureid);
-		SSTextureRelese(texdata.handle);
+		_eventListener->SSTextureRelease(texdata.handle);
 	}
 	m_textures.clear();
 }

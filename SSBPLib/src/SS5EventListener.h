@@ -12,11 +12,14 @@ public:
 	SS5EventListener(){}
 	virtual ~SS5EventListener(){}
 
-#if 0
-	//テクスチャのロード・リリースのイベント
+
+	//テクスチャのロード・リリースのイベント。内部ではPlayer単位で管理されます
 	virtual TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode::_enum wrapmode, SsTexFilterMode::_enum filtermode) = 0;
-	virtual bool SSTextureRelease(TextureID handle) = 0;
-#endif
+	virtual void SSTextureRelease(TextureID handle) = 0;
+
+	//テクスチャサイズの取得
+	virtual void SSGetTextureSize(TextureID handle, int* width, int* height) = 0;
+
 
 #if 0
 	/**

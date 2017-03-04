@@ -15,6 +15,7 @@
 namespace ss
 {
 
+#if 0
 	/**
 	* テクスチャの読み込み
 	*/
@@ -77,6 +78,7 @@ namespace ss
 		}
 		return true;
 	}
+#endif
 
 	//DXライブラリ用頂点バッファ作成関数
 	VERTEX_3D vertex3Dfrom(const ss::SSV3F_C4B_T2F &vct)
