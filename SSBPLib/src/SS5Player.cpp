@@ -291,9 +291,7 @@ void Player::allocParts(int numParts, bool useCustomShaderProgram)
 
 	// パーツ数だけCustomSpriteを作成する
 	for (int i = 0; i < numParts; i++){
-		CustomSprite* sprite =  new CustomSprite();
-		sprite->_ssplayer = NULL;
-		
+		CustomSprite* sprite =  new CustomSprite();		
 		_parts.push_back(sprite);
 	}
 }
@@ -304,8 +302,13 @@ void Player::releaseParts()
 	SS_ASSERT(_currentAnimeRef);
 
 	// パーツの子CustomSpriteを全て削除
-	for(CustomSprite* sprite : _parts){
-		SS_SAFE_DELETE(sprite->_ssplayer);	//todo:customspriteがやるべき
+	for(int i = 0; i < _parts.size(); ++i){
+		CustomSprite* sprite = _parts[i];
+	
+		//ChildPlayerがあるなら、spriteを破棄する前にリリースイベントを飛ばす
+		if(sprite->_haveChildPlayer){	//todo:customspriteでやる?
+			_eventListener->ChildPlayerRelease(i, getPartName(i));
+		}
 		SS_SAFE_DELETE(sprite);
 	}
 	_parts.clear();
@@ -325,23 +328,16 @@ void Player::setPartsParentage()
 		CustomSprite* sprite = _parts.at(partIndex);
 		
 		if (partIndex > 0){
-			CustomSprite* parent = _parts.at(partData->parentIndex);
-			sprite->_parent = parent;
+			sprite->_parent = _parts.at(partData->parentIndex);
 		}
 		else{
-			sprite->_parent = NULL;
+			sprite->_parent = nullptr;
 		}
 
-		//インスタンスパーツの生成
-		std::string refanimeName = ptr.toString(partData->refname);
-
-		SS_SAFE_DELETE(sprite->_ssplayer);
-		if (refanimeName != "")
-		{
-			//インスタンスパーツが設定されている
-			sprite->_ssplayer = new Player(_currentRs, _eventListener);	//todo:ひとまず_eventListenerを突っ込むことにするが、後で整理する
-			sprite->_ssplayer->play(refanimeName);				 // アニメーション名を指定(ssae名/アニメーション名も可能、詳しくは後述)
-			sprite->_ssplayer->stop();
+		//インスタンスパーツならChildPlayerの生成イベントを飛ばす
+		if(partData->type == PARTTYPE_INSTANCE){
+			std::string refanimeName = ptr.toString(partData->refname);
+			sprite->_haveChildPlayer = _eventListener->ChildPlayerLoad(partIndex, getPartName(partIndex), refanimeName);
 		}
 
 		//エフェクトパーツの生成
@@ -572,6 +568,7 @@ void Player::setPartCell(std::string partsname, std::string sscename, std::strin
 	//memo:元の実装では_partInex[]のインデックスを使っていたので動作がおかしいときはそのあたりを疑ってみる
 }
 
+#if 0
 // インスタンスパーツが再生するアニメを変更します。
 bool Player::changeInstanceAnime(std::string partsname, std::string animename, bool overWrite, const InstancePartStatus& keyParam)
 {
@@ -600,6 +597,7 @@ bool Player::changeInstanceAnime(std::string partsname, std::string animename, b
 
 	return (rc);
 }
+
 //インスタンスパラメータを設定します
 void Player::setInstanceParam(bool overWrite, const InstancePartStatus& keyParam)
 {
@@ -613,7 +611,7 @@ void Player::getInstanceParam(bool *overWrite, InstancePartStatus *keyParam)
 	*overWrite = _instanceOverWrite;		//インスタンス情報を上書きするか？
 	*keyParam = _instanseParam;			//インスタンスパラメータ
 }
-
+#endif
 
 //スプライト情報の取得
 const CustomSprite* Player::getSpriteData(int partIndex) const
@@ -797,42 +795,6 @@ void Player::setFrame(int frameNo, float dt)
 		state.quad = quad;
 
 
-
-
-		//インスタンスパーツの場合
-		if (partData->type == PARTTYPE_INSTANCE){
-			//描画
-			InstancePartStatus ips = state.instanceValue;
-			
-			
-			bool overWrite;
-			InstancePartStatus keyParam;
-			sprite->_ssplayer->getInstanceParam(&overWrite, &keyParam);
-			//インスタンスパラメータを上書きする
-			if(overWrite == true){
-				ips = keyParam;
-			}
-
-			//タイムライン上の時間 （絶対時間）
-			int time = frameNo;
-
-			//独立動作の場合
-			if (ips.m_independent){
-				float delta = dt / (1.0f / getAnimeFPS());						//	独立動作時は親アニメのfpsを使用する
-//				float delta = fdt / (1.0f / sprite->_ssplayer->_animefps);
-
-				sprite->_liveFrame += delta;
-				time = (int)sprite->_liveFrame;
-			}
-			int _time = ips.getFrame(time);
-			
-			//インスタンスパラメータを設定
-			sprite->_ssplayer->setColor(_playerSetting.m_col_r, _playerSetting.m_col_g, _playerSetting.m_col_b);
-
-			//インスタンス用SSPlayerに再生フレームを設定する
-			sprite->_ssplayer->setCurrentFrame(_time);
-		}
-
 		//スプライトステータスの保存
 		sprite->setState(state);
 		sprite->_orgState = sprite->_state;
@@ -888,23 +850,23 @@ void Player::setFrame(int frameNo, float dt)
 				//子供は親のステータスを引き継ぐ
 				//ルートパーツのアルファ値を反映させる
 				sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _playerSetting.m_opacity) / 255;
-				//インスタンスパーツの親を設定
-				if (sprite->_ssplayer)
-				{
-					//行列から情報を取り出せるのでそれをセットする //todo:2Dだけじゃ足りないはずなのでその内Vector3を渡すようにする
-					float x, y, z;
-					sprite->_mat.getTranslation(&x, &y);
-					sprite->_ssplayer->setPosition(x, y);
-
-					sprite->_mat.getScale(&x, &y, &z);
-					sprite->_ssplayer->setScale(x, y);
-
-					sprite->_mat.getRotation(&x, &y, &z);		//tood:行列そのものを渡すようにすべき
-					sprite->_ssplayer->setRotation(x, y, z);
-
-					sprite->_ssplayer->setAlpha(sprite->_state.Calc_opacity);
+				
+				//インスタンスアニメーションがある場合は親パーツ情報を通知する
+				if(sprite->_haveChildPlayer){
+					Vector3 pos, rot, scale;
+					sprite->_mat.getTranslation(&pos.x, &pos.y, &pos.z);
+					sprite->_mat.getRotation(&rot.x, &rot.y, &rot.z);
+					sprite->_mat.getScale(&scale.x, &scale.y, &scale.z);
+					SSColor4B col(_playerSetting.m_col_r, _playerSetting.m_col_g, _playerSetting.m_col_b, sprite->_state.Calc_opacity);
+					ParentPartState parentPartState = {
+						pos, rot, scale, col
+					};
+					InstancePartStatus ips = sprite->_state.instanceValue;
+					_eventListener->ChildPlayerSetFrame(		//todo:行列そのものを渡すようにすべき
+						partIndex, getPartName(partIndex),
+						parentPartState, ips.getFrame(frameNo), ips.m_independent
+					);
 				}
-
 			}
 			
 			sprite->_isStateChanged = false;
@@ -916,11 +878,6 @@ void Player::setFrame(int frameNo, float dt)
 	{
 		CustomSprite* sprite = _parts.at(partIndex);
 
-		//インスタンスパーツのアップデート
-		if (sprite->_ssplayer)
-		{
-			sprite->_ssplayer->update(dt);
-		}
 		//エフェクトのアップデート
 		if (sprite->refEffect)
 		{
@@ -999,13 +956,9 @@ void Player::draw()
 		int partIndex = _partIndex[index];
 		//スプライトの表示
 		CustomSprite* sprite = _parts.at(partIndex);
-		if (sprite->_ssplayer)
-		{
-			if ((sprite->_state.isVisibled == true) && (sprite->_state.opacity > 0))
-			{
-				//インスタンスパーツの場合は子供のプレイヤーを再生
-				sprite->_ssplayer->draw();
-				_draw_count += sprite->_ssplayer->getDrawSpriteCount();
+		if (sprite->_haveChildPlayer){
+			if ((sprite->_state.isVisibled == true) && (sprite->_state.opacity > 0)){
+				_eventListener->ChildPlayerDraw(partIndex, getPartName(partIndex));
 			}
 		}
 		else

@@ -18,8 +18,8 @@ public:
 	State				_state;
 	bool				_isStateChanged;
 	CustomSprite*		_parent;
-	Player*				_ssplayer;
-	float				_liveFrame;
+	bool				_haveChildPlayer;		//ChildPlayer(インスタンスアニメーション)を持っているならtrue
+
 
 	//エフェクト用パラメータ
 	SsEffectRenderV2*	refEffect;

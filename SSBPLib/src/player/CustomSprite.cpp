@@ -3,10 +3,9 @@
 
 namespace ss{
 
-CustomSprite::CustomSprite() :
-	 _liveFrame(0.0f)
+CustomSprite::CustomSprite()
+	: _haveChildPlayer(false)
 	, refEffect(0)
-	, _ssplayer(0)
 	, effectAttrInitialized(false)
 	, effectTimeTotal(0)
 {
@@ -18,7 +17,6 @@ CustomSprite::~CustomSprite()
 {
 	//エフェクトクラスがある場合は解放する
 	SS_SAFE_DELETE(refEffect);
-	SS_SAFE_DELETE(_ssplayer);
 }
 
 

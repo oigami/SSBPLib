@@ -5,6 +5,14 @@ namespace ss{
 class Player;
 struct UserData;
 
+//親パーツ情報 
+struct ParentPartState{	//todo:そのうちSRTMatrixを渡すようにしたい
+	Vector3 m_position;
+	Vector3 m_rotation;
+	Vector3 m_scale;
+	SSColor4B m_color;
+};
+
 
 /** ロードイベントなどを捕まえるのでこれを継承して作ってください */
 class SS5EventListener{
@@ -21,32 +29,34 @@ public:
 	virtual void SSGetTextureSize(TextureID handle, int* width, int* height) = 0;
 
 
-#if 0
 	/**
 	 * インスタンスアニメーションのロード・リリースのイベント。ロード成功時はtrue返してください
-	 * @param partsIndex	親になるパーツのindex
-	 * @param partsName		親になるパーツの名前
-	 * @param animName		再生アニメーション名
+	 * @param parentPartIndex	親になるパーツのindex
+	 * @param parentPartName	親になるパーツの名前
+	 * @param animName			再生アニメーション名
 	 */
-	virtual bool ChildPlayerLoad(int partsIndex, const std::string& partsName, const std::string& animName) = 0;
-	virtual void ChildPlayerRelease(int partIndex, const std::string& partsName) = 0;
+	virtual bool ChildPlayerLoad(int parentPartIndex, const std::string& parentPartName, const std::string& animName) = 0;
+	virtual void ChildPlayerRelease(int parentPartIndex, const std::string& parentPartName) = 0;
 
 	/**
-	 * 更新時などに呼び出されるSet系のイベント。親のパーツの情報を伝播させるために必要
-	 * @param partsIndex	親になるパーツのindex
-	 * @param partsName		親になるパーツの名前
-	 * @param frame			インスタンスアニメの設定で指定したframeの計算結果
-	 * @param independent	インスタンスアニメの設定で独立動作を指定していればtrue
-	 * @param partState		親パーツの情報(座標とかが入っているので、子供のPlayerにセットしてください)
+	 * 更新時などに呼び出されるSet系のイベント。
+	 * 親のパーツの情報を伝播させるために必要になります。
+	 * Player内部ではChildPlayerの制御はしないため、このイベントを活用してください。
+	 * @param parentPartIndex	親パーツのindex
+	 * @param parentPartName	親パーツの名前
+	 * @param parentpartState	親パーツの情報(座標とかが入っているので、子供のPlayerにセットしてください)
+	 * @param frame				インスタンスアニメの設定で指定したframeの計算結果
+	 * @param independent		インスタンスアニメの設定で独立動作を指定していればtrue
 	 */
 	virtual void ChildPlayerSetFrame(
-		int partIndex, const std::string& partsName,
-		int frame, bool independent, const PartState& partState
+		int parentPartIndex, const std::string& parentPartName,
+		const ParentPartState& parentPartState, int frame, bool independent
 	) = 0;
 
-	/** drawするタイミングでの呼び出し */
-	virtual void ChildPlayerDraw(int partIndex, const std::string& partsName) = 0;
-#endif
+	/** 描画イベント */
+	virtual void ChildPlayerDraw(int parentPartIndex, const std::string& parentPartName) = 0;
+
+	
 
 	/**
 	 * ユーザーデータがあったときに呼ばれる
