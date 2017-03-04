@@ -18,7 +18,7 @@ namespace ss
 	/**
 	* テクスチャの読み込み
 	*/
-	long SSTextureLoad(const char* pszFileName, SsTexWrapMode::_enum  wrapmode, SsTexFilterMode::_enum filtermode)
+	TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode::_enum  wrapmode, SsTexFilterMode::_enum filtermode)
 	{
 		/**
 		* テクスチャ管理用のユニークな値を返してください。
@@ -27,9 +27,7 @@ namespace ss
 		*
 		* プレイヤーはここで返した値とパーツのステータスを引数に描画を行います。
 		*/
-		long rc = 0;
-
-		rc = (long)LoadGraph(pszFileName);
+		TextureID rc = (long)LoadGraph(pszFileName);
 		//SpriteStudioで設定されたテクスチャ設定を反映させるための分岐です。
 		switch (wrapmode)
 		{
@@ -54,7 +52,7 @@ namespace ss
 	/**
 	* テクスチャの解放
 	*/
-	bool SSTextureRelese(long handle)
+	bool SSTextureRelese(TextureID handle)
 	{
 		/// 解放後も同じ番号で何度も解放処理が呼ばれるので、例外が出ないように作成してください。
 		bool rc = true;
@@ -71,7 +69,7 @@ namespace ss
 	* テクスチャのサイズを取得
 	* テクスチャのUVを設定するのに使用します。
 	*/
-	bool SSGetTextureSize(long handle, int &w, int &h)
+	bool SSGetTextureSize(TextureID handle, int &w, int &h)
 	{
 		if (GetGraphSize(handle, &w, &h) == -1)
 		{

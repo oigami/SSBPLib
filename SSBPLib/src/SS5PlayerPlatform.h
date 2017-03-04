@@ -15,11 +15,11 @@ namespace ss
 	struct UserData;
 	class Player;
 
-	extern long SSTextureLoad(const char* pszFileName, SsTexWrapMode::_enum  wrapmode, SsTexFilterMode::_enum filtermode);
-	extern bool SSTextureRelese(long handle);
+	extern TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode::_enum  wrapmode, SsTexFilterMode::_enum filtermode);
+	extern bool SSTextureRelese(TextureID handle);
 	extern bool isAbsolutePath(const std::string& strPath);
 	extern void SSDrawSprite(State state);
-	extern bool SSGetTextureSize(long handle, int &w, int &h);
+	extern bool SSGetTextureSize(TextureID handle, int &w, int &h);
 
 #if 0
 	//userDataは一時オブジェクトなのでコピーして使ってください

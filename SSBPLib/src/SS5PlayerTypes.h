@@ -10,6 +10,8 @@
 namespace ss{
 class DataArrayReader;
 
+using TextureID = long;	//テクスチャの識別子
+
 
 /**
  * カラー構造体
@@ -105,7 +107,7 @@ struct SSV3F_C4B_T2F_Quad {
 //テクスチャデータ
 struct TextuerData
 {
-	long handle;
+	TextureID handle;
 	int size_w;
 	int size_h;
 };
