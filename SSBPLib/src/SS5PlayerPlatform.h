@@ -18,8 +18,8 @@ namespace ss
 #if 0
 	extern TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode::_enum  wrapmode, SsTexFilterMode::_enum filtermode);
 	extern bool SSTextureRelese(TextureID handle);
-#endif
 	extern bool isAbsolutePath(const std::string& strPath);
+#endif
 	extern void SSDrawSprite(State state);
 #if 0
 	extern bool SSGetTextureSize(TextureID handle, int &w, int &h);

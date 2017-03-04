@@ -228,7 +228,7 @@ namespace ss
 	}
 #endif
 
-
+#if 0
 	/**
 	* 文字コード変換
 	*/ 
@@ -267,5 +267,5 @@ namespace ss
 		}
 		return false;
 	}
-
+#endif
 };
