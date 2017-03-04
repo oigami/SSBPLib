@@ -32,8 +32,21 @@ ss::ResourceManager *resman;
 class SimpleSS5EventListener: public ss::SS5EventListener{
 public:
 	void onUserData(ss::Player* player, const ss::UserData& userData, int frameNo) override{}	//ユーザーデータは特に何も処理しない
-	int limitFrame(ss::Player* player, int frame, int maxFrame){
+	int limitFrame(ss::Player* player, int frame, int maxFrame) override{
 		return ss::SS5EventListener::limitFrame(player, frame, maxFrame);	//フレーム制限はデフォルト実装に任せる
+	}
+
+	//テクスチャのロード・リリースのイベント。内部ではPlayer単位で管理されます
+	ss::TextureID SSTextureLoad(const char* pszFileName, ss::SsTexWrapMode::_enum wrapmode, ss::SsTexFilterMode::_enum filtermode) override{
+		return LoadGraph(pszFileName);
+	}
+	void SSTextureRelease(ss::TextureID handle) override{
+		DeleteGraph(handle);
+	}
+
+	//テクスチャサイズの取得
+	void SSGetTextureSize(ss::TextureID handle, int* width, int* height) override{
+		GetGraphSize(handle, width, height);
 	}
 };
 SimpleSS5EventListener g_eventListener;
@@ -191,7 +204,7 @@ void update(float dt)
 	{
 		if (sstest_push == false)
 		{
-			sstest_count += 20;
+			sstest_count += 5;
 			if (sstest_count >= animax)
 			{
 				sstest_count = 0;
@@ -203,7 +216,7 @@ void update(float dt)
 	{
 		if (sstest_push == false)
 		{
-			sstest_count -= 20;
+			sstest_count -= 5;
 			if (sstest_count < 0)
 			{
 				sstest_count = animax - 1;
