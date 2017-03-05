@@ -127,7 +127,11 @@ void init( void )
 	**********************************************************************************/
 
 	//ssbpファイルの読み込み
+#if 1
 	ifstream ifs("Resources/character_template_comipo/character_template1.ssbp", ios::in | ios::binary);
+#else
+	ifstream ifs("Resources/ParticleEffectSample/ParticleEffectSample.ssbp", ios::in | ios::binary);
+#endif
 	if(!ifs){
 		return;
 	}
@@ -144,7 +148,7 @@ void init( void )
 	
 
 	//アニメデータをリソースに追加
-
+#if 1
 	//それぞれのプラットフォームに合わせたパスへ変更してください。
 	resman->regist(
 		buf.data(), buf.size(),
@@ -155,7 +159,15 @@ void init( void )
 	ssplayer = resman->createPlayer("character_template1", &g_eventListener);       //addDataで指定した登録名
 	//再生するモーションを設定
 	ssplayer->play("character_template_3head/stance");				 // アニメーション名を指定(ssae名/アニメーション名も可能、詳しくは後述)
-
+#else
+	resman->regist(
+		buf.data(), buf.size(),
+		"effectsample",
+		"Resources/ParticleEffectSample/"
+	);
+	ssplayer = resman->createPlayer("effectsample", &g_eventListener);
+	ssplayer->play("e001/emission");
+#endif
 	//表示位置を設定
 	ssplayer->setPosition(800/2, 150);
 	//スケール設定	//反転させたいときは-の値を指定してください
