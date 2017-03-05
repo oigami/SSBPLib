@@ -20,6 +20,24 @@ struct CellRef{
 	SSRect		m_rect;			//cellの範囲
 };
 
+/**
+ * CellMapに近いがテクスチャの設定のみなので別名にします
+ */
+struct CellMapTextureInfo{
+	const char* m_imagePaths;				//セルマップ名
+	SsTexWrapMode::_enum m_wrapMode;		//ラップモード
+	SsTexFilterMode::_enum m_filterMode;	//フィルタモード
+	
+/*	CellMapTextureInfo()
+		: m_imagePaths(nullptr)
+		, m_wrapMode(SsTexWrapMode::_enum::invalid)
+		, m_filterMode(SsTexFilterMode::_enum::invalid){} */
+
+	bool operator <(const CellMapTextureInfo& o) const{
+		return m_imagePaths < o.m_imagePaths;	//mapに突っ込むのにひとまず定義しておく
+	}
+};
+
 
 /**
  * CellCache
@@ -40,6 +58,8 @@ public:
 
 	//指定したCellMapのテクスチャ名を取得する
 	std::string getTexturePath(int cellMapIndex) const;
+	SsTexWrapMode::_enum getWrapMode(int cellMapIndex) const;
+	SsTexFilterMode::_enum getFilterMode(int cellMapIndex) const;
 
 	//CellMap数
 	int getCellMapNum() const;
@@ -50,8 +70,8 @@ private:
 	void init(const ProjectData* data, const std::string& imageBaseDir);
 
 	std::string m_imageBaseDir;
-	std::vector<const char *> m_imagePaths;	//テクスチャファイル名(添字はセルマップ番号に対応)
-	std::vector<CellRef> m_cellRefs;		//数が動的に変化することはないので実体を入れる事にした
+	std::vector<CellMapTextureInfo> m_textureInfos;	//テクスチャファイル情報(添字はセルマップ番号に対応)
+	std::vector<CellRef> m_cellRefs;				//数が動的に変化することはないので実体を入れる事にした
 };
 
 } //namespace ss

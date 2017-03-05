@@ -47,7 +47,7 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 	
 	m_imageBaseDir = imageBaseDir;
 	m_cellRefs.resize(data->numCells);	//cell数だけ領域確保しておく
-	std::map<int, const char*> imagePathMap;	//数がわからないのでひとまず<index,path>のmapにしておく
+	std::map<int, CellMapTextureInfo> textureInfoMap;	//数がわからないのでひとまず<index,info>のmapにしておく
 
 	
 	ToPointer ptr(data);
@@ -57,12 +57,19 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 		const Cell* cell = &cells[i];
 		const CellMap* cellMap = ptr.toCellMap(cell);
 
+		//ここではロードなどはせずに番号を保存しとくだけに留める
+		//セルは同じセルマップを参照するため、既に入れたかどうかをチェックする
+		if(textureInfoMap.find(cellMap->index) == textureInfoMap.end()){
+			CellMapTextureInfo info = {
+				ptr.toString(cellMap->imagePath),
+				static_cast<SsTexWrapMode::_enum>(cellMap->wrapmode),
+				static_cast<SsTexFilterMode::_enum>(cellMap->filtermode)
+			};
+			textureInfoMap.insert(std::make_pair(cellMap->index, info));
+		}
+
 		const char* cellname = ptr.toString(cell->name);			//セル名
 		const char* cellmapname = ptr.toString(cellMap->name);		//セルマップ名
-
-		//ここではロードなどはせずに番号を保存しとくだけに留める
-		imagePathMap[cellMap->index] = ptr.toString(cellMap->imagePath);		//memo:ここは何度も上書きされるだろうがconst char*のコピーなので大丈夫
-
 		CellRef ref = {
 			cell,  cellname, cellMap->index, cellmapname,
 			SSRect(cell->x, cell->y, cell->width, cell->height)
@@ -71,34 +78,40 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 	}
 
 	//map --> vector に詰め直す -----------------
-	auto it = std::max_element(imagePathMap.begin(), imagePathMap.end());
-	if(it == imagePathMap.end()){			//画像無し
+	auto it = std::max_element(textureInfoMap.begin(), textureInfoMap.end());
+	if(it == textureInfoMap.end()){			//画像無し
 		return;
 	}
 
 	int maxIndex = it->first;
-	m_imagePaths.resize(maxIndex + 1);
-	for(auto &index_path : imagePathMap){	//詰め替え
-		m_imagePaths[index_path.first] = index_path.second;
+	m_textureInfos.resize(maxIndex + 1);
+	for(auto &index_path : textureInfoMap){	//詰め替え
+		m_textureInfos[index_path.first] = index_path.second;
 	}
 }
 
 
 std::string CellCache::getTexturePath(int cellMapIndex) const
 {
-	SS_ASSERT(cellMapIndex >= 0 && cellMapIndex < m_imagePaths.size());	//indexのassertチェックはする
+	SS_ASSERT(cellMapIndex >= 0 && cellMapIndex < m_textureInfos.size());	//indexのassertチェックはする
 #if 0
 	if(isAbsolutePath(m_imagePaths[cellMapIndex])){
 		return m_imagePaths[cellMapIndex];	//絶対パスのときはそのまま扱う
 	}
 #endif
-	std::string texturePath = m_imageBaseDir + m_imagePaths[cellMapIndex];
+	std::string texturePath = m_imageBaseDir + m_textureInfos[cellMapIndex].m_imagePaths;
 	return texturePath;
 }
 
+SsTexWrapMode::_enum CellCache::getWrapMode(int cellMapIndex) const{
+	return m_textureInfos.at(cellMapIndex).m_wrapMode;
+}
+SsTexFilterMode::_enum CellCache::getFilterMode(int cellMapIndex) const{
+	return m_textureInfos.at(cellMapIndex).m_filterMode;
+}
 
 int CellCache::getCellMapNum() const{
-	return m_imagePaths.size();
+	return m_textureInfos.size();
 }
 
 

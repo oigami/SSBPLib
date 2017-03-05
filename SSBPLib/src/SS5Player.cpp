@@ -69,21 +69,12 @@ Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
 	int cellMapNum = _currentRs->m_cellCache->getCellMapNum();
 	m_textures.resize(cellMapNum);
 	for(int i = 0; i < cellMapNum; ++i){
-		std::string textureName = _currentRs->m_cellCache->getTexturePath(i);		
-	#if 0
-		//CellCacheからこっちに持ってきた
-		long tex = SSTextureLoad(path.c_str(), wrapmode, filtermode);
-		SS_LOG("load: %s", path.c_str());
-		TextuerData texdata;
-		texdata.handle = tex;
-		int w;
-		int h;
-		SSGetTextureSize(texdata.handle, w, h);
-		texdata.size_w = w;
-		texdata.size_h = h;
-	#endif
+		std::string textureName = _currentRs->m_cellCache->getTexturePath(i);	
+		SsTexWrapMode::_enum wrapmode = _currentRs->m_cellCache->getWrapMode(i);
+		SsTexFilterMode::_enum filtermode = _currentRs->m_cellCache->getFilterMode(i);
+
 		TextuerData& texdata = m_textures[i];
-		texdata.handle = _eventListener->SSTextureLoad(textureName.c_str(), SsTexWrapMode::clamp, SsTexFilterMode::nearlest); // wrapmode, filtermode);//todo:wrapmode, filtermodeを引っ張ってくる。事前に取得できるようにする
+		texdata.handle = _eventListener->SSTextureLoad(textureName.c_str(), wrapmode, filtermode); // wrapmode, filtermode);//todo:事前にテクスチャ情報取得できるようにする
 		_eventListener->SSGetTextureSize(texdata.handle, &(texdata.size_w), &(texdata.size_h));
 	}	
 }
