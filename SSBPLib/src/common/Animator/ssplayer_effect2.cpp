@@ -713,27 +713,7 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
 {
 
 	e->refData = node->GetMyBehavior();
-/*
-	e->refCell = e->refData->refCell;
 
-	//セルの初期化
-	SsCelMapLinker* link = this->curCellMapManager->getCellMapLink( e->refData->CellMapName );
-
-	if ( link )
-	{
-		SsCell * cell = link->findCell( e->refData->CellName );
-		
-		getCellValue(	this->curCellMapManager , 
-			e->refData->CellMapName ,
-			e->refData->CellName , 
-			e->dispCell ); 
-	}else{
-		SS_ASSERT_LOG(false, "cell not found : %s , %s\n" , 
-			e->refData->CellMapName.c_str(), 
-			e->refData->CellName.c_str()
-			);
-	}
-*/
 	e->dispCell.refCell = e->refData->refCell;
 	e->dispCell.blendType = e->refData->blendType;
 	e->dispCell.cellIndex = e->refData->CellIndex;

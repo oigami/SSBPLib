@@ -44,9 +44,6 @@ namespace SsEffectFunctionType
 }
 
 
-struct SsCell;
-
-
 
 
 

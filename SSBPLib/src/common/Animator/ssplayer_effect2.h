@@ -22,7 +22,6 @@ class SsRenderEffectBase;
 class SsEffectNode;
 struct SsPartState;
 class SsEffectRenderAtom;
-struct SsCell;
 class CustomSprite;
 
 
@@ -290,7 +289,6 @@ public:
 
     int							_parentIndex;
 
-	SsCell*						refCell;    //描画用セル
 	SsEffectBehavior*           refData;	//データ更新用
 
 	size_t						globaltime;
