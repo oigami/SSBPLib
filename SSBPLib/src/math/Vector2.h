@@ -140,5 +140,12 @@ using SSSize = Vector2;		//サイズクラス
 using SSTex2F = Vector2;	//UV構造体
 
 
+namespace Vec2Util{
+	//v0 から v1 への左回りの角度を返す
+	float getAngle360(Vector2 v0, Vector2 v1);
+
+} //namespace Vec2Util
+
+
 } //namespace ss
 

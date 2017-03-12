@@ -509,7 +509,7 @@ void 	SsEffectRenderParticle::updateForce(float delta)
 
 
 	if ( isTurnDirection ){
-		this->direction =  SsPoint2::get_angle_360( Vector2( 1.0f , 0.0f ) , ff ) - (float)DegreeToRadian(90);
+		this->direction = Vec2Util::getAngle360( Vector2( 1.0f , 0.0f ) , ff ) - (float)DegreeToRadian(90);
 	}
 	else{
         this->direction = 0;

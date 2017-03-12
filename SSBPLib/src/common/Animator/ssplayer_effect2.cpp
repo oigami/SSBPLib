@@ -337,7 +337,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 //		if ( time > 0.0f )
 		{
 			updateParticle(time + 1.0f, &dp, true);
-			p->direc = SsPoint2::get_angle_360(
+			p->direc = Vec2Util::getAngle360(
 								Vector2( 1 , 0 ) ,
 								Vector2(p->x - dp.x, p->y - dp.y) ) + DegreeToRadian(90) + DegreeToRadian(particle.direcRotAdd);
 		}
