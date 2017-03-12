@@ -63,6 +63,21 @@ public:
 SimpleSS5EventListener g_eventListener;
 
 
+//ファイル読み込みして中身を返します
+std::vector<char> readfile(const std::string& filename)
+{
+	ifstream ifs(filename, ios::in | ios::binary);
+	assert(ifs);
+
+	ifs.seekg(0, fstream::end);
+	size_t filesize = ifs.tellg();
+	ifs.seekg(0, fstream::beg);
+
+	vector<char> buf(filesize, 0);
+	ifs.read(buf.data(), filesize);
+	return buf;
+}
+
 
 /**
 * メイン関数
@@ -125,31 +140,14 @@ void init( void )
 	ssbpとpngがあれば再生する事ができますが、Resourcesフォルダにsspjも含まれています。
 
 	**********************************************************************************/
-
-	//ssbpファイルの読み込み
-#if 1
-	ifstream ifs("Resources/character_template_comipo/character_template1.ssbp", ios::in | ios::binary);
-#else
-	ifstream ifs("Resources/ParticleEffectSample/ParticleEffectSample.ssbp", ios::in | ios::binary);
-#endif
-	if(!ifs){
-		return;
-	}
-	ifs.seekg(0, fstream::end);
-	size_t filesize = ifs.tellg();
-	ifs.seekg(0, fstream::beg);
-
-	vector<char> buf(filesize, 0);
-	ifs.read(buf.data(), filesize);
-
-
 	//リソースマネージャの作成
 	resman =  new ss::ResourceManager();
 	
 
+	//ssbpファイルの読み込み
+	vector<char> buf = readfile("Resources/character_template_comipo/character_template1.ssbp");
+
 	//アニメデータをリソースに追加
-#if 1
-	//それぞれのプラットフォームに合わせたパスへ変更してください。
 	resman->regist(
 		buf.data(), buf.size(),
 		"character_template1",					//登録名
@@ -159,15 +157,8 @@ void init( void )
 	ssplayer = resman->createPlayer("character_template1", &g_eventListener);       //addDataで指定した登録名
 	//再生するモーションを設定
 	ssplayer->play("character_template_3head/stance");				 // アニメーション名を指定(ssae名/アニメーション名も可能、詳しくは後述)
-#else
-	resman->regist(
-		buf.data(), buf.size(),
-		"effectsample",
-		"Resources/ParticleEffectSample/"
-	);
-	ssplayer = resman->createPlayer("effectsample", &g_eventListener);
-	ssplayer->play("e001/emission");
-#endif
+
+
 	//表示位置を設定
 	ssplayer->setPosition(800/2, 150);
 	//スケール設定	//反転させたいときは-の値を指定してください
@@ -176,6 +167,15 @@ void init( void )
 	ssplayer->setRotation(0.0f, 0.0f, 0.0f);
 	//透明度を設定
 	ssplayer->setAlpha(255);
+
+
+	//エフェクトのテストのためついでに追加しておく
+	buf = readfile("Resources/ParticleEffectSample/ParticleEffectSample.ssbp");
+	resman->regist(
+		buf.data(), buf.size(),
+		"effectsample",
+		"Resources/ParticleEffectSample/"
+	);
 }
 
 //メインループ
@@ -199,89 +199,90 @@ void update(float dt)
 
 	//キー入力操作
 	int animax = ssplayer->getMaxFrame();
-	if (CheckHitKey(KEY_INPUT_ESCAPE))
-	{
+	if (CheckHitKey(KEY_INPUT_ESCAPE)){
 		mGameExec = 0;
 	}
 
-	if (CheckHitKey(KEY_INPUT_Z))
-	{
-		if (sstest_push == false )
-		{
-			if (sstest_pause == false )
-			{
+	if (CheckHitKey(KEY_INPUT_Z)){
+		if (sstest_push == false ){
+			if (sstest_pause == false ){
 				sstest_pause = true;
 				sstest_count = ssplayer->getCurrentFrame();;
 				ssplayer->stop();
 			}
-			else
-			{
+			else{
 				sstest_pause = false;
 				ssplayer->resume();
 			}
 		}
 		sstest_push = true;
-
 	}
-	else if (CheckHitKey(KEY_INPUT_UP))
-	{
-		if (sstest_push == false)
-		{
+	else if (CheckHitKey(KEY_INPUT_UP)){
+		if (sstest_push == false){
 			sstest_count += 5;
-			if (sstest_count >= animax)
-			{
+			if (sstest_count >= animax){
 				sstest_count = 0;
 			}
 		}
 		sstest_push = true;
 	}
-	else if (CheckHitKey(KEY_INPUT_DOWN))
-	{
-		if (sstest_push == false)
-		{
+	else if (CheckHitKey(KEY_INPUT_DOWN)){
+		if (sstest_push == false){
 			sstest_count -= 5;
-			if (sstest_count < 0)
-			{
+			if (sstest_count < 0){
 				sstest_count = animax - 1;
 			}
 		}
 		sstest_push = true;
 	}
-	else if (CheckHitKey(KEY_INPUT_LEFT))
-	{
-		if (sstest_push == false)
-		{
+	else if (CheckHitKey(KEY_INPUT_LEFT)){
+		if (sstest_push == false){
 			sstest_count--;
-			if (sstest_count < 0)
-			{
+			if (sstest_count < 0){
 				sstest_count = animax-1;
 			}
 		}
 		sstest_push = true;
 	}
-	else if (CheckHitKey(KEY_INPUT_RIGHT))
-	{
-		if (sstest_push == false)
-		{
+	else if (CheckHitKey(KEY_INPUT_RIGHT)){
+		if (sstest_push == false){
 			sstest_count++;
-			if (sstest_count >= animax)
-			{
+			if (sstest_count >= animax){
 				sstest_count = 0;
 			}
 		}
 		sstest_push = true;
 	}
-	else
-	{
+	else if(CheckHitKey(KEY_INPUT_X)){
+		if(sstest_push == false){
+			resman->destroyPlayer(ssplayer);
+			ssplayer = resman->createPlayer("character_template1", &g_eventListener);
+			ssplayer->play("character_template_3head/stance");
+
+			ssplayer->setPosition(800 / 2, 150);
+			ssplayer->setScale(0.5f, 0.5f);
+		}
+		sstest_push = true;
+	}
+	else if(CheckHitKey(KEY_INPUT_C)){
+		if(sstest_push == false){
+			resman->destroyPlayer(ssplayer);
+			ssplayer = resman->createPlayer("effectsample", &g_eventListener);
+			ssplayer->play("e001/emission");
+
+			ssplayer->setPosition(800 / 2, 300);
+			ssplayer->setScale(0.5f, 0.5f);
+		}
+		sstest_push = true;
+	}
+	else{
 		sstest_push = false;
 	}
 
-	if (sstest_pause == true)
-	{
+	if (sstest_pause == true){
 		ssplayer->setCurrentFrame(sstest_count % animax);
 	}
-	else
-	{
+	else{
 		sstest_count = ssplayer->getCurrentFrame();
 	}
 
