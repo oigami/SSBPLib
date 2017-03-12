@@ -18,25 +18,6 @@ class SsEffectRenderAtom;
 class SsEffectBehavior;
 
 
-namespace SsRenderType
-{
-	enum _enum{
-		BaseNode,
-		EmmiterNode,
-		ParticleNode,
-	};
-};
-
-
-namespace EmmiterType
-{
-	enum _enum{
-		EmmiterTypeNormal,
-		EmmiterTypeRibbon,
-	};
-};
-
-
 
 //--------------------------------------------------------------------------
 //
@@ -90,7 +71,6 @@ public:
 	virtual ~SsEffectRenderAtom(){}
 
 	void	setParent( SsEffectRenderAtom* _p ){ parent = _p; }
-    SsRenderType::_enum	getMyType(){ return SsRenderType::BaseNode;}
 
 	bool	   	isInit(){ return m_isInit; }
 
@@ -187,7 +167,6 @@ public:
 	float			frameDelta;
     int				burst;
 
-	EmmiterType::_enum		type;
 
     size_t 			particleCount;
 
@@ -217,8 +196,6 @@ public:
 		generate_ok = true;
 
 		param_particle = 0;
-		type = EmmiterType::EmmiterTypeNormal;
-
 	}
 
 	SsEffectRenderEmitter() : MT(0){}
@@ -235,7 +212,6 @@ public:
 			delete MT;
 		}
 	}
-	SsRenderType::_enum		getMyType(){ return SsRenderType::EmmiterNode; }
 	void			setMySeed( unsigned int seed );
 	void			TrushRandom(int loop)
 	{
@@ -338,8 +314,7 @@ public:
 	}
 
 	virtual ~SsEffectRenderParticle(){}
-    SsRenderType::_enum	getMyType(){ return SsRenderType::ParticleNode;}
-
+    
 	//生成フェーズ
 	virtual void	Initialize();
 
