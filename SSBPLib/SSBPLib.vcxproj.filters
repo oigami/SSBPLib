@@ -41,9 +41,6 @@
     <ClCompile Include="src\common\Animator\ssplayer_effectfunction.cpp">
       <Filter>ソース ファイル\common\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="src\common\Animator\ssplayer_PartState.cpp">
-      <Filter>ソース ファイル\common\Animator</Filter>
-    </ClCompile>
     <ClCompile Include="src\ResourceManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -125,9 +122,6 @@
       <Filter>ソース ファイル\common\Animator</Filter>
     </ClInclude>
     <ClInclude Include="src\common\Animator\ssplayer_effectfunction.h">
-      <Filter>ソース ファイル\common\Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="src\common\Animator\ssplayer_PartState.h">
       <Filter>ソース ファイル\common\Animator</Filter>
     </ClInclude>
     <ClInclude Include="src\common\Animator\xorshift32.h">
