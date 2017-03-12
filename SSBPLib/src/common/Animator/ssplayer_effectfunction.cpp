@@ -3,7 +3,6 @@
 
 #include "ssplayer_effect.h"
 #include "ssplayer_effect2.h"
-#include "ssplayer_matrix.h"
 #include "ssplayer_effectfunction.h"
 
 namespace ss

@@ -4,7 +4,6 @@
 #include "SS5Player.h"
 #include "SS5PlayerData.h"
 #include "SS5PlayerTypes.h"
-#include "common/Animator/ssplayer_matrix.h"
 #include "player/ToPointer.h"
 #include "player/DataArrayReader.h"
 #include "player/Util.h"

@@ -3,7 +3,6 @@
 #include <algorithm>
 
 #include "ssplayer_effect.h"
-#include "ssplayer_matrix.h"
 #include "ssplayer_effectfunction.h"
 
 #include "../../SS5PlayerPlatform.h"
