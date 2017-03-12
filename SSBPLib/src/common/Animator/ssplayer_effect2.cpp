@@ -515,7 +515,7 @@ void	SsEffectRenderV2::drawSprite(
 	)
 {
 
-	if (dispCell->refCell.cellIndex == -1) return;
+	if (dispCell->cellIndex == -1) return;
 
 	//todo:matrix演算簡単にする
 	Matrix matrix;	//float		matrix[4 * 4];	///< 行列
@@ -551,10 +551,10 @@ void	SsEffectRenderV2::drawSprite(
 	State state;
 	state = _parentSprite->_state;		//親パーツの情報をコピー
 	state.mat = matrix;					//マトリクスのコピー
-	state.cellIndex = dispCell->refCell.cellIndex;
+	state.cellIndex = dispCell->cellIndex;
 	//state.texture = dispCell->refCell.texture;	//テクスチャID	
-	state.texture = textures[dispCell->refCell.cellMapIndex];
-	state.rect = dispCell->refCell.rect;		//セルの矩形をコピー	
+	state.texture = textures[dispCell->refCell->m_cellMapIndex];
+	state.rect = dispCell->refCell->m_rect;		//セルの矩形をコピー	
 	float width_h = state.rect.width() / 2;
 	float height_h = state.rect.height() / 2;
 	float x1 = -width_h;
@@ -618,8 +618,8 @@ void	SsEffectRenderV2::drawSprite(
 
 	//原点計算を行う
 	Vector2 cxy(
-		((state.rect.width() * state.scaleX) * -(dispCell->refCell.pivot_X)),
-		((state.rect.height() * state.scaleY) * +(dispCell->refCell.pivot_Y))
+		((state.rect.width() * state.scaleX) * -(dispCell->refCell->m_cell->pivot_X)),
+		((state.rect.height() * state.scaleY) * +(dispCell->refCell->m_cell->pivot_Y))
 	);
 	cxy.rotate(SSDegToRad(state.rotationZ));
 
@@ -736,6 +736,7 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
 */
 	e->dispCell.refCell = e->refData->refCell;
 	e->dispCell.blendType = e->refData->blendType;
+	e->dispCell.cellIndex = e->refData->CellIndex;
 
 	SsEffectFunctionExecuter::initializeEffect( e->refData , e );
 

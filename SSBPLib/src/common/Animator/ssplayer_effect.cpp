@@ -166,6 +166,7 @@ SsEffectRenderAtom* SsEffectRenderer::CreateAtom(unsigned int seed, SsEffectRend
 		//表示に必要な情報のコピー
 		p->dispCell.refCell = p->data->behavior.refCell;
 		p->dispCell.blendType = p->data->behavior.blendType;
+		p->dispCell.cellIndex = p->data->behavior.CellIndex;
 
 		updatelist.push_back(p);
 		createlist.push_back(p);
@@ -522,7 +523,7 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 
 	if ( this->parentEmitter == NULL  )return;
 	if ( refBehavior == NULL ) return;
-	if (dispCell->refCell.cellIndex == -1) return;
+	if (dispCell->cellIndex == -1) return;
 
 	//todo:matrix演算簡単にする
 	Matrix matrix;	//float		matrix[4 * 4];	///< 行列
@@ -557,8 +558,8 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 	state = render->_parentSprite->_state;		//親パーツの情報をコピー
 	state.mat = matrix;							//マトリクスのコピー
 	//state.texture = dispCell->refCell.texture;	//テクスチャID	
-	state.texture = textures[dispCell->refCell.cellMapIndex];
-	state.rect = dispCell->refCell.rect;		//セルの矩形をコピー	
+	state.texture = textures[dispCell->refCell->m_cellMapIndex];
+	state.rect = dispCell->refCell->m_rect;		//セルの矩形をコピー	
 	float width_h = state.rect.width() / 2;
 	float height_h = state.rect.height() / 2;
 	float x1 = -width_h;
@@ -622,8 +623,8 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 
 	//原点計算を行う
 	Vector2 cxy(
-		((state.rect.width() * state.scaleX) * -(dispCell->refCell.pivot_X)),
-		((state.rect.height() * state.scaleY) * +(dispCell->refCell.pivot_Y))
+		((state.rect.width() * state.scaleX) * -(dispCell->refCell->m_cell->pivot_X)),
+		((state.rect.height() * state.scaleY) * +(dispCell->refCell->m_cell->pivot_Y))
 	);
 	cxy.rotate(SSDegToRad(state.rotationZ));
 

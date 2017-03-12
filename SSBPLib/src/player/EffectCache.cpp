@@ -75,6 +75,7 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 			const CellRef* cellRef = behavior.CellIndex >= 0 ? cellCache->getReference(behavior.CellIndex) : NULL;
 			if(cellRef)
 			{
+			#if 0
 				behavior.refCell.pivot_X = cellRef->m_cell->pivot_X;
 				behavior.refCell.pivot_Y = cellRef->m_cell->pivot_Y;
 				//behavior.refCell.texture = cellRef->m_texture;
@@ -84,7 +85,9 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 				behavior.refCell.cellIndex = behavior.CellIndex;
 				std::string name = ptr.toString(cellRef->m_cell->name);
 //				behavior.refCell.cellName = name;
-
+			#else
+				behavior.refCell = cellRef;
+			#endif
 			}
 			//				behavior.CellName;
 			//				behavior.CellMapName;

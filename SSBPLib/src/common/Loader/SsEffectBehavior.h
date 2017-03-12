@@ -4,6 +4,7 @@
 #include "SsEffectElement.h"
 #include "../Animator/ssplayer_cellmap.h"
 #include "sstypes.h"
+#include "player/CellCache.h"
 
 namespace ss
 {
@@ -18,7 +19,7 @@ public:
 
 public:
 	int								CellIndex;	//プレイヤー専用に追加
-	SsCell							refCell;
+	const CellRef*					refCell;
 //	SsString						CellName;
 //	SsString						CellMapName;
 	SsRenderBlendType::_enum		blendType;
