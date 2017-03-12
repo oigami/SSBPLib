@@ -190,26 +190,6 @@ typedef unsigned char u8;
 
 
 
-/// 矩形
-template <typename T>
-class SsTRect
-{
-public:
-	T	x, y, w, h;
-
-	SsTRect(): x(0), y(0), w(0), h(0)  {}
-	SsTRect(T ax, T ay, T aw, T ah): x(ax), y(ay), w(aw), h(ah) {}
-	SsTRect(const SsTRect& r): x(r.x), y(r.y), w(r.w), h(r.h) {}
-
-	bool	operator ==(const SsTRect& r) const {return x == r.x && y == r.y && w == r.w && h == r.h;}
-	bool	operator !=(const SsTRect& r) const {return !(*this == r);}
-private:
-};
-
-
-typedef SsTRect<int>	SsIRect;
-
-
 ///カラー値を定義するテンプレートクラスです。
 template <typename T>
 class SsTColor
@@ -360,12 +340,6 @@ namespace SsTexFilterMode
 		num
 	};
 };
-
-
-
-
-struct SsCell;
-
 
 
 
