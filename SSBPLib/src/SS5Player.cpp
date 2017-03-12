@@ -834,26 +834,21 @@ void Player::setFrame(int frameNo, float dt)
 			bool independent = false;
 
 			int lflags = sprite->_state.effectValue_loopflag;
-			if (lflags & EFFECT_LOOP_FLAG_INDEPENDENT)
-			{
+			if (lflags & EFFECT_LOOP_FLAG_INDEPENDENT){
 				independent = true;
 			}
 
-			if (sprite->effectAttrInitialized == false)
-			{
+			if (sprite->effectAttrInitialized == false){
 				sprite->effectAttrInitialized = true;
 				sprite->effectTimeTotal = refStartframe;
 			}
 
 			sprite->refEffect->setParentSprite(sprite);	//親スプライトの設定
-			if (sprite->_state.isVisibled == true)
-			{
+			if (sprite->_state.isVisibled == true){
 
-				if (independent)
-				{
+				if (independent){
 					//独立動作
-					if (sprite->effectAttrInitialized)
-					{
+					if (sprite->effectAttrInitialized){
 						float delta = dt / (1.0f / getAnimeFPS());						//	独立動作時は親アニメのfpsを使用する
 						sprite->effectTimeTotal += delta * refSpeed;
 						sprite->refEffect->setLoop(true);
@@ -862,24 +857,20 @@ void Player::setFrame(int frameNo, float dt)
 						sprite->refEffect->update();
 					}
 				}
-				else 
-				{
-					{
-						float _time = frameNo - curKeyframe;
-						if (_time < 0)
-						{
-						}
-						else
-						{
-							_time *= refSpeed;
-							_time = _time + refStartframe;
-							sprite->effectTimeTotal = _time;
+				else {
+					
+					float time = frameNo - curKeyframe;
+					if (time < 0){
+					}
+					else{
+						time *= refSpeed;
+						time = time + refStartframe;
+						sprite->effectTimeTotal = time;
 
-							sprite->refEffect->setSeedOffset(_seedOffset);
-							sprite->refEffect->setFrame(_time);
-							sprite->refEffect->play();
-							sprite->refEffect->update();
-						}
+						sprite->refEffect->setSeedOffset(_seedOffset);
+						sprite->refEffect->setFrame(time);
+						sprite->refEffect->play();
+						sprite->refEffect->update();
 					}
 				}
 			}
@@ -905,23 +896,17 @@ void Player::draw()
 				_eventListener->ChildPlayerDraw(partIndex, getPartName(partIndex));
 			}
 		}
-		else
-		{
-			if (sprite->refEffect)
-			{ 
-				if ((state.isVisibled == true) && (state.opacity > 0))
-				{
+		else{
+			if (sprite->refEffect){ 
+				if ((state.isVisibled == true) && (state.opacity > 0)){
 					//エフェクトパーツ
 					sprite->refEffect->draw(m_textures);
 					_draw_count = sprite->refEffect->getDrawSpriteCount();
 				}
 			}
-			else
-			{
-				if (state.texture.handle != -1)
-				{
-					if ((state.isVisibled == true) && (state.opacity > 0))
-					{
+			else{
+				if (state.texture.handle != -1){
+					if ((state.isVisibled == true) && (state.opacity > 0)){
 						SSDrawSprite(state, state.blendfunc, state.colorBlendFunc);
 						_draw_count++;
 					}
