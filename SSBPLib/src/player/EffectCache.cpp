@@ -73,24 +73,9 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 			//セル情報を作成
 			behavior.CellIndex = effectNode->cellIndex;
 			const CellRef* cellRef = behavior.CellIndex >= 0 ? cellCache->getReference(behavior.CellIndex) : NULL;
-			if(cellRef)
-			{
-			#if 0
-				behavior.refCell.pivot_X = cellRef->m_cell->pivot_X;
-				behavior.refCell.pivot_Y = cellRef->m_cell->pivot_Y;
-				//behavior.refCell.texture = cellRef->m_texture;
-				behavior.refCell.cellMapIndex = cellRef->m_cellMapIndex;
-				//behavior.refCell.texname = cellRef->m_texname;
-				behavior.refCell.rect = cellRef->m_rect;
-				behavior.refCell.cellIndex = behavior.CellIndex;
-				std::string name = ptr.toString(cellRef->m_cell->name);
-//				behavior.refCell.cellName = name;
-			#else
+			if(cellRef){
 				behavior.refCell = cellRef;
-			#endif
 			}
-			//				behavior.CellName;
-			//				behavior.CellMapName;
 			behavior.blendType = (SsRenderBlendType::_enum)effectNode->blendType;
 
 			//エフェクトノードからビヘイビア配列を取得

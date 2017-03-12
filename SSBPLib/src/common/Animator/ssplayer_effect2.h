@@ -7,10 +7,6 @@
 #include "ssplayer_cellmap.h"
 #include "common/Loader/ssloader_ssee.h"
 
-//SsVectorなど
-//#include "SsUtility.h"
-
-//#include "ISSEffectRender.h"
 
 
 namespace ss
@@ -27,16 +23,6 @@ class CustomSprite;
 #define LIFE_EXTEND_SCALE (8)
 #define LIFE_EXTEND_MIN	  (64)
 
-#define LOOP_TYPE1 (0)
-#define LOOP_TYPE2 (0)
-#define LOOP_TYPE3 (1)
-
-
-struct TimeAndValue
-{
-	float time;
-	float value;
-};
 
 
 //v3.1
@@ -77,67 +63,6 @@ struct particleDrawData
     SsU8Color color;
     Vector2 scale;
 };
-
-
-#if 0
-//リングバッファだが実はもういらないかも
-template<class mytype>
-class particleRingBuffer
-{
-protected:
-
-	mytype*		ar;
-	int*		realIndex;
-	size_t		bufsize;
-
-
-public:
-	particleRingBuffer() {
-    	 resize(16);
-	}
-	particleRingBuffer(size_t size)
-	{
-           resize(size);
-	}
-	virtual ~particleRingBuffer()
-	{
-		delete[] ar;
-		delete[] realIndex;
-	}
-
-	void clear() {
-		memset(ar, 0, sizeof(mytype) *(bufsize + 1));
-		memset(realIndex, 0, sizeof(int) *(bufsize + 1));
-	}
-
-	void store(int index, mytype* t)
-	{
-		ar[index % bufsize] = *t;
-		realIndex[index % bufsize] = index;
-	}
-
-	void resize( size_t size )
-	{
-		bufsize = size*2;
-		ar = new mytype[bufsize +1];
-		realIndex = new int[bufsize + 1];
-		clear();
-	}
-
-	mytype& load(int index)
-	{
-		return ar[index % bufsize];
-	}
-
-	int loadRealIndex(int index)
-	{
-		return realIndex[index];
-	}
-	size_t	getBufsize() { return bufsize; }
-
-};
-
-#endif
 
 
 //エミッターが持つパラメータ
@@ -320,17 +245,9 @@ public:
 
 //	const particleLifeSt*	getParticleDataFromID(int id) { return &particleList[id]; }
 
-#if  LOOP_TYPE3
-
 	int	getParticleIDMax() { return _offsetPattern.size(); }
 	const 	particleExistSt*	getParticleDataFromID(int id);
 	void	updateEmitter(double time, int slide);
-
-#else
-
-	int	getParticleIDMax() { return particleIdMax; }
-	const particleLifeSt*	getParticleDataFromID(int id);
-#endif
 
 
 	int	getTimeLength() { return emitter.life + ( emitter.particleLife + emitter.particleLife2); }
