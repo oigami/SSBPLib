@@ -17,7 +17,6 @@ class SsEffectRenderAtom;
 
 class SsEffectBehavior;
 
-#define PFMEM_TEST ( 1 )
 
 namespace SsRenderType
 {

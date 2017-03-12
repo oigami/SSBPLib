@@ -51,45 +51,7 @@ static  int seed_table[] =
 	31043, //30
 	31043  //31
 };
-//--------
 
-
-
-#define ONEFRAME ( 1.0f / 60.0f )
-
-
-//------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------
-bool particleDelete(SsEffectRenderAtom* d)
-{
-
-	if ( d->m_isInit )
-	{
-		if ( d->m_isLive == false )
-		{
-		   //	delete d;
-			return true;
-		}
-
-		if ( d->_life <= 0.0f)
-		{
-			d->m_isLive = false;
-			return true;
-		}
-	}
-
-    return false;
-}
-
-//------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------
-bool particleDeleteAll(SsEffectRenderAtom* d)
-{
-	delete d;
-	return true;
-}
 
 //------------------------------------------------------------------------------
 //
@@ -307,16 +269,6 @@ void 	SsEffectRenderParticle::updateForce(float delta)
 	this->_position.y+= (ff.y * delta );
 
 }
-
-//------------------------------------------------------------------------------
-//
-//------------------------------------------------------------------------------
-bool compare_priority( SsEffectDrawBatch* left,  SsEffectDrawBatch* right)
-{
-  //	return true;
-  return left->priority < right->priority ;
-}
-
 
 };
 
