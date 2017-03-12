@@ -1,5 +1,6 @@
 ﻿#include <stdio.h>
 #include <cstdlib>
+#include <algorithm>
 
 #include "../loader/ssloader.h"
 
@@ -70,17 +71,13 @@ static  int seed_table[] =
 //------------------------------------------------------------------------------
 SsEffectDrawBatch*	SsEffectRenderer::findBatchListSub(SsEffectNode* n)
 {
-	SsEffectDrawBatch* bl = 0;
-	foreach(std::list<SsEffectDrawBatch*>, drawBatchList, e)
-	{
-		if ((*e)->targetNode == n)
-		{
-			bl = (*e);
-			return bl;
-		}
+	auto it = std::find_if(drawBatchList.begin(), drawBatchList.end(), [n](const SsEffectDrawBatch* e){
+		return (e->targetNode == n);
+	});
+	if(it == drawBatchList.end()){
+		return nullptr;
 	}
-
-	return bl;
+	return *it;
 }
 
 
@@ -721,23 +718,16 @@ void	SsEffectRenderer::update(float delta)
 //------------------------------------------------------------------------------
 void	SsEffectRenderer::draw(const std::vector<TextuerData>& textures)
 {
+	for(SsEffectDrawBatch* batch : drawBatchList){
+		for(SsEffectRenderAtom* render : batch->drawlist){
+			if(render){
+				if(!render->m_isLive){ continue; }
+				if(render->_life <= 0.0f){ continue; }
 
-	foreach( std::list<SsEffectDrawBatch*> , drawBatchList , e )
-	{
-		foreach( std::list<SsEffectRenderAtom*> , (*e)->drawlist , e2 )
-		{
-			if ( (*e2) )
-			{
-				if (!(*e2)->m_isLive) continue;
-				if ((*e2)->_life <= 0.0f)continue;
-				(*e2)->draw(this, textures);
+				render->draw(this, textures);
 			}
 		}
-
 	}
-
-
-
 }
 
 
@@ -781,9 +771,8 @@ void	SsEffectRenderer::clearUpdateList()
 	updatelist.clear();
 	createlist.clear();
 
-	foreach( std::list<SsEffectDrawBatch*> , drawBatchList , e )
-	{
-		(*e)->drawlist.clear();
+	for(SsEffectDrawBatch* e : drawBatchList){
+		e->drawlist.clear();
 	}
 
 	drawBatchList.clear();

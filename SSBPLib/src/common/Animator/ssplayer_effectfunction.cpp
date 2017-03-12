@@ -869,46 +869,46 @@ static EffectFuncBase* callTable[] =
 ///----------------------------------------------------------------------------------------------------
 void	SsEffectFunctionExecuter::initalize(SsEffectBehavior* beh, SsEffectRenderEmitter* emmiter)
 {
-	foreach(std::vector<SsEffectElementBase* >, beh->plist, e)
+	for(SsEffectElementBase* e : beh->plist)
 	{
-		EffectFuncBase* cf = callTable[(*e)->myType];
-		cf->initalizeEmmiter((*e), emmiter);
+		EffectFuncBase* cf = callTable[e->myType];
+		cf->initalizeEmmiter(e, emmiter);
 	}
 }
 
 void	SsEffectFunctionExecuter::updateEmmiter(SsEffectBehavior* beh, SsEffectRenderEmitter* emmiter)
 {
-	foreach(std::vector<SsEffectElementBase* >, beh->plist, e)
+	for(SsEffectElementBase* e : beh->plist)
 	{
-		EffectFuncBase* cf = callTable[(*e)->myType];
-		cf->updateEmmiter((*e), emmiter);
+		EffectFuncBase* cf = callTable[e->myType];
+		cf->updateEmmiter(e, emmiter);
 	}
 }
 
 void	SsEffectFunctionExecuter::initializeParticle(SsEffectBehavior* beh, SsEffectRenderEmitter* emmiter, SsEffectRenderParticle* particle)
 {
-	foreach(std::vector<SsEffectElementBase* >, beh->plist, e)
+	for(SsEffectElementBase* e : beh->plist)
 	{
-		EffectFuncBase* cf = callTable[(*e)->myType];
-		cf->initializeParticle((*e), emmiter, particle);
+		EffectFuncBase* cf = callTable[e->myType];
+		cf->initializeParticle(e, emmiter, particle);
 	}
 }
 
 void	SsEffectFunctionExecuter::updateParticle(SsEffectBehavior* beh, SsEffectRenderEmitter* emmiter, SsEffectRenderParticle* particle)
 {
-	foreach(std::vector<SsEffectElementBase* >, beh->plist, e)
+	for(SsEffectElementBase* e : beh->plist)
 	{
-		EffectFuncBase* cf = callTable[(*e)->myType];
-		cf->updateParticle((*e), emmiter, particle);
+		EffectFuncBase* cf = callTable[e->myType];
+		cf->updateParticle(e, emmiter, particle);
 	}
 }
 
 void	SsEffectFunctionExecuter::initializeEffect(SsEffectBehavior* beh, SsEffectEmitter* emmiter)
 {
-	foreach(std::vector<SsEffectElementBase* >, beh->plist, e)
+	for(SsEffectElementBase* e : beh->plist)
 	{
-		EffectFuncBase* cf = callTable[(*e)->myType];
-		cf->initalizeEffect((*e), emmiter);
+		EffectFuncBase* cf = callTable[e->myType];
+		cf->initalizeEffect(e, emmiter);
 	}
 }
 
