@@ -83,7 +83,7 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 				behavior.refCell.rect = cellRef->m_rect;
 				behavior.refCell.cellIndex = behavior.CellIndex;
 				std::string name = ptr.toString(cellRef->m_cell->name);
-				behavior.refCell.cellName = name;
+//				behavior.refCell.cellName = name;
 
 			}
 			//				behavior.CellName;

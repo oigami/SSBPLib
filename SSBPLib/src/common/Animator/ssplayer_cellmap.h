@@ -19,7 +19,7 @@ struct SsCell
 	ss::SSRect	rect;
 	//std::string texname;
 	int			cellIndex;
-	std::string cellName;
+//	std::string cellName;
 
 	SsCell():
 		  pivot_X(0)

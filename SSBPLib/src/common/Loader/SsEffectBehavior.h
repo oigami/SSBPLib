@@ -19,8 +19,8 @@ public:
 public:
 	int								CellIndex;	//プレイヤー専用に追加
 	SsCell							refCell;
-	SsString						CellName;
-	SsString						CellMapName;
+//	SsString						CellName;
+//	SsString						CellMapName;
 	SsRenderBlendType::_enum		blendType;
 
 public:
