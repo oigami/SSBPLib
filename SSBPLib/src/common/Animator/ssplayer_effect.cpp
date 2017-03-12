@@ -532,7 +532,7 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 
 	if (render->parentState)
 	{
-		matrix = render->parentState->matrix;
+		//matrix = render->parentState->matrix;
 		this->alpha = render->render_root->alpha;
 	}
 
@@ -660,7 +660,7 @@ void	SsEffectRenderer::update(float delta)
 
 		this->render_root->rotation = 0;
 		this->render_root->scale = Vector2(1.0f,1.0f);
-		this->render_root->alpha = parentState->alpha;
+		this->render_root->alpha = 1.0f;//parentState->alpha;
 	}
 
 	size_t loopnum = updatelist.size();
