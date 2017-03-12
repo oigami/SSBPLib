@@ -3,6 +3,7 @@
 
 #include "SS5PlayerTypes.h"
 #include "math/SSRect.h"
+#include "common/Loader/sstypes.h"
 
 namespace ss
 {

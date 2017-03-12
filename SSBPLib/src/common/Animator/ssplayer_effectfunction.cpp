@@ -1,10 +1,8 @@
 ﻿#include <stdio.h>
 #include <cstdlib>
 
-#include "../loader/ssloader.h"
 #include "ssplayer_effect.h"
 #include "ssplayer_effect2.h"
-#include "ssplayer_macro.h"
 #include "ssplayer_matrix.h"
 #include "ssplayer_effectfunction.h"
 

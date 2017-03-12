@@ -86,8 +86,6 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
 #include "player/InstancePartStatus.h"
 
 //エフェクト関連
-#include "Common/loader/ssloader.h"
-#include "Common/Animator/ssplayer_macro.h"
 #include "Common/Animator/ssplayer_matrix.h"
 #include "Common/Animator/ssplayer_effectfunction.h"
 #include "Common/Animator/ssplayer_cellmap.h"

@@ -159,13 +159,11 @@
     <ClInclude Include="src\common\Animator\ssplayer_effect.h" />
     <ClInclude Include="src\common\Animator\ssplayer_effect2.h" />
     <ClInclude Include="src\common\Animator\ssplayer_effectfunction.h" />
-    <ClInclude Include="src\common\Animator\ssplayer_macro.h" />
     <ClInclude Include="src\common\Animator\ssplayer_matrix.h" />
     <ClInclude Include="src\common\Animator\ssplayer_PartState.h" />
     <ClInclude Include="src\common\Animator\xorshift32.h" />
     <ClInclude Include="src\common\Loader\SsEffectBehavior.h" />
     <ClInclude Include="src\common\Loader\SsEffectElement.h" />
-    <ClInclude Include="src\common\Loader\ssloader.h" />
     <ClInclude Include="src\common\Loader\ssloader_ssee.h" />
     <ClInclude Include="src\common\Loader\sstypes.h" />
     <ClInclude Include="src\math\Matrix.h" />

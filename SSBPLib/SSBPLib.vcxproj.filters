@@ -109,9 +109,6 @@
     <ClInclude Include="src\common\Loader\SsEffectElement.h">
       <Filter>ソース ファイル\common\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="src\common\Loader\ssloader.h">
-      <Filter>ソース ファイル\common\Loader</Filter>
-    </ClInclude>
     <ClInclude Include="src\common\Loader\ssloader_ssee.h">
       <Filter>ソース ファイル\common\Loader</Filter>
     </ClInclude>
@@ -131,9 +128,6 @@
       <Filter>ソース ファイル\common\Animator</Filter>
     </ClInclude>
     <ClInclude Include="src\common\Animator\ssplayer_effectfunction.h">
-      <Filter>ソース ファイル\common\Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="src\common\Animator\ssplayer_macro.h">
       <Filter>ソース ファイル\common\Animator</Filter>
     </ClInclude>
     <ClInclude Include="src\common\Animator\ssplayer_matrix.h">

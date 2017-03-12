@@ -2,10 +2,7 @@
 #include <stdio.h>
 #include <cstdlib>
 
-#include "../loader/ssloader.h"
-
 #include "ssplayer_effect2.h"
-#include "ssplayer_macro.h"
 #include "ssplayer_matrix.h"
 #include "ssplayer_effectfunction.h"
 
@@ -13,9 +10,6 @@
 #include "player/CustomSprite.h"
 #include "player/PlayerDef.h"
 #include "math/Matrix.h"
-
-#define DEBUG_DISP (0)
-#define BUILD_ERROR_0418 (0)
 
 
 namespace ss
