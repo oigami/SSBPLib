@@ -343,7 +343,6 @@ void Player::setPartsParentage()
 				//エフェクトクラスにパラメータを設定する
 				SsEffectRenderV2* er = new SsEffectRenderV2();
 				sprite->refEffect = er;
-				sprite->refEffect->setParentAnimeState(&sprite->partState);
 				sprite->refEffect->setEffectData(effectmodel);
 //				sprite->refEffect->setEffectSprite(&_effectSprite);	//エフェクトクラスに渡す都合上publicにしておく
 //				sprite->refEffect->setEffectSpriteCount(&_effectSpriteCount);	//エフェクトクラスに渡す都合上publicにしておく

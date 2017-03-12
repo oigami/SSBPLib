@@ -374,8 +374,6 @@ public:
 
     bool			Infinite;	//無限に発生出来るかどうか
 
-	SsPartState*	parentState;
-
 	bool			isIntFrame;
 
 	bool			m_isPlay;
@@ -442,8 +440,6 @@ public:
     virtual size_t  getEffectTimeLength();
 
 //	virtual int		getVersion(){ return EFFECTRENDERVERSION_V2; }
-
-	virtual  void	setParentAnimeState( SsPartState* state ){ parentState = state; }
 
 	virtual int	getCurrentFPS();
 

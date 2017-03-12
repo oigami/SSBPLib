@@ -2,7 +2,7 @@
 
 namespace ss
 {
-
+#if 0
 SsPartState::SsPartState() {
 	init();
 }
@@ -25,5 +25,5 @@ void	SsPartState::init()
 //	alpha = 1.0f;
 
 }
-
+#endif
 };

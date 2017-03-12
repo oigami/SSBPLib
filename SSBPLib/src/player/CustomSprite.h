@@ -23,7 +23,6 @@ public:
 
 	//エフェクト用パラメータ
 	SsEffectRenderV2*	refEffect;
-	SsPartState			partState;
 
 	//モーションブレンド用ステータス
 	State				_orgState;

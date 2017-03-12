@@ -12,7 +12,7 @@ class SsAnimeDecoder;
 //class SsEffectRenderer;
 class SsEffectRenderV2;
 
-
+#if 0
 ///パーツの状態を保持するクラスです。
 struct SsPartState
 {
@@ -31,7 +31,7 @@ struct SsPartState
 	void	reset();
 
 };
-
+#endif
 };
 
 #endif
