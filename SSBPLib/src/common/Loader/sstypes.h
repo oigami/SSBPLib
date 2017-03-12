@@ -14,10 +14,6 @@ namespace ss
 // Declare Type
 //===============================================================
 
-//文字列の設定
-typedef std::string SsString;
-
-
 
 ///２次元座標を表現するためのクラスです。
 struct SsPoint2

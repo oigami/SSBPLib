@@ -198,7 +198,7 @@ public:
 
 	EmmiterType::_enum		type;
 
-	SsString		MyName;
+	std::string		MyName;
     size_t 			particleCount;
 
 

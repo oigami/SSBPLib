@@ -1,6 +1,7 @@
 ﻿#ifndef __SSLOADER_SSEE__
 #define __SSLOADER_SSEE__
 
+#include <string>
 #include "sstypes.h"
 
 #include "SsEffectBehavior.h"
@@ -110,8 +111,8 @@ public:
 	int			lockRandSeed; 	 // ランダムシード固定値
 	bool    	isLockRandSeed;  // ランダムシードを固定するか否か
 	int			fps;             //
-	SsString	bgcolor;
-	SsString	effectName;
+	std::string	bgcolor;
+	std::string	effectName;
 	int			layoutScaleX;
 	int			layoutScaleY;
 
@@ -141,7 +142,7 @@ class SsEffectFile
 {
 public:
 	SsEffectModel	   effectData;  //親子構造＋各アトリビュート
-	SsString		   name;
+	std::string		   name;
 
 	SsEffectFile(){}
 	virtual ~SsEffectFile(){}
