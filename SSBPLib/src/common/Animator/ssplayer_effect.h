@@ -13,15 +13,9 @@ namespace ss
 class SsEffectModel;
 class SsRenderEffectBase;
 class SsEffectNode;
-
-struct SsPartState;
 class SsEffectRenderAtom;
 
 class SsEffectBehavior;
-#if 0
-class SsEffectRenderer;
-#endif
-class CustomSprite;
 
 #define PFMEM_TEST ( 1 )
 
@@ -114,14 +108,9 @@ public:
 		m_isCreateChild = false;
 		m_isInit = false;
 	}
-#if 0
-	virtual bool	genarate( SsEffectRenderer* render ){return true;}
-#endif
 
     virtual void	update(float delta){}
-#if 0
-	virtual void	draw(SsEffectRenderer* render, const std::vector<TextuerData>& textures){}
-#endif
+
 	virtual void	debugdraw(){}
 
 	Vector3	getPosition() const
@@ -256,9 +245,7 @@ public:
 	}
 
 	virtual void	Initialize();
-#if 0
-	virtual bool	genarate( SsEffectRenderer* render );
-#endif
+
 	virtual void	update(float delta);
 	virtual void	count(){ particleCount = 0 ; }
 
@@ -357,13 +344,7 @@ public:
 	//生成フェーズ
 	virtual void	Initialize();
 
-#if 0
-	virtual bool	genarate( SsEffectRenderer* render );
-#endif
     virtual void	update(float delta);
-#if 0
-	virtual void	draw(SsEffectRenderer* render, const std::vector<TextuerData>& textures);
-#endif
 
 	virtual void	count()
 	{
@@ -401,127 +382,6 @@ public:
 
 #define SSEFFECTRENDER_BACTH_MAX (256)		//ノード階層最大値（固定）
 
-
-
-#if 0
-//--------------------------------------------------------------------------
-//エフェクトの描画処理メイン
-//--------------------------------------------------------------------------
-class SsEffectRenderer
-{
-private:
-	SsEffectModel*		effectData;
-
-
-	bool			m_isPlay;
-	bool			m_isPause;
-	bool			m_isLoop;
-	u32				mySeed;
-
-//	SsCellMapList*	curCellMapManager;/// セルマップのリスト（アニメデコーダーからもらう
-
-
-#if PFMEM_TEST
-	SsEffectRenderEmitter    em_pool[SSEFFECTRENDER_EMMITER_MAX + 1];
-	SsEffectRenderParticle   pa_pool[SSEFFECTRENDER_PARTICLE_MAX + 1];
-
-	SsEffectDrawBatch		 drawPr_pool[SSEFFECTRENDER_BACTH_MAX + 1];
-
-
-	int						em_pool_count;
-	int						pa_pool_count;
-	int						dpr_pool_count;
-#endif
-
-public:
-	//アップデート物のリスト
-	SsEffectRenderAtom* render_root;
-
-	bool			usePreMultiTexture;
-	u32				parentAnimeStartFrame;
-	bool			renderTexture;
-	float           frameDelta;
-	SsPartState*		parentState;
-
-
- 	std::vector<SsEffectRenderAtom*> updatelist;
-	std::vector<SsEffectRenderAtom*> createlist;
-
-    std::list<SsEffectDrawBatch*>  drawBatchList;
-
-	//cocos2d-x用エフェクトスプライト
-	bool _isContentScaleFactorAuto;
-	CustomSprite						*_parentSprite;
-
-public:
-	SsEffectRenderer() : effectData(0) , parentState(0) ,mySeed(0) , render_root(0),parentAnimeStartFrame(0) , m_isLoop(false)
-#if PFMEM_TEST
-	,em_pool_count(0)
-	,pa_pool_count(0)
-	,dpr_pool_count(0)
-	,usePreMultiTexture(true)
-	,renderTexture(false)
-	,frameDelta(0)
-	,_isContentScaleFactorAuto(true)
-	,_parentSprite(0)
-#endif
-	{}
-
-
-	virtual ~SsEffectRenderer();
-
-    void	clearUpdateList();
-
-
-public:
-
-
-	void	setSeed( u32 seed ){  mySeed = seed; }
-	virtual void	update(float delta);
-    virtual void	draw(const std::vector<TextuerData>& textures);
-	virtual void    reload();
-
-    //操作
-	void    play();
-	void	stop();
-	void    pause();
-	void	setLoop(bool flag);
-	bool	getPlayStatus(void);	//追加
-
-	int	getCurrentFPS(){
-		if (effectData)
-		{
-        	if ( effectData->fps == 0 ) return 30;
-
-        	return effectData->fps;
-		}
-		return 30;
-	}
-
-	SsEffectModel* getEffectData()
-	{
-		return effectData;
-	}
-
-	//データセット
-	void	setEffectData(SsEffectModel* data){
-					stop();
-                    clearUpdateList();
-					effectData = data;
-			}
-	void	setParentAnimeState( SsPartState* state ){ parentState = state; }
-
-	SsEffectRenderAtom* CreateAtom( unsigned int seed , SsEffectRenderAtom* parent , SsEffectNode* node );
-	SsEffectDrawBatch*	findBatchList(SsEffectNode* n);
-	SsEffectDrawBatch*	findBatchListSub(SsEffectNode* n);
-
-
-	//cocos側のエフェクトスプライトを設定する
-	void setContentScaleEneble(bool eneble){ _isContentScaleFactorAuto = eneble; }
-	void setParentSprite(CustomSprite* sprite){ _parentSprite = sprite; }
-
-};
-#endif
 
 
 };
