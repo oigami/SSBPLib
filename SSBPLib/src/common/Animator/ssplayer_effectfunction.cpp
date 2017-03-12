@@ -129,7 +129,7 @@ public:
 		p->_baseEmiterPosition.y = eVec.y;
 		p->_position.x = p->_baseEmiterPosition.x;
 		p->_position.y = p->_baseEmiterPosition.y;
-		p->_size = SsVector2(1.0f, 1.0f);
+		p->_size = Vector2(1.0f, 1.0f);
 
 
 		p->_color = SsU8Color(255, 255, 255, 255);
@@ -151,7 +151,7 @@ public:
 		p->vector.x = cos(angle_rad);
 		p->vector.y = sin(angle_rad);
 
-		p->_force = SsVector2(0, 0);//p->vector * p->speed;
+		p->_force = Vector2(0, 0);//p->vector * p->speed;
 		p->direction = 0;
 		p->isTurnDirection = false;
 
@@ -181,7 +181,7 @@ public:
 		e->emitter.particleLife = source->lifespan.getMinValue();
 		e->emitter.particleLife2 = source->lifespan.getMaxValue() - source->lifespan.getMinValue();
 
-		e->particle.scale = SsVector2(1.0f, 1.0f);
+		e->particle.scale = Vector2(1.0f, 1.0f);
 		e->particle.startcolor = SsU8Color(255, 255, 255, 255);
 		e->particle.endcolor = SsU8Color(255, 255, 255, 255);
 
@@ -195,12 +195,12 @@ public:
 
 		//重力
 		e->particle.useGravity = false;
-		e->particle.gravity = SsVector2(0, 0);
+		e->particle.gravity = Vector2(0, 0);
 
 		//オフセット
 		e->particle.useOffset = false;
-		e->particle.offset = SsVector2(0, 0);
-		e->particle.offset2 = SsVector2(0, 0);
+		e->particle.offset = Vector2(0, 0);
+		e->particle.offset2 = Vector2(0, 0);
 
 
 		//回転
@@ -349,8 +349,8 @@ public:
 	{
 		ParticleElementPosition* source = static_cast<ParticleElementPosition*>(ele);
 		e->particle.useOffset = true;
-		e->particle.offset = SsVector2(source->OffsetX.getMinValue(), source->OffsetY.getMinValue());
-		e->particle.offset2 = SsVector2(source->OffsetX.getMaxValue() - source->OffsetX.getMinValue(), source->OffsetY.getMaxValue() - source->OffsetY.getMinValue());
+		e->particle.offset = Vector2(source->OffsetX.getMinValue(), source->OffsetY.getMinValue());
+		e->particle.offset2 = Vector2(source->OffsetX.getMaxValue() - source->OffsetX.getMinValue(), source->OffsetY.getMaxValue() - source->OffsetY.getMinValue());
 	}
 };
 static FuncParticleElementPosition		funcPosition;
@@ -707,7 +707,7 @@ public:
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementTransSize* source = static_cast<ParticleElementTransSize*>(ele);
-		SsVector2 endsize;
+		Vector2 endsize;
 		endsize.x = VarianceCalc(e, source->SizeX.getMinValue(), source->SizeX.getMaxValue());
 		endsize.y = VarianceCalc(e, source->SizeY.getMinValue(), source->SizeY.getMaxValue());
 
@@ -762,15 +762,15 @@ public:
 	{
 		ParticlePointGravity* source = static_cast<ParticlePointGravity*>(ele);
 
-		SsVector2 Target;
+		Vector2 Target;
 		Target.x = source->Position.x + p->parentEmitter->position.x;
 		Target.y = source->Position.y + p->parentEmitter->position.y;
 
 		//現在地点から指定された点に対してのベクトル*パワーを与える
-		SsVector2 v2 = Target - p->_position;
-		SsVector2 v2_temp = v2;
+		Vector2 v2 = Target - p->_position;
+		Vector2 v2_temp = v2;
 
-		SsVector2::normalize(v2, &v2);
+		v2.normalize();
 		v2 = v2 * source->Power;
 
 		p->_gravity = p->_gravity + v2;

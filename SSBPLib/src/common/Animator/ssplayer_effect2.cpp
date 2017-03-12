@@ -244,7 +244,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 
 	if ( particle.useTransScale )
 	{
-		SsVector2 s2;
+		Vector2 s2;
 		float sf2;
 		s2.x = particle.transscale.x + (rand.genrand_float32() * particle.transscaleRange.x );
 		s2.y = particle.transscale.y + (rand.genrand_float32() * particle.transscaleRange.y );
@@ -269,16 +269,16 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 	{
 
 		//生成地点からの距離
-		SsVector2 v = SsVector2(  particle.gravityPos.x - (ox + position.x) ,
+		Vector2 v = Vector2(  particle.gravityPos.x - (ox + position.x) ,
                          particle.gravityPos.y - (oy + position.y) );
 
 
-		SsVector2 nv;
-		SsVector2::normalize( v , &nv );
+		Vector2 nv = v;
+		nv.normalize();
 
 		float gp = particle.gravityPower;
 		if (gp > 0) {
-			SsVector2 v2 = SsVector2(p->x, p->y);
+			Vector2 v2 = Vector2(p->x, p->y);
 			float len = v.length(); // 生成位置からの距離
 			float et = (len / gp)*0.90f;;
 
@@ -337,9 +337,9 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 //		if ( time > 0.0f )
 		{
 			updateParticle(time + 1.0f, &dp, true);
-			p->direc =  SsVector2::get_angle_360(
-								SsVector2( 1 , 0 ) ,
-								SsVector2(p->x - dp.x, p->y - dp.y) ) + DegreeToRadian(90) + DegreeToRadian(particle.direcRotAdd);
+			p->direc = SsPoint2::get_angle_360(
+								Vector2( 1 , 0 ) ,
+								Vector2(p->x - dp.x, p->y - dp.y) ) + DegreeToRadian(90) + DegreeToRadian(particle.direcRotAdd);
 		}
 	}
 
@@ -512,8 +512,8 @@ const particleExistSt*	SsEffectEmitter::getParticleDataFromID(int id)
 
 void	SsEffectRenderV2::drawSprite(
 		SsCellValue*		dispCell,
-		SsVector2 _position,
-		SsVector2 _size,
+		Vector2 _position,
+		Vector2 _size,
 		float     _rotation,
 		float	  direction,
 		SsFColor	_color,
@@ -700,7 +700,7 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 			fcolor.fromARGB(lp.color.toARGB());
 
 			drawSprite( &e->dispCell ,
-						SsVector2(lp.x,lp.y),
+						Vector2(lp.x,lp.y),
 						lp.scale,
 						lp.rot , lp.direc , fcolor , e->refData->blendType ,textures);
 

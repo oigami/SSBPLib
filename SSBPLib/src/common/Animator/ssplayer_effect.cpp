@@ -473,12 +473,12 @@ void	SsEffectRenderParticle::updateDelta(float delta)
 	_exsitTime+=delta;
 	_life = _lifetime - _exsitTime;
 
-	SsVector2	tangential = SsVector2( 0 , 0 );
+	Vector2	tangential = Vector2( 0 , 0 );
 
 	//接線加速度の計算
-	SsVector2  radial = SsVector2(this->_position.x,this->_position.y);
-
-    SsVector2::normalize( radial , &radial );
+	Vector2  radial = Vector2(this->_position.x,this->_position.y);
+	radial.normalize();
+	
 	tangential = radial;
 
     radial = radial * _radialAccel;
@@ -489,7 +489,7 @@ void	SsEffectRenderParticle::updateDelta(float delta)
 
 	tangential = tangential* _tangentialAccel;
 
-	SsVector2 tmp = radial + tangential;
+	Vector2 tmp = radial + tangential;
 
 	this->_execforce = tmp;
 
@@ -505,11 +505,11 @@ void 	SsEffectRenderParticle::updateForce(float delta)
 	this->_backposition = this->_position;
 
 	this->_force = _gravity;
-	SsVector2 ff = (this->vector * this->speed) + this->_execforce + this->_force;
+	Vector2 ff = (this->vector * this->speed) + this->_execforce + this->_force;
 
 
 	if ( isTurnDirection ){
-		this->direction =  SsPoint2::get_angle_360( SsVector2( 1.0f , 0.0f ) , ff ) - (float)DegreeToRadian(90);
+		this->direction =  SsPoint2::get_angle_360( Vector2( 1.0f , 0.0f ) , ff ) - (float)DegreeToRadian(90);
 	}
 	else{
         this->direction = 0;
@@ -665,7 +665,7 @@ void	SsEffectRenderer::update(float delta)
 		this->render_root->setPosistion( 0 , 0 , 0 );
 
 		this->render_root->rotation = 0;
-		this->render_root->scale = SsVector2(1.0f,1.0f);
+		this->render_root->scale = Vector2(1.0f,1.0f);
 		this->render_root->alpha = parentState->alpha;
 	}
 

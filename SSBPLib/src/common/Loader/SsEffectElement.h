@@ -299,7 +299,7 @@ class  ParticleElementGravity : public SsEffectElementBase
 {
 public:
 
-	SsVector2   Gravity;
+	Vector2   Gravity;
 
 public:
 	ParticleElementGravity()
@@ -627,7 +627,7 @@ class  ParticlePointGravity : public SsEffectElementBase
 {
 public:
 
-	SsVector2   Position;
+	Vector2   Position;
     float		Power;
 
 

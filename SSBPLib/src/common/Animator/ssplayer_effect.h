@@ -52,7 +52,7 @@ class SsEffectRenderAtom
 public:
 	Vector3  			position;
 	float				rotation;
-	SsVector2	  		scale;
+	Vector2	  		scale;
 
 	SsEffectRenderAtom*	parent;
 	SsEffectNode*		data;
@@ -89,7 +89,7 @@ public:
 
 		_lifetime = 0;
 		position = Vector3(0,0,0);
-		scale = SsVector2(0,0);
+		scale = Vector2(0,0);
 		rotation = 0.0f;
 	}
 
@@ -109,7 +109,7 @@ public:
 		_life = 1.0f;
 		rotation = 0;
 		position = Vector3(0,0,0);
-		scale = SsVector2(1,1);
+		scale = Vector2(1,1);
 		m_isCreateChild = false;
 		m_isInit = false;
 	}
@@ -144,7 +144,7 @@ public:
 	}
 
 	float		getRotation() const { return rotation; }
-	SsVector2	getScale() const { return scale; }
+	Vector2	getScale() const { return scale; }
  	virtual void	count(){}
 
 };
@@ -276,18 +276,18 @@ public:
 	SsEffectRenderEmitter*  parentEmitter;
     SsEffectBehavior*		refBehavior;
 
-	SsVector2   _baseEmiterPosition;   //もしかしてもう使ってないかも
-	SsVector2   _backposition;         //force計算前のポジション
-	SsVector2   _position;             //描画用ポジション
+	Vector2   _baseEmiterPosition;   //もしかしてもう使ってないかも
+	Vector2   _backposition;         //force計算前のポジション
+	Vector2   _position;             //描画用ポジション
 
 	float		_rotation;
 	float		_rotationAdd;
 	float		_rotationAddDst;
 	float		_rotationAddOrg;
 
-	SsVector2   _size;
-	SsVector2  	_startsize;
-	SsVector2   _divsize;
+	Vector2   _size;
+	Vector2  	_startsize;
+	Vector2   _divsize;
 
 	SsU8Color	_color;
 	SsU8Color	_startcolor;
@@ -297,18 +297,18 @@ public:
 	float		speed;		//現在持っている速度
 	float		firstspeed;
     float		lastspeed;
-	SsVector2   vector;
+	Vector2   vector;
 
-	SsVector2   _force;
-	SsVector2   _gravity;
-//	SsVector2   _orggravity;
+	Vector2   _force;
+	Vector2   _gravity;
+//	Vector2   _orggravity;
 
 	float 		_radialAccel;
 	float 		_tangentialAccel;
 	float		direction;
 	bool		isTurnDirection;
 
-	SsVector2   _execforce;				//処理中の力 最終的には単位当たりの力に変換
+	Vector2   _execforce;				//処理中の力 最終的には単位当たりの力に変換
 
 
 
@@ -319,21 +319,21 @@ public:
 
 		SsEffectRenderAtom::Initialize();
 
-		_position = SsVector2(0,0);
-		_baseEmiterPosition = SsVector2(0,0);
-		_backposition = SsVector2(0,0);
+		_position = Vector2(0,0);
+		_baseEmiterPosition = Vector2(0,0);
+		_backposition = Vector2(0,0);
 		_rotation = 0;
-		_size = SsVector2( 1.0f , 1.0f );
-		_startsize = SsVector2( 1.0f , 1.0f );
-		_divsize = SsVector2( 0.0f , 0.0f );
-		_force = SsVector2(0,0);
-		_gravity = SsVector2(0,0);
+		_size = Vector2( 1.0f , 1.0f );
+		_startsize = Vector2( 1.0f , 1.0f );
+		_divsize = Vector2( 0.0f , 0.0f );
+		_force = Vector2(0,0);
+		_gravity = Vector2(0,0);
 		_radialAccel = 0;
 		_tangentialAccel = 0;
 		_color = SsU8Color(255,255,255,255) ;
         _startcolor = _color;
         _exsitTime = 0;
-		_execforce = SsVector2(0,0);
+		_execforce = Vector2(0,0);
 		parentEmitter = 0;
 		dispCell = 0;
 	}

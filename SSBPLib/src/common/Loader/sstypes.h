@@ -6,6 +6,7 @@
 #include <vector>
 #include <math.h>
 #include <algorithm>
+#include "math/Vector2.h"
 
 namespace ss
 {
@@ -18,6 +19,7 @@ namespace ss
 ///２次元座標を表現するためのクラスです。
 struct SsPoint2
 {
+#if 0
 public:
 	float	x;
 	float	y;
@@ -110,16 +112,16 @@ public:
 	{
 		return (l.x * r.y) - (l.y * r.x);
 	}
-
+#endif
 	//----------------------------------------------------------------------------
 	/**
 		２つのベクトルが織りなす角度を求める
 		入力は単位ベクトルでなくてはいけない。
 	*/
 	//----------------------------------------------------------------------------
-	static	float 	get_angle_unit(const SsPoint2& v0, const SsPoint2 v1)
+	static	float 	get_angle_unit(Vector2 v0, Vector2 v1)
 	{
-		float ip = dot(v0, v1);
+		float ip = v0*v1;
 		if (ip > 1.0f) ip = 1.0f;
 		if (ip < -1.0f) ip = -1.0f;
 		float f = acos(ip);
@@ -131,19 +133,18 @@ public:
 		２つのベクトルが織りなす角度を求める
 	*/
 	//----------------------------------------------------------------------------
-	static	float 	get_angle(const SsPoint2& v0, const SsPoint2& v1)
+	static	float 	get_angle(Vector2 v0, Vector2 v1)
 	{
-		SsPoint2 uv0(v0), uv1(v1);
-		uv0.normalize();
-		uv1.normalize();
-		return get_angle_unit(uv0, uv1);
+		v0.normalize();
+		v1.normalize();
+		return get_angle_unit(v0, v1);
 	}
 
 	// v0 から v1 への左回りの角度を返す
-	static	float 	get_angle_360_unit(const SsPoint2& v0, const SsPoint2 v1)
+	static	float 	get_angle_360_unit(Vector2 v0, Vector2 v1)
 	{
 		float ang = get_angle_unit(v0, v1);
-		float c = cross(v0, v1);
+		float c = v0.cross(v1);
 
 		if (c < 0)
 		{
@@ -152,18 +153,15 @@ public:
 		return ang;
 	}
 
-	static	float 	get_angle_360(const SsPoint2& v0, const SsPoint2 v1)
+	static	float 	get_angle_360(Vector2 v0, Vector2 v1)
 	{
-		SsPoint2 uv0(v0), uv1(v1);
-		uv0.normalize();
-		uv1.normalize();
-		return get_angle_360_unit(uv0, uv1);
+		v0.normalize();
+		v1.normalize();
+		return get_angle_360_unit(v0, v1);
 	}
 
 };
 
-
-typedef SsPoint2 SsVector2;
 typedef unsigned int u32;
 typedef unsigned char u8;
 
