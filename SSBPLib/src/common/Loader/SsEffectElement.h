@@ -3,18 +3,9 @@
 
 
 #include "sstypes.h"
-//#include "ssarchiver.h"
 
 namespace ss
 {
-
-enum EffectPartType
-{
-	EffectPartTypeEmiiter,
-	EffectPartTypeParticle
-
-};
-
 
 //命令種別
 namespace SsEffectFunctionType
@@ -49,7 +40,6 @@ namespace SsEffectFunctionType
 
 //範囲値クラス
 template<class mytype>
-//class VarianceValue : public SsXmlRangeValueConverter
 class VarianceValue
 {
 private:
@@ -101,14 +91,6 @@ public:
 
 	VarianceValue& operator=(mytype v) {  value = v; return *this; }
 	operator mytype() { return value; }
-
-private:
-/*
-	virtual bool	inputString( SsString value , SsString subvalue )
-	{
-	 return true;
-	}
-*/
 };
 
 
@@ -116,30 +98,6 @@ typedef VarianceValue<float>   			f32VValue;
 typedef VarianceValue<int>    			i32VValue;
 typedef VarianceValue<SsU8Color>    	SsU8cVValue;
 
-/*
-template<> bool VarianceValue<float>::inputString( SsString _value , SsString _subvalue )
-{ 
-	value = (float)atof(_value.c_str());
-	subvalue = (float)atof(_subvalue.c_str());
-
-	return true;
-}
-template<> bool VarianceValue<int>::inputString( SsString _value , SsString _subvalue )
-{ 
-	value = atoi(_value.c_str());
-	subvalue = atoi(_subvalue.c_str());
-
-	return true;
-}
-template<> bool VarianceValue<SsU8Color>::inputString( SsString _value , SsString _subvalue )
-{ 
-	u32 a = strtoul( _value.c_str(), 0 , 16);
-	u32 b = strtoul( _subvalue.c_str(), 0 , 16);
-	value.fromARGB( a );
-	subvalue.fromARGB( b );
-	return true;
-}
-*/
 
 
 
@@ -166,13 +124,6 @@ public:
 	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle ){}
 	virtual void UpdateParticle( SsEffectRenderParticle* particle ){}
 #endif
-	//シリアライザ
-/*
-	virtual SSSERIALIZE_BLOCK
-	{
-
-	}
-*/
 };
 
 
@@ -208,25 +159,6 @@ public:
 	}
 
 	virtual ~ParticleElementBasic(){}
-/*
-	virtual void InitializeEmmiter( SsEffectRenderEmitter* emmiter );
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
-	virtual void UpdateParticle( SsEffectRenderParticle* particle ){}
-*/
-/*
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( maximumParticle );
-		SSAR_DECLARE( speed );
-		SSAR_DECLARE( lifespan );
-		SSAR_DECLARE( angle );
-		SSAR_DECLARE( angleVariance );
-		SSAR_DECLARE( interval );
-		SSAR_DECLARE( lifetime );
-		SSAR_DECLARE( attimeCreate );
-		SSAR_DECLARE( priority );
-	}
-*/
 };
 
 
@@ -244,17 +176,6 @@ public:
 		setType( SsEffectFunctionType::RndSeedChange );
 	}
 	virtual ~ParticleElementRndSeedChange(){}
-/*
-	//各部で実装する
-	virtual void InitializeEmmiter( SsEffectRenderEmitter* emmiter );
-*/
-/*
-	//シリアライザ
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( Seed );
-	}
-*/
 };
 
 //--------------------------------------------------------------------------------------
@@ -270,23 +191,6 @@ public:
 		setType( SsEffectFunctionType::Delay );
 	}
 	virtual ~ParticleElementDelay(){}
-/*
-	//各部で実装する
-	virtual void InitializeEmmiter( SsEffectRenderEmitter* emmiter );
-	virtual void UpdateEmmiter( SsEffectRenderEmitter* emmiter );
-
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle ){}
-	virtual void UpdateParticle( SsEffectRenderParticle* particle ){}
-
-	virtual void UpdateEndEmmiter( SsEffectRenderEmitter* emmiter );
-*/
-/*
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( DelayTime );
-	}
-*/
-
 };
 
 
@@ -306,16 +210,6 @@ public:
 
 	}
 	virtual ~ParticleElementGravity(){}
-/*
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
-	virtual void UpdateParticle( SsEffectRenderParticle* particle );
-*/
-/*
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( Gravity );
-	}
-*/
 };
 
 //--------------------------------------------------------------------------------------
@@ -333,49 +227,7 @@ public:
 		setType( SsEffectFunctionType::Position );
 	}
 	virtual ~ParticleElementPosition(){}
-/*
-	virtual    SsEffectElementBase*  new_(){ return new ParticleElementPosition(); }
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
-*/
-/*
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( OffsetX );
-		SSAR_DECLARE( OffsetY );
-	}
-*/
-
 };
-
-#if 0	//オミット
-//--------------------------------------------------------------------------------------
-//発生位置への影響
-class  ParticleElementTransPosition : public SsEffectElementBase
-{
-public:
-	f32VValue   OffsetX;
-	f32VValue   OffsetY;
-
-
-	ParticleElementTransPosition()
-		: OffsetX(0,0),OffsetY(0,0)
-	{
-		setType( SsEffectFunctionType::TransPosition );
-
-	}
-	virtual ~ParticleElementTransPosition(){}
-	/*
-	virtual    SsEffectElementBase*  new_(){ return new ParticleElementTransPosition(); }
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle ){}
-	*/
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( OffsetX );
-		SSAR_DECLARE( OffsetY );
-	}
-
-};
-#endif
 
 
 //--------------------------------------------------------------------------------------
@@ -394,20 +246,6 @@ public:
 
 	}
 	virtual ~ParticleElementRotation(){}
-/*
-	virtual    SsEffectElementBase*  new_(){ return new ParticleElementRotation(); }
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
-	virtual void UpdateParticle( SsEffectRenderParticle* particle );
-*/
-/*
-	//シリアライザ
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( Rotation );
-		SSAR_DECLARE( RotationAdd );
-	}
-*/
-
 };
 
 //--------------------------------------------------------------------------------------
@@ -426,19 +264,6 @@ public:
 
 	}
 	virtual ~ParticleElementRotationTrans(){}
-/*
-	virtual    SsEffectElementBase*  new_(){ return new ParticleElementRotationTrans(); }
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
- 	virtual void UpdateParticle( SsEffectRenderParticle* particle );
-*/
-/*
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( RotationFactor );
-		SSAR_DECLARE( EndLifeTimePer );
-	}
-*/
-
 };
 
 //--------------------------------------------------------------------------------------
@@ -453,18 +278,6 @@ public:
 		setType( SsEffectFunctionType::TransSpeed );
 	}
 	virtual ~ParticleElementTransSpeed(){}
-/*
-	virtual    SsEffectElementBase*  new_(){ return new ParticleElementTransSpeed(); }
-
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
- 	virtual void UpdateParticle( SsEffectRenderParticle* particle );
-*/
-/*
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( Speed );
-	}
-*/
 };
 
 
@@ -482,17 +295,6 @@ public:
 
 	}
 	virtual ~ParticleElementTangentialAcceleration(){}
-/*
-	virtual    SsEffectElementBase*  new_(){ return new ParticleElementTangentialAcceleration(); }
-
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
-*/
-/*
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( Acceleration );
-	}
-*/
 };
 
 
@@ -509,17 +311,6 @@ public:
 		setType( SsEffectFunctionType::InitColor );
 	}
 	virtual ~ParticleElementInitColor(){}
-/*
-	virtual	SsEffectElementBase*  new_(){ return new ParticleElementInitColor(); }
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
-	virtual void UpdateParticle( SsEffectRenderParticle* particle );
-*/
-/*
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( Color );
-	}
-*/
 };
 
 //--------------------------------------------------------------------------------------
@@ -535,17 +326,6 @@ public:
 		setType( SsEffectFunctionType::TransColor );
 	}
 	virtual ~ParticleElementTransColor(){}
-/*
-	virtual	SsEffectElementBase*  new_(){ return new ParticleElementTransColor(); }
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
-	virtual void UpdateParticle( SsEffectRenderParticle* particle );
-*/
-/*
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( Color );
-	}
-*/
 };
 
 
@@ -563,18 +343,6 @@ public:
 		setType( SsEffectFunctionType::AlphaFade );
 	}
 	virtual ~ParticleElementAlphaFade(){}
-/*
-	virtual	SsEffectElementBase*  new_(){ return new ParticleElementAlphaFade(); }
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
-	virtual void UpdateParticle( SsEffectRenderParticle* particle );
-*/
-/*
-	SSSERIALIZE_BLOCK
-	{
-		SSAR_DECLARE( disprange );
-	}
-*/
-
 };
 
 //--------------------------------------------------------------------------------------
@@ -666,12 +434,6 @@ public:
 		setType(SsEffectFunctionType::InfiniteEmitEnabled);
 	}
 	virtual ~ParticleInfiniteEmitEnabled() {}
-/*
-	SSSERIALIZE_BLOCK
-	{
-
-	}
-*/
 };
 
 };

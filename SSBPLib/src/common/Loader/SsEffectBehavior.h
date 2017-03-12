@@ -18,8 +18,6 @@ public:
 public:
 	int								CellIndex;	//プレイヤー専用に追加
 	const CellRef*					refCell;
-//	SsString						CellName;
-//	SsString						CellMapName;
 	SsRenderBlendType::_enum		blendType;
 
 public:
