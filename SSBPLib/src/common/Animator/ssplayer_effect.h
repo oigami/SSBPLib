@@ -50,7 +50,7 @@ namespace EmmiterType
 class SsEffectRenderAtom
 {
 public:
-	SsVector3  			position;
+	Vector3  			position;
 	float				rotation;
 	SsVector2	  		scale;
 
@@ -88,7 +88,7 @@ public:
 		setParent(_p);
 
 		_lifetime = 0;
-		position = SsVector3(0,0,0);
+		position = Vector3(0,0,0);
 		scale = SsVector2(0,0);
 		rotation = 0.0f;
 	}
@@ -108,7 +108,7 @@ public:
 		_lifetime = 10.0f;
 		_life = 1.0f;
 		rotation = 0;
-		position = SsVector3(0,0,0);
+		position = Vector3(0,0,0);
 		scale = SsVector2(1,1);
 		m_isCreateChild = false;
 		m_isInit = false;
@@ -121,7 +121,7 @@ public:
 
 	virtual void	debugdraw(){}
 
-	SsVector3	getPosition() const
+	Vector3	getPosition() const
 	{
 		return position;
 	}
@@ -414,7 +414,7 @@ private:
 	u32				mySeed;
 
 
-	SsVector3		layoutPosition;
+	Vector3		layoutPosition;
 
 //	SsCellMapList*	curCellMapManager;/// セルマップのリスト（アニメデコーダーからもらう
 

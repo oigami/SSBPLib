@@ -166,24 +166,8 @@ public:
 
 };
 
-///３次元座標を表現するためのクラスです。
-struct SsPoint3
-{
-public:
-	float	x;
-	float	y;
-	float	z;
-
-public:
-	SsPoint3( float _x , float _y , float _z)
-	{
-		x = _x ; y = _y;z = _z;
-	}
-	SsPoint3() : x(0) , y(0) ,z(0){}
-};
 
 typedef SsPoint2 SsVector2;
-typedef SsPoint3 SsVector3;
 typedef unsigned int u32;
 typedef unsigned char u8;
 

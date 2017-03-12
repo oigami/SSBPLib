@@ -662,11 +662,7 @@ void	SsEffectRenderer::update(float delta)
 
 	if ( parentState )
 	{
-		
-		//SsVector3 pos = SsVector3( parentState->matrix[3*4] ,
-		//						   parentState->matrix[3*4+1] ,
-		//						   parentState->matrix[3*4+2] );
-		SsVector3 pos;
+		Vector3 pos;
 		parentState->matrix.getTranslation(&pos.x, &pos.y, &pos.z);
 
 		layoutPosition = pos;

@@ -122,7 +122,7 @@ public:
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementBasic* source = static_cast<ParticleElementBasic*>(ele);
-		SsVector3 eVec = e->getPosition();
+		Vector3 eVec = e->getPosition();
 		float eAngle = 0;
 
 		p->_baseEmiterPosition.x = eVec.x;
