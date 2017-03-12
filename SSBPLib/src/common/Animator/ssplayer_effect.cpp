@@ -662,11 +662,6 @@ void	SsEffectRenderer::update(float delta)
 
 	if ( parentState )
 	{
-		Vector3 pos;
-		parentState->matrix.getTranslation(&pos.x, &pos.y, &pos.z);
-
-		layoutPosition = pos;
-
 		this->render_root->setPosistion( 0 , 0 , 0 );
 
 		this->render_root->rotation = 0;

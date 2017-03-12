@@ -366,7 +366,6 @@ public:
 	//ランダムシード
 	u32				mySeed;
 
-	Vector3		layoutPosition;
 	SsVector2		layoutScale;
 
 	float			nowFrame;

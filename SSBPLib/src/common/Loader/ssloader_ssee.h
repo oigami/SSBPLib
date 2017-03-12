@@ -111,7 +111,6 @@ public:
 	int			lockRandSeed; 	 // ランダムシード固定値
 	bool    	isLockRandSeed;  // ランダムシードを固定するか否か
 	int			fps;             //
-	std::string	bgcolor;
 	std::string	effectName;
 	int			layoutScaleX;
 	int			layoutScaleY;
@@ -135,17 +134,6 @@ public:
 	{
 		return nodeList;
 	}
-};
-
-
-class SsEffectFile
-{
-public:
-	SsEffectModel	   effectData;  //親子構造＋各アトリビュート
-	std::string		   name;
-
-	SsEffectFile(){}
-	virtual ~SsEffectFile(){}
 };
 
 

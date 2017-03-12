@@ -153,7 +153,6 @@ class SsEffectRenderParticle;
 class   SsEffectElementBase 
 {
 public:
-	//SsString            myName;
 	SsEffectFunctionType::enum_ myType;
 
 public:

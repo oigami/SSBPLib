@@ -198,7 +198,6 @@ public:
 
 	EmmiterType::_enum		type;
 
-	std::string		MyName;
     size_t 			particleCount;
 
 
@@ -412,9 +411,6 @@ private:
 	bool			m_isPause;
 	bool			m_isLoop;
 	u32				mySeed;
-
-
-	Vector3		layoutPosition;
 
 //	SsCellMapList*	curCellMapManager;/// セルマップのリスト（アニメデコーダーからもらう
 
