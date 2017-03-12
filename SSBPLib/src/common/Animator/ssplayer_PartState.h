@@ -21,7 +21,6 @@ struct SsPartState
 	float			uvs[2 * 5];			///< UV		(４隅＋中央)
 	Matrix			matrix;				///< 行列
 
-	SsBlendType::_enum	alphaBlendType;
 	float			alpha;			///< 不透明度 0~1
 
 	SsPartState();
@@ -29,7 +28,6 @@ struct SsPartState
 	virtual ~SsPartState();
 	void	destroy();
 	void	init();
-//	bool	inherits_(SsAttributeKind::_enum kind) const {return inheritRates[(int)kind] != 0.f;}
 	void	reset();
 
 };

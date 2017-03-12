@@ -5,7 +5,7 @@
 namespace ss
 {
 
-SsPartState::SsPartState() : alphaBlendType(SsBlendType::invalid) {
+SsPartState::SsPartState() {
 	init();
 }
 
