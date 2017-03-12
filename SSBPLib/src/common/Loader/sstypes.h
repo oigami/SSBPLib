@@ -301,19 +301,6 @@ typedef SsTColor<u8> SsU8Color;
 
 
 //---------------------------------------------------------------
-/// ブレンドタイプ
-namespace SsBlendType
-{
-	enum _enum{
-		invalid=-1,
-		mix,			///< 0 ブレンド（ミックス）
-		mul,			///< 1 乗算
-		add,			///< 2 加算
-		sub,			///< 3 減算
-		num
-	};
-};
-
 
 /// テクスチャラップモード
 namespace SsTexWrapMode
