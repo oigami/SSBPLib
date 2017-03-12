@@ -11,16 +11,6 @@ namespace ss
 {
 
 //===============================================================
-//Macros 
-//===============================================================
-#define	SS_DECLARE_ENUM_STRING_DEF(type) \
-	SsString	__EnumToString_( type::_enum n );\
-	void	__StringToEnum_( SsString n , type::_enum& out);\
-
-
-
-
-//===============================================================
 // Declare Type
 //===============================================================
 
@@ -380,7 +370,6 @@ namespace SsPartsSortMode
 		num
 	};
 };
-SS_DECLARE_ENUM_STRING_DEF( SsPartsSortMode );
 
 //---------------------------------------------------------------
 /// Animation Part Type
@@ -397,7 +386,6 @@ namespace SsPartType
 		num
 	};
 };
-SS_DECLARE_ENUM_STRING_DEF( SsPartType );
 
 
 //---------------------------------------------------------------
@@ -416,7 +404,6 @@ namespace SsBoundsType
 		num
 	};
 };
-SS_DECLARE_ENUM_STRING_DEF( SsBoundsType );
 
 
 //---------------------------------------------------------------
@@ -431,7 +418,6 @@ namespace SsInheritType
 		num
 	};
 };
-SS_DECLARE_ENUM_STRING_DEF( SsInheritType );
 
 //---------------------------------------------------------------
 /// ブレンドタイプ
@@ -446,7 +432,6 @@ namespace SsBlendType
 		num
 	};
 };
-SS_DECLARE_ENUM_STRING_DEF( SsBlendType );
 
 
 ///カラーブレンドキーが使用されている際のカラー適用範囲の定義
@@ -459,8 +444,6 @@ namespace SsColorBlendTarget
 		num
 	};
 };
-SS_DECLARE_ENUM_STRING_DEF( SsColorBlendTarget );
-
 
 
 ///補間モードの定義
@@ -478,7 +461,6 @@ namespace SsInterpolationType
 		num,
 	};
 };
-SS_DECLARE_ENUM_STRING_DEF( SsInterpolationType );
 
 
 /// テクスチャラップモード
@@ -494,7 +476,6 @@ namespace SsTexWrapMode
 	};
 };
 
-SS_DECLARE_ENUM_STRING_DEF(SsTexWrapMode);
 
 /// テクスチャフィルターモード 画素補間方法
 namespace SsTexFilterMode
@@ -507,7 +488,6 @@ namespace SsTexFilterMode
 		num
 	};
 };
-SS_DECLARE_ENUM_STRING_DEF(SsTexFilterMode);
 
 
 
@@ -556,7 +536,6 @@ namespace SsAttributeKind
 };
 
 
-SS_DECLARE_ENUM_STRING_DEF(SsAttributeKind);
 
 namespace SsKeyValueType
 {
@@ -636,7 +615,6 @@ namespace SsEffectNodeType
 		num
 	};
 };
-SS_DECLARE_ENUM_STRING_DEF( SsEffectNodeType );
 
 
 
@@ -651,7 +629,6 @@ namespace SsRenderBlendType
 		num
 	};
 };
-SS_DECLARE_ENUM_STRING_DEF( SsRenderBlendType );
 
 class SsEffectAttr
 {
