@@ -339,7 +339,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 			updateParticle(time + 1.0f, &dp, true);
 			p->direc = Vec2Util::getAngle360(
 								Vector2( 1 , 0 ) ,
-								Vector2(p->x - dp.x, p->y - dp.y) ) + DegreeToRadian(90) + DegreeToRadian(particle.direcRotAdd);
+								Vector2(p->x - dp.x, p->y - dp.y) ) + SSDegToRad(90) + SSDegToRad(particle.direcRotAdd);
 		}
 	}
 
@@ -540,10 +540,10 @@ void	SsEffectRenderV2::drawSprite(
 	matrix = tmp.setupTranslation(_position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f) * matrix;
 	//TranslationMatrixM(matrix, _position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f);	//レイアウトスケールの反映
 
-	//RotationXYZMatrixM( matrix , 0 , 0 , DegreeToRadian(_rotation)+direction );
+	//RotationXYZMatrixM( matrix , 0 , 0 , SSDegToRad(_rotation)+direction );
 	matrix = tmp.setupRotationX(0) * matrix;
 	matrix = tmp.setupRotationY(0) * matrix;
-	matrix = tmp.setupRotationZ(DegreeToRadian(_rotation) + direction) * matrix;
+	matrix = tmp.setupRotationZ(SSDegToRad(_rotation) + direction) * matrix;
 
 	matrix = tmp.setupScale(_size.x, _size.y, 1.0f) * matrix; //ScaleMatrixM(  matrix , _size.x, _size.y, 1.0f );
 
@@ -614,7 +614,7 @@ void	SsEffectRenderV2::drawSprite(
 	state.quad.tr.colors = state.quad.bl.colors = state.quad.br.colors = state.quad.tl.colors;
 	state.opacity = a;							//透明度を設定
 
-	state.rotationZ += _rotation + RadianToDegree(direction);		//回転
+	state.rotationZ += _rotation + SSRadToDeg(direction);		//回転
 	state.scaleX *= _size.x;		//スケール
 	state.scaleY *= _size.y;		//スケール
 

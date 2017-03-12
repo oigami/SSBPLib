@@ -143,7 +143,7 @@ public:
 		p->_life = source->lifetime;
 		float temp_angle = VarianceCalcFin(e, source->angle + eAngle, source->angleVariance / 2.0f);
 
-		float angle_rad = DegreeToRadian((temp_angle + 90.0f));
+		float angle_rad = SSDegToRad((temp_angle + 90.0f));
 		float lspeed = VarianceCalc(e, source->speed.getMinValue(), source->speed.getMaxValue());
 
 		p->speed = lspeed;
@@ -188,8 +188,8 @@ public:
 		e->particle.speed = source->speed.getMinValue();
 		e->particle.speed2 = source->speed.getMaxValue() - source->speed.getMinValue();
 
-		e->particle.angle = DegreeToRadian((source->angle + 90.0f));
-		e->particle.angleVariance = DegreeToRadian(source->angleVariance);
+		e->particle.angle = SSDegToRad((source->angle + 90.0f));
+		e->particle.angleVariance = SSDegToRad(source->angleVariance);
 
 		e->particle.useTanAccel = false;
 

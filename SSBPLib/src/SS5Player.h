@@ -134,9 +134,9 @@ struct PlayerSetting{
 
 	void getTransformMatrix(Matrix* matrix) const{
 		Vector3 rotRadian = Vector3(
-			DegreeToRadian(m_rotation.x),
-			DegreeToRadian(m_rotation.y),
-			DegreeToRadian(m_rotation.z)
+			SSDegToRad(m_rotation.x),
+			SSDegToRad(m_rotation.y),
+			SSDegToRad(m_rotation.z)
 		);
 		matrix->setupSRzyxT(m_scale, rotRadian, m_position);
 	}

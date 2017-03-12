@@ -509,7 +509,7 @@ void 	SsEffectRenderParticle::updateForce(float delta)
 
 
 	if ( isTurnDirection ){
-		this->direction = Vec2Util::getAngle360( Vector2( 1.0f , 0.0f ) , ff ) - (float)DegreeToRadian(90);
+		this->direction = Vec2Util::getAngle360( Vector2( 1.0f , 0.0f ) , ff ) - (float)SSDegToRad(90);
 	}
 	else{
         this->direction = 0;
@@ -546,10 +546,10 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 	matrix = tmp.setupTranslation(_position.x, _position.y, 0.0f) * matrix;
 	//TranslationMatrixM(matrix, _position.x, _position.y, 0.0f);
 
-	//RotationXYZMatrixM( matrix , 0 , 0 , DegreeToRadian(_rotation)+direction);
+	//RotationXYZMatrixM( matrix , 0 , 0 , SSDegToRad(_rotation)+direction);
 	matrix = tmp.setupRotationX(0) * matrix;
 	matrix = tmp.setupRotationY(0) * matrix;
-	matrix = tmp.setupRotationZ(DegreeToRadian(_rotation) + direction) * matrix;
+	matrix = tmp.setupRotationZ(SSDegToRad(_rotation) + direction) * matrix;
 
 	matrix = tmp.setupScale(_size.x, _size.y, 1.0f) * matrix; //ScaleMatrixM(  matrix , _size.x, _size.y, 1.0f );
 
@@ -618,7 +618,7 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 	state.quad.tr.colors = state.quad.bl.colors = state.quad.br.colors = state.quad.tl.colors;
 	state.opacity = a;							//透明度を設定
 
-	state.rotationZ += _rotation + RadianToDegree(direction);		//回転
+	state.rotationZ += _rotation + SSRadToDeg(direction);		//回転
 	state.scaleX *= _size.x;		//スケール
 	state.scaleY *= _size.y;		//スケール
 
