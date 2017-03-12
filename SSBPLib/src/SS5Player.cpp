@@ -649,7 +649,7 @@ void Player::setFrame(int frameNo, float dt)
 			//各パーツのテクスチャ情報を設定
 			state.texture = m_textures[cellRef->m_cellMapIndex]; //cellRef->m_texture;
 			state.rect = cellRef->m_rect;
-			state.blendfunc = partData->alphaBlendType;
+			state.blendfunc = static_cast<BlendType>(partData->alphaBlendType);
 		}
 		else{
 			state.texture.handle = -1;
@@ -692,7 +692,7 @@ void Player::setFrame(int frameNo, float dt)
 			int cb_flags = (typeAndFlags >> 8) & 0xff;
 			float blend_rate = 1.0f;
 
-			sprite->_state.colorBlendFunc = funcNo;
+			sprite->_state.colorBlendFunc = static_cast<BlendType>(funcNo);
 			sprite->_state.colorBlendType = cb_flags;
 
 			//ssbpではカラーブレンドのレート（％）は使用できません。
@@ -899,8 +899,9 @@ void Player::draw()
 		int partIndex = _partIndex[index];
 		//スプライトの表示
 		CustomSprite* sprite = _parts.at(partIndex);
+		const State& state = sprite->_state;
 		if (sprite->_haveChildPlayer){
-			if ((sprite->_state.isVisibled == true) && (sprite->_state.opacity > 0)){
+			if ((state.isVisibled == true) && (state.opacity > 0)){
 				_eventListener->ChildPlayerDraw(partIndex, getPartName(partIndex));
 			}
 		}
@@ -908,7 +909,7 @@ void Player::draw()
 		{
 			if (sprite->refEffect)
 			{ 
-				if ((sprite->_state.isVisibled == true) && (sprite->_state.opacity > 0))
+				if ((state.isVisibled == true) && (state.opacity > 0))
 				{
 					//エフェクトパーツ
 					sprite->refEffect->draw(m_textures);
@@ -917,11 +918,11 @@ void Player::draw()
 			}
 			else
 			{
-				if (sprite->_state.texture.handle != -1)
+				if (state.texture.handle != -1)
 				{
-					if ((sprite->_state.isVisibled == true) && (sprite->_state.opacity > 0))
+					if ((state.isVisibled == true) && (state.opacity > 0))
 					{
-						SSDrawSprite(sprite->_state);
+						SSDrawSprite(state, state.blendfunc, state.colorBlendFunc);
 						_draw_count++;
 					}
 				}

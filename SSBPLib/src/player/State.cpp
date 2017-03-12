@@ -33,14 +33,14 @@ void State::init()
 	flipY = false;
 	isVisibled = false;
 
-	colorBlendFunc = 0;
+	colorBlendFunc = BLEND_MIX;
 	colorBlendType = 0;
 	memset(&quad, 0, sizeof(quad));
 	texture.handle = 0;
 	texture.size_w = 0;
 	texture.size_h = 0;
 	rect = SSRect(0, 0, 0, 0);
-	blendfunc = 0;
+	blendfunc = BLEND_MIX;
 	mat.setupIdentity();
 
 	instanceValue = InstancePartStatus();

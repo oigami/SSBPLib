@@ -636,7 +636,7 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 
 	state.mat.addTranslation(cxy.x, cxy.y);
 
-	SSDrawSprite(state);	//描画
+	SSDrawSprite(state, state.blendfunc, state.colorBlendFunc);	//描画
 }
 //--------------------------------------------------------------------------------------
 //

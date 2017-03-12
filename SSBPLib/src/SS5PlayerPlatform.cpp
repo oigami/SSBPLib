@@ -93,7 +93,7 @@ namespace ss
 	/**
 	* スプライトの表示
 	*/
-	void SSDrawSprite(State state)
+	void SSDrawSprite(State state, BlendType blendType, BlendType colorBlendType)
 	{
 		//未対応機能
 		//ステータスから情報を取得し、各プラットフォームに合わせて機能を実装してください。
@@ -101,46 +101,38 @@ namespace ss
 
 		//描画ファンクション
 		//
-		switch (state.blendfunc)
-		{
-			case BLEND_MIX:		///< 0 ブレンド（ミックス）
-				if (state.opacity == 255)
-				{
-					SetDrawBlendMode(DX_BLENDMODE_NOBLEND, state.opacity);
-				}
-				else
-				{
-					SetDrawBlendMode(DX_BLENDMODE_ALPHA, state.opacity);
-				}
-				break;
-			case BLEND_MUL:		///< 1 乗算
-				SetDrawBlendMode(DX_BLENDMODE_MULA, state.opacity);
-				break;
-			case BLEND_ADD:		///< 2 加算
-				SetDrawBlendMode(DX_BLENDMODE_ADD, state.opacity);
-				break;
-			case BLEND_SUB:		///< 3 減算
-				SetDrawBlendMode(DX_BLENDMODE_SUB, state.opacity);
-				break;
-
+		switch (blendType){
+		case BLEND_MIX:		///< 0 ブレンド（ミックス）
+			if (state.opacity == 255){
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, state.opacity);
+			}
+			else{
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, state.opacity);
+			}
+			break;
+		case BLEND_MUL:		///< 1 乗算
+			SetDrawBlendMode(DX_BLENDMODE_MULA, state.opacity);
+			break;
+		case BLEND_ADD:		///< 2 加算
+			SetDrawBlendMode(DX_BLENDMODE_ADD, state.opacity);
+			break;
+		case BLEND_SUB:		///< 3 減算
+			SetDrawBlendMode(DX_BLENDMODE_SUB, state.opacity);
+			break;
 		}
 
-		if (state.flags & PART_FLAG_COLOR_BLEND)
-		{
+		if (state.flags & PART_FLAG_COLOR_BLEND){
 			//RGBのカラーブレンドを設定
 			//厳密に再現するには専用のシェーダーを使い、テクスチャにカラー値を合成する必要がある
 			//作成する場合はssShader_frag.h、CustomSpriteのコメントとなってるシェーダー処理を参考にしてください。
-			if (state.colorBlendType == VERTEX_FLAG_ONE)
-			{
+			if (state.colorBlendType == VERTEX_FLAG_ONE){
 				//単色カラーブレンド
 			}
-			else
-			{
+			else{
 				//頂点カラーブレンド
 				//未対応
 			}
-			switch (state.colorBlendFunc)
-			{
+			switch (colorBlendType){
 			case BLEND_MIX:
 				break;
 			case BLEND_MUL:		///< 1 乗算
@@ -153,8 +145,6 @@ namespace ss
 			case BLEND_SUB:		///< 3 減算
 				break;
 			}
-//			DrawModiGraph
-
 		}
 
 		/**

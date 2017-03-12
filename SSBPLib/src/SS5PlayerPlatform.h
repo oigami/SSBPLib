@@ -6,6 +6,7 @@
 #define SS5PlayerPlatform_h
 #include "SS5Player.h"
 #include "common/loader/sstypes.h"
+#include "player/PlayerDef.h"
 #include <stdio.h>
 #include <string>
 
@@ -20,7 +21,7 @@ namespace ss
 	extern bool SSTextureRelese(TextureID handle);
 	extern bool isAbsolutePath(const std::string& strPath);
 #endif
-	extern void SSDrawSprite(State state);
+	extern void SSDrawSprite(State state, BlendType blendType, BlendType colorBlendType);
 #if 0
 	extern bool SSGetTextureSize(TextureID handle, int &w, int &h);
 #endif
