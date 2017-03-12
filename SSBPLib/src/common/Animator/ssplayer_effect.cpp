@@ -61,7 +61,7 @@ static  int seed_table[] =
 #define ONEFRAME ( 1.0f / 60.0f )
 
 
-
+#if 0
 //------------------------------------------------------------------------------
 //	ユーティリティ
 //------------------------------------------------------------------------------
@@ -182,7 +182,7 @@ SsEffectRenderAtom* SsEffectRenderer::CreateAtom(unsigned int seed, SsEffectRend
 	}
 	return ret;
 }
-
+#endif
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -266,6 +266,7 @@ void	SsEffectRenderEmitter::Initialize()
 //----------------------------------------------------------------------
 //パーティクルオブジェクトの生成
 //----------------------------------------------------------------------
+#if 0
 bool	SsEffectRenderEmitter::genarate( SsEffectRenderer* render )
 {
 
@@ -310,7 +311,7 @@ bool	SsEffectRenderEmitter::genarate( SsEffectRenderer* render )
 	}
 	return true;
 }
-
+#endif
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
@@ -386,6 +387,7 @@ void	SsEffectRenderParticle::Initialize()
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+#if 0
 bool	SsEffectRenderParticle::genarate( SsEffectRenderer* render )
 {
 	SsEffectNode* n = static_cast<SsEffectNode*>(this->data->ctop);
@@ -414,7 +416,7 @@ bool	SsEffectRenderParticle::genarate( SsEffectRenderer* render )
 
 	return true;
 }
-
+#endif
 
 //------------------------------------------------------------------------------
 //
@@ -518,6 +520,7 @@ void 	SsEffectRenderParticle::updateForce(float delta)
 //------------------------------------------------------------------------------
 //
 //------------------------------------------------------------------------------
+#if 0
 void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<TextuerData>& textures)
 {
 
@@ -632,6 +635,7 @@ void	SsEffectRenderParticle::draw(SsEffectRenderer* render, const std::vector<Te
 
 	SSDrawSprite(state, state.blendfunc, state.colorBlendFunc);	//描画
 }
+#endif
 //--------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------
@@ -644,7 +648,7 @@ bool compare_priority( SsEffectDrawBatch* left,  SsEffectDrawBatch* right)
 //--------------------------------------------------------------------------------------
 //
 //--------------------------------------------------------------------------------------
-
+#if 0
 void	SsEffectRenderer::update(float delta)
 {
 
@@ -847,7 +851,7 @@ bool	SsEffectRenderer::getPlayStatus(void)
 {
 	return(m_isPlay);
 }
-
+#endif
 
 
 };

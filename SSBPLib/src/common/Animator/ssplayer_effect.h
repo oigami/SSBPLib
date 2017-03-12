@@ -18,7 +18,9 @@ struct SsPartState;
 class SsEffectRenderAtom;
 
 class SsEffectBehavior;
+#if 0
 class SsEffectRenderer;
+#endif
 class CustomSprite;
 
 #define PFMEM_TEST ( 1 )
@@ -112,12 +114,14 @@ public:
 		m_isCreateChild = false;
 		m_isInit = false;
 	}
+#if 0
 	virtual bool	genarate( SsEffectRenderer* render ){return true;}
-
+#endif
 
     virtual void	update(float delta){}
+#if 0
 	virtual void	draw(SsEffectRenderer* render, const std::vector<TextuerData>& textures){}
-
+#endif
 	virtual void	debugdraw(){}
 
 	Vector3	getPosition() const
@@ -252,8 +256,9 @@ public:
 	}
 
 	virtual void	Initialize();
+#if 0
 	virtual bool	genarate( SsEffectRenderer* render );
-
+#endif
 	virtual void	update(float delta);
 	virtual void	count(){ particleCount = 0 ; }
 
@@ -352,11 +357,13 @@ public:
 	//生成フェーズ
 	virtual void	Initialize();
 
+#if 0
 	virtual bool	genarate( SsEffectRenderer* render );
-
+#endif
     virtual void	update(float delta);
+#if 0
 	virtual void	draw(SsEffectRenderer* render, const std::vector<TextuerData>& textures);
-
+#endif
 
 	virtual void	count()
 	{
@@ -396,7 +403,7 @@ public:
 
 
 
-
+#if 0
 //--------------------------------------------------------------------------
 //エフェクトの描画処理メイン
 //--------------------------------------------------------------------------
@@ -514,7 +521,7 @@ public:
 	void setParentSprite(CustomSprite* sprite){ _parentSprite = sprite; }
 
 };
-
+#endif
 
 
 };

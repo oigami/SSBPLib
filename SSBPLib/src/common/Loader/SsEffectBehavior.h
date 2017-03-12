@@ -10,10 +10,8 @@ namespace ss
 {
 
 class SsEffectElementBase;
-class SsEffectRenderer;
 
-class SsEffectBehavior
-{
+class SsEffectBehavior{
 public:
 	std::vector<SsEffectElementBase*> plist;
 
