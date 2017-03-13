@@ -12,15 +12,18 @@ namespace ss
 
 class SimpleTree
 {
-public:
+private:
 	SimpleTree *parent;
-	SimpleTree *ctop;
+	SimpleTree *childTop;
 	SimpleTree *prev;
 	SimpleTree *next;
+public:
+	SimpleTree* getChildTop(){ return childTop; }
+	SimpleTree* getNext(){ return next; }
 
 public:
 	SimpleTree()
-		: parent(0), ctop(0), prev(0), next(0)
+		: parent(0), childTop(0), prev(0), next(0)
 	{}
 	virtual ~SimpleTree()
 	{
@@ -28,14 +31,16 @@ public:
 	}
 
 	void	addChildEnd(SimpleTree* c){
-		if (ctop == 0)
+		if (childTop == 0)
 		{
-			ctop = c;
+			childTop = c;
 		}else{
-			ctop->addSiblingEnd(c);
+			childTop->addSiblingEnd(c);
 		}
 		c->parent = this;
 	}
+
+private:
 	void	addSiblingEnd(SimpleTree* c)
 	{
 		if (next == 0)
@@ -51,24 +56,24 @@ public:
 
 	void destroysub(SimpleTree *t)
 	{
-		if (t->ctop)
+		if (t->childTop)
 		{
-			destroysub(t->ctop);
+			destroysub(t->childTop);
 		}
 		if (t->next)
 		{
 			destroysub(t->next);
 		}
 
-		t->ctop = 0;
+		t->childTop = 0;
 		t->next = 0;
 		t->prev = 0;
 		delete t;
 	}
 	void destroy()
 	{
-		if (this->ctop)
-			destroysub(this->ctop);
+		if (this->childTop)
+			destroysub(this->childTop);
 	}
 };
 

@@ -75,7 +75,7 @@ void	SsEffectRenderEmitter::setMySeed( unsigned int seed )
 //----------------------------------------------------------------------
 void	SsEffectRenderEmitter::Initialize()
 {
-	SsEffectNode* n = static_cast<SsEffectNode*>(this->data->ctop);
+	SsEffectNode* n = static_cast<SsEffectNode*>(this->data->getChildTop());
 
 	if ( !m_isInit )
 	{                                                                                                                                                 		//子要素を解析(一度だけ）
@@ -86,7 +86,7 @@ void	SsEffectRenderEmitter::Initialize()
 				param_particle = n;
 			}
 
-			n = static_cast<SsEffectNode*>(n->next);
+			n = static_cast<SsEffectNode*>(n->getNext());
 		}
 
 		if (this->data->GetMyBehavior())
@@ -143,8 +143,6 @@ void	SsEffectRenderParticle::Initialize()
 
 	if ( !m_isInit )
 	{
-		SsEffectNode* n = static_cast<SsEffectNode*>(this->data->ctop);
-
 		//子要素を解析  基本的にエミッターのみの生成のはず　（Ｐではエラーでいい）
 		//処理を省いてエミッター生成のつもりで作成する
 		//パーティクルに紐づいたエミッターが生成される
