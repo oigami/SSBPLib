@@ -876,11 +876,11 @@ void    SsEffectRenderV2::reload()
 			SsEffectEmitter* e = new SsEffectEmitter();
 			//パラメータをコピー
 
-			e->_parentIndex = node->parentIndex;
+			e->_parentIndex = node->getParentIndex();
 			//繋ぎ先は恐らくパーティクルなのでエミッタに変換
 			if (e->_parentIndex != 0)
 			{
-				e->_parentIndex = list[e->_parentIndex]->parentIndex;
+				e->_parentIndex = list[e->_parentIndex]->getParentIndex();
 
 			}
 
@@ -894,10 +894,10 @@ void    SsEffectRenderV2::reload()
 			//孫抑制対策
 			if (e->_parentIndex != 0)
 			{
-				int a = list[e->_parentIndex]->parentIndex;
+				int a = list[e->_parentIndex]->getParentIndex();
 				if (a != 0)
 				{
-					if (list[a]->parentIndex > 0) {
+					if (list[a]->getParentIndex() > 0) {
 						_isWarningData = true;
 						continue;
 					}

@@ -63,12 +63,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 		{
 			const EffectNode* effectNode = &effectNodeArray[nodeindex];		//エフェクトノード配列からエフェクトノードを取得
 
-			SsEffectNode *node = new SsEffectNode();
-			node->arrayIndex = effectNode->arrayIndex;
-			node->parentIndex = effectNode->parentIndex;
-			node->type = (SsEffectNodeType::_enum)effectNode->type;
-			node->visible = true;
-
 			SsEffectBehavior behavior;
 			//セル情報を作成
 			behavior.CellIndex = effectNode->cellIndex;
@@ -388,7 +382,14 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 				break;
 				}
 			}
-			node->behavior = behavior;
+
+			SsEffectNode *node = new SsEffectNode(
+				effectNode->arrayIndex,
+				effectNode->parentIndex,
+				(SsEffectNodeType::_enum)effectNode->type,
+				true,
+				behavior
+			);
 			effectmodel->nodeList.push_back(node);
 			if(nodeindex == 0)
 			{
@@ -400,7 +401,7 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 			effectmodel->root = effectmodel->nodeList[0];	//rootノードを追加
 			for(size_t i = 1; i < effectmodel->nodeList.size(); i++)
 			{
-				int pi = effectmodel->nodeList[i]->parentIndex;
+				int pi = effectmodel->nodeList[i]->getParentIndex();
 				if(pi >= 0)
 				{
 					effectmodel->nodeList[pi]->addChildEnd(effectmodel->nodeList[i]);
@@ -434,12 +435,12 @@ void EffectCache::releseReference(void)
 			for(int nodeindex = 0; nodeindex < effectmodel->nodeList.size(); nodeindex++)
 			{
 				SsEffectNode* node = effectmodel->nodeList.at(nodeindex);
-				for(int behaviorindex = 0; behaviorindex < node->behavior.plist.size(); behaviorindex++)
+				for(int behaviorindex = 0; behaviorindex < node->GetMyBehavior()->plist.size(); behaviorindex++)
 				{
-					SsEffectElementBase* eb = node->behavior.plist.at(behaviorindex);
+					SsEffectElementBase* eb = node->GetMyBehavior()->plist.at(behaviorindex);
 					delete eb;
 				}
-				node->behavior.plist.clear();
+				node->GetMyBehavior()->plist.clear();
 			}
 			if(effectmodel->nodeList.size() > 0)
 			{
