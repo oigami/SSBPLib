@@ -384,10 +384,9 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 			}
 
 			SsEffectNode *node = new SsEffectNode(
-				effectNode->arrayIndex,
+				//effectNode->arrayIndex,
 				effectNode->parentIndex,
 				(SsEffectNodeType::_enum)effectNode->type,
-				true,
 				behavior
 			);
 			effectmodel->nodeList.push_back(node);

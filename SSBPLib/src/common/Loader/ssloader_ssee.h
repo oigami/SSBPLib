@@ -85,19 +85,15 @@ private:
 class SsEffectNode : public SimpleTree
 {
 private:
-	int						m_arrayIndex;
 	int						m_parentIndex;
 	SsEffectNodeType::_enum	m_type;
-	bool					m_visible;
 
 	SsEffectBehavior		m_behavior;
 
 public:
-	SsEffectNode(int arrayIndex, int parentIndex, SsEffectNodeType::_enum type, bool visible, const SsEffectBehavior& behavior)
-		: m_arrayIndex(arrayIndex)
-		, m_parentIndex(parentIndex)
+	SsEffectNode(int parentIndex, SsEffectNodeType::_enum type, const SsEffectBehavior& behavior)
+		: m_parentIndex(parentIndex)
 		, m_type(type)
-		, m_visible(visible)
 		, m_behavior(behavior)
 	{}
 	~SsEffectNode(){}
