@@ -40,54 +40,29 @@ namespace SsEffectFunctionType
 
 //範囲値クラス
 template<class mytype>
-class VarianceValue
-{
+class VarianceValue{
 private:
-
-	enum RangeType { None, MinMax, PlusMinus,};
-
-	RangeType 	type;
 	mytype 		value;
 	mytype 		subvalue;
 
 
 public:
-
-	VarianceValue( mytype v ){
-		value = v;
-		subvalue = v;
-        type = VarianceValue::None;
-	}
 	VarianceValue( mytype v , mytype v2){
 		value = v;
 		subvalue = v2;
-        type = VarianceValue::MinMax;
 	}
 
-	void	setPlusMinus( mytype v1  )
-	{
-		value = -v1;
-		subvalue = v1;
-        type = VarianceValue::PlusMinus;
-	}
 
 	void	setMinMax(mytype min , mytype max)
 	{
 		value = min;
 		subvalue = max;
-        type = VarianceValue::MinMax;
 	}
 
 	mytype	getValue(){ return value;}
 	mytype	getMinValue(){ return value;}
 	mytype	getMaxValue(){ return subvalue;}
 
-	bool	isTypeNone(){ return  type == VarianceValue::None; }
-	bool	isTypeMinMax(){ return  type == VarianceValue::MinMax; }
-	bool	isTypePlusMinus(){ return  type == VarianceValue::PlusMinus; }
-
-	mytype* getlpValue(){ return &value;}
-	mytype* getlpSubValue(){ return &subvalue;}
 
 	VarianceValue& operator=(mytype v) {  value = v; return *this; }
 	operator mytype() { return value; }
