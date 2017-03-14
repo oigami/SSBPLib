@@ -868,7 +868,7 @@ void	SsEffectFunctionExecuter::initalize(SsEffectBehavior* beh, SsEffectRenderEm
 {
 	for(SsEffectElementBase* e : beh->plist)
 	{
-		EffectFuncBase* cf = callTable[e->myType];
+		EffectFuncBase* cf = callTable[e->getFunctionType()];
 		cf->initalizeEmmiter(e, emmiter);
 	}
 }
@@ -877,7 +877,7 @@ void	SsEffectFunctionExecuter::updateEmmiter(SsEffectBehavior* beh, SsEffectRend
 {
 	for(SsEffectElementBase* e : beh->plist)
 	{
-		EffectFuncBase* cf = callTable[e->myType];
+		EffectFuncBase* cf = callTable[e->getFunctionType()];
 		cf->updateEmmiter(e, emmiter);
 	}
 }
@@ -886,7 +886,7 @@ void	SsEffectFunctionExecuter::initializeParticle(SsEffectBehavior* beh, SsEffec
 {
 	for(SsEffectElementBase* e : beh->plist)
 	{
-		EffectFuncBase* cf = callTable[e->myType];
+		EffectFuncBase* cf = callTable[e->getFunctionType()];
 		cf->initializeParticle(e, emmiter, particle);
 	}
 }
@@ -895,7 +895,7 @@ void	SsEffectFunctionExecuter::updateParticle(SsEffectBehavior* beh, SsEffectRen
 {
 	for(SsEffectElementBase* e : beh->plist)
 	{
-		EffectFuncBase* cf = callTable[e->myType];
+		EffectFuncBase* cf = callTable[e->getFunctionType()];
 		cf->updateParticle(e, emmiter, particle);
 	}
 }
@@ -904,7 +904,7 @@ void	SsEffectFunctionExecuter::initializeEffect(SsEffectBehavior* beh, SsEffectE
 {
 	for(SsEffectElementBase* e : beh->plist)
 	{
-		EffectFuncBase* cf = callTable[e->myType];
+		EffectFuncBase* cf = callTable[e->getFunctionType()];
 		cf->initalizeEffect(e, emmiter);
 	}
 }

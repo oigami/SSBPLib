@@ -15,7 +15,7 @@ class SsEffectBehavior{
 public:
 	std::vector<SsEffectElementBase*> plist;
 
-public:
+
 	int								CellIndex;	//プレイヤー専用に追加
 	const CellRef*					refCell;
 	SsRenderBlendType::_enum		blendType;

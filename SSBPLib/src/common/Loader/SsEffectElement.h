@@ -107,14 +107,16 @@ class SsEffectRenderParticle;
 
 class   SsEffectElementBase 
 {
-public:
+private:
 	SsEffectFunctionType::enum_ myType;
 
 public:
-	SsEffectElementBase() : myType (SsEffectFunctionType::Base) {}
+	SsEffectElementBase(SsEffectFunctionType::enum_ functionType)
+		: myType (functionType) {}
 	virtual ~SsEffectElementBase(){}
 
-	void	setType(SsEffectFunctionType::enum_ type){ myType = type; } 
+	SsEffectFunctionType::enum_ getFunctionType() const{ return myType; }
+//	void	setType(SsEffectFunctionType::enum_ type){ myType = type; } 
 
 #if 0
 	//各部で実装する
@@ -145,7 +147,8 @@ public:
 
 public:
 	ParticleElementBasic()
-			: 	maximumParticle( 50 ),
+			:	SsEffectElementBase(SsEffectFunctionType::Basic),
+				maximumParticle( 50 ),
 				speed( 5.0f , 5.0f),
 				lifespan( 30 ,30 ),
 				angle(0.0f),
@@ -155,7 +158,7 @@ public:
 				attimeCreate(1),
                 priority(64)
 	{
-		setType( SsEffectFunctionType::Basic );
+		//setType( SsEffectFunctionType::Basic );
 	}
 
 	virtual ~ParticleElementBasic(){}
@@ -170,10 +173,10 @@ public:
 	int		Seed;
 
 	ParticleElementRndSeedChange()
-
-		:	Seed( 0 )
+		: SsEffectElementBase(SsEffectFunctionType::RndSeedChange)
+		, Seed( 0 )
 	{
-		setType( SsEffectFunctionType::RndSeedChange );
+		//setType( SsEffectFunctionType::RndSeedChange );
 	}
 	virtual ~ParticleElementRndSeedChange(){}
 };
@@ -186,9 +189,10 @@ public:
 	int		DelayTime;
 
 	ParticleElementDelay()
-		:	DelayTime( 0 )
+		: SsEffectElementBase(SsEffectFunctionType::Delay)
+		, DelayTime( 0 )
 	{
-		setType( SsEffectFunctionType::Delay );
+	//	setType( SsEffectFunctionType::Delay );
 	}
 	virtual ~ParticleElementDelay(){}
 };
@@ -204,10 +208,10 @@ public:
 
 public:
 	ParticleElementGravity()
-        : Gravity(	0	,	-3.0f	)
+        : SsEffectElementBase(SsEffectFunctionType::Gravity)
+		, Gravity(	0	,	-3.0f	)
     {
-		setType( SsEffectFunctionType::Gravity );
-
+		//setType( SsEffectFunctionType::Gravity );
 	}
 	virtual ~ParticleElementGravity(){}
 };
@@ -222,9 +226,10 @@ public:
 
 
 	ParticleElementPosition()
-		: OffsetX(0,0),OffsetY(0,0)
+		: SsEffectElementBase(SsEffectFunctionType::Position)
+		, OffsetX(0,0), OffsetY(0,0)
 	{
-		setType( SsEffectFunctionType::Position );
+		//setType( SsEffectFunctionType::Position );
 	}
 	virtual ~ParticleElementPosition(){}
 };
@@ -239,11 +244,11 @@ public:
 	f32VValue   RotationAdd;
 
 	ParticleElementRotation()
-		:  Rotation( 0 ,0 ),
-		   RotationAdd(0,0)
+		: SsEffectElementBase(SsEffectFunctionType::Rotation)
+		, Rotation( 0 ,0 )
+		, RotationAdd(0,0)
 	{
-		setType( SsEffectFunctionType::Rotation );
-
+		//setType( SsEffectFunctionType::Rotation );
 	}
 	virtual ~ParticleElementRotation(){}
 };
@@ -257,11 +262,11 @@ public:
 	float	EndLifeTimePer;
 
 	ParticleElementRotationTrans()
-		:  	RotationFactor( 0 ) ,
-			EndLifeTimePer( 75 )
+		: SsEffectElementBase(SsEffectFunctionType::TransRotation)
+		, RotationFactor( 0 )
+		, EndLifeTimePer( 75 )
 	{
-		setType( SsEffectFunctionType::TransRotation );
-
+		//setType( SsEffectFunctionType::TransRotation );
 	}
 	virtual ~ParticleElementRotationTrans(){}
 };
@@ -273,9 +278,10 @@ public:
 	f32VValue	Speed;
 
 	ParticleElementTransSpeed()
-        :	Speed( 0,0 )
+        : SsEffectElementBase(SsEffectFunctionType::TransSpeed)
+		, Speed( 0,0 )
 	{
-		setType( SsEffectFunctionType::TransSpeed );
+		//setType( SsEffectFunctionType::TransSpeed );
 	}
 	virtual ~ParticleElementTransSpeed(){}
 };
@@ -289,10 +295,10 @@ public:
 	f32VValue	Acceleration;
 
 	ParticleElementTangentialAcceleration()
-			: Acceleration( 0, 0 )
+		: SsEffectElementBase(SsEffectFunctionType::TangentialAcceleration)
+		, Acceleration( 0, 0 )
 	{
-		setType( SsEffectFunctionType::TangentialAcceleration );
-
+		//setType( SsEffectFunctionType::TangentialAcceleration );
 	}
 	virtual ~ParticleElementTangentialAcceleration(){}
 };
@@ -306,9 +312,10 @@ public:
 	SsU8cVValue Color;
 
 	ParticleElementInitColor()
-		: Color( SsU8Color(255,255,255,255) , SsU8Color(255,255,255,255) )
+		: SsEffectElementBase(SsEffectFunctionType::InitColor)
+		, Color( SsU8Color(255,255,255,255) , SsU8Color(255,255,255,255) )
 	{
-		setType( SsEffectFunctionType::InitColor );
+		//setType( SsEffectFunctionType::InitColor );
 	}
 	virtual ~ParticleElementInitColor(){}
 };
@@ -321,9 +328,10 @@ public:
 	SsU8cVValue Color;
 
 	ParticleElementTransColor()
-		: Color( SsU8Color(255,255,255,255) , SsU8Color(255,255,255,255) )
+		: SsEffectElementBase(SsEffectFunctionType::TransColor)
+		, Color( SsU8Color(255,255,255,255) , SsU8Color(255,255,255,255) )
 	{
-		setType( SsEffectFunctionType::TransColor );
+		//setType( SsEffectFunctionType::TransColor );
 	}
 	virtual ~ParticleElementTransColor(){}
 };
@@ -338,9 +346,10 @@ public:
 
 
 	ParticleElementAlphaFade()
-		: disprange(25,75)
+		: SsEffectElementBase(SsEffectFunctionType::AlphaFade)
+		, disprange(25,75)
 	{
-		setType( SsEffectFunctionType::AlphaFade );
+		//setType( SsEffectFunctionType::AlphaFade );
 	}
 	virtual ~ParticleElementAlphaFade(){}
 };
@@ -355,11 +364,12 @@ public:
 	f32VValue ScaleFactor;
 
 	ParticleElementSize()
-		: 	SizeX( 1.0f , 1.0f ),
-			SizeY( 1.0f , 1.0f ),
-			ScaleFactor( 1.0f , 1.0f )
+		: SsEffectElementBase(SsEffectFunctionType::Size)
+		, SizeX( 1.0f , 1.0f )
+		, SizeY( 1.0f , 1.0f )
+		, ScaleFactor( 1.0f , 1.0f )
 	{
-		setType( SsEffectFunctionType::Size );
+		//setType( SsEffectFunctionType::Size );
 	}
 	virtual ~ParticleElementSize(){}
 
@@ -377,11 +387,12 @@ public:
 
 
 	ParticleElementTransSize()
-		: 	SizeX( 1.0f , 1.0f ),
-			SizeY( 1.0f , 1.0f ),
-			ScaleFactor( 1.0f , 1.0f )
+		: SsEffectElementBase(SsEffectFunctionType::TransSize)
+		, SizeX( 1.0f , 1.0f )
+		, SizeY( 1.0f , 1.0f )
+		, ScaleFactor( 1.0f , 1.0f )
 	{
-		setType( SsEffectFunctionType::TransSize );
+		//setType( SsEffectFunctionType::TransSize );
 	}
 	virtual ~ParticleElementTransSize(){}
 };
@@ -398,9 +409,10 @@ public:
 
 
 	ParticlePointGravity()
-		: Position( 0 , 0 ) ,Power(0.0f)
+		: SsEffectElementBase(SsEffectFunctionType::PointGravity)
+		, Position( 0 , 0 ) ,Power(0.0f)
 	{
-		setType(SsEffectFunctionType::PointGravity);
+		//setType(SsEffectFunctionType::PointGravity);
 	}
 	virtual ~ParticlePointGravity(){}
 
@@ -416,9 +428,10 @@ public:
 	float Rotation;
 
 	ParticleTurnToDirectionEnabled()
-		: Rotation(0.0f)
+		: SsEffectElementBase(SsEffectFunctionType::TurnToDirectionEnabled)
+		, Rotation(0.0f)
 	{
-		setType( SsEffectFunctionType::TurnToDirectionEnabled );
+		//setType( SsEffectFunctionType::TurnToDirectionEnabled );
 	}
 	virtual ~ParticleTurnToDirectionEnabled(){}
 };
@@ -430,8 +443,9 @@ class  ParticleInfiniteEmitEnabled : public SsEffectElementBase
 public:
 
 	ParticleInfiniteEmitEnabled()
+		: SsEffectElementBase(SsEffectFunctionType::InfiniteEmitEnabled)
 	{
-		setType(SsEffectFunctionType::InfiniteEmitEnabled);
+		//setType(SsEffectFunctionType::InfiniteEmitEnabled);
 	}
 	virtual ~ParticleInfiniteEmitEnabled() {}
 };
