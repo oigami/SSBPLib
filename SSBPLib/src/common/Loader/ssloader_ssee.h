@@ -36,9 +36,6 @@ private:
 	SimpleTree *childTop;
 	SimpleTree *prev;
 	SimpleTree *next;
-public:
-	SimpleTree* getChildTop(){ return childTop; }	//要するに子供を辿れるようにしとけばいいらしい
-	SimpleTree* getNext(){ return next; }			//
 
 public:
 	SimpleTree()
