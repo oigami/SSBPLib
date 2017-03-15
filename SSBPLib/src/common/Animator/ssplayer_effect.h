@@ -120,27 +120,7 @@ public:
 
 };
 
-class SsEffectDrawBatch;
-class SsEffectDrawBatch
-{
-public:
-	int	priority;
-	SsCellValue*			dispCell;
-	SsEffectNode*			targetNode;
 
-	SsRenderBlendType::_enum       blendType;
-
-
-	std::list<SsEffectRenderAtom*> drawlist;
-
-
-	SsEffectDrawBatch() : priority(0), dispCell(0), targetNode(0) {}
-	~SsEffectDrawBatch(){}
-
-	void	drawSetting();
-
-
-};
 
 
 //--------------------------------------------------------------------------
@@ -174,10 +154,6 @@ public:
     bool			generate_ok;
 	int				drawPriority;
 
-
-public:
-
-	SsEffectDrawBatch*  myBatchList;
 
 
 public:

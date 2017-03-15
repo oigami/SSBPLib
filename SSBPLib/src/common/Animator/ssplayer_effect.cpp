@@ -122,14 +122,6 @@ void	SsEffectRenderEmitter::update(float delta)
 	{
 		SsEffectFunctionExecuter::updateEmmiter( this->data->GetMyBehavior() , this );
 	}
-
-	if ( this->myBatchList )
-	{
-		this->myBatchList->priority = this->drawPriority;
-		this->myBatchList->dispCell = &this->dispCell;
-		this->myBatchList->blendType = this->data->GetMyBehavior()->blendType;
-	}
-
 }
 
 
