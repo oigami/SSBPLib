@@ -75,22 +75,9 @@ void	SsEffectRenderEmitter::setMySeed( unsigned int seed )
 //----------------------------------------------------------------------
 void	SsEffectRenderEmitter::Initialize()
 {
-	SsEffectNode* n = static_cast<SsEffectNode*>(this->data->getChildTop());
+	if ( !m_isInit ){		//子要素を解析(一度だけ）
 
-	if ( !m_isInit )
-	{                                                                                                                                                 		//子要素を解析(一度だけ）
-		while ( n )
-		{
-			if ( n->GetType() ==  SsEffectNodeType::particle )
-			{
-				//param_particle = n;
-			}
-
-			n = static_cast<SsEffectNode*>(n->getNext());
-		}
-
-		if (this->data->GetMyBehavior())
-		{
+		if (this->data->GetMyBehavior()){
 			SsEffectFunctionExecuter::initalize( this->data->GetMyBehavior() , this );
 		}
         intervalleft = this->interval;
