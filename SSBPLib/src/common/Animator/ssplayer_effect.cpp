@@ -83,7 +83,7 @@ void	SsEffectRenderEmitter::Initialize()
 		{
 			if ( n->GetType() ==  SsEffectNodeType::particle )
 			{
-				param_particle = n;
+				//param_particle = n;
 			}
 
 			n = static_cast<SsEffectNode*>(n->getNext());

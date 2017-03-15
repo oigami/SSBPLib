@@ -133,9 +133,6 @@ public:
 	SsCellValue				dispCell;
 	//エミッターパラメータ
 
-	//パーティクルパラメータ
-    SsEffectNode*		param_particle;
-
 	CMersenneTwister*	     MT;
 
 	//以前からの移植
@@ -170,8 +167,6 @@ public:
 		_exsitTime = 0;
 
 		generate_ok = true;
-
-		param_particle = 0;
 	}
 
 	SsEffectRenderEmitter() : MT(0){}
