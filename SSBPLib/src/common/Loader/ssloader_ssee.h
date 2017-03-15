@@ -12,14 +12,33 @@ namespace ss
 
 class SimpleTree
 {
+#if 0
+private:
+	std::list<SimpleTree*> children;
+	
+public:
+	SimpleTree(){}
+	virtual ~SimpleTree(){
+		for(SimpleTree* c : children){
+			delete c;	//複数登録されてるものがいるとまずいが、そのような使われ方はされてない模様
+		}
+		children.clear();
+	}
+
+	std::list<SimpleTree*>& getChildren(){ return children; }
+	void addChildEnd(SimpleTree* c){ children.push_back(c); }
+	
+
+#else
+
 private:
 	SimpleTree *parent;
 	SimpleTree *childTop;
 	SimpleTree *prev;
 	SimpleTree *next;
 public:
-	SimpleTree* getChildTop(){ return childTop; }
-	SimpleTree* getNext(){ return next; }
+	SimpleTree* getChildTop(){ return childTop; }	//要するに子供を辿れるようにしとけばいいらしい
+	SimpleTree* getNext(){ return next; }			//
 
 public:
 	SimpleTree()
@@ -75,6 +94,7 @@ private:
 		if (this->childTop)
 			destroysub(this->childTop);
 	}
+#endif
 };
 
 
