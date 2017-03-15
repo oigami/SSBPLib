@@ -136,12 +136,12 @@ public:
 
 		p->_backposition = p->_position;
 
-		p->_lifetime = VarianceCalc(e, source->lifespan.getMinValue(), source->lifespan.getMaxValue());
+		p->_lifetime = VarianceCalc(e, source->lifespanMinValue, source->lifespanMaxValue);
 		p->_life = source->lifetime;
 		float temp_angle = VarianceCalcFin(e, source->angle + eAngle, source->angleVariance / 2.0f);
 
 		float angle_rad = SSDegToRad((temp_angle + 90.0f));
-		float lspeed = VarianceCalc(e, source->speed.getMinValue(), source->speed.getMaxValue());
+		float lspeed = VarianceCalc(e, source->speedMinValue, source->speedMaxValue);
 
 		p->speed = lspeed;
 		p->firstspeed = lspeed;
@@ -175,15 +175,15 @@ public:
 
 
 		//パーティクルパラメータ
-		e->emitter.particleLife = source->lifespan.getMinValue();
-		e->emitter.particleLife2 = source->lifespan.getMaxValue() - source->lifespan.getMinValue();
+		e->emitter.particleLife = source->lifespanMinValue;
+		e->emitter.particleLife2 = source->lifespanMaxValue - source->lifespanMinValue;
 
 		e->particle.scale = Vector2(1.0f, 1.0f);
 		e->particle.startcolor = SsU8Color(255, 255, 255, 255);
 		e->particle.endcolor = SsU8Color(255, 255, 255, 255);
 
-		e->particle.speed = source->speed.getMinValue();
-		e->particle.speed2 = source->speed.getMaxValue() - source->speed.getMinValue();
+		e->particle.speed = source->speedMinValue;
+		e->particle.speed2 = source->speedMaxValue - source->speedMinValue;
 
 		e->particle.angle = SSDegToRad((source->angle + 90.0f));
 		e->particle.angleVariance = SSDegToRad(source->angleVariance);
@@ -336,8 +336,8 @@ public:
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementPosition* source = static_cast<ParticleElementPosition*>(ele);
-		p->_position.x = p->_baseEmiterPosition.x + VarianceCalc(e, source->OffsetX.getMinValue(), source->OffsetX.getMaxValue());
-		p->_position.y = p->_baseEmiterPosition.y + VarianceCalc(e, source->OffsetY.getMinValue(), source->OffsetY.getMaxValue());
+		p->_position.x = p->_baseEmiterPosition.x + VarianceCalc(e, source->OffsetXMinValue, source->OffsetXMaxValue);
+		p->_position.y = p->_baseEmiterPosition.y + VarianceCalc(e, source->OffsetYMinValue, source->OffsetYMaxValue);
 	}
 
 	virtual void	updateParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* particle){}
@@ -346,8 +346,8 @@ public:
 	{
 		ParticleElementPosition* source = static_cast<ParticleElementPosition*>(ele);
 		e->particle.useOffset = true;
-		e->particle.offset = Vector2(source->OffsetX.getMinValue(), source->OffsetY.getMinValue());
-		e->particle.offset2 = Vector2(source->OffsetX.getMaxValue() - source->OffsetX.getMinValue(), source->OffsetY.getMaxValue() - source->OffsetY.getMinValue());
+		e->particle.offset = Vector2(source->OffsetXMinValue, source->OffsetYMinValue);
+		e->particle.offset2 = Vector2(source->OffsetXMaxValue - source->OffsetXMinValue, source->OffsetYMaxValue - source->OffsetYMinValue);
 	}
 };
 static FuncParticleElementPosition		funcPosition;
@@ -381,8 +381,8 @@ public:
 	{
 		ParticleElementRotation* source = static_cast<ParticleElementRotation*>(ele);
 
-		p->_rotation = VarianceCalc(e, source->Rotation.getMinValue(), source->Rotation.getMaxValue());
-		p->_rotationAdd = VarianceCalc(e, source->RotationAdd.getMinValue(), source->RotationAdd.getMaxValue());
+		p->_rotation = VarianceCalc(e, source->RotationMinValue, source->RotationMaxValue);
+		p->_rotationAdd = VarianceCalc(e, source->RotationAddMinValue, source->RotationAddMaxValue);
 		p->_rotationAddDst = p->_rotationAdd;
 	}
 
@@ -390,11 +390,11 @@ public:
 	{
 		ParticleElementRotation* source = static_cast<ParticleElementRotation*>(ele);
 		e->particle.useRotation = true;
-		e->particle.rotation = source->Rotation.getMinValue();
-		e->particle.rotation2 = source->Rotation.getMaxValue() - source->Rotation.getMinValue();
+		e->particle.rotation = source->RotationMinValue;
+		e->particle.rotation2 = source->RotationMaxValue - source->RotationMinValue;
 
-		e->particle.rotationAdd = source->RotationAdd.getMinValue();
-		e->particle.rotationAdd2 = source->RotationAdd.getMaxValue() - source->RotationAdd.getMinValue();
+		e->particle.rotationAdd = source->RotationAddMinValue;
+		e->particle.rotationAdd2 = source->RotationAddMaxValue - source->RotationAddMinValue;
 
 	}
 };
@@ -463,7 +463,7 @@ public:
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementTransSpeed* source = static_cast<ParticleElementTransSpeed*>(ele);
-		p->lastspeed = VarianceCalc(e, source->Speed.getMinValue(), source->Speed.getMaxValue());
+		p->lastspeed = VarianceCalc(e, source->SpeedMinValue, source->SpeedMaxValue);
 	}
 
 	virtual void	updateParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
@@ -477,8 +477,8 @@ public:
 	{
 		ParticleElementTransSpeed* source = static_cast<ParticleElementTransSpeed*>(ele);
 		e->particle.useTransSpeed = true;
-		e->particle.transSpeed = source->Speed.getMinValue();
-		e->particle.transSpeed2 = source->Speed.getMaxValue() - source->Speed.getMinValue();
+		e->particle.transSpeed = source->SpeedMinValue;
+		e->particle.transSpeed2 = source->SpeedMaxValue - source->SpeedMinValue;
 	}
 };
 static FuncParticleElementTransSpeed		funcTransSpeed;
@@ -496,15 +496,15 @@ public:
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementTangentialAcceleration* source = static_cast<ParticleElementTangentialAcceleration*>(ele);
-		p->_tangentialAccel = VarianceCalc(e, source->Acceleration.getMinValue(), source->Acceleration.getMaxValue());
+		p->_tangentialAccel = VarianceCalc(e, source->AccelerationMinValue, source->AccelerationMaxValue);
 	}
 
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementTangentialAcceleration* source = static_cast<ParticleElementTangentialAcceleration*>(ele);
 		e->particle.useTanAccel = true;
-		e->particle.tangentialAccel = source->Acceleration.getMinValue();
-		e->particle.tangentialAccel2 = (source->Acceleration.getMaxValue() - source->Acceleration.getMinValue());
+		e->particle.tangentialAccel = source->AccelerationMinValue;
+		e->particle.tangentialAccel2 = (source->AccelerationMaxValue - source->AccelerationMinValue);
 
 	}
 };
@@ -530,7 +530,7 @@ public:
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementInitColor* source = static_cast<ParticleElementInitColor*>(ele);
-		VarianceCalcColor(e, p->_startcolor, source->Color.getMinValue(), source->Color.getMaxValue());
+		VarianceCalcColor(e, p->_startcolor, source->ColorMinValue, source->ColorMaxValue);
 		p->_color = p->_startcolor;
 
 	}
@@ -540,8 +540,8 @@ public:
 		ParticleElementInitColor* source = static_cast<ParticleElementInitColor*>(ele);
 		e->particle.useColor = true;
 
-		SsU8Color color1 = source->Color.getMinValue();
-		SsU8Color color2 = source->Color.getMaxValue();
+		SsU8Color color1 = source->ColorMinValue;
+		SsU8Color color2 = source->ColorMaxValue;
 
 		getRange(color1.a, color2.a, e->particle.initColor.a, e->particle.initColor2.a);
 		getRange(color1.r, color2.r, e->particle.initColor.r, e->particle.initColor2.r);
@@ -564,7 +564,7 @@ public:
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementTransColor* source = static_cast<ParticleElementTransColor*>(ele);
-		VarianceCalcColor(e, p->_endcolor, source->Color.getMinValue(), source->Color.getMaxValue());
+		VarianceCalcColor(e, p->_endcolor, source->ColorMinValue, source->ColorMaxValue);
 	}
 
 	virtual void	updateParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
@@ -585,8 +585,8 @@ public:
 
 		e->particle.useTransColor = true;
 
-		SsU8Color color1 = source->Color.getMinValue();
-		SsU8Color color2 = source->Color.getMaxValue();
+		SsU8Color color1 = source->ColorMinValue;
+		SsU8Color color2 = source->ColorMaxValue;
 
 		getRange(color1.a, color2.a, e->particle.transColor.a, e->particle.transColor2.a);
 		getRange(color1.r, color2.r, e->particle.transColor.r, e->particle.transColor2.r);
@@ -614,8 +614,8 @@ public:
 
 		float per = ((float)particle->_exsitTime / (float)particle->_lifetime) * 100.0f;
 
-		float start = source->disprange.getMinValue();
-		float end = source->disprange.getMaxValue();
+		float start = source->disprangeMinValue;
+		float end = source->disprangeMaxValue;
 
 		if (per < start)
 		{
@@ -643,8 +643,8 @@ public:
 	{
 		ParticleElementAlphaFade* source = static_cast<ParticleElementAlphaFade*>(ele);
 		e->particle.useAlphaFade = true;
-		e->particle.alphaFade = source->disprange.getMinValue();
-		e->particle.alphaFade2 = source->disprange.getMaxValue();
+		e->particle.alphaFade = source->disprangeMinValue;
+		e->particle.alphaFade2 = source->disprangeMaxValue;
 
 	}
 };
@@ -666,9 +666,9 @@ public:
 
 		ParticleElementSize* source = static_cast<ParticleElementSize*>(ele);
 
-		p->_size.x = VarianceCalc(e, source->SizeX.getMinValue(), source->SizeX.getMaxValue());
-		p->_size.y = VarianceCalc(e, source->SizeY.getMinValue(), source->SizeY.getMaxValue());
-		float sf = VarianceCalc(e, source->ScaleFactor.getMinValue(), source->ScaleFactor.getMaxValue());
+		p->_size.x = VarianceCalc(e, source->SizeXMinValue, source->SizeXMaxValue);
+		p->_size.y = VarianceCalc(e, source->SizeYMinValue, source->SizeYMaxValue);
+		float sf = VarianceCalc(e, source->ScaleFactorMinValue, source->ScaleFactorMaxValue);
 
 		p->_size = p->_size * sf;
 		p->_startsize = p->_size;
@@ -680,14 +680,14 @@ public:
 
 		e->particle.useInitScale = true;
 
-		e->particle.scale.x = source->SizeX.getMinValue();
-		e->particle.scaleRange.x = source->SizeX.getMaxValue() - source->SizeX.getMinValue();
+		e->particle.scale.x = source->SizeXMinValue;
+		e->particle.scaleRange.x = source->SizeXMaxValue - source->SizeXMinValue;
 
-		e->particle.scale.y = source->SizeY.getMinValue();
-		e->particle.scaleRange.y = source->SizeY.getMaxValue() - source->SizeY.getMinValue();
+		e->particle.scale.y = source->SizeYMinValue;
+		e->particle.scaleRange.y = source->SizeYMaxValue - source->SizeYMinValue;
 
-		e->particle.scaleFactor = source->ScaleFactor.getMinValue();
-		e->particle.scaleFactor2 = source->ScaleFactor.getMaxValue() - source->ScaleFactor.getMinValue();
+		e->particle.scaleFactor = source->ScaleFactorMinValue;
+		e->particle.scaleFactor2 = source->ScaleFactorMaxValue - source->ScaleFactorMinValue;
 	}
 };
 static FuncParticleElementSize		funcSize;
@@ -705,10 +705,10 @@ public:
 	{
 		ParticleElementTransSize* source = static_cast<ParticleElementTransSize*>(ele);
 		Vector2 endsize;
-		endsize.x = VarianceCalc(e, source->SizeX.getMinValue(), source->SizeX.getMaxValue());
-		endsize.y = VarianceCalc(e, source->SizeY.getMinValue(), source->SizeY.getMaxValue());
+		endsize.x = VarianceCalc(e, source->SizeXMinValue, source->SizeXMaxValue);
+		endsize.y = VarianceCalc(e, source->SizeYMinValue, source->SizeYMaxValue);
 
-		float sf = VarianceCalc(e, source->ScaleFactor.getMinValue(), source->ScaleFactor.getMaxValue());
+		float sf = VarianceCalc(e, source->ScaleFactorMinValue, source->ScaleFactorMaxValue);
 
 		endsize = endsize * sf;
 
@@ -726,14 +726,14 @@ public:
 		ParticleElementTransSize* source = static_cast<ParticleElementTransSize*>(ele);
 		e->particle.useTransScale = true;
 
-		e->particle.transscale.x = source->SizeX.getMinValue();
-		e->particle.transscaleRange.x = source->SizeX.getMaxValue() - source->SizeX.getMinValue();
+		e->particle.transscale.x = source->SizeXMinValue;
+		e->particle.transscaleRange.x = source->SizeXMaxValue - source->SizeXMinValue;
 
-		e->particle.transscale.y = source->SizeY.getMinValue();
-		e->particle.transscaleRange.y = source->SizeY.getMaxValue() - source->SizeY.getMinValue();
+		e->particle.transscale.y = source->SizeYMinValue;
+		e->particle.transscaleRange.y = source->SizeYMaxValue - source->SizeYMinValue;
 
-		e->particle.transscaleFactor = source->ScaleFactor.getMinValue();
-		e->particle.transscaleFactor2 = source->ScaleFactor.getMaxValue() - source->ScaleFactor.getMinValue();
+		e->particle.transscaleFactor = source->ScaleFactorMinValue;
+		e->particle.transscaleFactor2 = source->ScaleFactorMaxValue - source->ScaleFactorMinValue;
 
 	}
 };

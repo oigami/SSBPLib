@@ -101,14 +101,15 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.angleVariance = reader.readFloat();		//射出方向範囲
 
 					ParticleElementBasic *effectParam = new ParticleElementBasic();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
 					effectParam->priority = readparam.priority;							//表示優先度
 					effectParam->maximumParticle = readparam.maximumParticle;			//最大パーティクル数
 					effectParam->attimeCreate = readparam.attimeCreate;					//一度に作成するパーティクル数
 					effectParam->interval = readparam.interval;							//生成間隔
 					effectParam->lifetime = readparam.lifetime;							//エミッター生存時間
-					effectParam->speed.setMinMax(readparam.speedMinValue, readparam.speedMaxValue);				//初速
-					effectParam->lifespan.setMinMax(readparam.lifespanMinValue, readparam.lifespanMaxValue);	//パーティクル生存時間
+					effectParam->speedMinValue = readparam.speedMinValue;				//初速
+					effectParam->speedMaxValue = readparam.speedMaxValue;				//初速
+					effectParam->lifespanMinValue = readparam.lifespanMinValue;			//パーティクル生存時間
+					effectParam->lifespanMaxValue = readparam.lifespanMaxValue;			//パーティクル生存時間
 					effectParam->angle = readparam.angle;								//射出方向
 					effectParam->angleVariance = readparam.angleVariance;				//射出方向範囲
 
@@ -122,7 +123,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.Seed = reader.readU32();				//上書きするシード値
 
 					ParticleElementRndSeedChange *effectParam = new ParticleElementRndSeedChange();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
 					effectParam->Seed = readparam.Seed;							//上書きするシード値
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
@@ -135,7 +135,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.DelayTime = reader.readU32();			//遅延時間
 
 					ParticleElementDelay *effectParam = new ParticleElementDelay();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
 					effectParam->DelayTime = readparam.DelayTime;			//遅延時間
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
@@ -149,7 +148,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.Gravity_y = reader.readFloat();			//Y方向の重力
 
 					ParticleElementGravity *effectParam = new ParticleElementGravity();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
 					effectParam->Gravity.x = readparam.Gravity_x;			//X方向の重力
 					effectParam->Gravity.y = readparam.Gravity_y;			//Y方向の重力
 
@@ -162,13 +160,14 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					EffectParticleElementPosition readparam;
 					readparam.OffsetXMinValue = reader.readFloat();	//X座標に加算最小
 					readparam.OffsetXMaxValue = reader.readFloat();	//X座標に加算最大
-					readparam.OffsetYMinValue = reader.readFloat();	//X座標に加算最小
-					readparam.OffsetYMaxValue = reader.readFloat();	//X座標に加算最大
+					readparam.OffsetYMinValue = reader.readFloat();	//Y座標に加算最小
+					readparam.OffsetYMaxValue = reader.readFloat();	//Y座標に加算最大
 
 					ParticleElementPosition *effectParam = new ParticleElementPosition();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
-					effectParam->OffsetX.setMinMax(readparam.OffsetXMinValue, readparam.OffsetXMaxValue); 	//X座標に加算最小
-					effectParam->OffsetY.setMinMax(readparam.OffsetYMinValue, readparam.OffsetYMaxValue);	//X座標に加算最小
+					effectParam->OffsetXMinValue = readparam.OffsetXMinValue; 	//X座標に加算最小
+					effectParam->OffsetXMaxValue = readparam.OffsetXMaxValue; 	//X座標に加算最大
+					effectParam->OffsetYMinValue = readparam.OffsetYMinValue;	//Y座標に加算最小
+					effectParam->OffsetYMaxValue = readparam.OffsetYMaxValue;	//Y座標に加算最大
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
 					break;
@@ -183,9 +182,10 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.RotationAddMaxValue = reader.readFloat();	//角度初期加算値最大
 
 					ParticleElementRotation *effectParam = new ParticleElementRotation();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
-					effectParam->Rotation.setMinMax(readparam.RotationMinValue, readparam.RotationMaxValue);		//角度初期値最小
-					effectParam->RotationAdd.setMinMax(readparam.RotationAddMinValue, readparam.RotationAddMaxValue);	//角度初期加算値最小
+					effectParam->RotationMinValue = readparam.RotationMinValue;		//角度初期値最小
+					effectParam->RotationMaxValue = readparam.RotationMaxValue;		//角度初期値最大
+					effectParam->RotationAddMinValue = readparam.RotationAddMinValue;	//角度初期加算値最小
+					effectParam->RotationAddMaxValue = readparam.RotationAddMaxValue;	//角度初期加算値最大
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
 					break;
@@ -198,7 +198,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.EndLifeTimePer = reader.readFloat();		//到達時間
 
 					ParticleElementRotationTrans *effectParam = new ParticleElementRotationTrans();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
 					effectParam->RotationFactor = readparam.RotationFactor;		//角度目標加算値
 					effectParam->EndLifeTimePer = readparam.EndLifeTimePer;		//到達時間
 
@@ -213,8 +212,8 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.SpeedMaxValue = reader.readFloat();			//速度目標値最大
 
 					ParticleElementTransSpeed *effectParam = new ParticleElementTransSpeed();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
-					effectParam->Speed.setMinMax(readparam.SpeedMinValue, readparam.SpeedMaxValue);			//速度目標値最小
+					effectParam->SpeedMinValue = readparam.SpeedMinValue;			//速度目標値最小
+					effectParam->SpeedMaxValue = readparam.SpeedMaxValue;			//速度目標値最大
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
 					break;
@@ -227,8 +226,8 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.AccelerationMaxValue = reader.readFloat();	//設定加速度最大
 
 					ParticleElementTangentialAcceleration *effectParam = new ParticleElementTangentialAcceleration();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
-					effectParam->Acceleration.setMinMax(readparam.AccelerationMinValue, readparam.AccelerationMaxValue);	//設定加速度最小
+					effectParam->AccelerationMinValue = readparam.AccelerationMinValue;	//設定加速度最小
+					effectParam->AccelerationMaxValue = readparam.AccelerationMaxValue;	//設定加速度最大
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
 					break;
@@ -241,7 +240,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.ColorMaxValue = reader.readU32();			//設定カラー最大
 
 					ParticleElementInitColor *effectParam = new ParticleElementInitColor();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
 
 					int a = (readparam.ColorMinValue & 0xFF000000) >> 24;
 					int r = (readparam.ColorMinValue & 0x00FF0000) >> 16;
@@ -253,7 +251,8 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					g = (readparam.ColorMaxValue & 0x0000FF00) >> 8;
 					b = (readparam.ColorMaxValue & 0x000000FF) >> 0;
 					SsU8Color maxcol(r, g, b, a);
-					effectParam->Color.setMinMax(mincol, maxcol);			//設定カラー最小
+					effectParam->ColorMinValue = mincol;			//設定カラー最小
+					effectParam->ColorMaxValue = maxcol;			//設定カラー最大
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
 					break;
@@ -266,7 +265,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.ColorMaxValue = reader.readU32();			//設定カラー最大
 
 					ParticleElementTransColor *effectParam = new ParticleElementTransColor();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
 
 					int a = (readparam.ColorMinValue & 0xFF000000) >> 24;
 					int r = (readparam.ColorMinValue & 0x00FF0000) >> 16;
@@ -278,7 +276,8 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					g = (readparam.ColorMaxValue & 0x0000FF00) >> 8;
 					b = (readparam.ColorMaxValue & 0x000000FF) >> 0;
 					SsU8Color maxcol(r, g, b, a);
-					effectParam->Color.setMinMax(mincol, maxcol);			//設定カラー最小
+					effectParam->ColorMinValue = mincol;			//設定カラー最小
+					effectParam->ColorMaxValue = maxcol;			//設定カラー最大
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
 					break;
@@ -291,8 +290,8 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.disprangeMaxValue = reader.readFloat();		//表示区間終了
 
 					ParticleElementAlphaFade *effectParam = new ParticleElementAlphaFade();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
-					effectParam->disprange.setMinMax(readparam.disprangeMinValue, readparam.disprangeMaxValue);		//表示区間開始
+					effectParam->disprangeMinValue = readparam.disprangeMinValue;		//表示区間開始
+					effectParam->disprangeMaxValue = readparam.disprangeMaxValue;		//表示区間終了
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
 					break;
@@ -309,10 +308,12 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.ScaleFactorMaxValue = reader.readFloat();		//倍率最大
 
 					ParticleElementSize *effectParam = new ParticleElementSize();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
-					effectParam->SizeX.setMinMax(readparam.SizeXMinValue, readparam.SizeXMaxValue);			//幅倍率最小
-					effectParam->SizeY.setMinMax(readparam.SizeYMinValue, readparam.SizeYMaxValue);			//高さ倍率最小
-					effectParam->ScaleFactor.setMinMax(readparam.ScaleFactorMinValue, readparam.ScaleFactorMaxValue);		//倍率最小
+					effectParam->SizeXMinValue = readparam.SizeXMinValue;			//幅倍率最小
+					effectParam->SizeXMaxValue = readparam.SizeXMaxValue;			//幅倍率最大
+					effectParam->SizeYMinValue = readparam.SizeYMinValue;			//高さ倍率最小
+					effectParam->SizeYMaxValue = readparam.SizeYMaxValue;			//高さ倍率最大
+					effectParam->ScaleFactorMinValue = readparam.ScaleFactorMinValue;		//倍率最小
+					effectParam->ScaleFactorMaxValue = readparam.ScaleFactorMaxValue;		//倍率最大
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
 					break;
@@ -329,10 +330,12 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.ScaleFactorMaxValue = reader.readFloat();		//倍率最大
 
 					ParticleElementTransSize *effectParam = new ParticleElementTransSize();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
-					effectParam->SizeX.setMinMax(readparam.SizeXMinValue, readparam.SizeXMaxValue);			//幅倍率最小
-					effectParam->SizeY.setMinMax(readparam.SizeYMinValue, readparam.SizeYMaxValue);			//高さ倍率最小
-					effectParam->ScaleFactor.setMinMax(readparam.ScaleFactorMinValue, readparam.ScaleFactorMaxValue);		//倍率最小
+					effectParam->SizeXMinValue = readparam.SizeXMinValue;			//幅倍率最小
+					effectParam->SizeXMaxValue = readparam.SizeXMaxValue;			//幅倍率最大
+					effectParam->SizeYMinValue = readparam.SizeYMinValue;			//高さ倍率最小
+					effectParam->SizeYMaxValue = readparam.SizeYMaxValue;			//高さ倍率最大
+					effectParam->ScaleFactorMinValue = readparam.ScaleFactorMinValue;		//倍率最小
+					effectParam->ScaleFactorMaxValue = readparam.ScaleFactorMaxValue;		//倍率最大
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
 					break;
@@ -346,7 +349,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.Power = reader.readFloat();					//パワー
 
 					ParticlePointGravity *effectParam = new ParticlePointGravity();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
 					effectParam->Position.x = readparam.Position_x;				//重力点X
 					effectParam->Position.y = readparam.Position_y;				//重力点Y
 					effectParam->Power = readparam.Power;					//パワー
@@ -362,7 +364,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 
 					ParticleTurnToDirectionEnabled *effectParam = new ParticleTurnToDirectionEnabled();
 					effectParam->Rotation = readparam.Rotation;
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
 					break;
@@ -373,7 +374,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 					readparam.flag = reader.readS32();					//フラグ
 
 					ParticleInfiniteEmitEnabled *effectParam = new ParticleInfiniteEmitEnabled();
-					//effectParam->setType((SsEffectFunctionType::enum_)type);				//コマンドの種類
 
 					behavior.plist.push_back(effectParam);												//パラメータを追加
 					break;

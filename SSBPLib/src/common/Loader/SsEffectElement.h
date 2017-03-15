@@ -36,46 +36,6 @@ namespace SsEffectFunctionType
 
 
 
-
-
-//範囲値クラス
-template<class mytype>
-class VarianceValue{
-private:
-	mytype 		value;
-	mytype 		subvalue;
-
-
-public:
-	VarianceValue( mytype v , mytype v2){
-		value = v;
-		subvalue = v2;
-	}
-
-
-	void	setMinMax(mytype min , mytype max)
-	{
-		value = min;
-		subvalue = max;
-	}
-
-	mytype	getValue(){ return value;}
-	mytype	getMinValue(){ return value;}
-	mytype	getMaxValue(){ return subvalue;}
-
-
-	VarianceValue& operator=(mytype v) {  value = v; return *this; }
-	operator mytype() { return value; }
-};
-
-
-typedef VarianceValue<float>   			f32VValue;
-typedef VarianceValue<int>    			i32VValue;
-typedef VarianceValue<SsU8Color>    	SsU8cVValue;
-
-
-
-
 class SsEffectRenderEmitter;
 class SsEffectRenderParticle;
 
@@ -111,8 +71,10 @@ class  ParticleElementBasic  : public SsEffectElementBase
 {
 public:
 	int			maximumParticle;
-	f32VValue	speed;
-	i32VValue 	lifespan;
+	float		speedMinValue;
+	float		speedMaxValue;
+	int 		lifespanMinValue;
+	int 		lifespanMaxValue;
 	float		angle;
 	float		angleVariance;
 	int			interval;
@@ -122,18 +84,19 @@ public:
 
 public:
 	ParticleElementBasic()
-			:	SsEffectElementBase(SsEffectFunctionType::Basic),
-				maximumParticle( 50 ),
-				speed( 5.0f , 5.0f),
-				lifespan( 30 ,30 ),
-				angle(0.0f),
-				angleVariance(45.0f),
-				interval(1),
-				lifetime(30),
-				attimeCreate(1),
-                priority(64)
+		: SsEffectElementBase(SsEffectFunctionType::Basic)
+		, maximumParticle( 50 )
+		, speedMinValue( 5.0f )
+		, speedMaxValue( 5.0f)
+		, lifespanMinValue( 30 )
+		, lifespanMaxValue( 30 )
+		, angle(0.0f)
+		, angleVariance(45.0f)
+		, interval(1)
+		, lifetime(30)
+		, attimeCreate(1)
+		, priority(64)
 	{
-		//setType( SsEffectFunctionType::Basic );
 	}
 
 	virtual ~ParticleElementBasic(){}
@@ -151,7 +114,6 @@ public:
 		: SsEffectElementBase(SsEffectFunctionType::RndSeedChange)
 		, Seed( 0 )
 	{
-		//setType( SsEffectFunctionType::RndSeedChange );
 	}
 	virtual ~ParticleElementRndSeedChange(){}
 };
@@ -167,7 +129,6 @@ public:
 		: SsEffectElementBase(SsEffectFunctionType::Delay)
 		, DelayTime( 0 )
 	{
-	//	setType( SsEffectFunctionType::Delay );
 	}
 	virtual ~ParticleElementDelay(){}
 };
@@ -186,7 +147,6 @@ public:
         : SsEffectElementBase(SsEffectFunctionType::Gravity)
 		, Gravity(	0	,	-3.0f	)
     {
-		//setType( SsEffectFunctionType::Gravity );
 	}
 	virtual ~ParticleElementGravity(){}
 };
@@ -196,15 +156,19 @@ public:
 class  ParticleElementPosition : public SsEffectElementBase
 {
 public:
-	f32VValue   OffsetX;
-	f32VValue   OffsetY;
+	float   OffsetXMinValue;
+	float   OffsetXMaxValue;
+	float   OffsetYMinValue;
+	float   OffsetYMaxValue;
 
 
 	ParticleElementPosition()
 		: SsEffectElementBase(SsEffectFunctionType::Position)
-		, OffsetX(0,0), OffsetY(0,0)
+		, OffsetXMinValue(0)
+		, OffsetXMaxValue(0)
+		, OffsetYMinValue(0)
+		, OffsetYMaxValue(0)
 	{
-		//setType( SsEffectFunctionType::Position );
 	}
 	virtual ~ParticleElementPosition(){}
 };
@@ -215,15 +179,18 @@ public:
 class  ParticleElementRotation : public SsEffectElementBase
 {
 public:
-	f32VValue   Rotation;
-	f32VValue   RotationAdd;
+	float RotationMinValue;
+	float RotationMaxValue;
+	float RotationAddMinValue;
+	float RotationAddMaxValue;
 
 	ParticleElementRotation()
 		: SsEffectElementBase(SsEffectFunctionType::Rotation)
-		, Rotation( 0 ,0 )
-		, RotationAdd(0,0)
+		, RotationMinValue(0)
+		, RotationMaxValue(0)
+		, RotationAddMinValue(0)
+		, RotationAddMaxValue(0)
 	{
-		//setType( SsEffectFunctionType::Rotation );
 	}
 	virtual ~ParticleElementRotation(){}
 };
@@ -241,7 +208,6 @@ public:
 		, RotationFactor( 0 )
 		, EndLifeTimePer( 75 )
 	{
-		//setType( SsEffectFunctionType::TransRotation );
 	}
 	virtual ~ParticleElementRotationTrans(){}
 };
@@ -250,13 +216,14 @@ public:
 class  ParticleElementTransSpeed : public SsEffectElementBase
 {
 public:
-	f32VValue	Speed;
+	float SpeedMinValue;
+	float SpeedMaxValue;
 
 	ParticleElementTransSpeed()
         : SsEffectElementBase(SsEffectFunctionType::TransSpeed)
-		, Speed( 0,0 )
+		, SpeedMinValue(0)
+		, SpeedMaxValue(0)
 	{
-		//setType( SsEffectFunctionType::TransSpeed );
 	}
 	virtual ~ParticleElementTransSpeed(){}
 };
@@ -267,13 +234,14 @@ public:
 class  ParticleElementTangentialAcceleration : public SsEffectElementBase
 {
 public:
-	f32VValue	Acceleration;
+	float AccelerationMinValue;
+	float AccelerationMaxValue;
 
 	ParticleElementTangentialAcceleration()
 		: SsEffectElementBase(SsEffectFunctionType::TangentialAcceleration)
-		, Acceleration( 0, 0 )
+		, AccelerationMinValue(0)
+		, AccelerationMaxValue(0)
 	{
-		//setType( SsEffectFunctionType::TangentialAcceleration );
 	}
 	virtual ~ParticleElementTangentialAcceleration(){}
 };
@@ -284,13 +252,14 @@ public:
 class  ParticleElementInitColor : public SsEffectElementBase
 {
 public:
-	SsU8cVValue Color;
+	SsU8Color ColorMinValue;
+	SsU8Color ColorMaxValue;
 
 	ParticleElementInitColor()
 		: SsEffectElementBase(SsEffectFunctionType::InitColor)
-		, Color( SsU8Color(255,255,255,255) , SsU8Color(255,255,255,255) )
+		, ColorMinValue(255, 255, 255, 255)
+		, ColorMaxValue(255, 255, 255, 255)
 	{
-		//setType( SsEffectFunctionType::InitColor );
 	}
 	virtual ~ParticleElementInitColor(){}
 };
@@ -300,13 +269,14 @@ public:
 class  ParticleElementTransColor : public SsEffectElementBase
 {
 public:
-	SsU8cVValue Color;
+	SsU8Color ColorMinValue;
+	SsU8Color ColorMaxValue;
 
 	ParticleElementTransColor()
 		: SsEffectElementBase(SsEffectFunctionType::TransColor)
-		, Color( SsU8Color(255,255,255,255) , SsU8Color(255,255,255,255) )
+		, ColorMinValue(255, 255, 255, 255)
+		, ColorMaxValue(255, 255, 255, 255)
 	{
-		//setType( SsEffectFunctionType::TransColor );
 	}
 	virtual ~ParticleElementTransColor(){}
 };
@@ -317,14 +287,15 @@ public:
 class  ParticleElementAlphaFade : public SsEffectElementBase
 {
 public:
-	f32VValue  disprange;
+	float disprangeMinValue;
+	float disprangeMaxValue;
 
 
 	ParticleElementAlphaFade()
 		: SsEffectElementBase(SsEffectFunctionType::AlphaFade)
-		, disprange(25,75)
+		, disprangeMinValue(25)
+		, disprangeMaxValue(75)
 	{
-		//setType( SsEffectFunctionType::AlphaFade );
 	}
 	virtual ~ParticleElementAlphaFade(){}
 };
@@ -334,17 +305,23 @@ public:
 class  ParticleElementSize : public SsEffectElementBase
 {
 public:
-	f32VValue SizeX;
-	f32VValue SizeY;
-	f32VValue ScaleFactor;
+	float SizeXMinValue;
+	float SizeXMaxValue;
+	float SizeYMinValue;
+	float SizeYMaxValue;
+	float ScaleFactorMinValue;
+	float ScaleFactorMaxValue;
+
 
 	ParticleElementSize()
 		: SsEffectElementBase(SsEffectFunctionType::Size)
-		, SizeX( 1.0f , 1.0f )
-		, SizeY( 1.0f , 1.0f )
-		, ScaleFactor( 1.0f , 1.0f )
+		, SizeXMinValue(1.0f)
+		, SizeXMaxValue(1.0f)
+		, SizeYMinValue(1.0f)
+		, SizeYMaxValue(1.0f)
+		, ScaleFactorMinValue(1.0f)
+		, ScaleFactorMaxValue(1.0f)
 	{
-		//setType( SsEffectFunctionType::Size );
 	}
 	virtual ~ParticleElementSize(){}
 
@@ -356,18 +333,23 @@ public:
 class  ParticleElementTransSize : public SsEffectElementBase
 {
 public:
-	f32VValue SizeX;
-	f32VValue SizeY;
-	f32VValue ScaleFactor;
+	float SizeXMinValue;
+	float SizeXMaxValue;
+	float SizeYMinValue;
+	float SizeYMaxValue;
+	float ScaleFactorMinValue;
+	float ScaleFactorMaxValue;
 
 
 	ParticleElementTransSize()
 		: SsEffectElementBase(SsEffectFunctionType::TransSize)
-		, SizeX( 1.0f , 1.0f )
-		, SizeY( 1.0f , 1.0f )
-		, ScaleFactor( 1.0f , 1.0f )
+		, SizeXMinValue(1.0f)
+		, SizeXMaxValue(1.0f)
+		, SizeYMinValue(1.0f)
+		, SizeYMaxValue(1.0f)
+		, ScaleFactorMinValue(1.0f)
+		, ScaleFactorMaxValue(1.0f)
 	{
-		//setType( SsEffectFunctionType::TransSize );
 	}
 	virtual ~ParticleElementTransSize(){}
 };
