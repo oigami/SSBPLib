@@ -384,7 +384,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 			}
 
 			SsEffectNode *node = new SsEffectNode(
-				//effectNode->arrayIndex,
 				effectNode->parentIndex,
 				(SsEffectNodeType::_enum)effectNode->type,
 				behavior
@@ -444,8 +443,8 @@ void EffectCache::releseReference(void)
 			if(effectmodel->nodeList.size() > 0)
 			{
 				SsEffectNode* node = effectmodel->nodeList.at(0);
-				delete node;
-				effectmodel->nodeList.clear();
+				delete node;						//1コだけdeleteしてるがsimpletreeなので全要素のdeleteが走る
+				effectmodel->nodeList.clear();		// --> 全要素delete済みなのでここでclearする	//todo:設計としてありえんので直す
 			}
 			effectmodel->root = 0;
 
