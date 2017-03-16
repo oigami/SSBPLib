@@ -853,8 +853,6 @@ void    SsEffectRenderV2::reload()
 	stop();
 	clearEmitterList();
 
-	SsEffectNode* root = this->effectData->GetRoot();
-
 	//this->effectData->updateNodeList();//ツールじゃないので要らない
 	const std::vector<SsEffectNode*>& list = this->effectData->getNodeList();
 

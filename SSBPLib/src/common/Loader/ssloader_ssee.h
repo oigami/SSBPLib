@@ -32,12 +32,8 @@ public:
 };
 
 
-class SsEffectModel
-{
-private:
-
+class SsEffectModel{
 public:
-	SsEffectNode* root;
 	std::vector<SsEffectNode*> nodeList;
 	int			lockRandSeed; 	 // ランダムシード固定値
 	bool    	isLockRandSeed;  // ランダムシードを固定するか否か
@@ -47,19 +43,9 @@ public:
 	int			layoutScaleY;
 
 public:
-	SsEffectModel() : root(0)
-	{}
+	SsEffectModel(){}
 
-	virtual ~SsEffectModel(){
-		if (root)
-		{
-			delete root;
-		}
-		root = 0;
-	}
-
-	//アクセス
-	SsEffectNode* GetRoot(){ return root; }
+	virtual ~SsEffectModel(){}
 
 	const std::vector<SsEffectNode*>& getNodeList()
 	{

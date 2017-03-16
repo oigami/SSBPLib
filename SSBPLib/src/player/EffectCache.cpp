@@ -393,11 +393,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 			{
 			}
 		}
-		//ツリーの構築
-		if(effectmodel->nodeList.size() > 0)
-		{
-			effectmodel->root = effectmodel->nodeList[0];	//rootノードを追加
-		}
 		effectmodel->lockRandSeed = effectFile->lockRandSeed; 	 // ランダムシード固定値
 		effectmodel->isLockRandSeed = effectFile->isLockRandSeed;  // ランダムシードを固定するか否か
 		effectmodel->fps = effectFile->fps;             //
@@ -437,8 +432,6 @@ void EffectCache::releseReference(void)
 				delete node;
 			}
 			effectmodel->nodeList.clear();
-			effectmodel->root = 0;
-
 		}
 		delete effectmodel;
 		it++;
