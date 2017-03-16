@@ -397,14 +397,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 		if(effectmodel->nodeList.size() > 0)
 		{
 			effectmodel->root = effectmodel->nodeList[0];	//rootノードを追加
-			for(size_t i = 1; i < effectmodel->nodeList.size(); i++)
-			{
-				int pi = effectmodel->nodeList[i]->getParentIndex();
-				if(pi >= 0)
-				{
-					effectmodel->nodeList[pi]->addChildEnd(effectmodel->nodeList[i]);
-				}
-			}
 		}
 		effectmodel->lockRandSeed = effectFile->lockRandSeed; 	 // ランダムシード固定値
 		effectmodel->isLockRandSeed = effectFile->isLockRandSeed;  // ランダムシードを固定するか否か
@@ -440,12 +432,11 @@ void EffectCache::releseReference(void)
 				}
 				node->GetMyBehavior()->plist.clear();
 			}
-			if(effectmodel->nodeList.size() > 0)
-			{
-				SsEffectNode* node = effectmodel->nodeList.at(0);
-				delete node;						//1コだけdeleteしてるがsimpletreeなので全要素のdeleteが走る
-				effectmodel->nodeList.clear();		// --> 全要素delete済みなのでここでclearする	//todo:設計としてありえんので直す
+			
+			for(SsEffectNode* node : effectmodel->nodeList){
+				delete node;
 			}
+			effectmodel->nodeList.clear();
 			effectmodel->root = 0;
 
 		}
