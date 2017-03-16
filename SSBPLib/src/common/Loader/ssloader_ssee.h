@@ -23,7 +23,13 @@ public:
 		, m_type(type)
 		, m_behavior(behavior)
 	{}
-	~SsEffectNode(){}
+	~SsEffectNode(){
+		//ひとまずEffectCacheでのdeleteをこちらに移動。deleteはSsEffectBehaviorがやるべきなので後で修正する
+		for(SsEffectElementBase* eb : GetMyBehavior()->plist){
+			delete eb;
+		}
+		GetMyBehavior()->plist.clear();
+	}
 
 	int getParentIndex() const{ return m_parentIndex; }
 	SsEffectNodeType::_enum	GetType() const{ return m_type; }
@@ -45,7 +51,12 @@ public:
 public:
 	SsEffectModel(){}
 
-	virtual ~SsEffectModel(){}
+	virtual ~SsEffectModel(){
+		for(SsEffectNode* node : nodeList){
+			delete node;
+		}
+		nodeList.clear();
+	}
 
 	const std::vector<SsEffectNode*>& getNodeList()
 	{
