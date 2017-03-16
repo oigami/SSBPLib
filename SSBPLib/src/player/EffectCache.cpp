@@ -417,12 +417,8 @@ void EffectCache::releseReference(void)
 
 		if(effectmodel)
 		{
-			for(int nodeindex = 0; nodeindex < effectmodel->nodeList.size(); nodeindex++)
-			{
-				SsEffectNode* node = effectmodel->nodeList.at(nodeindex);
-				for(int behaviorindex = 0; behaviorindex < node->GetMyBehavior()->plist.size(); behaviorindex++)
-				{
-					SsEffectElementBase* eb = node->GetMyBehavior()->plist.at(behaviorindex);
+			for(SsEffectNode* node : effectmodel->nodeList){
+				for(SsEffectElementBase* eb : node->GetMyBehavior()->plist){
 					delete eb;
 				}
 				node->GetMyBehavior()->plist.clear();
