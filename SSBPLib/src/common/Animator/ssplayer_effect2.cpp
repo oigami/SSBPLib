@@ -692,12 +692,10 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 			SsFColor fcolor;
 			fcolor.fromARGB(lp.color.toARGB());
 
-			drawSprite( &e->dispCell ,
-						Vector2(lp.x,lp.y),
-						lp.scale,
-						lp.rot , lp.direc , fcolor , e->refData->blendType ,textures);
-
-
+			drawSprite(
+				&e->dispCell, Vector2(lp.x,lp.y), lp.scale,
+				lp.rot , lp.direc , fcolor , e->refData->getBlendType(), textures
+			);
 		}
 
 	}
@@ -714,9 +712,9 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
 
 	e->refData = node->GetMyBehavior();
 
-	e->dispCell.refCell = e->refData->refCell;
-	e->dispCell.blendType = e->refData->blendType;
-	e->dispCell.cellIndex = e->refData->CellIndex;
+	e->dispCell.refCell = e->refData->getCellRef();
+	e->dispCell.blendType = e->refData->getBlendType();
+	e->dispCell.cellIndex = e->refData->getCellIndex();
 
 	SsEffectFunctionExecuter::initializeEffect( e->refData , e );
 

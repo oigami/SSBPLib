@@ -63,14 +63,13 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 		{
 			const EffectNode* effectNode = &effectNodeArray[nodeindex];		//エフェクトノード配列からエフェクトノードを取得
 
-			SsEffectBehavior behavior;
 			//セル情報を作成
-			behavior.CellIndex = effectNode->cellIndex;
-			const CellRef* cellRef = behavior.CellIndex >= 0 ? cellCache->getReference(behavior.CellIndex) : NULL;
-			if(cellRef){
-				behavior.refCell = cellRef;
-			}
-			behavior.blendType = (SsRenderBlendType::_enum)effectNode->blendType;
+			int cellIndex = effectNode->cellIndex;
+			const CellRef* cellRef = cellIndex >= 0 ? cellCache->getReference(cellIndex) : nullptr;
+			SsRenderBlendType::_enum blendType = static_cast<SsRenderBlendType::_enum>(effectNode->blendType);
+
+			SsEffectBehavior behavior(cellIndex, cellRef, blendType);
+			
 
 			//エフェクトノードからビヘイビア配列を取得
 			const ss_offset* behaviorArray = static_cast<const ss_offset*>(ptr(effectNode->Behavior));
