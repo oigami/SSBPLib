@@ -7,23 +7,6 @@
 namespace ss
 {
 
-float frand(unsigned v) {
-	unsigned res = (v >> 9) | 0x3f800000;
-	return (*(float*)&res) - 1.0f;
-}
-
-
-static u8 blendNumber(u8 a, u8 b, float rate)
-{
-	return (a + (b - a) * rate);
-}
-
-
-static float blendFloat(float a, float b, float rate)
-{
-	return   (a + (b - a) * rate);
-}
-
 
 class EffectFuncBase
 {
@@ -33,7 +16,6 @@ public:
 
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* emmiter) {}
 };
-
 
 
 

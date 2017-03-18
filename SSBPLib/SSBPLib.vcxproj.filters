@@ -106,9 +106,6 @@
     <ClInclude Include="src\common\Loader\sstypes.h">
       <Filter>ソース ファイル\common\Loader</Filter>
     </ClInclude>
-    <ClInclude Include="src\common\Animator\MersenneTwister.h">
-      <Filter>ソース ファイル\common\Animator</Filter>
-    </ClInclude>
     <ClInclude Include="src\common\Animator\ssplayer_effect2.h">
       <Filter>ソース ファイル\common\Animator</Filter>
     </ClInclude>
