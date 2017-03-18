@@ -293,8 +293,6 @@ public:
 
 	int			_drawSpritecount; 
 
-public:
-
 
 protected:
 	void 	particleDraw(SsEffectEmitter* e , double t , SsEffectEmitter* parent , particleDrawData* plp, const std::vector<TextuerData>& textures);
@@ -343,9 +341,6 @@ public:
 
 	virtual int	getCurrentFPS();
 
-	bool	getPlayStatus(void){
-		return(m_isPlay);
-	}
 
 	void	drawSprite(
 			int cellIndex, const CellRef* refCell, SsRenderBlendType::_enum blendType,
