@@ -134,8 +134,6 @@ public:
 		p->_endcolor = p->_startcolor;
 
 
-//		p->_backposition = p->_position;
-
 		p->_lifetime = VarianceCalc(e, source->lifespanMinValue, source->lifespanMaxValue);
 		p->_life = source->lifetime;
 		float temp_angle = VarianceCalcFin(e, source->angle + eAngle, source->angleVariance / 2.0f);

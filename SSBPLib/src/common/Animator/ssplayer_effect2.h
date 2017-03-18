@@ -178,9 +178,6 @@ struct particleParameter
 class SsEffectEmitter
 {
 public:
-	SsCellValue		 dispCell;
-
-
 	int					priority;
 
 	emitterParameter  	emitter;
@@ -365,7 +362,7 @@ public:
 	}
 
 	void	drawSprite(
-			SsCellValue*		dispCell,
+			int cellIndex, const CellRef* refCell, SsRenderBlendType::_enum blendType,
 			Vector2	_position,
 			Vector2 _size,
 			float     _rotation,

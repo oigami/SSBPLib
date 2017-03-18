@@ -504,7 +504,7 @@ const particleExistSt*	SsEffectEmitter::getParticleDataFromID(int id)
 
 
 void	SsEffectRenderV2::drawSprite(
-		SsCellValue*		dispCell,
+		int cellIndex, const CellRef* refCell, SsRenderBlendType::_enum blendType,
 		Vector2 _position,
 		Vector2 _size,
 		float     _rotation,
@@ -514,7 +514,7 @@ void	SsEffectRenderV2::drawSprite(
 	)
 {
 
-	if (dispCell->cellIndex == -1) return;
+	if (cellIndex == -1) return;
 
 	//todo:matrix演算簡単にする
 	Matrix matrix;	//float		matrix[4 * 4];	///< 行列
@@ -550,10 +550,10 @@ void	SsEffectRenderV2::drawSprite(
 	State state;
 	state = _parentSprite->_state;		//親パーツの情報をコピー
 	state.mat = matrix;					//マトリクスのコピー
-	state.cellIndex = dispCell->cellIndex;
-	//state.texture = dispCell->refCell.texture;	//テクスチャID	
-	state.texture = textures[dispCell->refCell->m_cellMapIndex];
-	state.rect = dispCell->refCell->m_rect;		//セルの矩形をコピー	
+	state.cellIndex = cellIndex;
+	//state.texture = refCell.texture;	//テクスチャID	
+	state.texture = textures[refCell->m_cellMapIndex];
+	state.rect = refCell->m_rect;		//セルの矩形をコピー	
 	float width_h = state.rect.width() / 2;
 	float height_h = state.rect.height() / 2;
 	float x1 = -width_h;
@@ -585,7 +585,7 @@ void	SsEffectRenderV2::drawSprite(
 	state.quad.br.texCoords = SSTex2F(right, bottom);
 
 	//ブレンドタイプを設定
-	if (dispCell->blendType == SsRenderBlendType::Mix)
+	if (blendType == SsRenderBlendType::Mix)
 	{
 		state.blendfunc = BLEND_MIX;	//ブレンドタイプを設定
 	}
@@ -617,8 +617,8 @@ void	SsEffectRenderV2::drawSprite(
 
 	//原点計算を行う
 	Vector2 cxy(
-		((state.rect.width() * state.scaleX) * -(dispCell->refCell->m_cell->pivot_X)),
-		((state.rect.height() * state.scaleY) * +(dispCell->refCell->m_cell->pivot_Y))
+		((state.rect.width() * state.scaleX) * -(refCell->m_cell->pivot_X)),
+		((state.rect.height() * state.scaleY) * +(refCell->m_cell->pivot_Y))
 	);
 	cxy.rotate(SSDegToRad(state.rotationZ));
 
@@ -692,8 +692,8 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 			fcolor.fromARGB(lp.color.toARGB());
 
 			drawSprite(
-				&e->dispCell, Vector2(lp.x,lp.y), lp.scale,
-				lp.rot , lp.direc , fcolor , textures
+				e->refData->getCellIndex(), e->refData->getCellRef(), e->refData->getBlendType(),
+				Vector2(lp.x,lp.y), lp.scale, lp.rot , lp.direc , fcolor , textures
 			);
 		}
 
@@ -710,11 +710,6 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
 {
 
 	e->refData = node->GetMyBehavior();
-
-	e->dispCell.refCell = e->refData->getCellRef();
-	e->dispCell.blendType = e->refData->getBlendType();
-	e->dispCell.cellIndex = e->refData->getCellIndex();
-
 	SsEffectFunctionExecuter::initializeEffect( e->refData , e );
 
 	e->emitterSeed = this->mySeed;
