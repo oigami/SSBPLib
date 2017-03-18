@@ -710,7 +710,9 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
 {
 
 	e->refData = node->GetMyBehavior();
-	SsEffectFunctionExecuter::initializeEffect( e->refData , e );
+	for(SsEffectElementBase* element : e->refData->plist){
+		element->initalizeEffect(e);
+	}
 
 	e->emitterSeed = this->mySeed;
 

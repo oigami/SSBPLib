@@ -8,7 +8,7 @@ namespace ss
 
 class SsEffectEmitter;
 class SsEffectBehavior;
-
+#if 0
 class	SsEffectFunctionExecuter
 {
 public:
@@ -16,7 +16,7 @@ public:
 	//新バージョン
 	static void	initializeEffect(SsEffectBehavior* beh, SsEffectEmitter* emmiter);
 };
-
+#endif
 
 };
 
