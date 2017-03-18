@@ -202,12 +202,11 @@ public:
 class  SsEffectRenderParticle : public SsEffectRenderAtom
 {
 public:
-	float   				size;
+
 	SsEffectRenderEmitter*  parentEmitter;
     SsEffectBehavior*		refBehavior;
 
 	Vector2   _baseEmiterPosition;   //もしかしてもう使ってないかも
-	Vector2   _backposition;         //force計算前のポジション
 	Vector2   _position;             //描画用ポジション
 
 	float		_rotation;
@@ -231,7 +230,6 @@ public:
 
 	Vector2   _force;
 	Vector2   _gravity;
-//	Vector2   _orggravity;
 
 	float 		_radialAccel;
 	float 		_tangentialAccel;
@@ -251,7 +249,6 @@ public:
 
 		_position = Vector2(0,0);
 		_baseEmiterPosition = Vector2(0,0);
-		_backposition = Vector2(0,0);
 		_rotation = 0;
 		_size = Vector2( 1.0f , 1.0f );
 		_startsize = Vector2( 1.0f , 1.0f );

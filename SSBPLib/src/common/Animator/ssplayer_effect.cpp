@@ -226,9 +226,6 @@ void	SsEffectRenderParticle::updateDelta(float delta)
 //------------------------------------------------------------------------------
 void 	SsEffectRenderParticle::updateForce(float delta)
 {
-
-	this->_backposition = this->_position;
-
 	this->_force = _gravity;
 	Vector2 ff = (this->vector * this->speed) + this->_execforce + this->_force;
 
