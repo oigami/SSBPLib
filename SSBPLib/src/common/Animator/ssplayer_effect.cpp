@@ -129,7 +129,6 @@ void	SsEffectRenderParticle::Initialize()
 
 		parentEmitter = static_cast<SsEffectRenderEmitter*>(this->parent);
 
-		dispCell = &parentEmitter->dispCell;
 		if ( parentEmitter->data == 0 )
 		{
 			this->_life = 0.0f;

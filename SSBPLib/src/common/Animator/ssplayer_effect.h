@@ -126,7 +126,6 @@ class  SsEffectRenderEmitter : public SsEffectRenderAtom
 {
 public:
 	unsigned int myseed;
-	SsCellValue				dispCell;
 	//エミッターパラメータ
 
 	CMersenneTwister*	     MT;
@@ -203,8 +202,6 @@ public:
 class  SsEffectRenderParticle : public SsEffectRenderAtom
 {
 public:
-	SsCellValue*			dispCell;
-
 	float   				size;
 	SsEffectRenderEmitter*  parentEmitter;
     SsEffectBehavior*		refBehavior;
@@ -268,7 +265,6 @@ public:
         _exsitTime = 0;
 		_execforce = Vector2(0,0);
 		parentEmitter = 0;
-		dispCell = 0;
 	}
 
 
