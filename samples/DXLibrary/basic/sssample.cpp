@@ -66,14 +66,14 @@ SimpleSS5EventListener g_eventListener;
 //ファイル読み込みして中身を返します
 std::vector<char> readfile(const std::string& filename)
 {
-	ifstream ifs(filename, ios::in | ios::binary);
+	std::ifstream ifs(filename, std::ios::in | std::ios::binary);
 	assert(ifs);
 
-	ifs.seekg(0, fstream::end);
+	ifs.seekg(0, std::fstream::end);
 	size_t filesize = ifs.tellg();
-	ifs.seekg(0, fstream::beg);
+	ifs.seekg(0, std::fstream::beg);
 
-	vector<char> buf(filesize, 0);
+	std::vector<char> buf(filesize, 0);
 	ifs.read(buf.data(), filesize);
 	return buf;
 }
@@ -145,7 +145,7 @@ void init( void )
 	
 
 	//ssbpファイルの読み込み
-	vector<char> buf = readfile("Resources/character_template_comipo/character_template1.ssbp");
+	std::vector<char> buf = readfile("Resources/character_template_comipo/character_template1.ssbp");
 
 	//アニメデータをリソースに追加
 	resman->regist(
