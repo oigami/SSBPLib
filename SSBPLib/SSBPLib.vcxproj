@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="src\common\Animator\ssplayer_effect2.cpp" />
     <ClCompile Include="src\common\Animator\ssplayer_effectfunction.cpp" />
+    <ClCompile Include="src\common\Loader\SsEffectElement.cpp" />
     <ClCompile Include="src\math\Matrix.cpp" />
     <ClCompile Include="src\math\Vector2.cpp" />
     <ClCompile Include="src\math\Vector3.cpp" />

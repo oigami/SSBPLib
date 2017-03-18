@@ -4,8 +4,10 @@
 
 #include "sstypes.h"
 
-namespace ss
-{
+namespace ss{
+class SsEffectEmitter;
+
+
 
 //命令種別
 namespace SsEffectFunctionType
@@ -51,16 +53,8 @@ public:
 	virtual ~SsEffectElementBase(){}
 
 	SsEffectFunctionType::enum_ getFunctionType() const{ return myType; }
-//	void	setType(SsEffectFunctionType::enum_ type){ myType = type; } 
 
-#if 0
-	//各部で実装する
-	virtual void InitializeEmmiter( SsEffectRenderEmitter* emmiter ) {}
-	virtual void UpdateEmmiter( SsEffectRenderEmitter* emmiter ){}
-	virtual void UpdateEndEmmiter( SsEffectRenderEmitter* emmiter ){}
-	virtual void InitializeParticle( SsEffectRenderEmitter* e , SsEffectRenderParticle* particle ){}
-	virtual void UpdateParticle( SsEffectRenderParticle* particle ){}
-#endif
+	virtual void initalizeEffect(SsEffectEmitter* e) = 0;
 };
 
 
@@ -100,6 +94,8 @@ public:
 	}
 
 	virtual ~ParticleElementBasic(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 
@@ -116,6 +112,8 @@ public:
 	{
 	}
 	virtual ~ParticleElementRndSeedChange(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 //--------------------------------------------------------------------------------------
@@ -131,6 +129,8 @@ public:
 	{
 	}
 	virtual ~ParticleElementDelay(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 
@@ -149,6 +149,8 @@ public:
     {
 	}
 	virtual ~ParticleElementGravity(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 //--------------------------------------------------------------------------------------
@@ -171,6 +173,8 @@ public:
 	{
 	}
 	virtual ~ParticleElementPosition(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 
@@ -193,6 +197,8 @@ public:
 	{
 	}
 	virtual ~ParticleElementRotation(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 //--------------------------------------------------------------------------------------
@@ -210,6 +216,8 @@ public:
 	{
 	}
 	virtual ~ParticleElementRotationTrans(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 //--------------------------------------------------------------------------------------
@@ -226,6 +234,8 @@ public:
 	{
 	}
 	virtual ~ParticleElementTransSpeed(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 
@@ -244,6 +254,8 @@ public:
 	{
 	}
 	virtual ~ParticleElementTangentialAcceleration(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 
@@ -262,6 +274,8 @@ public:
 	{
 	}
 	virtual ~ParticleElementInitColor(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 //--------------------------------------------------------------------------------------
@@ -279,6 +293,8 @@ public:
 	{
 	}
 	virtual ~ParticleElementTransColor(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 
@@ -298,6 +314,8 @@ public:
 	{
 	}
 	virtual ~ParticleElementAlphaFade(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 //--------------------------------------------------------------------------------------
@@ -325,6 +343,7 @@ public:
 	}
 	virtual ~ParticleElementSize(){}
 
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 
@@ -352,6 +371,8 @@ public:
 	{
 	}
 	virtual ~ParticleElementTransSize(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 //--------------------------------------------------------------------------------------
@@ -369,10 +390,10 @@ public:
 		: SsEffectElementBase(SsEffectFunctionType::PointGravity)
 		, Position( 0 , 0 ) ,Power(0.0f)
 	{
-		//setType(SsEffectFunctionType::PointGravity);
 	}
 	virtual ~ParticlePointGravity(){}
 
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 
@@ -388,9 +409,10 @@ public:
 		: SsEffectElementBase(SsEffectFunctionType::TurnToDirectionEnabled)
 		, Rotation(0.0f)
 	{
-		//setType( SsEffectFunctionType::TurnToDirectionEnabled );
 	}
 	virtual ~ParticleTurnToDirectionEnabled(){}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 
@@ -402,9 +424,10 @@ public:
 	ParticleInfiniteEmitEnabled()
 		: SsEffectElementBase(SsEffectFunctionType::InfiniteEmitEnabled)
 	{
-		//setType(SsEffectFunctionType::InfiniteEmitEnabled);
 	}
 	virtual ~ParticleInfiniteEmitEnabled() {}
+
+	void initalizeEffect(SsEffectEmitter* e) override;
 };
 
 };
