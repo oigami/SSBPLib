@@ -196,7 +196,7 @@ public:
 	int							particleIdMax;
 
 	size_t						particleListBufferSize;
-    unsigned long*              seedList;
+    std::vector<unsigned long>  seedList;
 
 
 	Vector2   				position;
@@ -227,8 +227,6 @@ public:
 	virtual ~SsEffectEmitter()
 	{
 		delete[] particleExistList;
-		delete[] seedList;
-
 	}
 
 	void	setSeedOffset(int offset) {

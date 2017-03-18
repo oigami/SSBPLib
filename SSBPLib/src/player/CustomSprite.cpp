@@ -1,5 +1,6 @@
 ﻿#include "CustomSprite.h"
 #include "Util.h"
+#include "common/Animator/ssplayer_effect2.h"
 
 namespace ss{
 

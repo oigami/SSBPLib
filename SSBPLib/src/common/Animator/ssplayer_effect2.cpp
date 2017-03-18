@@ -399,17 +399,12 @@ void	SsEffectEmitter::precalculate2()
 		_emitpattern.push_back(e);
 	}
 
-	if (seedList != NULL)
-	{
-		delete[] seedList;
-	}
-
 	particleListBufferSize = emitter.emitmax;
 
 	rand.init_genrand((emitterSeed));
 
 	seedTableLen = particleListBufferSize * 3;
-	seedList = new unsigned long[seedTableLen];
+	seedList.resize(seedTableLen);
 
 	//各パーティクルＩＤから参照するシード値をテーブルとして作成する
 	for (size_t i = 0; i < seedTableLen; i++)
