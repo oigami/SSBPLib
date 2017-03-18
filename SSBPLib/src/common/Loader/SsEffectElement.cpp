@@ -1,5 +1,6 @@
 ﻿#include "SsEffectElement.h"
 #include "common/Animator/ssplayer_effect2.h"
+#include "common/Animator/ssplayer_effectfunction.h"	//for SsEffectFunctionExecuter::initializeEffect
 
 namespace ss
 {
@@ -285,7 +286,7 @@ void ParticleInfiniteEmitEnabled::initalizeEffect(SsEffectEmitter* e)
 
 
 
-#if 0
+#if 1
 void	SsEffectFunctionExecuter::initializeEffect(SsEffectBehavior* beh, SsEffectEmitter* emmiter)
 {
 	for(SsEffectElementBase* e : beh->plist)

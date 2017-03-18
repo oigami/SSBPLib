@@ -1,4 +1,5 @@
-﻿#include <stdio.h>
+﻿#if 0
+#include <stdio.h>
 #include <cstdlib>
 
 #include "ssplayer_effect2.h"
@@ -494,7 +495,7 @@ void	SsEffectFunctionExecuter::initializeEffect(SsEffectBehavior* beh, SsEffectE
 
 };
 
-
+#endif
 
 
 
