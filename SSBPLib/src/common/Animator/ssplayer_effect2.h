@@ -14,7 +14,6 @@ namespace ss
 class SsEffectModel;
 class SsRenderEffectBase;
 class SsEffectNode;
-class SsEffectRenderAtom;
 class CustomSprite;
 
 

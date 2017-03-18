@@ -12,13 +12,12 @@ class SsEffectEmitter;
 class	SsEffectFunctionExecuter
 {
 public:
-	SsEffectFunctionExecuter(){}
-	virtual ~SsEffectFunctionExecuter(){}
-
+#if 0
 	static void	initalize( SsEffectBehavior* beh , SsEffectRenderEmitter* emmiter);
 	static void	updateEmmiter( SsEffectBehavior* beh , SsEffectRenderEmitter* emmiter);
 	static void	initializeParticle( SsEffectBehavior* beh , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
 	static void	updateParticle( SsEffectBehavior* beh , SsEffectRenderEmitter* e , SsEffectRenderParticle* particle );
+#endif
 	//新バージョン
 	static void	initializeEffect(SsEffectBehavior* beh, SsEffectEmitter* emmiter);
 };

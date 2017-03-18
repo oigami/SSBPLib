@@ -12,7 +12,7 @@ namespace ss
 class SsEffectNode;
 class SsEffectBehavior;
 
-
+#if 0
 
 //--------------------------------------------------------------------------
 //
@@ -287,7 +287,7 @@ public:
 	virtual void	updateDelta(float delta);
 	virtual void 	updateForce(float delta);
 };
-
+#endif
 
 
 };

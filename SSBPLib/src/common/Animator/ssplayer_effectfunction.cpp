@@ -7,7 +7,7 @@
 
 namespace ss
 {
-
+#if 0
 
 //二つの値の範囲から値をランダムで得る
 static u8 GetRandamNumberRange(SsEffectRenderEmitter* e, u8 a, u8 b)
@@ -32,6 +32,7 @@ static void VarianceCalcColor(SsEffectRenderEmitter* e, SsU8Color& out, SsU8Colo
 	out.a = GetRandamNumberRange(e, color1.a, color2.a);
 
 }
+#endif
 
 
 
@@ -39,7 +40,7 @@ float frand(unsigned v) {
 	unsigned res = (v >> 9) | 0x3f800000;
 	return (*(float*)&res) - 1.0f;
 }
-
+#if 0
 static float VarianceCalc(SsEffectRenderEmitter* e, float base, float variance)
 {
 
@@ -59,7 +60,7 @@ static float VarianceCalcFin(SsEffectRenderEmitter* e, float base, float varianc
 	return base + (-variance + variance* (frand(r) * 2.0f));
 
 }
-
+#endif
 
 static u8 blendNumber(u8 a, u8 b, float rate)
 {
@@ -78,11 +79,12 @@ class EffectFuncBase
 public:
 	EffectFuncBase(){}
 	virtual ~EffectFuncBase(){}
-
+#if 0
 	virtual void	initalizeEmmiter(SsEffectElementBase* ele, SsEffectRenderEmitter* emmiter){}
 	virtual void	updateEmmiter(SsEffectElementBase* ele, SsEffectRenderEmitter* emmiter){}
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* particle){}
 	virtual void	updateParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* particle){}
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* emmiter) {}
 };
 
@@ -97,7 +99,7 @@ class FuncParticleElementBasic : public EffectFuncBase
 public:
 	FuncParticleElementBasic(){}
 	virtual ~FuncParticleElementBasic(){}
-
+#if 0
 	virtual void	initalizeEmmiter(SsEffectElementBase* ele, SsEffectRenderEmitter* e)
 	{
 		ParticleElementBasic* source = static_cast<ParticleElementBasic*>(ele);
@@ -157,6 +159,7 @@ public:
 
 		p->_rotation = 0;
 	}
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementBasic* source = static_cast<ParticleElementBasic*>(ele);
@@ -235,13 +238,13 @@ class FuncParticleElementRndSeedChange : public EffectFuncBase
 public:
 	FuncParticleElementRndSeedChange(){}
 	virtual ~FuncParticleElementRndSeedChange(){}
-
+#if 0
 	virtual void	initalizeEmmiter(SsEffectElementBase* ele, SsEffectRenderEmitter* emmiter)
 	{
 		ParticleElementRndSeedChange* source = static_cast<ParticleElementRndSeedChange*>(ele);
 		emmiter->setMySeed(source->Seed);
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementRndSeedChange* source = static_cast<ParticleElementRndSeedChange*>(ele);
@@ -262,7 +265,7 @@ class FuncParticleElementDelay : public EffectFuncBase
 public:
 	FuncParticleElementDelay(){}
 	virtual ~FuncParticleElementDelay(){}
-
+#if 0
 	virtual void	initalizeEmmiter(SsEffectElementBase* ele, SsEffectRenderEmitter* emmiter)
 	{
 		ParticleElementDelay* source = static_cast<ParticleElementDelay*>(ele);
@@ -281,7 +284,7 @@ public:
 			emmiter->generate_ok = true;
 		}
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementDelay* source = static_cast<ParticleElementDelay*>(ele);
@@ -299,7 +302,7 @@ class FuncParticleElementGravity : public EffectFuncBase
 public:
 	FuncParticleElementGravity(){}
 	virtual ~FuncParticleElementGravity(){}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementGravity* source = static_cast<ParticleElementGravity*>(ele);
@@ -310,7 +313,7 @@ public:
 		ParticleElementGravity* source = static_cast<ParticleElementGravity*>(ele);
 		particle->_gravity = source->Gravity * particle->_exsitTime;
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementGravity* source = static_cast<ParticleElementGravity*>(ele);
@@ -330,7 +333,7 @@ class FuncParticleElementPosition : public EffectFuncBase
 public:
 	FuncParticleElementPosition(){}
 	virtual ~FuncParticleElementPosition(){}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementPosition* source = static_cast<ParticleElementPosition*>(ele);
@@ -339,7 +342,7 @@ public:
 	}
 
 	virtual void	updateParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* particle){}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementPosition* source = static_cast<ParticleElementPosition*>(ele);
@@ -374,7 +377,7 @@ class FuncParticleElementRotation : public EffectFuncBase
 public:
 	FuncParticleElementRotation(){}
 	virtual ~FuncParticleElementRotation(){}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementRotation* source = static_cast<ParticleElementRotation*>(ele);
@@ -383,7 +386,7 @@ public:
 		p->_rotationAdd = VarianceCalc(e, source->RotationAddMinValue, source->RotationAddMaxValue);
 		p->_rotationAddDst = p->_rotationAdd;
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementRotation* source = static_cast<ParticleElementRotation*>(ele);
@@ -408,7 +411,7 @@ class FuncParticleElementRotationTrans : public EffectFuncBase
 public:
 	FuncParticleElementRotationTrans(){}
 	virtual ~FuncParticleElementRotationTrans(){}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementRotationTrans* source = static_cast<ParticleElementRotationTrans*>(ele);
@@ -437,7 +440,7 @@ public:
 
 		p->_rotationAdd = blendFloat(p->_rotationAddOrg, p->_rotationAddDst, per);
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementRotationTrans* source = static_cast<ParticleElementRotationTrans*>(ele);
@@ -457,7 +460,7 @@ class FuncParticleElementTransSpeed : public EffectFuncBase
 public:
 	FuncParticleElementTransSpeed(){}
 	virtual ~FuncParticleElementTransSpeed(){}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementTransSpeed* source = static_cast<ParticleElementTransSpeed*>(ele);
@@ -470,7 +473,7 @@ public:
 		float per = ((float)p->_exsitTime / (float)p->_lifetime);
 		p->speed = (p->firstspeed + (p->lastspeed - p->firstspeed) * per);
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementTransSpeed* source = static_cast<ParticleElementTransSpeed*>(ele);
@@ -490,13 +493,13 @@ class FuncParticleElementTangentialAcceleration : public EffectFuncBase
 public:
 	FuncParticleElementTangentialAcceleration(){}
 	virtual ~FuncParticleElementTangentialAcceleration(){}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementTangentialAcceleration* source = static_cast<ParticleElementTangentialAcceleration*>(ele);
 		p->_tangentialAccel = VarianceCalc(e, source->AccelerationMinValue, source->AccelerationMaxValue);
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementTangentialAcceleration* source = static_cast<ParticleElementTangentialAcceleration*>(ele);
@@ -524,7 +527,7 @@ class FuncParticleElementInitColor : public EffectFuncBase
 public:
 	FuncParticleElementInitColor(){}
 	virtual ~FuncParticleElementInitColor(){}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementInitColor* source = static_cast<ParticleElementInitColor*>(ele);
@@ -532,7 +535,7 @@ public:
 		p->_color = p->_startcolor;
 
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementInitColor* source = static_cast<ParticleElementInitColor*>(ele);
@@ -558,7 +561,7 @@ class FuncParticleElementTransColor : public EffectFuncBase
 public:
 	FuncParticleElementTransColor(){}
 	virtual ~FuncParticleElementTransColor(){}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementTransColor* source = static_cast<ParticleElementTransColor*>(ele);
@@ -576,7 +579,7 @@ public:
 		p->_color.g = blendNumber(p->_startcolor.g, p->_endcolor.g, per);
 		p->_color.b = blendNumber(p->_startcolor.b, p->_endcolor.b, per);
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementTransColor* source = static_cast<ParticleElementTransColor*>(ele);
@@ -603,7 +606,7 @@ class FuncParticleElementAlphaFade : public EffectFuncBase
 public:
 	FuncParticleElementAlphaFade(){}
 	virtual ~FuncParticleElementAlphaFade(){}
-
+#if 0
 	virtual void	updateParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* particle)
 	{
 		ParticleElementAlphaFade* source = static_cast<ParticleElementAlphaFade*>(ele);
@@ -636,7 +639,7 @@ public:
 		}
 
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementAlphaFade* source = static_cast<ParticleElementAlphaFade*>(ele);
@@ -658,7 +661,7 @@ class FuncParticleElementSize : public EffectFuncBase
 public:
 	FuncParticleElementSize(){}
 	virtual ~FuncParticleElementSize(){}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 
@@ -671,7 +674,7 @@ public:
 		p->_size = p->_size * sf;
 		p->_startsize = p->_size;
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementSize* source = static_cast<ParticleElementSize*>(ele);
@@ -698,7 +701,7 @@ class FuncParticleElementTransSize : public EffectFuncBase
 public:
 	FuncParticleElementTransSize(){}
 	virtual ~FuncParticleElementTransSize(){}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
 	{
 		ParticleElementTransSize* source = static_cast<ParticleElementTransSize*>(ele);
@@ -718,7 +721,7 @@ public:
 		p->_size = p->_startsize + (p->_divsize * (p->_exsitTime));
 
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleElementTransSize* source = static_cast<ParticleElementTransSize*>(ele);
@@ -746,7 +749,7 @@ class FuncParticlePointGravity : public EffectFuncBase
 public:
 	FuncParticlePointGravity(){}
 	virtual ~FuncParticlePointGravity(){}
-
+#if 0
 	virtual void	initalizeEmmiter(SsEffectElementBase* ele, SsEffectRenderEmitter* emmiter){}
 	virtual void	updateEmmiter(SsEffectElementBase* ele, SsEffectRenderEmitter* emmiter){}
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* p)
@@ -771,7 +774,7 @@ public:
 		p->_gravity = p->_gravity + v2;
 
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticlePointGravity* source = static_cast<ParticlePointGravity*>(ele);
@@ -792,12 +795,12 @@ class FuncParticleTurnToDirectionEnabled : public EffectFuncBase
 public:
 	FuncParticleTurnToDirectionEnabled(){}
 	virtual ~FuncParticleTurnToDirectionEnabled(){}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* particle)
 	{
 		particle->isTurnDirection = true;
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		ParticleTurnToDirectionEnabled* source = static_cast<ParticleTurnToDirectionEnabled*>(ele);
@@ -815,11 +818,11 @@ class FuncParticleInfiniteEmitEnabled : public EffectFuncBase
 public:
 	FuncParticleInfiniteEmitEnabled() {}
 	virtual ~FuncParticleInfiniteEmitEnabled() {}
-
+#if 0
 	virtual void	initializeParticle(SsEffectElementBase* ele, SsEffectRenderEmitter* e, SsEffectRenderParticle* particle)
 	{
 	}
-
+#endif
 	virtual void	initalizeEffect(SsEffectElementBase* ele, SsEffectEmitter* e)
 	{
 		e->emitter.Infinite = true;
@@ -857,7 +860,7 @@ static EffectFuncBase* callTable[] =
 
 
 
-
+#if 0
 
 ///----------------------------------------------------------------------------------------------------
 //
@@ -897,6 +900,7 @@ void	SsEffectFunctionExecuter::updateParticle(SsEffectBehavior* beh, SsEffectRen
 		cf->updateParticle(e, emmiter, particle);
 	}
 }
+#endif
 
 void	SsEffectFunctionExecuter::initializeEffect(SsEffectBehavior* beh, SsEffectEmitter* emmiter)
 {
