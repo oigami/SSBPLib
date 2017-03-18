@@ -714,13 +714,11 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
 
 	e->emitterSeed = this->mySeed;
 
-	if ( e->particle.userOverrideRSeed )
-	{
+	if ( e->particle.userOverrideRSeed ){
 		e->emitterSeed = e->particle.overrideRSeed;
-
-	}else{
-		if ( this->effectData->isLockRandSeed )
-		{
+	}
+	else{
+		if ( this->effectData->isLockRandSeed ){
 			e->emitterSeed = (this->effectData->lockRandSeed+1) * SEED_MAGIC;
 		}
 	}
@@ -731,14 +729,12 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
 
 void	SsEffectRenderV2::clearEmitterList()
 {
-	for ( size_t i = 0 ; i < this->emmiterList.size(); i++)
-	{
-		delete emmiterList[i];
+	for (SsEffectEmitter* emitter : this->emmiterList){
+		delete emitter;
 	}
 
     emmiterList.clear();
 	updateList.clear();
-
 }
 
 
@@ -779,19 +775,13 @@ void	SsEffectRenderV2::draw(const std::vector<TextuerData>& textures)
 
 	if (nowFrame < 0) return;
 
-	for (size_t i = 0; i < updateList.size(); i++)
-	{
-		SsEffectEmitter* e = updateList[i];
-		if (e)
-		{
+	for (SsEffectEmitter* e : updateList){
+		if (e){
 			e->setSeedOffset(seedOffset);
 		}
 	}
 
-	for ( size_t i = 0 ; i < updateList.size() ; i++ )
-	{
-
-		SsEffectEmitter* e = updateList[i];
+	for (SsEffectEmitter* e : updateList){
 
 		if ( e->_parent )
 		{
