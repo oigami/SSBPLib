@@ -38,7 +38,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 #include <vector>
-using namespace std;
 
 class CMersenneTwister {
 private:
@@ -47,7 +46,7 @@ private:
 	const int             m_ulMATRIX_A  ;
 	const unsigned long   m_ulUPPER_MASK;
 	const unsigned long   m_ulLOWER_MASK;
-	vector<unsigned long> m_veculMT     ;
+	std::vector<unsigned long> m_veculMT;
 	int                   m_iMTI        ;
 public:
 	CMersenneTwister()
