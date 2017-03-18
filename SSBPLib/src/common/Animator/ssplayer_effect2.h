@@ -193,7 +193,6 @@ public:
 
 
 	//事前計算バッファ
-	//particleLifeSt*				particleList;
 	int							particleIdMax;
 
 	size_t						particleListBufferSize;
@@ -201,7 +200,6 @@ public:
 
 
 	Vector2   				position;
-//	SsEffectEmitter*			_child;
 	SsEffectEmitter*			_parent;
 
     int							_parentIndex;
@@ -237,7 +235,6 @@ public:
 		seedOffset = offset;
 	}
 
-//	const particleLifeSt*	getParticleDataFromID(int id) { return &particleList[id]; }
 
 	int	getParticleIDMax() { return _offsetPattern.size(); }
 	const 	particleExistSt*	getParticleDataFromID(int id);
@@ -286,15 +283,12 @@ public:
 	bool			isIntFrame;
 
 	bool			m_isPlay;
-	bool			m_isPause;
 	bool			m_isLoop;
 
 	int				seedOffset;
-	//	SsCellMapList*	curCellMapManager;/// セルマップのリスト（アニメデコーダーからもらう
 	bool		_isWarningData;
 
 	//親になるスプライト
-	bool _isContentScaleFactorAuto;
 	CustomSprite						*_parentSprite;
 
 	int			_drawSpritecount; 
@@ -311,18 +305,17 @@ protected:
 
 
 public:
-	SsEffectRenderV2() : effectTimeLength(0), isIntFrame(true), seedOffset(0), mySeed(0), _parentSprite(0), _isContentScaleFactorAuto(false){}
+	SsEffectRenderV2() : effectTimeLength(0), isIntFrame(true), seedOffset(0), mySeed(0), _parentSprite(0){}
 	virtual ~SsEffectRenderV2() 
 	{
 		clearEmitterList();
 	}
 
-	virtual void    play(){ m_isPause = false;m_isPlay=true; }
+	virtual void    play(){ m_isPlay=true; }
 	virtual void	stop(){ m_isPlay = false;}
-	virtual void    pause(){m_isPause = true;m_isPlay=false;}
+	virtual void    pause(){ m_isPlay=false; }
 	virtual void	setLoop(bool flag){ m_isLoop = flag; }
 	virtual bool	isplay(){return m_isPlay;}
-	virtual bool	ispause(){return m_isPause;}
 	virtual bool	isloop(){return m_isLoop;}
 
 	virtual void	setEffectData(SsEffectModel* data);
@@ -348,11 +341,7 @@ public:
 
     virtual size_t  getEffectTimeLength();
 
-//	virtual int		getVersion(){ return EFFECTRENDERVERSION_V2; }
-
 	virtual int	getCurrentFPS();
-
-//	void	setCellmapManager( SsCellMapList* plist ) { curCellMapManager = plist; }
 
 	bool	getPlayStatus(void){
 		return(m_isPlay);
@@ -382,7 +371,6 @@ public:
 	virtual bool	isWarning() { return _isWarningData; }
 
 	//親になるスプライトを設定する
-	void setContentScaleEneble(bool eneble) { _isContentScaleFactorAuto = eneble; }
 	void setParentSprite(CustomSprite* sprite) { _parentSprite = sprite; }
 
 	int	getDrawSpriteCount() { return _drawSpritecount; }
