@@ -1,8 +1,7 @@
 ﻿#include "SsEffectElement.h"
 #include "common/Animator/ssplayer_effect2.h"
 
-namespace ss
-{
+namespace ss{
 
 
 //-----------------------------------------------------------------
@@ -281,19 +280,6 @@ void ParticleInfiniteEmitEnabled::initalizeEffect(SsEffectEmitter* e)
 	e->emitter.Infinite = true;
 }
 
-
-
-
-
-#if 0
-void	SsEffectFunctionExecuter::initializeEffect(SsEffectBehavior* beh, SsEffectEmitter* emmiter)
-{
-	for(SsEffectElementBase* e : beh->plist)
-	{
-		e->initalizeEffect(emmiter);
-	}
-}
-#endif
 
 
 } //namspace ss

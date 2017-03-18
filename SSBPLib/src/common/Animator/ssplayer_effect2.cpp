@@ -3,7 +3,6 @@
 #include <cstdlib>
 
 #include "ssplayer_effect2.h"
-#include "ssplayer_effectfunction.h"
 
 #include "../../SS5PlayerPlatform.h"
 #include "player/CustomSprite.h"

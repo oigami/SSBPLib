@@ -18,6 +18,7 @@
 #include "ResluteState.h"
 #include "ResourceManager.h"
 #include "SS5EventListener.h"
+#include "common/Animator/ssplayer_effect2.h"
 
 
 namespace ss{

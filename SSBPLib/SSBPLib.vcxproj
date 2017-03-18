@@ -133,7 +133,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\common\Animator\ssplayer_effect2.cpp" />
-    <ClCompile Include="src\common\Animator\ssplayer_effectfunction.cpp" />
     <ClCompile Include="src\common\Loader\SsEffectElement.cpp" />
     <ClCompile Include="src\math\Matrix.cpp" />
     <ClCompile Include="src\math\Vector2.cpp" />
@@ -153,7 +152,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common\Animator\ssplayer_effect2.h" />
-    <ClInclude Include="src\common\Animator\ssplayer_effectfunction.h" />
     <ClInclude Include="src\common\Animator\xorshift32.h" />
     <ClInclude Include="src\common\Loader\SsEffectBehavior.h" />
     <ClInclude Include="src\common\Loader\SsEffectElement.h" />

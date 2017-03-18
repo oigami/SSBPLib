@@ -4,6 +4,7 @@
 #include "math/Matrix.h"
 
 namespace ss{
+class SsEffectRenderV2;
 
 /**
  * CustomSprite
