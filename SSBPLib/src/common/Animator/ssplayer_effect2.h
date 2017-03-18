@@ -371,7 +371,6 @@ public:
 			float     _rotation,
 			float	  direction,
 			SsFColor	_color,
-			SsRenderBlendType::_enum blendType,
 			const std::vector<TextuerData>& textures	//todo:とりあえず今はこれを渡していくしかない。後で整理する
 		);
 

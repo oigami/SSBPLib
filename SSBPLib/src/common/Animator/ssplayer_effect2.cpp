@@ -510,7 +510,6 @@ void	SsEffectRenderV2::drawSprite(
 		float     _rotation,
 		float	  direction,
 		SsFColor	_color,
-		SsRenderBlendType::_enum blendType,
 		const std::vector<TextuerData>& textures
 	)
 {
@@ -694,7 +693,7 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 
 			drawSprite(
 				&e->dispCell, Vector2(lp.x,lp.y), lp.scale,
-				lp.rot , lp.direc , fcolor , e->refData->getBlendType(), textures
+				lp.rot , lp.direc , fcolor , textures
 			);
 		}
 
