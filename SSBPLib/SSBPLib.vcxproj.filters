@@ -112,9 +112,6 @@
     <ClInclude Include="src\common\Animator\MersenneTwister.h">
       <Filter>ソース ファイル\common\Animator</Filter>
     </ClInclude>
-    <ClInclude Include="src\common\Animator\ssplayer_cellmap.h">
-      <Filter>ソース ファイル\common\Animator</Filter>
-    </ClInclude>
     <ClInclude Include="src\common\Animator\ssplayer_effect.h">
       <Filter>ソース ファイル\common\Animator</Filter>
     </ClInclude>

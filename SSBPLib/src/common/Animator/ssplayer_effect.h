@@ -4,7 +4,6 @@
 #include <list>
 #include "../../SS5Player.h"
 #include "MersenneTwister.h"
-#include "ssplayer_cellmap.h"
 #include "common/Loader/ssloader_ssee.h"
 
 namespace ss

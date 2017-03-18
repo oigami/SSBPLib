@@ -2,7 +2,6 @@
 #define __SSEFFECTBEHAVIOR__
 
 #include "SsEffectElement.h"
-#include "../Animator/ssplayer_cellmap.h"
 #include "sstypes.h"
 #include "player/CellCache.h"
 

@@ -153,7 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common\Animator\MersenneTwister.h" />
-    <ClInclude Include="src\common\Animator\ssplayer_cellmap.h" />
     <ClInclude Include="src\common\Animator\ssplayer_effect.h" />
     <ClInclude Include="src\common\Animator\ssplayer_effect2.h" />
     <ClInclude Include="src\common\Animator\ssplayer_effectfunction.h" />
