@@ -6,7 +6,7 @@
 
 namespace ss{
 class SsEffectEmitter;
-
+class DataArrayReader;
 
 
 //命令種別
@@ -54,8 +54,8 @@ public:
 
 	SsEffectFunctionType::enum_ getFunctionType() const{ return myType; }
 
-	////readerを介してデータを読み取る
-	//void readData(DataArrayReader& reader) = 0;
+	//readerを介してデータを読み取る
+	virtual void readData(DataArrayReader& reader) = 0;
 	
 	virtual void initalizeEffect(SsEffectEmitter* e) = 0;
 };
@@ -80,6 +80,7 @@ public:
 
 public:
 	ParticleElementBasic();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -93,6 +94,7 @@ public:
 
 public:
 	ParticleElementRndSeedChange();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -105,6 +107,7 @@ public:
 
 public:
 	ParticleElementDelay();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -118,6 +121,7 @@ public:
 
 public:
 	ParticleElementGravity();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -133,6 +137,7 @@ public:
 	
 public:
 	ParticleElementPosition();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -149,6 +154,7 @@ public:
 
 public:
 	ParticleElementRotation();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -162,6 +168,7 @@ public:
 
 public:
 	ParticleElementRotationTrans();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -174,6 +181,7 @@ public:
 
 public:
 	ParticleElementTransSpeed();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -188,6 +196,7 @@ public:
 
 public:
 	ParticleElementTangentialAcceleration();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -202,6 +211,7 @@ public:
 
 public:
 	ParticleElementInitColor();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -215,6 +225,7 @@ public:
 
 public:
 	ParticleElementTransColor();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -229,6 +240,7 @@ public:
 
 public:
 	ParticleElementAlphaFade();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -246,6 +258,7 @@ public:
 
 public:
 	ParticleElementSize();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -264,6 +277,7 @@ public:
 
 public:
 	ParticleElementTransSize();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -277,6 +291,7 @@ public:
 
 public:
 	ParticlePointGravity();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -289,6 +304,7 @@ public:
 
 public:
 	ParticleTurnToDirectionEnabled();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
@@ -301,6 +317,7 @@ class  ParticleInfiniteEmitEnabled : public SsEffectElementBase{
 
 public:
 	ParticleInfiniteEmitEnabled();
+	void readData(DataArrayReader& reader) override;
 
 	void initalizeEffect(SsEffectEmitter* e) override;
 };
