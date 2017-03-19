@@ -97,7 +97,7 @@ void ParticleElementBasic::readData(DataArrayReader& reader)
 	this->angleVariance		=reader.readFloat();
 }
 
-void ParticleElementBasic::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementBasic::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->priority = this->priority;
 
@@ -176,7 +176,7 @@ void ParticleElementRndSeedChange::readData(DataArrayReader& reader)
 	this->Seed = reader.readU32();
 }
 
-void ParticleElementRndSeedChange::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementRndSeedChange::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.userOverrideRSeed = true;
 
@@ -198,7 +198,7 @@ void ParticleElementDelay::readData(DataArrayReader& reader)
 	this->DelayTime = reader.readU32();
 }
 
-void ParticleElementDelay::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementDelay::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.delay = this->DelayTime;
 }
@@ -218,7 +218,7 @@ void ParticleElementGravity::readData(DataArrayReader& reader)
 	this->Gravity.y = reader.readFloat();
 }
 
-void ParticleElementGravity::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementGravity::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useGravity = true;
 	e->particle.gravity = this->Gravity;
@@ -244,7 +244,7 @@ void ParticleElementPosition::readData(DataArrayReader& reader)
 	this->OffsetYMaxValue = reader.readFloat();
 }
 
-void ParticleElementPosition::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementPosition::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useOffset = true;
 	e->particle.offset = Vector2(this->OffsetXMinValue, this->OffsetYMinValue);
@@ -271,7 +271,7 @@ void ParticleElementRotation::readData(DataArrayReader& reader)
 	this->RotationAddMaxValue = reader.readFloat();
 }
 
-void ParticleElementRotation::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementRotation::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useRotation = true;
 	e->particle.rotation = this->RotationMinValue;
@@ -297,7 +297,7 @@ void ParticleElementRotationTrans::readData(DataArrayReader& reader)
 	this->EndLifeTimePer = reader.readFloat();
 }
 
-void ParticleElementRotationTrans::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementRotationTrans::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useRotationTrans = true;
 	e->particle.rotationFactor = this->RotationFactor;
@@ -320,7 +320,7 @@ void ParticleElementTransSpeed::readData(DataArrayReader& reader)
 	this->SpeedMaxValue = reader.readFloat();
 }
 
-void ParticleElementTransSpeed::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementTransSpeed::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useTransSpeed = true;
 	e->particle.transSpeed = this->SpeedMinValue;
@@ -343,7 +343,7 @@ void ParticleElementTangentialAcceleration::readData(DataArrayReader& reader)
 	this->AccelerationMaxValue = reader.readFloat();
 }
 
-void ParticleElementTangentialAcceleration::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementTangentialAcceleration::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useTanAccel = true;
 	e->particle.tangentialAccel = this->AccelerationMinValue;
@@ -386,7 +386,7 @@ void ParticleElementInitColor::readData(DataArrayReader& reader)
 	this->ColorMaxValue = maxcol;			//設定カラー最大
 }
 
-void ParticleElementInitColor::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementInitColor::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useColor = true;
 
@@ -428,7 +428,7 @@ void ParticleElementTransColor::readData(DataArrayReader& reader)
 	this->ColorMaxValue = maxcol;			//設定カラー最大
 }
 
-void ParticleElementTransColor::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementTransColor::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useTransColor = true;
 
@@ -457,7 +457,7 @@ void ParticleElementAlphaFade::readData(DataArrayReader& reader)
 	this->disprangeMaxValue = reader.readFloat();
 }
 
-void ParticleElementAlphaFade::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementAlphaFade::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useAlphaFade = true;
 	e->particle.alphaFade = this->disprangeMinValue;
@@ -488,7 +488,7 @@ void ParticleElementSize::readData(DataArrayReader& reader)
 	this->ScaleFactorMaxValue = reader.readFloat();
 }
 
-void ParticleElementSize::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementSize::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useInitScale = true;
 
@@ -526,7 +526,7 @@ void ParticleElementTransSize::readData(DataArrayReader& reader)
 	this->ScaleFactorMaxValue = reader.readFloat();
 }
 
-void ParticleElementTransSize::initalizeEffect(SsEffectEmitter* e)
+void ParticleElementTransSize::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useTransScale = true;
 
@@ -556,7 +556,7 @@ void ParticlePointGravity::readData(DataArrayReader& reader)
 	this->Power = reader.readFloat();
 }
 
-void ParticlePointGravity::initalizeEffect(SsEffectEmitter* e)
+void ParticlePointGravity::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.usePGravity = true;
 	e->particle.gravityPos = this->Position;
@@ -578,7 +578,7 @@ void ParticleTurnToDirectionEnabled::readData(DataArrayReader& reader)
 	this->Rotation = reader.readFloat();
 }
 
-void ParticleTurnToDirectionEnabled::initalizeEffect(SsEffectEmitter* e)
+void ParticleTurnToDirectionEnabled::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useTurnDirec = true;
 	e->particle.direcRotAdd = this->Rotation;
@@ -597,7 +597,7 @@ void ParticleInfiniteEmitEnabled::readData(DataArrayReader& reader)
 	int dummy = reader.readS32();	//ダミーデータが入っているので読み込む必要がある
 }
 
-void ParticleInfiniteEmitEnabled::initalizeEffect(SsEffectEmitter* e)
+void ParticleInfiniteEmitEnabled::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->emitter.Infinite = true;
 }
