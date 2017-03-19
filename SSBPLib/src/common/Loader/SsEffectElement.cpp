@@ -7,6 +7,22 @@ namespace ss{
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementBasic::ParticleElementBasic()
+	: SsEffectElementBase(SsEffectFunctionType::Basic)
+	, priority(64)
+	, maximumParticle(50)
+	, attimeCreate(1)
+	, interval(1)
+	, lifetime(30)
+	, speedMinValue(5.0f)
+	, speedMaxValue(5.0f)
+	, lifespanMinValue(30)
+	, lifespanMaxValue(30)
+	, angle(0.0f)
+	, angleVariance(45.0f)
+{
+}
+
 void ParticleElementBasic::initalizeEffect(SsEffectEmitter* e)
 {
 	e->priority = this->priority;
@@ -76,6 +92,12 @@ void ParticleElementBasic::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementRndSeedChange::ParticleElementRndSeedChange()
+	: SsEffectElementBase(SsEffectFunctionType::RndSeedChange)
+	, Seed(0)
+{
+}
+
 void ParticleElementRndSeedChange::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.userOverrideRSeed = true;
@@ -88,6 +110,12 @@ void ParticleElementRndSeedChange::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementDelay::ParticleElementDelay()
+	: SsEffectElementBase(SsEffectFunctionType::Delay)
+	, DelayTime(0)
+{
+}
+
 void ParticleElementDelay::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.delay = this->DelayTime;
@@ -97,6 +125,12 @@ void ParticleElementDelay::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementGravity::ParticleElementGravity()
+	: SsEffectElementBase(SsEffectFunctionType::Gravity)
+	, Gravity(0, -3.0f)
+{
+}
+
 void ParticleElementGravity::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useGravity = true;
@@ -107,6 +141,15 @@ void ParticleElementGravity::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementPosition::ParticleElementPosition()
+	: SsEffectElementBase(SsEffectFunctionType::Position)
+	, OffsetXMinValue(0)
+	, OffsetXMaxValue(0)
+	, OffsetYMinValue(0)
+	, OffsetYMaxValue(0)
+{
+}
+
 void ParticleElementPosition::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useOffset = true;
@@ -118,6 +161,15 @@ void ParticleElementPosition::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementRotation::ParticleElementRotation()
+	: SsEffectElementBase(SsEffectFunctionType::Rotation)
+	, RotationMinValue(0)
+	, RotationMaxValue(0)
+	, RotationAddMinValue(0)
+	, RotationAddMaxValue(0)
+{
+}
+
 void ParticleElementRotation::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useRotation = true;
@@ -132,6 +184,13 @@ void ParticleElementRotation::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementRotationTrans::ParticleElementRotationTrans()
+	: SsEffectElementBase(SsEffectFunctionType::TransRotation)
+	, RotationFactor(0)
+	, EndLifeTimePer(75)
+{
+}
+
 void ParticleElementRotationTrans::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useRotationTrans = true;
@@ -143,6 +202,13 @@ void ParticleElementRotationTrans::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementTransSpeed::ParticleElementTransSpeed()
+	: SsEffectElementBase(SsEffectFunctionType::TransSpeed)
+	, SpeedMinValue(0)
+	, SpeedMaxValue(0)
+{
+}
+
 void ParticleElementTransSpeed::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useTransSpeed = true;
@@ -154,6 +220,13 @@ void ParticleElementTransSpeed::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementTangentialAcceleration::ParticleElementTangentialAcceleration()
+	: SsEffectElementBase(SsEffectFunctionType::TangentialAcceleration)
+	, AccelerationMinValue(0)
+	, AccelerationMaxValue(0)
+{
+}
+
 void ParticleElementTangentialAcceleration::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useTanAccel = true;
@@ -172,6 +245,13 @@ static void getRange(u8 a, u8 b, u8& min, u8& diff)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementInitColor::ParticleElementInitColor()
+	: SsEffectElementBase(SsEffectFunctionType::InitColor)
+	, ColorMinValue(255, 255, 255, 255)
+	, ColorMaxValue(255, 255, 255, 255)
+{
+}
+
 void ParticleElementInitColor::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useColor = true;
@@ -189,6 +269,13 @@ void ParticleElementInitColor::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementTransColor::ParticleElementTransColor()
+	: SsEffectElementBase(SsEffectFunctionType::TransColor)
+	, ColorMinValue(255, 255, 255, 255)
+	, ColorMaxValue(255, 255, 255, 255)
+{
+}
+
 void ParticleElementTransColor::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useTransColor = true;
@@ -206,6 +293,13 @@ void ParticleElementTransColor::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementAlphaFade::ParticleElementAlphaFade()
+	: SsEffectElementBase(SsEffectFunctionType::AlphaFade)
+	, disprangeMinValue(25)
+	, disprangeMaxValue(75)
+{
+}
+
 void ParticleElementAlphaFade::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useAlphaFade = true;
@@ -217,6 +311,17 @@ void ParticleElementAlphaFade::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementSize::ParticleElementSize()
+	: SsEffectElementBase(SsEffectFunctionType::Size)
+	, SizeXMinValue(1.0f)
+	, SizeXMaxValue(1.0f)
+	, SizeYMinValue(1.0f)
+	, SizeYMaxValue(1.0f)
+	, ScaleFactorMinValue(1.0f)
+	, ScaleFactorMaxValue(1.0f)
+{
+}
+
 void ParticleElementSize::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useInitScale = true;
@@ -235,6 +340,17 @@ void ParticleElementSize::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleElementTransSize::ParticleElementTransSize()
+	: SsEffectElementBase(SsEffectFunctionType::TransSize)
+	, SizeXMinValue(1.0f)
+	, SizeXMaxValue(1.0f)
+	, SizeYMinValue(1.0f)
+	, SizeYMaxValue(1.0f)
+	, ScaleFactorMinValue(1.0f)
+	, ScaleFactorMaxValue(1.0f)
+{
+}
+
 void ParticleElementTransSize::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useTransScale = true;
@@ -253,6 +369,12 @@ void ParticleElementTransSize::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticlePointGravity::ParticlePointGravity()
+	: SsEffectElementBase(SsEffectFunctionType::PointGravity)
+	, Position(0, 0), Power(0.0f)
+{
+}
+
 void ParticlePointGravity::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.usePGravity = true;
@@ -265,6 +387,12 @@ void ParticlePointGravity::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleTurnToDirectionEnabled::ParticleTurnToDirectionEnabled()
+	: SsEffectElementBase(SsEffectFunctionType::TurnToDirectionEnabled)
+	, Rotation(0.0f)
+{
+}
+
 void ParticleTurnToDirectionEnabled::initalizeEffect(SsEffectEmitter* e)
 {
 	e->particle.useTurnDirec = true;
@@ -275,6 +403,11 @@ void ParticleTurnToDirectionEnabled::initalizeEffect(SsEffectEmitter* e)
 //-----------------------------------------------------------------
 //
 //-----------------------------------------------------------------
+ParticleInfiniteEmitEnabled::ParticleInfiniteEmitEnabled()
+	: SsEffectElementBase(SsEffectFunctionType::InfiniteEmitEnabled)
+{
+}
+
 void ParticleInfiniteEmitEnabled::initalizeEffect(SsEffectEmitter* e)
 {
 	e->emitter.Infinite = true;
