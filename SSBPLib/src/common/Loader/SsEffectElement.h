@@ -42,17 +42,10 @@ class SsEffectRenderEmitter;
 class SsEffectRenderParticle;
 
 
-class   SsEffectElementBase 
-{
-private:
-	SsEffectFunctionType::enum_ myType;
-
+class   SsEffectElementBase {
 public:
-	SsEffectElementBase(SsEffectFunctionType::enum_ functionType)
-		: myType (functionType) {}
+	SsEffectElementBase(){}
 	virtual ~SsEffectElementBase(){}
-
-	SsEffectFunctionType::enum_ getFunctionType() const{ return myType; }
 
 	//readerを介してデータを読み取る
 	virtual void readData(DataArrayReader& reader) = 0;
