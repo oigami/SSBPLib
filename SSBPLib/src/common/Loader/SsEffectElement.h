@@ -60,8 +60,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //パーティクルを構成する基本の値
-class  ParticleElementBasic  : public SsEffectElementBase{
-public:
+class ParticleElementBasic : public SsEffectElementBase{
+private:
 	int			priority;			//表示優先度
 	int			maximumParticle;	//最大パーティクル数
 	int			attimeCreate;		//一度に作成するパーティクル数
@@ -84,8 +84,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //遅れ
-class  ParticleElementRndSeedChange : public SsEffectElementBase{
-public:
+class ParticleElementRndSeedChange : public SsEffectElementBase{
+private:
 	int		Seed;					//上書きするシード値
 
 public:
@@ -97,8 +97,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //遅れ
-class  ParticleElementDelay : public SsEffectElementBase{
-public:
+class ParticleElementDelay : public SsEffectElementBase{
+private:
 	int		DelayTime;				//遅延時間
 
 public:
@@ -111,8 +111,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //重力への影響
-class  ParticleElementGravity : public SsEffectElementBase{
-public:
+class ParticleElementGravity : public SsEffectElementBase{
+private:
 	Vector2   Gravity;				//重力
 
 public:
@@ -124,8 +124,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //発生位置への影響
-class  ParticleElementPosition : public SsEffectElementBase{
-public:
+class ParticleElementPosition : public SsEffectElementBase{
+private:
 	float   OffsetXMinValue;		//X座標に加算最小
 	float   OffsetXMaxValue;		//X座標に加算最大
 	float   OffsetYMinValue;		//Y座標に加算最小
@@ -141,8 +141,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //角度変化
-class  ParticleElementRotation : public SsEffectElementBase{
-public:
+class ParticleElementRotation : public SsEffectElementBase{
+private:
 	float RotationMinValue;			//角度初期値最小
 	float RotationMaxValue;			//角度初期値最大
 	float RotationAddMinValue;		//角度初期加算値最小
@@ -157,8 +157,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //角度変化
-class  ParticleElementRotationTrans : public SsEffectElementBase{
-public:
+class ParticleElementRotationTrans : public SsEffectElementBase{
+private:
 	float   RotationFactor;			//角度目標加算値
 	float	EndLifeTimePer;			//到達時間
 
@@ -170,8 +170,8 @@ public:
 };
 
 //--------------------------------------------------------------------------------------
-class  ParticleElementTransSpeed : public SsEffectElementBase{
-public:
+class ParticleElementTransSpeed : public SsEffectElementBase{
+private:
 	float SpeedMinValue;			//速度目標値最小
 	float SpeedMaxValue;			//速度目標値最大
 
@@ -185,8 +185,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //接戦加速度を与える
-class  ParticleElementTangentialAcceleration : public SsEffectElementBase{
-public:
+class ParticleElementTangentialAcceleration : public SsEffectElementBase{
+private:
 	float AccelerationMinValue;		//設定加速度最小
 	float AccelerationMaxValue;		//設定加速度最大
 
@@ -200,8 +200,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //頂点カラーを制御する
-class  ParticleElementInitColor : public SsEffectElementBase{
-public:
+class ParticleElementInitColor : public SsEffectElementBase{
+private:
 	SsU8Color ColorMinValue;		//設定カラー最小
 	SsU8Color ColorMaxValue;		//設定カラー最大
 
@@ -214,8 +214,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //頂点カラーを制御する
-class  ParticleElementTransColor : public SsEffectElementBase{
-public:
+class ParticleElementTransColor : public SsEffectElementBase{
+private:
 	SsU8Color ColorMinValue;		//設定カラー最小
 	SsU8Color ColorMaxValue;		//設定カラー最大
 
@@ -229,8 +229,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //著点カラーを制御する
-class  ParticleElementAlphaFade : public SsEffectElementBase{
-public:
+class ParticleElementAlphaFade : public SsEffectElementBase{
+private:
 	float disprangeMinValue;		//表示区間開始
 	float disprangeMaxValue;		//表示区間終了
 
@@ -243,8 +243,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //サイズ初期
-class  ParticleElementSize : public SsEffectElementBase{
-public:
+class ParticleElementSize : public SsEffectElementBase{
+private:
 	float SizeXMinValue;			//幅倍率最小
 	float SizeXMaxValue;			//幅倍率最大
 	float SizeYMinValue;			//高さ倍率最小
@@ -262,8 +262,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //サイズ変更
-class  ParticleElementTransSize : public SsEffectElementBase{
-public:
+class ParticleElementTransSize : public SsEffectElementBase{
+private:
 	float SizeXMinValue;			//幅倍率最小
 	float SizeXMaxValue;			//幅倍率最大
 	float SizeYMinValue;			//高さ倍率最小
@@ -280,8 +280,8 @@ public:
 
 //--------------------------------------------------------------------------------------
 //重力点
-class  ParticlePointGravity : public SsEffectElementBase{
-public:
+class ParticlePointGravity : public SsEffectElementBase{
+private:
 	Vector2   Position;				//重力点
 	float		Power;				//パワー
 
@@ -294,8 +294,8 @@ public:
 
 
 //--------------------------------------------------------------------------------------
-class  ParticleTurnToDirectionEnabled : public SsEffectElementBase{
-public:
+class ParticleTurnToDirectionEnabled : public SsEffectElementBase{
+private:
 	float Rotation;					//方向オフセット
 
 public:
@@ -307,8 +307,8 @@ public:
 
 
 //--------------------------------------------------------------------------------------
-class  ParticleInfiniteEmitEnabled : public SsEffectElementBase{
-//public:
+class ParticleInfiniteEmitEnabled : public SsEffectElementBase{
+//private:
 //	//int flag;						//ダミーデータ
 
 public:
