@@ -12,7 +12,7 @@ class SsEffectElementBase;
 
 class SsEffectBehavior{
 public:
-	std::vector<SsEffectElementBase*> plist;
+	std::vector<const SsEffectElementBase*> plist;
 
 private:
 	int								m_cellIndex;	//プレイヤー専用に追加

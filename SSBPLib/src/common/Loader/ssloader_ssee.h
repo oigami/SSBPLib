@@ -25,7 +25,7 @@ public:
 	{}
 	~SsEffectNode(){
 		//ひとまずEffectCacheでのdeleteをこちらに移動。deleteはSsEffectBehaviorがやるべきなので後で修正する
-		for(SsEffectElementBase* eb : GetMyBehavior()->plist){
+		for(const SsEffectElementBase* eb : GetMyBehavior()->plist){
 			delete eb;
 		}
 		GetMyBehavior()->plist.clear();

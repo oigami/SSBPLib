@@ -704,7 +704,7 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
 {
 
 	e->refData = node->GetMyBehavior();
-	for(SsEffectElementBase* element : e->refData->plist){
+	for(const SsEffectElementBase* element : e->refData->plist){
 		element->initalizeEffect(e);
 	}
 
