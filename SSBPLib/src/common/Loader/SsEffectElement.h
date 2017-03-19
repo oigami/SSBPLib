@@ -51,6 +51,9 @@ public:
 	virtual void readData(DataArrayReader& reader) = 0;
 	
 	virtual void initalizeEffect(SsEffectEmitter* e) = 0;
+
+	//対応するElementをnewします
+	static SsEffectElementBase* create(SsEffectFunctionType::enum_ type);
 };
 
 

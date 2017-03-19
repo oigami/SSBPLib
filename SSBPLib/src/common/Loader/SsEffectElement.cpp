@@ -4,6 +4,65 @@
 
 namespace ss{
 
+SsEffectElementBase* SsEffectElementBase::create(SsEffectFunctionType::enum_ type)
+{
+	switch(type){
+	case SsEffectFunctionType::Basic:			//基本情報
+		return new ParticleElementBasic();
+
+	case SsEffectFunctionType::RndSeedChange:	//シード上書き
+		return new ParticleElementRndSeedChange();
+
+	case SsEffectFunctionType::Delay:			//発生：タイミング
+		return new ParticleElementDelay();
+	
+	case SsEffectFunctionType::Gravity:			//重力を加える
+		return new ParticleElementGravity();
+	
+	case SsEffectFunctionType::Position:		//座標：生成時
+		return new ParticleElementPosition();
+	
+	case SsEffectFunctionType::Rotation:		//Z回転を追加
+		return new ParticleElementRotation();
+	
+	case SsEffectFunctionType::TransRotation:	//Z回転速度変更
+		return new ParticleElementRotationTrans();
+	
+	case SsEffectFunctionType::TransSpeed:		//速度：変化
+		return new ParticleElementTransSpeed();
+	
+	case SsEffectFunctionType::TangentialAcceleration:	//接線加速度
+		return new ParticleElementTangentialAcceleration();
+	
+	case SsEffectFunctionType::InitColor:		//カラーRGBA：生成時
+		return new ParticleElementInitColor();
+	
+	case SsEffectFunctionType::TransColor:		//カラーRGB：変化
+		return new ParticleElementTransColor();
+	
+	case SsEffectFunctionType::AlphaFade:		//フェード
+		return new ParticleElementAlphaFade();
+	
+	case SsEffectFunctionType::Size:			//スケール：生成時
+		return new ParticleElementSize();
+	
+	case SsEffectFunctionType::TransSize:		//スケール：変化
+		return new ParticleElementTransSize();
+	
+	case SsEffectFunctionType::PointGravity:	//重力点の追加
+		return new ParticlePointGravity();
+	
+	case SsEffectFunctionType::TurnToDirectionEnabled:	//進行方向に向ける
+		return new ParticleTurnToDirectionEnabled();
+	
+	case SsEffectFunctionType::InfiniteEmitEnabled:
+		return new ParticleInfiniteEmitEnabled();
+	
+	default:
+		return nullptr;
+	}
+}
+
 
 //-----------------------------------------------------------------
 //
