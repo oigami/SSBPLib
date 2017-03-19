@@ -1,7 +1,4 @@
-﻿#ifndef __SSEFFECTELEMENT__
-#define __SSEFFECTELEMENT__
-
-
+﻿#pragma once
 #include "sstypes.h"
 
 namespace ss{
@@ -36,10 +33,6 @@ namespace SsEffectFunctionType
 	};
 }
 
-
-
-class SsEffectRenderEmitter;
-class SsEffectRenderParticle;
 
 
 class   SsEffectElementBase {
@@ -318,8 +311,5 @@ public:
 	void initalizeEffect(SsEffectEmitter* e) const override;
 };
 
-};
+} //namespace ss
 
-
-
-#endif
