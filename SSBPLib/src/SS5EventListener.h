@@ -22,7 +22,7 @@ public:
 
 
 	//テクスチャのロード・リリースのイベント。内部ではPlayer単位で管理されます
-	virtual TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode::_enum wrapmode, SsTexFilterMode::_enum filtermode) = 0;
+	virtual TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode wrapmode, SsTexFilterMode filtermode) = 0;
 	virtual void SSTextureRelease(TextureID handle) = 0;
 
 	//テクスチャサイズの取得

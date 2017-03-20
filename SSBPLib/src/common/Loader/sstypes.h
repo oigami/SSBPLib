@@ -1,6 +1,4 @@
-﻿#ifndef __SSTYPES__
-#define __SSTYPES__
-
+﻿#pragma once
 #include <stdlib.h>
 #include <string>
 #include <vector>
@@ -117,10 +115,6 @@ template<> inline u32 SsTColor<u8>::toARGB() const
 typedef SsTColor<float> SsFColor;
 
 
-///unsigned intでのカラー値定義
-typedef SsTColor<u32> SsColor;
-
-
 typedef SsTColor<u8> SsU8Color;
 
 
@@ -128,62 +122,47 @@ typedef SsTColor<u8> SsU8Color;
 //---------------------------------------------------------------
 
 /// テクスチャラップモード
-namespace SsTexWrapMode
-{
-	enum _enum
-	{
-		invalid = -1,	/// なし
-		clamp,			/// クランプする
-		repeat,			/// リピート
-		mirror,			/// ミラー
-		num
-	};
+enum class SsTexWrapMode{
+//	invalid = -1,	/// なし
+	clamp,			/// クランプする
+	repeat,			/// リピート
+	mirror,			/// ミラー
+//		num
 };
 
 
 /// テクスチャフィルターモード 画素補間方法
-namespace SsTexFilterMode
-{
-	enum _enum
-	{
-		invalid = -1,
-		nearlest,	///< ニアレストネイバー
-		linear,		///< リニア、バイリニア
-		num
-	};
+enum class SsTexFilterMode{
+//	invalid = -1,
+	nearlest,	///< ニアレストネイバー
+	linear,		///< リニア、バイリニア
+//	num
 };
 
 
 
 //エフェクト関連の定義
 //エフェクトのノードタイプ
-namespace SsEffectNodeType
-{
-	enum _enum{
-		invalid=-1,
-		root,
-		emmiter,
-		particle,
-		num
-	};
+enum class SsEffectNodeType{
+//	invalid=-1,
+	root,
+	emmiter,
+	particle,
+//	num
 };
 
 
 
 //エフェクト関連の定義
 //エフェクトのブレンドタイプ
-namespace SsRenderBlendType
-{
-	enum _enum{
-		invalid=-1,
-		Mix,
-		Add,
-		num
-	};
+enum class SsRenderBlendType{
+//	invalid=-1,
+	Mix,
+	Add,
+//	num
 };
 
 
 
-};
+} //namespace ss
 
-#endif

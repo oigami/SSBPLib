@@ -62,8 +62,8 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 		if(textureInfoMap.find(cellMap->index) == textureInfoMap.end()){
 			CellMapTextureInfo info = {
 				ptr.toString(cellMap->imagePath),
-				static_cast<SsTexWrapMode::_enum>(cellMap->wrapmode),
-				static_cast<SsTexFilterMode::_enum>(cellMap->filtermode)
+				static_cast<SsTexWrapMode>(cellMap->wrapmode),
+				static_cast<SsTexFilterMode>(cellMap->filtermode)
 			};
 			textureInfoMap.insert(std::make_pair(cellMap->index, info));
 		}
@@ -103,10 +103,10 @@ std::string CellCache::getTexturePath(int cellMapIndex) const
 	return texturePath;
 }
 
-SsTexWrapMode::_enum CellCache::getWrapMode(int cellMapIndex) const{
+SsTexWrapMode CellCache::getWrapMode(int cellMapIndex) const{
 	return m_textureInfos.at(cellMapIndex).m_wrapMode;
 }
-SsTexFilterMode::_enum CellCache::getFilterMode(int cellMapIndex) const{
+SsTexFilterMode CellCache::getFilterMode(int cellMapIndex) const{
 	return m_textureInfos.at(cellMapIndex).m_filterMode;
 }
 

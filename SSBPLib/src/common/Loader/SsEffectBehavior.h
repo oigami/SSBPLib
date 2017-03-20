@@ -15,12 +15,12 @@ public:
 	std::vector<const SsEffectElementBase*> plist;
 
 private:
-	int								m_cellIndex;	//プレイヤー専用に追加
-	const CellRef*					m_cellRef;
-	SsRenderBlendType::_enum		m_blendType;
+	int					m_cellIndex;	//プレイヤー専用に追加
+	const CellRef*		m_cellRef;
+	SsRenderBlendType	m_blendType;
 
 public:
-	SsEffectBehavior(int cellIndex, const CellRef* cellRef, SsRenderBlendType::_enum blendType)
+	SsEffectBehavior(int cellIndex, const CellRef* cellRef, SsRenderBlendType blendType)
 		: m_cellIndex(cellIndex)
 		, m_cellRef(cellRef)
 		, m_blendType(blendType)
@@ -30,7 +30,7 @@ public:
 
 	int getCellIndex() const{ return m_cellIndex; }
 	const CellRef* getCellRef() const{ return m_cellRef; }
-	SsRenderBlendType::_enum getBlendType() const{ return m_blendType; }
+	SsRenderBlendType getBlendType() const{ return m_blendType; }
 };
 
 

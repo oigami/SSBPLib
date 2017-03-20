@@ -60,7 +60,7 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 			//セル情報を作成
 			int cellIndex = effectNode->cellIndex;
 			const CellRef* cellRef = cellIndex >= 0 ? cellCache->getReference(cellIndex) : nullptr;
-			SsRenderBlendType::_enum blendType = static_cast<SsRenderBlendType::_enum>(effectNode->blendType);
+			SsRenderBlendType blendType = static_cast<SsRenderBlendType>(effectNode->blendType);
 
 			SsEffectBehavior behavior(cellIndex, cellRef, blendType);
 			
@@ -84,7 +84,7 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 
 			SsEffectNode *node = new SsEffectNode(
 				effectNode->parentIndex,
-				(SsEffectNodeType::_enum)effectNode->type,
+				static_cast<SsEffectNodeType>(effectNode->type),
 				behavior
 			);
 			effectmodel->nodeList.push_back(node);

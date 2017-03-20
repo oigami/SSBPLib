@@ -12,13 +12,13 @@ namespace ss
 
 class SsEffectNode{
 private:
-	int						m_parentIndex;
-	SsEffectNodeType::_enum	m_type;
+	int				 m_parentIndex;
+	SsEffectNodeType m_type;
 
-	SsEffectBehavior		m_behavior;
+	SsEffectBehavior m_behavior;
 
 public:
-	SsEffectNode(int parentIndex, SsEffectNodeType::_enum type, const SsEffectBehavior& behavior)
+	SsEffectNode(int parentIndex, SsEffectNodeType type, const SsEffectBehavior& behavior)
 		: m_parentIndex(parentIndex)
 		, m_type(type)
 		, m_behavior(behavior)
@@ -32,7 +32,7 @@ public:
 	}
 
 	int getParentIndex() const{ return m_parentIndex; }
-	SsEffectNodeType::_enum	GetType() const{ return m_type; }
+	SsEffectNodeType GetType() const{ return m_type; }
 	const SsEffectBehavior*	GetMyBehavior() const{ return &m_behavior; }
 
 };

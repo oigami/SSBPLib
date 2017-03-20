@@ -70,8 +70,8 @@ Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
 	m_textures.resize(cellMapNum);
 	for(int i = 0; i < cellMapNum; ++i){
 		std::string textureName = _currentRs->m_cellCache->getTexturePath(i);	
-		SsTexWrapMode::_enum wrapmode = _currentRs->m_cellCache->getWrapMode(i);
-		SsTexFilterMode::_enum filtermode = _currentRs->m_cellCache->getFilterMode(i);
+		SsTexWrapMode wrapmode = _currentRs->m_cellCache->getWrapMode(i);
+		SsTexFilterMode filtermode = _currentRs->m_cellCache->getFilterMode(i);
 
 		TextuerData& texdata = m_textures[i];
 		texdata.handle = _eventListener->SSTextureLoad(textureName.c_str(), wrapmode, filtermode); // wrapmode, filtermode);//todo:事前にテクスチャ情報取得できるようにする

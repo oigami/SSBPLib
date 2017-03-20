@@ -25,8 +25,8 @@ struct CellRef{
  */
 struct CellMapTextureInfo{
 	const char* m_imagePaths;				//セルマップ名
-	SsTexWrapMode::_enum m_wrapMode;		//ラップモード
-	SsTexFilterMode::_enum m_filterMode;	//フィルタモード
+	SsTexWrapMode m_wrapMode;		//ラップモード
+	SsTexFilterMode m_filterMode;	//フィルタモード
 	
 /*	CellMapTextureInfo()
 		: m_imagePaths(nullptr)
@@ -58,8 +58,8 @@ public:
 
 	//指定したCellMapのテクスチャ名を取得する
 	std::string getTexturePath(int cellMapIndex) const;
-	SsTexWrapMode::_enum getWrapMode(int cellMapIndex) const;
-	SsTexFilterMode::_enum getFilterMode(int cellMapIndex) const;
+	SsTexWrapMode getWrapMode(int cellMapIndex) const;
+	SsTexFilterMode getFilterMode(int cellMapIndex) const;
 
 	//CellMap数
 	int getCellMapNum() const;

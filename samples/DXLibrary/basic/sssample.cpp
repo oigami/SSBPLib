@@ -37,7 +37,7 @@ public:
 	}
 
 	//テクスチャのロード・リリースのイベント。内部ではPlayer単位で管理されます
-	ss::TextureID SSTextureLoad(const char* pszFileName, ss::SsTexWrapMode::_enum wrapmode, ss::SsTexFilterMode::_enum filtermode) override{
+	ss::TextureID SSTextureLoad(const char* pszFileName, ss::SsTexWrapMode wrapmode, ss::SsTexFilterMode filtermode) override{
 		return LoadGraph(pszFileName);
 	}
 	void SSTextureRelease(ss::TextureID handle) override{
