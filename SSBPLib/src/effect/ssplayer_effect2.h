@@ -3,8 +3,8 @@
 
 
 #include "xorshift32.h"
-#include "../../SS5Player.h"
-#include "common/Loader/ssloader_ssee.h"
+#include "SS5Player.h"
+#include "effect/ssloader_ssee.h"
 
 
 

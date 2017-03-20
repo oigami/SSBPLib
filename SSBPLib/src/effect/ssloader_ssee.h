@@ -2,7 +2,7 @@
 #include <string>
 #include "sstypes.h"
 #include "player/CellCache.h"
-#include "common/Loader/SsEffectElement.h"
+#include "effect/SsEffectElement.h"
 
 namespace ss{
 

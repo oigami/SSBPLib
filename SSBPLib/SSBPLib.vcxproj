@@ -140,8 +140,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\common\Animator\ssplayer_effect2.cpp" />
-    <ClCompile Include="src\common\Loader\SsEffectElement.cpp" />
+    <ClCompile Include="src\effect\SsEffectElement.cpp" />
+    <ClCompile Include="src\effect\ssplayer_effect2.cpp" />
     <ClCompile Include="src\math\Matrix.cpp" />
     <ClCompile Include="src\math\Vector2.cpp" />
     <ClCompile Include="src\math\Vector3.cpp" />
@@ -165,11 +165,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\common\Animator\ssplayer_effect2.h" />
-    <ClInclude Include="src\common\Animator\xorshift32.h" />
-    <ClInclude Include="src\common\Loader\SsEffectElement.h" />
-    <ClInclude Include="src\common\Loader\ssloader_ssee.h" />
-    <ClInclude Include="src\common\Loader\sstypes.h" />
+    <ClInclude Include="src\effect\SsEffectElement.h" />
+    <ClInclude Include="src\effect\ssloader_ssee.h" />
+    <ClInclude Include="src\effect\ssplayer_effect2.h" />
+    <ClInclude Include="src\effect\sstypes.h" />
+    <ClInclude Include="src\effect\xorshift32.h" />
     <ClInclude Include="src\math\Matrix.h" />
     <ClInclude Include="src\math\SSRect.h" />
     <ClInclude Include="src\math\Vector2.h" />

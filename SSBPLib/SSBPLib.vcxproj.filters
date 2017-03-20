@@ -9,20 +9,14 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ソース ファイル\common">
-      <UniqueIdentifier>{70e136ea-56e8-4a48-b3bd-9db8719dc89d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\common\Loader">
-      <UniqueIdentifier>{4c763891-6da8-4680-b235-d572c4cdd243}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\common\Animator">
-      <UniqueIdentifier>{e0df6a47-bb93-4f8b-b5a7-4e6ed4701079}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\player">
       <UniqueIdentifier>{b1ea25ee-3ac7-4f20-b316-e6326c781d69}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\math">
       <UniqueIdentifier>{458a27ed-b7a9-4708-9652-3abdc932f351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\effect">
+      <UniqueIdentifier>{15c9fe6f-ea04-459b-971d-6f7b756739d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -31,9 +25,6 @@
     </ClCompile>
     <ClCompile Include="src\SS5PlayerPlatform.cpp">
       <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\common\Animator\ssplayer_effect2.cpp">
-      <Filter>ソース ファイル\common\Animator</Filter>
     </ClCompile>
     <ClCompile Include="src\ResourceManager.cpp">
       <Filter>ソース ファイル</Filter>
@@ -74,11 +65,14 @@
     <ClCompile Include="src\player\InstancePartStatus.cpp">
       <Filter>ソース ファイル\player</Filter>
     </ClCompile>
-    <ClCompile Include="src\common\Loader\SsEffectElement.cpp">
-      <Filter>ソース ファイル\common\Loader</Filter>
-    </ClCompile>
     <ClCompile Include="src\stdafx.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\SsEffectElement.cpp">
+      <Filter>ソース ファイル\effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\effect\ssplayer_effect2.cpp">
+      <Filter>ソース ファイル\effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,21 +90,6 @@
     </ClInclude>
     <ClInclude Include="src\ssShader_frag.h">
       <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\common\Loader\SsEffectElement.h">
-      <Filter>ソース ファイル\common\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="src\common\Loader\ssloader_ssee.h">
-      <Filter>ソース ファイル\common\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="src\common\Loader\sstypes.h">
-      <Filter>ソース ファイル\common\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="src\common\Animator\ssplayer_effect2.h">
-      <Filter>ソース ファイル\common\Animator</Filter>
-    </ClInclude>
-    <ClInclude Include="src\common\Animator\xorshift32.h">
-      <Filter>ソース ファイル\common\Animator</Filter>
     </ClInclude>
     <ClInclude Include="src\player\ToPointer.h">
       <Filter>ソース ファイル\player</Filter>
@@ -171,6 +150,21 @@
     </ClInclude>
     <ClInclude Include="src\stdafx.h">
       <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\SsEffectElement.h">
+      <Filter>ソース ファイル\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\ssloader_ssee.h">
+      <Filter>ソース ファイル\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\ssplayer_effect2.h">
+      <Filter>ソース ファイル\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\sstypes.h">
+      <Filter>ソース ファイル\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\effect\xorshift32.h">
+      <Filter>ソース ファイル\effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

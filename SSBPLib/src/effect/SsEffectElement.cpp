@@ -1,5 +1,5 @@
 ﻿#include "SsEffectElement.h"
-#include "common/Animator/ssplayer_effect2.h"
+#include "effect/ssplayer_effect2.h"
 #include "player/DataArrayReader.h"
 
 namespace ss{

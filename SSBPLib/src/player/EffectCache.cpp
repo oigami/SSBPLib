@@ -5,7 +5,7 @@
 #include "player/Util.h"
 #include "player/ToPointer.h"
 #include "player/CellCache.h"
-#include "common/Loader/ssloader_ssee.h"
+#include "effect/ssloader_ssee.h"
 
 namespace ss{
 
