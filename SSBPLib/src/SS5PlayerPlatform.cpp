@@ -93,7 +93,7 @@ namespace ss
 	/**
 	* スプライトの表示
 	*/
-	void SSDrawSprite(State state, BlendType blendType, BlendType colorBlendType)
+	void SSDrawSprite(State state, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags)
 	{
 		//未対応機能
 		//ステータスから情報を取得し、各プラットフォームに合わせて機能を実装してください。
@@ -121,18 +121,18 @@ namespace ss
 			break;
 		}
 
-		if (state.flags & PART_FLAG_COLOR_BLEND){
+		if (colorBlendVertexFlags != 0){
 			//RGBのカラーブレンドを設定
 			//厳密に再現するには専用のシェーダーを使い、テクスチャにカラー値を合成する必要がある
 			//作成する場合はssShader_frag.h、CustomSpriteのコメントとなってるシェーダー処理を参考にしてください。
-			if (state.colorBlendVertexFlags == VERTEX_FLAG_ONE){
+			if (colorBlendVertexFlags == VERTEX_FLAG_ONE){
 				//単色カラーブレンド
 			}
 			else{
 				//頂点カラーブレンド
 				//未対応
 			}
-			switch (colorBlendType){
+			switch (colorBlendVertexType){
 			case BLEND_MIX:
 				break;
 			case BLEND_MUL:		///< 1 乗算

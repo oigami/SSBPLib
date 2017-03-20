@@ -21,7 +21,7 @@ namespace ss
 	extern bool SSTextureRelese(TextureID handle);
 	extern bool isAbsolutePath(const std::string& strPath);
 #endif
-	extern void SSDrawSprite(State state, BlendType blendType, BlendType colorBlendType);
+	extern void SSDrawSprite(State state, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags);
 #if 0
 	extern bool SSGetTextureSize(TextureID handle, int &w, int &h);
 #endif

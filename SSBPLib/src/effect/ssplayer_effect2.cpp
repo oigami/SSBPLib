@@ -616,6 +616,7 @@ void	SsEffectRenderV2::drawSprite(
 	}
 	//	state.flags = PART_FLAG_COLOR_BLEND;		//カラーブレンドフラグを設定
 	state.colorBlendVertexFunc = BLEND_MUL;			//カラーブレンドフラグ乗算
+	state.colorBlendVertexFlags = VERTEX_FLAG_ONE;	//カラーブレンドフラグを設定 //memo:意味合いから考えてこれで合ってるはず(todo:Color機能ONのときだけの設定にする必要はあるかも)。色味が変(そもそも元から変だが)なときはここを疑う
 	int r = (int)(fcolor.r * 255.0f);			//カラー値を設定
 	int g = (int)(fcolor.g * 255.0f);
 	int b = (int)(fcolor.b * 255.0f);
@@ -645,7 +646,7 @@ void	SsEffectRenderV2::drawSprite(
 
 	state.mat.addTranslation(cxy.x, cxy.y);
 
-	SSDrawSprite(state, state.blendfunc, state.colorBlendVertexFunc);	//描画
+	SSDrawSprite(state, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);	//描画
 
 	_drawSpritecount++;
 }
