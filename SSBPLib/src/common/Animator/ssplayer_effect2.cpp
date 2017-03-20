@@ -500,10 +500,11 @@ SsEffectRenderV2::SsEffectRenderV2(const SsEffectModel* model, int seed)
 	, mySeed(0)
 	, _parentSprite(0)
 {
-	setEffectData(model);
-	//setEffectSprite(&_effectSprite);	//エフェクトクラスに渡す都合上publicにしておく
-	//setEffectSpriteCount(&_effectSpriteCount);	//エフェクトクラスに渡す都合上publicにしておく
-	setSeed(seed);
+	{ //setEffectData
+		effectData = model;
+		reload();
+	}
+	mySeed = seed * SEED_MAGIC;	//setSeed
 	reload();
 	stop();
 	setLoop(false);
@@ -753,15 +754,6 @@ void	SsEffectRenderV2::clearEmitterList()
 	updateList.clear();
 }
 
-
-
-void	SsEffectRenderV2::setEffectData(const SsEffectModel* data)
-{
-	effectData = data;
-
-    reload();
-
-}
 
 
 void	SsEffectRenderV2::update()

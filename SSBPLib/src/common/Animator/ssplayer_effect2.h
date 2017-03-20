@@ -308,20 +308,9 @@ public:
 	bool	isplay(){return m_isPlay;}
 	bool	isloop(){return m_isLoop;}
 
-private:
-	void	setEffectData(const SsEffectModel* data);
-
-
-	void	setSeed( int seed ){
-   		mySeed = seed * SEED_MAGIC;
-	}
-
-public:
-	void	setFrame( float frame )
-	{
+	void	setFrame( float frame ){
     	nowFrame = frame;
 	}
-
     float	getFrame(){ return nowFrame; }
 
 	void	update();
