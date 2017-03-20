@@ -125,7 +125,7 @@ namespace ss
 			//RGBのカラーブレンドを設定
 			//厳密に再現するには専用のシェーダーを使い、テクスチャにカラー値を合成する必要がある
 			//作成する場合はssShader_frag.h、CustomSpriteのコメントとなってるシェーダー処理を参考にしてください。
-			if (state.colorBlendType == VERTEX_FLAG_ONE){
+			if (state.colorBlendVertexFlags == VERTEX_FLAG_ONE){
 				//単色カラーブレンド
 			}
 			else{

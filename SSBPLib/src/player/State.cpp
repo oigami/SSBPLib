@@ -33,8 +33,8 @@ void State::init()
 	flipY = false;
 	isVisibled = false;
 
-	colorBlendFunc = BLEND_MIX;
-	colorBlendType = 0;
+	colorBlendVertexFunc = BLEND_MIX;
+	colorBlendVertexFlags = 0;
 	memset(&quad, 0, sizeof(quad));
 	texture.handle = 0;
 	texture.size_w = 0;

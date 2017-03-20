@@ -436,8 +436,8 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 			result.uv_scale_X = sprite->_state.uv_scale_X;				// SS5アトリビュート：UV Xスケール
 			result.uv_scale_Y = sprite->_state.uv_scale_Y;				// SS5アトリビュート：UV Yスケール
 			result.boundingRadius = sprite->_state.boundingRadius;		// SS5アトリビュート：当たり半径
-			result.colorBlendFunc = sprite->_state.colorBlendFunc;		// SS5アトリビュート：カラーブレンドのブレンド方法
-			result.colorBlendType = sprite->_state.colorBlendType;		// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
+			result.colorBlendVertexFunc = sprite->_state.colorBlendVertexFunc;	// SS5アトリビュート：カラーブレンドのブレンド方法
+			result.colorBlendVertexType = sprite->_state.colorBlendVertexFlags;	// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
 			result.flipX = sprite->_state.flipX;						// 横反転（親子関係計算済）
 			result.flipY = sprite->_state.flipY;						// 縦反転（親子関係計算済）
 			result.isVisibled = sprite->_state.isVisibled;				// 非表示（親子関係計算済）
@@ -683,8 +683,8 @@ void Player::setFrame(int frameNo, float dt)
 			int cb_flags = (typeAndFlags >> 8) & 0xff;
 			float blend_rate = 1.0f;
 
-			sprite->_state.colorBlendFunc = static_cast<BlendType>(funcNo);
-			sprite->_state.colorBlendType = cb_flags;
+			sprite->_state.colorBlendVertexFunc = static_cast<BlendType>(funcNo);
+			sprite->_state.colorBlendVertexFlags = cb_flags;
 
 			//ssbpではカラーブレンドのレート（％）は使用できません。
 			//制限となります。
@@ -898,7 +898,7 @@ void Player::draw()
 			else{
 				if (state.texture.handle != -1){
 					if ((state.isVisibled == true) && (state.opacity > 0)){
-						SSDrawSprite(state, state.blendfunc, state.colorBlendFunc);
+						SSDrawSprite(state, state.blendfunc, state.colorBlendVertexFunc);
 						_draw_count++;
 					}
 				}

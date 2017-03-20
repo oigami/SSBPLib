@@ -615,7 +615,7 @@ void	SsEffectRenderV2::drawSprite(
 		state.blendfunc = BLEND_ADD;	//ブレンドタイプを設定
 	}
 	//	state.flags = PART_FLAG_COLOR_BLEND;		//カラーブレンドフラグを設定
-	state.colorBlendFunc = BLEND_MUL;			//カラーブレンドフラグ乗算
+	state.colorBlendVertexFunc = BLEND_MUL;			//カラーブレンドフラグ乗算
 	int r = (int)(fcolor.r * 255.0f);			//カラー値を設定
 	int g = (int)(fcolor.g * 255.0f);
 	int b = (int)(fcolor.b * 255.0f);
@@ -645,7 +645,7 @@ void	SsEffectRenderV2::drawSprite(
 
 	state.mat.addTranslation(cxy.x, cxy.y);
 
-	SSDrawSprite(state, state.blendfunc, state.colorBlendFunc);	//描画
+	SSDrawSprite(state, state.blendfunc, state.colorBlendVertexFunc);	//描画
 
 	_drawSpritecount++;
 }

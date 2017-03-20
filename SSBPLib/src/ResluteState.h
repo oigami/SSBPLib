@@ -30,8 +30,8 @@ struct ResluteState
 	float uv_scale_X;				/// SS5アトリビュート：UV Xスケール
 	float uv_scale_Y;				/// SS5アトリビュート：UV Yスケール
 	float boundingRadius;			/// SS5アトリビュート：当たり半径
-	BlendType colorBlendFunc;		/// SS5アトリビュート：カラーブレンドのブレンド方法
-	int colorBlendType;				/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
+	BlendType colorBlendVertexFunc;	/// SS5アトリビュート：カラーブレンドのブレンド方法
+	int colorBlendVertexType;		/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
 	bool flipX;						/// 横反転（親子関係計算済）
 	bool flipY;						/// 縦反転（親子関係計算済）
 	bool isVisibled;				/// 非表示（親子関係計算済）
