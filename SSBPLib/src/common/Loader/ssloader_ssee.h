@@ -1,13 +1,10 @@
-﻿#ifndef __SSLOADER_SSEE__
-#define __SSLOADER_SSEE__
-
+﻿#pragma once
 #include <string>
 #include "sstypes.h"
+#include "player/CellCache.h"
+#include "common/Loader/SsEffectElement.h"
 
-#include "SsEffectBehavior.h"
-
-namespace ss
-{
+namespace ss{
 
 
 class SsEffectNode{
@@ -95,6 +92,4 @@ public:
 
 
 
-};
-
-#endif
+} //namespace ss
