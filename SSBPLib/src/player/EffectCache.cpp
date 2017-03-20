@@ -94,9 +94,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 				behavior
 			);
 			effectmodel->nodeList.push_back(node);
-			if(nodeindex == 0)
-			{
-			}
 		}
 		effectmodel->lockRandSeed = effectFile->lockRandSeed; 	 // ランダムシード固定値
 		effectmodel->isLockRandSeed = effectFile->isLockRandSeed;  // ランダムシードを固定するか否か

@@ -28,19 +28,19 @@ public:
 		for(const SsEffectElementBase* eb : GetMyBehavior()->plist){
 			delete eb;
 		}
-		GetMyBehavior()->plist.clear();
+		m_behavior.plist.clear();
 	}
 
 	int getParentIndex() const{ return m_parentIndex; }
 	SsEffectNodeType::_enum	GetType() const{ return m_type; }
-	SsEffectBehavior*	GetMyBehavior(){ return &m_behavior; }
+	const SsEffectBehavior*	GetMyBehavior() const{ return &m_behavior; }
 
 };
 
 
 class SsEffectModel{
 public:
-	std::vector<SsEffectNode*> nodeList;
+	std::vector<const SsEffectNode*> nodeList;
 	int			lockRandSeed; 	 // ランダムシード固定値
 	bool    	isLockRandSeed;  // ランダムシードを固定するか否か
 	int			fps;             //
@@ -52,13 +52,13 @@ public:
 	SsEffectModel(){}
 
 	virtual ~SsEffectModel(){
-		for(SsEffectNode* node : nodeList){
+		for(const SsEffectNode* node : nodeList){
 			delete node;
 		}
 		nodeList.clear();
 	}
 
-	const std::vector<SsEffectNode*>& getNodeList()
+	const std::vector<const SsEffectNode*>& getNodeList()
 	{
 		return nodeList;
 	}

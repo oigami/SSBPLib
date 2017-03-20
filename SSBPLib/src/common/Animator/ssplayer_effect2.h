@@ -204,7 +204,7 @@ public:
 
     int							_parentIndex;
 
-	SsEffectBehavior*           refData;	//データ更新用
+	const SsEffectBehavior*     refData;	//データ更新用
 
 	size_t						globaltime;
 	size_t						seedTableLen;
@@ -294,7 +294,7 @@ public:
 
 protected:
 	void 	particleDraw(SsEffectEmitter* e , double t , SsEffectEmitter* parent , particleDrawData* plp, const std::vector<TextuerData>& textures);
-	void	initEmitter( SsEffectEmitter* e , SsEffectNode* node);
+	void	initEmitter( SsEffectEmitter* e , const SsEffectNode* node);
 
 	void	clearEmitterList();
 

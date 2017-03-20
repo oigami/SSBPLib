@@ -700,7 +700,7 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 
 
 //パラメータをコピーする
-void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , SsEffectNode* node)
+void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , const SsEffectNode* node)
 {
 
 	e->refData = node->GetMyBehavior();
@@ -832,7 +832,7 @@ void    SsEffectRenderV2::reload()
 	clearEmitterList();
 
 	//this->effectData->updateNodeList();//ツールじゃないので要らない
-	const std::vector<SsEffectNode*>& list = this->effectData->getNodeList();
+	const std::vector<const SsEffectNode*>& list = this->effectData->getNodeList();
 
 	layoutScale.x = (float)(this->effectData->layoutScaleX) / 100.0f;
 	layoutScale.y = (float)(this->effectData->layoutScaleY) / 100.0f;
@@ -845,7 +845,7 @@ void    SsEffectRenderV2::reload()
 	//以前のデータ形式から変換
 	for (size_t i = 0; i < list.size(); i++)
 	{
-		SsEffectNode *node = list[i];
+		const SsEffectNode *node = list[i];
 
 		if (node->GetType() == SsEffectNodeType::emmiter)
 		{
