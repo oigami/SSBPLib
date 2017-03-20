@@ -68,62 +68,62 @@ SsEffectElementBase* SsEffectElementBase::create(SsEffectFunctionType type)
 //
 //-----------------------------------------------------------------
 ParticleElementBasic::ParticleElementBasic()
-	: priority(64)
-	, maximumParticle(50)
-	, attimeCreate(1)
-	, interval(1)
-	, lifetime(30)
-	, speedMinValue(5.0f)
-	, speedMaxValue(5.0f)
-	, lifespanMinValue(30)
-	, lifespanMaxValue(30)
-	, angle(0.0f)
-	, angleVariance(45.0f)
+	: m_priority(64)
+	, m_maximumParticle(50)
+	, m_attimeCreate(1)
+	, m_interval(1)
+	, m_lifetime(30)
+	, m_speedMinValue(5.0f)
+	, m_speedMaxValue(5.0f)
+	, m_lifespanMinValue(30)
+	, m_lifespanMaxValue(30)
+	, m_angle(0.0f)
+	, m_angleVariance(45.0f)
 {
 }
 
 void ParticleElementBasic::readData(DataArrayReader& reader)
 {
-	this->priority			=reader.readU32();
-	this->maximumParticle	=reader.readU32();
-	this->attimeCreate		=reader.readU32();
-	this->interval			=reader.readU32();
-	this->lifetime			=reader.readU32();
-	this->speedMinValue		=reader.readFloat();
-	this->speedMaxValue		=reader.readFloat();
-	this->lifespanMinValue	=reader.readU32();
-	this->lifespanMaxValue	=reader.readU32();
-	this->angle				=reader.readFloat();
-	this->angleVariance		=reader.readFloat();
+	m_priority			=reader.readU32();
+	m_maximumParticle	=reader.readU32();
+	m_attimeCreate		=reader.readU32();
+	m_interval			=reader.readU32();
+	m_lifetime			=reader.readU32();
+	m_speedMinValue		=reader.readFloat();
+	m_speedMaxValue		=reader.readFloat();
+	m_lifespanMinValue	=reader.readU32();
+	m_lifespanMaxValue	=reader.readU32();
+	m_angle				=reader.readFloat();
+	m_angleVariance		=reader.readFloat();
 }
 
 void ParticleElementBasic::initalizeEffect(SsEffectEmitter* e) const
 {
-	e->priority = this->priority;
+	e->priority = m_priority;
 
 	//エミッターパラメータ
-	e->emitter.emitmax = this->maximumParticle;
-	e->emitter.interval = this->interval;
-	e->emitter.life = this->lifetime;
-	e->emitter.emitnum = this->attimeCreate;
+	e->emitter.emitmax = m_maximumParticle;
+	e->emitter.interval = m_interval;
+	e->emitter.life = m_lifetime;
+	e->emitter.emitnum = m_attimeCreate;
 	e->emitter.particleLife = 10;//
 	e->emitter.Infinite = false;
 	e->emitter.loopGen = 0;
 
 
 	//パーティクルパラメータ
-	e->emitter.particleLife = this->lifespanMinValue;
-	e->emitter.particleLife2 = this->lifespanMaxValue - this->lifespanMinValue;
+	e->emitter.particleLife = m_lifespanMinValue;
+	e->emitter.particleLife2 = m_lifespanMaxValue - m_lifespanMinValue;
 
 	e->particle.scale = Vector2(1.0f, 1.0f);
 	e->particle.startcolor = SsU8Color(255, 255, 255, 255);
 	e->particle.endcolor = SsU8Color(255, 255, 255, 255);
 
-	e->particle.speed = this->speedMinValue;
-	e->particle.speed2 = this->speedMaxValue - this->speedMinValue;
+	e->particle.speed = m_speedMinValue;
+	e->particle.speed2 = m_speedMaxValue - m_speedMinValue;
 
-	e->particle.angle = SSDegToRad((this->angle + 90.0f));
-	e->particle.angleVariance = SSDegToRad(this->angleVariance);
+	e->particle.angle = SSDegToRad((m_angle + 90.0f));
+	e->particle.angleVariance = SSDegToRad(m_angleVariance);
 
 	e->particle.useTanAccel = false;
 
@@ -167,21 +167,21 @@ void ParticleElementBasic::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementRndSeedChange::ParticleElementRndSeedChange()
-	: Seed(0)
+	: m_Seed(0)
 {
 }
 
 void ParticleElementRndSeedChange::readData(DataArrayReader& reader)
 {
-	this->Seed = reader.readU32();
+	m_Seed = reader.readU32();
 }
 
 void ParticleElementRndSeedChange::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.userOverrideRSeed = true;
 
-	e->particle.overrideRSeed = this->Seed + SEED_MAGIC;
-	e->emitterSeed = this->Seed + SEED_MAGIC;
+	e->particle.overrideRSeed = m_Seed + SEED_MAGIC;
+	e->emitterSeed = m_Seed + SEED_MAGIC;
 }
 
 
@@ -189,18 +189,18 @@ void ParticleElementRndSeedChange::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementDelay::ParticleElementDelay()
-	: DelayTime(0)
+	: m_DelayTime(0)
 {
 }
 
 void ParticleElementDelay::readData(DataArrayReader& reader)
 {
-	this->DelayTime = reader.readU32();
+	m_DelayTime = reader.readU32();
 }
 
 void ParticleElementDelay::initalizeEffect(SsEffectEmitter* e) const
 {
-	e->particle.delay = this->DelayTime;
+	e->particle.delay = m_DelayTime;
 }
 
 
@@ -208,20 +208,20 @@ void ParticleElementDelay::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementGravity::ParticleElementGravity()
-	: Gravity(0, -3.0f)
+	: m_Gravity(0, -3.0f)
 {
 }
 
 void ParticleElementGravity::readData(DataArrayReader& reader)
 {
-	this->Gravity.x = reader.readFloat();
-	this->Gravity.y = reader.readFloat();
+	m_Gravity.x = reader.readFloat();
+	m_Gravity.y = reader.readFloat();
 }
 
 void ParticleElementGravity::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useGravity = true;
-	e->particle.gravity = this->Gravity;
+	e->particle.gravity = m_Gravity;
 }
 
 
@@ -229,26 +229,26 @@ void ParticleElementGravity::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementPosition::ParticleElementPosition()
-	: OffsetXMinValue(0)
-	, OffsetXMaxValue(0)
-	, OffsetYMinValue(0)
-	, OffsetYMaxValue(0)
+	: m_OffsetXMinValue(0)
+	, m_OffsetXMaxValue(0)
+	, m_OffsetYMinValue(0)
+	, m_OffsetYMaxValue(0)
 {
 }
 
 void ParticleElementPosition::readData(DataArrayReader& reader)
 {
-	this->OffsetXMinValue = reader.readFloat();
-	this->OffsetXMaxValue = reader.readFloat();
-	this->OffsetYMinValue = reader.readFloat();
-	this->OffsetYMaxValue = reader.readFloat();
+	m_OffsetXMinValue = reader.readFloat();
+	m_OffsetXMaxValue = reader.readFloat();
+	m_OffsetYMinValue = reader.readFloat();
+	m_OffsetYMaxValue = reader.readFloat();
 }
 
 void ParticleElementPosition::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useOffset = true;
-	e->particle.offset = Vector2(this->OffsetXMinValue, this->OffsetYMinValue);
-	e->particle.offset2 = Vector2(this->OffsetXMaxValue - this->OffsetXMinValue, this->OffsetYMaxValue - this->OffsetYMinValue);
+	e->particle.offset = Vector2(m_OffsetXMinValue, m_OffsetYMinValue);
+	e->particle.offset2 = Vector2(m_OffsetXMaxValue - m_OffsetXMinValue, m_OffsetYMaxValue - m_OffsetYMinValue);
 }
 
 
@@ -256,29 +256,29 @@ void ParticleElementPosition::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementRotation::ParticleElementRotation()
-	: RotationMinValue(0)
-	, RotationMaxValue(0)
-	, RotationAddMinValue(0)
-	, RotationAddMaxValue(0)
+	: m_RotationMinValue(0)
+	, m_RotationMaxValue(0)
+	, m_RotationAddMinValue(0)
+	, m_RotationAddMaxValue(0)
 {
 }
 
 void ParticleElementRotation::readData(DataArrayReader& reader)
 {
-	this->RotationMinValue = reader.readFloat();
-	this->RotationMaxValue = reader.readFloat();
-	this->RotationAddMinValue = reader.readFloat();
-	this->RotationAddMaxValue = reader.readFloat();
+	m_RotationMinValue = reader.readFloat();
+	m_RotationMaxValue = reader.readFloat();
+	m_RotationAddMinValue = reader.readFloat();
+	m_RotationAddMaxValue = reader.readFloat();
 }
 
 void ParticleElementRotation::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useRotation = true;
-	e->particle.rotation = this->RotationMinValue;
-	e->particle.rotation2 = this->RotationMaxValue - this->RotationMinValue;
+	e->particle.rotation = m_RotationMinValue;
+	e->particle.rotation2 = m_RotationMaxValue - m_RotationMinValue;
 
-	e->particle.rotationAdd = this->RotationAddMinValue;
-	e->particle.rotationAdd2 = this->RotationAddMaxValue - this->RotationAddMinValue;
+	e->particle.rotationAdd = m_RotationAddMinValue;
+	e->particle.rotationAdd2 = m_RotationAddMaxValue - m_RotationAddMinValue;
 }
 
 
@@ -286,22 +286,22 @@ void ParticleElementRotation::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementRotationTrans::ParticleElementRotationTrans()
-	: RotationFactor(0)
-	, EndLifeTimePer(75)
+	: m_RotationFactor(0)
+	, m_EndLifeTimePer(75)
 {
 }
 
 void ParticleElementRotationTrans::readData(DataArrayReader& reader)
 {
-	this->RotationFactor = reader.readFloat();
-	this->EndLifeTimePer = reader.readFloat();
+	m_RotationFactor = reader.readFloat();
+	m_EndLifeTimePer = reader.readFloat();
 }
 
 void ParticleElementRotationTrans::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useRotationTrans = true;
-	e->particle.rotationFactor = this->RotationFactor;
-	e->particle.endLifeTimePer = this->EndLifeTimePer / 100.0f;
+	e->particle.rotationFactor = m_RotationFactor;
+	e->particle.endLifeTimePer = m_EndLifeTimePer / 100.0f;
 }
 
 
@@ -309,22 +309,22 @@ void ParticleElementRotationTrans::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementTransSpeed::ParticleElementTransSpeed()
-	: SpeedMinValue(0)
-	, SpeedMaxValue(0)
+	: m_SpeedMinValue(0)
+	, m_SpeedMaxValue(0)
 {
 }
 
 void ParticleElementTransSpeed::readData(DataArrayReader& reader)
 {
-	this->SpeedMinValue = reader.readFloat();
-	this->SpeedMaxValue = reader.readFloat();
+	m_SpeedMinValue = reader.readFloat();
+	m_SpeedMaxValue = reader.readFloat();
 }
 
 void ParticleElementTransSpeed::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useTransSpeed = true;
-	e->particle.transSpeed = this->SpeedMinValue;
-	e->particle.transSpeed2 = this->SpeedMaxValue - this->SpeedMinValue;
+	e->particle.transSpeed = m_SpeedMinValue;
+	e->particle.transSpeed2 = m_SpeedMaxValue - m_SpeedMinValue;
 }
 
 
@@ -332,22 +332,22 @@ void ParticleElementTransSpeed::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementTangentialAcceleration::ParticleElementTangentialAcceleration()
-	: AccelerationMinValue(0)
-	, AccelerationMaxValue(0)
+	: m_AccelerationMinValue(0)
+	, m_AccelerationMaxValue(0)
 {
 }
 
 void ParticleElementTangentialAcceleration::readData(DataArrayReader& reader)
 {
-	this->AccelerationMinValue = reader.readFloat();
-	this->AccelerationMaxValue = reader.readFloat();
+	m_AccelerationMinValue = reader.readFloat();
+	m_AccelerationMaxValue = reader.readFloat();
 }
 
 void ParticleElementTangentialAcceleration::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useTanAccel = true;
-	e->particle.tangentialAccel = this->AccelerationMinValue;
-	e->particle.tangentialAccel2 = (this->AccelerationMaxValue - this->AccelerationMinValue);
+	e->particle.tangentialAccel = m_AccelerationMinValue;
+	e->particle.tangentialAccel2 = (m_AccelerationMaxValue - m_AccelerationMinValue);
 }
 
 static void getRange(u8 a, u8 b, u8& min, u8& diff)
@@ -362,8 +362,8 @@ static void getRange(u8 a, u8 b, u8& min, u8& diff)
 //
 //-----------------------------------------------------------------
 ParticleElementInitColor::ParticleElementInitColor()
-	: ColorMinValue(255, 255, 255, 255)
-	, ColorMaxValue(255, 255, 255, 255)
+	: m_ColorMinValue(255, 255, 255, 255)
+	, m_ColorMaxValue(255, 255, 255, 255)
 {
 }
 
@@ -382,16 +382,16 @@ void ParticleElementInitColor::readData(DataArrayReader& reader)
 	g = (colorMaxValue & 0x0000FF00) >> 8;
 	b = (colorMaxValue & 0x000000FF) >> 0;
 	SsU8Color maxcol(r, g, b, a);
-	this->ColorMinValue = mincol;			//設定カラー最小
-	this->ColorMaxValue = maxcol;			//設定カラー最大
+	m_ColorMinValue = mincol;			//設定カラー最小
+	m_ColorMaxValue = maxcol;			//設定カラー最大
 }
 
 void ParticleElementInitColor::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useColor = true;
 
-	SsU8Color color1 = this->ColorMinValue;
-	SsU8Color color2 = this->ColorMaxValue;
+	SsU8Color color1 = m_ColorMinValue;
+	SsU8Color color2 = m_ColorMaxValue;
 
 	getRange(color1.a, color2.a, e->particle.initColor.a, e->particle.initColor2.a);
 	getRange(color1.r, color2.r, e->particle.initColor.r, e->particle.initColor2.r);
@@ -404,8 +404,8 @@ void ParticleElementInitColor::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementTransColor::ParticleElementTransColor()
-	: ColorMinValue(255, 255, 255, 255)
-	, ColorMaxValue(255, 255, 255, 255)
+	: m_ColorMinValue(255, 255, 255, 255)
+	, m_ColorMaxValue(255, 255, 255, 255)
 {
 }
 
@@ -424,16 +424,16 @@ void ParticleElementTransColor::readData(DataArrayReader& reader)
 	g = (colorMaxValue & 0x0000FF00) >> 8;
 	b = (colorMaxValue & 0x000000FF) >> 0;
 	SsU8Color maxcol(r, g, b, a);
-	this->ColorMinValue = mincol;			//設定カラー最小
-	this->ColorMaxValue = maxcol;			//設定カラー最大
+	m_ColorMinValue = mincol;			//設定カラー最小
+	m_ColorMaxValue = maxcol;			//設定カラー最大
 }
 
 void ParticleElementTransColor::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useTransColor = true;
 
-	SsU8Color color1 = this->ColorMinValue;
-	SsU8Color color2 = this->ColorMaxValue;
+	SsU8Color color1 = m_ColorMinValue;
+	SsU8Color color2 = m_ColorMaxValue;
 
 	getRange(color1.a, color2.a, e->particle.transColor.a, e->particle.transColor2.a);
 	getRange(color1.r, color2.r, e->particle.transColor.r, e->particle.transColor2.r);
@@ -446,22 +446,22 @@ void ParticleElementTransColor::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementAlphaFade::ParticleElementAlphaFade()
-	: disprangeMinValue(25)
-	, disprangeMaxValue(75)
+	: m_disprangeMinValue(25)
+	, m_disprangeMaxValue(75)
 {
 }
 
 void ParticleElementAlphaFade::readData(DataArrayReader& reader)
 {
-	this->disprangeMinValue = reader.readFloat();
-	this->disprangeMaxValue = reader.readFloat();
+	m_disprangeMinValue = reader.readFloat();
+	m_disprangeMaxValue = reader.readFloat();
 }
 
 void ParticleElementAlphaFade::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useAlphaFade = true;
-	e->particle.alphaFade = this->disprangeMinValue;
-	e->particle.alphaFade2 = this->disprangeMaxValue;
+	e->particle.alphaFade = m_disprangeMinValue;
+	e->particle.alphaFade2 = m_disprangeMaxValue;
 }
 
 
@@ -469,37 +469,37 @@ void ParticleElementAlphaFade::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementSize::ParticleElementSize()
-	: SizeXMinValue(1.0f)
-	, SizeXMaxValue(1.0f)
-	, SizeYMinValue(1.0f)
-	, SizeYMaxValue(1.0f)
-	, ScaleFactorMinValue(1.0f)
-	, ScaleFactorMaxValue(1.0f)
+	: m_SizeXMinValue(1.0f)
+	, m_SizeXMaxValue(1.0f)
+	, m_SizeYMinValue(1.0f)
+	, m_SizeYMaxValue(1.0f)
+	, m_ScaleFactorMinValue(1.0f)
+	, m_ScaleFactorMaxValue(1.0f)
 {
 }
 
 void ParticleElementSize::readData(DataArrayReader& reader)
 {
-	this->SizeXMinValue = reader.readFloat();
-	this->SizeXMaxValue = reader.readFloat();
-	this->SizeYMinValue = reader.readFloat();
-	this->SizeYMaxValue = reader.readFloat();
-	this->ScaleFactorMinValue = reader.readFloat();
-	this->ScaleFactorMaxValue = reader.readFloat();
+	m_SizeXMinValue = reader.readFloat();
+	m_SizeXMaxValue = reader.readFloat();
+	m_SizeYMinValue = reader.readFloat();
+	m_SizeYMaxValue = reader.readFloat();
+	m_ScaleFactorMinValue = reader.readFloat();
+	m_ScaleFactorMaxValue = reader.readFloat();
 }
 
 void ParticleElementSize::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useInitScale = true;
 
-	e->particle.scale.x = this->SizeXMinValue;
-	e->particle.scaleRange.x = this->SizeXMaxValue - this->SizeXMinValue;
+	e->particle.scale.x = m_SizeXMinValue;
+	e->particle.scaleRange.x = m_SizeXMaxValue - m_SizeXMinValue;
 
-	e->particle.scale.y = this->SizeYMinValue;
-	e->particle.scaleRange.y = this->SizeYMaxValue - this->SizeYMinValue;
+	e->particle.scale.y = m_SizeYMinValue;
+	e->particle.scaleRange.y = m_SizeYMaxValue - m_SizeYMinValue;
 
-	e->particle.scaleFactor = this->ScaleFactorMinValue;
-	e->particle.scaleFactor2 = this->ScaleFactorMaxValue - this->ScaleFactorMinValue;
+	e->particle.scaleFactor = m_ScaleFactorMinValue;
+	e->particle.scaleFactor2 = m_ScaleFactorMaxValue - m_ScaleFactorMinValue;
 }
 
 
@@ -507,37 +507,37 @@ void ParticleElementSize::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleElementTransSize::ParticleElementTransSize()
-	: SizeXMinValue(1.0f)
-	, SizeXMaxValue(1.0f)
-	, SizeYMinValue(1.0f)
-	, SizeYMaxValue(1.0f)
-	, ScaleFactorMinValue(1.0f)
-	, ScaleFactorMaxValue(1.0f)
+	: m_SizeXMinValue(1.0f)
+	, m_SizeXMaxValue(1.0f)
+	, m_SizeYMinValue(1.0f)
+	, m_SizeYMaxValue(1.0f)
+	, m_ScaleFactorMinValue(1.0f)
+	, m_ScaleFactorMaxValue(1.0f)
 {
 }
 
 void ParticleElementTransSize::readData(DataArrayReader& reader)
 {
-	this->SizeXMinValue = reader.readFloat();
-	this->SizeXMaxValue = reader.readFloat();
-	this->SizeYMinValue = reader.readFloat();
-	this->SizeYMaxValue = reader.readFloat();
-	this->ScaleFactorMinValue = reader.readFloat();
-	this->ScaleFactorMaxValue = reader.readFloat();
+	m_SizeXMinValue = reader.readFloat();
+	m_SizeXMaxValue = reader.readFloat();
+	m_SizeYMinValue = reader.readFloat();
+	m_SizeYMaxValue = reader.readFloat();
+	m_ScaleFactorMinValue = reader.readFloat();
+	m_ScaleFactorMaxValue = reader.readFloat();
 }
 
 void ParticleElementTransSize::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useTransScale = true;
 
-	e->particle.transscale.x = this->SizeXMinValue;
-	e->particle.transscaleRange.x = this->SizeXMaxValue - this->SizeXMinValue;
+	e->particle.transscale.x = m_SizeXMinValue;
+	e->particle.transscaleRange.x = m_SizeXMaxValue - m_SizeXMinValue;
 
-	e->particle.transscale.y = this->SizeYMinValue;
-	e->particle.transscaleRange.y = this->SizeYMaxValue - this->SizeYMinValue;
+	e->particle.transscale.y = m_SizeYMinValue;
+	e->particle.transscaleRange.y = m_SizeYMaxValue - m_SizeYMinValue;
 
-	e->particle.transscaleFactor = this->ScaleFactorMinValue;
-	e->particle.transscaleFactor2 = this->ScaleFactorMaxValue - this->ScaleFactorMinValue;
+	e->particle.transscaleFactor = m_ScaleFactorMinValue;
+	e->particle.transscaleFactor2 = m_ScaleFactorMaxValue - m_ScaleFactorMinValue;
 }
 
 
@@ -545,23 +545,23 @@ void ParticleElementTransSize::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticlePointGravity::ParticlePointGravity()
-	: Position(0, 0), Power(0.0f)
+	: m_Position(0, 0), m_Power(0.0f)
 {
 }
 
 void ParticlePointGravity::readData(DataArrayReader& reader)
 {
-	this->Position.x = reader.readFloat();
-	this->Position.y = reader.readFloat();
-	this->Power = reader.readFloat();
+	m_Position.x = reader.readFloat();
+	m_Position.y = reader.readFloat();
+	m_Power = reader.readFloat();
 }
 
 void ParticlePointGravity::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.usePGravity = true;
-	e->particle.gravityPos = this->Position;
-//	e->particle.gravityPower = this->Power / 100.0f;
-	e->particle.gravityPower = this->Power;
+	e->particle.gravityPos = m_Position;
+//	e->particle.gravityPower = m_Power / 100.0f;
+	e->particle.gravityPower = m_Power;
 }
 
 
@@ -569,19 +569,19 @@ void ParticlePointGravity::initalizeEffect(SsEffectEmitter* e) const
 //
 //-----------------------------------------------------------------
 ParticleTurnToDirectionEnabled::ParticleTurnToDirectionEnabled()
-	: Rotation(0.0f)
+	: m_Rotation(0.0f)
 {
 }
 
 void ParticleTurnToDirectionEnabled::readData(DataArrayReader& reader)
 {
-	this->Rotation = reader.readFloat();
+	m_Rotation = reader.readFloat();
 }
 
 void ParticleTurnToDirectionEnabled::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useTurnDirec = true;
-	e->particle.direcRotAdd = this->Rotation;
+	e->particle.direcRotAdd = m_Rotation;
 }
 
 
