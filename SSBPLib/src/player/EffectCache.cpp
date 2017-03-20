@@ -46,10 +46,15 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 	{
 		//エフェクトファイル配列からエフェクトファイルを取得
 		const EffectFile* effectFile = &effectFileArray[listindex];
+		std::string effectFileName = ptr.toString(effectFile->name);
 
 		//保持用のエフェクトファイル情報を作成
-		SsEffectModel *effectmodel = new SsEffectModel();
-		std::string effectFileName = ptr.toString(effectFile->name);
+		SsEffectModel *effectmodel = new SsEffectModel(
+			effectFileName, effectFile->fps,
+			effectFile->isLockRandSeed, effectFile->lockRandSeed,
+			effectFile->layoutScaleX, effectFile->layoutScaleY
+		);
+
 
 		//エフェクトファイルからエフェクトノード配列を取得
 		const EffectNode* effectNodeArray = ptr.toEffectNodes(effectFile);
@@ -87,16 +92,8 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 				static_cast<SsEffectNodeType>(effectNode->type),
 				behavior
 			);
-			effectmodel->nodeList.push_back(node);
+			effectmodel->addNode(node);
 		}
-		effectmodel->lockRandSeed = effectFile->lockRandSeed; 	 // ランダムシード固定値
-		effectmodel->isLockRandSeed = effectFile->isLockRandSeed;  // ランダムシードを固定するか否か
-		effectmodel->fps = effectFile->fps;             //
-		effectmodel->effectName = effectFileName;
-		effectmodel->layoutScaleX = effectFile->layoutScaleX;	//レイアウトスケールX
-		effectmodel->layoutScaleY = effectFile->layoutScaleY;	//レイアウトスケールY
-
-
 
 		SS_LOG("effect key: %s", effectFileName.c_str());
 		_dic.insert(std::map<std::string, SsEffectModel*>::value_type(effectFileName, effectmodel));

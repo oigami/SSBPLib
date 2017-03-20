@@ -714,8 +714,8 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , const SsEffectNode* nod
 		e->emitterSeed = e->particle.overrideRSeed;
 	}
 	else{
-		if ( this->effectData->isLockRandSeed ){
-			e->emitterSeed = (this->effectData->lockRandSeed+1) * SEED_MAGIC;
+		if ( this->effectData->isLockRandSeed() ){
+			e->emitterSeed = (this->effectData->lockRandSeed()+1) * SEED_MAGIC;
 		}
 	}
 
@@ -834,8 +834,8 @@ void    SsEffectRenderV2::reload()
 	//this->effectData->updateNodeList();//ツールじゃないので要らない
 	const std::vector<const SsEffectNode*>& list = this->effectData->getNodeList();
 
-	layoutScale.x = (float)(this->effectData->layoutScaleX) / 100.0f;
-	layoutScale.y = (float)(this->effectData->layoutScaleY) / 100.0f;
+	layoutScale.x = (float)(this->effectData->layoutScale().x) / 100.0f;
+	layoutScale.y = (float)(this->effectData->layoutScale().x) / 100.0f;
 
 	int* cnum = new int[list.size()];
 	memset(cnum, 0, sizeof(int) * list.size());
@@ -949,7 +949,7 @@ size_t  SsEffectRenderV2::getEffectTimeLength()
 	return effectTimeLength;
 }
 
-
+#if 0
 int	SsEffectRenderV2::getCurrentFPS(){
 	if (effectData)
 	{
@@ -959,5 +959,6 @@ int	SsEffectRenderV2::getCurrentFPS(){
 	}
 	return 30;
 }
+#endif
 
 };

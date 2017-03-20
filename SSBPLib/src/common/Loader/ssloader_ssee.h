@@ -40,26 +40,45 @@ public:
 
 class SsEffectModel{
 public:
-	std::vector<const SsEffectNode*> nodeList;
-	int			lockRandSeed; 	 // ランダムシード固定値
-	bool    	isLockRandSeed;  // ランダムシードを固定するか否か
-	int			fps;             //
-	std::string	effectName;
-	int			layoutScaleX;
-	int			layoutScaleY;
+	std::string	m_effectName;		//エフェクトファイル名
+	int			m_fps;				//FPS
+	bool    	m_isLockRandSeed;	//乱数を固定するかどうか
+	int			m_lockRandSeed; 	//固定する場合の乱数の種
+	Vector2		m_layoutScale;		//レイアウトスケール
+	std::vector<const SsEffectNode*> m_nodeList;
 
 public:
-	SsEffectModel(){}
+	SsEffectModel(std::string effectName, int fps, bool isLockRandSeed, int lockRandSeed, int layoutScaleX, int layoutScaleY)
+		: m_effectName(effectName)
+		, m_fps(fps)
+		, m_isLockRandSeed(isLockRandSeed)
+		, m_lockRandSeed(lockRandSeed)
+		, m_layoutScale(layoutScaleX, layoutScaleY)
+	{}
 
-	virtual ~SsEffectModel(){
-		for(const SsEffectNode* node : nodeList){
+	~SsEffectModel(){
+		for(const SsEffectNode* node : m_nodeList){
 			delete node;
 		}
-		nodeList.clear();
+		m_nodeList.clear();
+	}
+
+	bool isLockRandSeed() const{
+		return m_isLockRandSeed;
+	}
+	int lockRandSeed() const{
+		return m_lockRandSeed;
+	}
+	const Vector2& layoutScale() const{
+		return m_layoutScale;
 	}
 
 	const std::vector<const SsEffectNode*>& getNodeList() const{
-		return nodeList;
+		return m_nodeList;
+	}
+
+	void addNode(const SsEffectNode* node){
+		m_nodeList.push_back(node);
 	}
 };
 

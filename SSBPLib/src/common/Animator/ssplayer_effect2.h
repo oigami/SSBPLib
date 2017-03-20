@@ -337,8 +337,9 @@ public:
 
     virtual size_t  getEffectTimeLength();
 
+#if 0
 	virtual int	getCurrentFPS();
-
+#endif
 
 	void	drawSprite(
 			int cellIndex, const CellRef* refCell, SsRenderBlendType blendType,
@@ -351,7 +352,7 @@ public:
 		);
 
 	void	setSeedOffset(int offset) {
-		if (effectData->isLockRandSeed)
+		if (effectData->isLockRandSeed())
 		{
 			seedOffset = 0;
 		}
