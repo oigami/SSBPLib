@@ -835,44 +835,38 @@ void    SsEffectRenderV2::initialize()
 {
 	const std::vector<const SsEffectNode*>& list = this->effectData->getNodeList();
 
-	int* cnum = new int[list.size()];
-	memset(cnum, 0, sizeof(int) * list.size());
+	std::vector<int> cnum(list.size(), 0);
 
-	bool _Infinite = false;
 	//パラメータを取得
 	//以前のデータ形式から変換
 	for (size_t i = 0; i < list.size(); i++)
 	{
 		const SsEffectNode *node = list[i];
 
-		if (node->GetType() == SsEffectNodeType::emmiter)
-		{
+		if (node->GetType() == SsEffectNodeType::emmiter){
 			SsEffectEmitter* e = new SsEffectEmitter();
 			//パラメータをコピー
 
 			e->_parentIndex = node->getParentIndex();
 			//繋ぎ先は恐らくパーティクルなのでエミッタに変換
-			if (e->_parentIndex != 0)
-			{
+			if (e->_parentIndex != 0){
 				e->_parentIndex = list[e->_parentIndex]->getParentIndex();
-
 			}
 
 			cnum[e->_parentIndex]++;
-			if (cnum[e->_parentIndex] > 10)
-			{
+			if (cnum[e->_parentIndex] > 10){
 				_isWarningData = true;
+				delete e;
 				continue; //子１０ノード表示制限
 			}
 
 			//孫抑制対策
-			if (e->_parentIndex != 0)
-			{
+			if (e->_parentIndex != 0){
 				int a = list[e->_parentIndex]->getParentIndex();
-				if (a != 0)
-				{
+				if (a != 0){
 					if (list[a]->getParentIndex() > 0) {
 						_isWarningData = true;
+						delete e;
 						continue;
 					}
 				}
@@ -880,18 +874,15 @@ void    SsEffectRenderV2::initialize()
 
 			initEmitter(e, node);
 			this->emmiterList.push_back(e);
-			if (e->emitter.Infinite) _Infinite = true;
+			if(e->emitter.Infinite){
+				Infinite = true;
+			}
 		}
-		else
-		{
+		else{
 			//エミッター同士を繋ぎたいので
-			this->emmiterList.push_back(0);
+			this->emmiterList.push_back(nullptr);
 		}
 	}
-
-	delete[] cnum;
-	Infinite = _Infinite;
-
 
 	//親子関係整理
 
@@ -904,7 +895,6 @@ void    SsEffectRenderV2::initialize()
 		if (emmiterList[i] != 0)
 		{
 			emmiterList[i]->uid = i;
-			//emmiterList[i]->precalculate();
 			emmiterList[i]->precalculate2(); //ループ対応形式
 
 
