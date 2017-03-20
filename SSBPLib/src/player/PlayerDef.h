@@ -109,33 +109,7 @@ enum BlendType
 	BLEND_SUB		///< 3 減算
 };
 
-/*
-Common\Loader\sstypes.hに実際の定義があります。
-/// テクスチャラップモード
-namespace SsTexWrapMode
-{
-	enum _enum
-	{
-		invalid = -1,	/// なし
-		clamp,			/// クランプする
-		repeat,			/// リピート
-		mirror,			/// ミラー
-		num
-	};
-};
 
-/// テクスチャフィルターモード 画素補間方法
-namespace SsTexFilterMode
-{
-	enum _enum
-	{
-		invalid = -1,
-		nearlest,	///< ニアレストネイバー
-		linear,		///< リニア、バイリニア
-		num
-	};
-};
-*/
 
 //カラーラベル定数
 #define COLORLABELSTR_NONE		""

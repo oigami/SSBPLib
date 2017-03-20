@@ -17,7 +17,7 @@ namespace ss
 	class Player;
 
 #if 0
-	extern TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode::_enum  wrapmode, SsTexFilterMode::_enum filtermode);
+	extern TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode wrapmode, SsTexFilterMode filtermode);
 	extern bool SSTextureRelese(TextureID handle);
 	extern bool isAbsolutePath(const std::string& strPath);
 #endif

@@ -30,8 +30,8 @@ struct CellMapTextureInfo{
 	
 /*	CellMapTextureInfo()
 		: m_imagePaths(nullptr)
-		, m_wrapMode(SsTexWrapMode::_enum::invalid)
-		, m_filterMode(SsTexFilterMode::_enum::invalid){} */
+		, m_wrapMode(SsTexWrapMode::invalid)
+		, m_filterMode(SsTexFilterMode::invalid){} */
 
 	bool operator <(const CellMapTextureInfo& o) const{
 		return m_imagePaths < o.m_imagePaths;	//mapに突っ込むのにひとまず定義しておく

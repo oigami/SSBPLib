@@ -19,7 +19,7 @@ namespace ss
 	/**
 	* テクスチャの読み込み
 	*/
-	TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode::_enum  wrapmode, SsTexFilterMode::_enum filtermode)
+	TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode wrapmode, SsTexFilterMode filtermode)
 	{
 		/**
 		* テクスチャ管理用のユニークな値を返してください。
