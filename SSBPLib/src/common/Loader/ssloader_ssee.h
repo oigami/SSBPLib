@@ -18,10 +18,10 @@ private:
 	SsEffectBehavior m_behavior;
 
 public:
-	SsEffectNode(int parentIndex, SsEffectNodeType type, const SsEffectBehavior& behavior)
+	SsEffectNode(int parentIndex, SsEffectNodeType type, int cellIndex, const CellRef* cellRef, SsRenderBlendType blendType)
 		: m_parentIndex(parentIndex)
 		, m_type(type)
-		, m_behavior(behavior)
+		, m_behavior(cellIndex, cellRef, blendType)
 	{}
 	~SsEffectNode(){
 		//ひとまずEffectCacheでのdeleteをこちらに移動。deleteはSsEffectBehaviorがやるべきなので後で修正する
@@ -35,6 +35,9 @@ public:
 	SsEffectNodeType GetType() const{ return m_type; }
 	const SsEffectBehavior*	GetMyBehavior() const{ return &m_behavior; }
 
+	void addElement(const SsEffectElementBase* element){
+		m_behavior.plist.push_back(element);
+	}
 };
 
 

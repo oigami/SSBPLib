@@ -68,8 +68,11 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 			const CellRef* cellRef = cellIndex >= 0 ? cellCache->getReference(cellIndex) : nullptr;
 			SsRenderBlendType blendType = static_cast<SsRenderBlendType>(effectNode->blendType);
 
-			SsEffectBehavior behavior(cellIndex, cellRef, blendType);
-			
+			SsEffectNode *node = new SsEffectNode(
+				effectNode->parentIndex,
+				static_cast<SsEffectNodeType>(effectNode->type),
+				cellIndex, cellRef, blendType
+			);
 
 			//エフェクトノードからビヘイビア配列を取得
 			const ss_offset* behaviorArray = static_cast<const ss_offset*>(ptr(effectNode->Behavior));
@@ -84,15 +87,11 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 				SsEffectElementBase* effectParam = SsEffectElementBase::create( static_cast<SsEffectFunctionType::enum_>(type) );
 				if(effectParam){
 					effectParam->readData(reader);			//データ読み込み
-					behavior.plist.push_back(effectParam);
+					node->addElement(effectParam);
 				}
 			}
 
-			SsEffectNode *node = new SsEffectNode(
-				effectNode->parentIndex,
-				static_cast<SsEffectNodeType>(effectNode->type),
-				behavior
-			);
+
 			effectmodel->addNode(node);
 		}
 
