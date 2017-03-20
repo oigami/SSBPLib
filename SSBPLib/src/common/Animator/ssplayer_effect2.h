@@ -269,13 +269,10 @@ public:
 
 	float			nowFrame;
 	float			targetFrame;
-    float			secondNowFrame;
 
 	size_t          effectTimeLength;
 
     bool			Infinite;	//無限に発生出来るかどうか
-
-	bool			isIntFrame;
 
 	bool			m_isPlay;
 	bool			m_isLoop;
