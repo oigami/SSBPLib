@@ -487,9 +487,8 @@ void SsEffectEmitter::updateEmitter(double _time, int slide)
 
 
 
-const particleExistSt*	SsEffectEmitter::getParticleDataFromID(int id)
+const particleExistSt*	SsEffectEmitter::getParticleDataFromID(int id) const
 {
-
 	return &particleExistList[id];
 }
 //----------------------------------------------------------------------------------

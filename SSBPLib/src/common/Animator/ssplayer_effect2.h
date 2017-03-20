@@ -234,12 +234,14 @@ public:
 	}
 
 
-	int	getParticleIDMax() { return _offsetPattern.size(); }
-	const 	particleExistSt*	getParticleDataFromID(int id);
+	int	getParticleIDMax()const { return _offsetPattern.size(); }
+	const 	particleExistSt*	getParticleDataFromID(int id) const;
 	void	updateEmitter(double time, int slide);
 
 
-	int	getTimeLength() { return emitter.life + ( emitter.particleLife + emitter.particleLife2); }
+	int	getTimeLength() const{
+		return emitter.life + emitter.particleLife + emitter.particleLife2;
+	}
 
 	//現在時間から産出される位置を求める
 	//time変数から求められる式とする
