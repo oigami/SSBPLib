@@ -84,7 +84,7 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 
 				//パラメータを作ってpush_backで登録していく
 				int type = reader.readS32();
-				SsEffectElementBase* effectParam = SsEffectElementBase::create( static_cast<SsEffectFunctionType::enum_>(type) );
+				SsEffectElementBase* effectParam = SsEffectElementBase::create( static_cast<SsEffectFunctionType>(type) );
 				if(effectParam){
 					effectParam->readData(reader);			//データ読み込み
 					node->addElement(effectParam);

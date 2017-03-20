@@ -7,31 +7,27 @@ class DataArrayReader;
 
 
 //命令種別
-namespace SsEffectFunctionType
-{
-	enum enum_
-	{
-		Base,
-		Basic	,
-		RndSeedChange , 
-		Delay,
-		Gravity,
-		Position,
-		//TransPosition,
-		Rotation,
-		TransRotation,
-		TransSpeed,
-		TangentialAcceleration,
-		InitColor,
-		TransColor,
-		AlphaFade,
-		Size,
-		TransSize,
-		PointGravity,
-		TurnToDirectionEnabled,
-		InfiniteEmitEnabled,
-	};
-}
+enum class SsEffectFunctionType{
+	Base,
+	Basic,
+	RndSeedChange,
+	Delay,
+	Gravity,
+	Position,
+	//TransPosition,
+	Rotation,
+	TransRotation,
+	TransSpeed,
+	TangentialAcceleration,
+	InitColor,
+	TransColor,
+	AlphaFade,
+	Size,
+	TransSize,
+	PointGravity,
+	TurnToDirectionEnabled,
+	InfiniteEmitEnabled,
+};
 
 
 
@@ -46,7 +42,7 @@ public:
 	virtual void initalizeEffect(SsEffectEmitter* e) const = 0;
 
 	//対応するElementをnewします
-	static SsEffectElementBase* create(SsEffectFunctionType::enum_ type);
+	static SsEffectElementBase* create(SsEffectFunctionType type);
 };
 
 

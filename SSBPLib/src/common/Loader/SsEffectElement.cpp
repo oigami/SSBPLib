@@ -4,7 +4,7 @@
 
 namespace ss{
 
-SsEffectElementBase* SsEffectElementBase::create(SsEffectFunctionType::enum_ type)
+SsEffectElementBase* SsEffectElementBase::create(SsEffectFunctionType type)
 {
 	switch(type){
 	case SsEffectFunctionType::Basic:			//基本情報
