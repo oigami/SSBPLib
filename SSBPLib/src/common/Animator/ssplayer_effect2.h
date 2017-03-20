@@ -286,12 +286,9 @@ public:
 	int			_drawSpritecount; 
 
 
-protected:
+private:
 	void 	particleDraw(SsEffectEmitter* e , double t , SsEffectEmitter* parent , particleDrawData* plp, const std::vector<TextuerData>& textures);
 	void	initEmitter( SsEffectEmitter* e , const SsEffectNode* node);
-
-	void	clearEmitterList();
-
 
 
 public:
@@ -300,7 +297,6 @@ public:
 
 	void    play(){ m_isPlay=true; }
 	void	stop(){ m_isPlay = false;}
-	void    pause(){ m_isPlay=false; }
 	void	setLoop(bool flag){ m_isLoop = flag; }
 	bool	isplay(){return m_isPlay;}
 	bool	isloop(){return m_isLoop;}

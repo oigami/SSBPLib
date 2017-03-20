@@ -495,20 +495,30 @@ const particleExistSt*	SsEffectEmitter::getParticleDataFromID(int id)
 //----------------------------------------------------------------------------------
 SsEffectRenderV2::SsEffectRenderV2(const SsEffectModel* model, int seed)
 	: effectData(model)
-	, effectTimeLength(0)
-	, seedOffset(0)
 	, mySeed(seed * SEED_MAGIC)
-	, _parentSprite(0)
+	, nowFrame(0)
+	, targetFrame(0)
+	, effectTimeLength(0)
+	, Infinite(false)
+	, m_isPlay(false)
+	, m_isLoop(false)
+	, seedOffset(0)
+	, _isWarningData(false)
+	, _parentSprite(nullptr)
+	, _drawSpritecount(0)
 {
 	SS_ASSERT(effectData);
 	initialize();
-	stop();
-	setLoop(false);
 }
 
 SsEffectRenderV2::~SsEffectRenderV2()
 {
-	clearEmitterList();
+	for(SsEffectEmitter* emitter : this->emmiterList){
+		delete emitter;
+	}
+
+	emmiterList.clear();
+	updateList.clear();
 }
 
 
@@ -740,16 +750,6 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , const SsEffectNode* nod
 }
 
 
-void	SsEffectRenderV2::clearEmitterList()
-{
-	for (SsEffectEmitter* emitter : this->emmiterList){
-		delete emitter;
-	}
-
-    emmiterList.clear();
-	updateList.clear();
-}
-
 
 
 void	SsEffectRenderV2::update()
@@ -833,13 +833,6 @@ bool compare_priority( SsEffectEmitter* left,  SsEffectEmitter* right)
 
 void    SsEffectRenderV2::initialize()
 {
-	nowFrame = 0;
-
-	//updateが必要か
-	stop();
-	clearEmitterList();
-
-	//this->effectData->updateNodeList();//ツールじゃないので要らない
 	const std::vector<const SsEffectNode*>& list = this->effectData->getNodeList();
 
 	int* cnum = new int[list.size()];
