@@ -342,7 +342,7 @@ void Player::setPartsParentage()
 			if (effectmodel)
 			{
 				//エフェクトクラスにパラメータを設定する
-				sprite->refEffect = new SsEffectRenderV2(effectmodel, getRandomSeed());
+				sprite->refEffect = new SsEffectRenderV2(_eventListener, effectmodel, getRandomSeed());	//ひとまず今セットされているイベントリスナーを渡す //todo:最終的にはChildPlayer同様に外に制御を任せたい
 			}
 		}
 	}

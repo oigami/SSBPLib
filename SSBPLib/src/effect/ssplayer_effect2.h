@@ -257,7 +257,8 @@ public:
 
 class SsEffectRenderV2
 {
-public:
+private:
+	SS5EventListener*	m_eventListener;
 
 	//エフェクトのパラメータデータ
 	const SsEffectModel*		effectData;
@@ -294,7 +295,7 @@ private:
 
 
 public:
-	SsEffectRenderV2(const SsEffectModel* model, int seed);
+	SsEffectRenderV2(SS5EventListener* eventListener, const SsEffectModel* model, int seed);
 	~SsEffectRenderV2();
 
 	void    play(){ m_isPlay=true; }

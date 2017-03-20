@@ -492,8 +492,9 @@ const particleExistSt*	SsEffectEmitter::getParticleDataFromID(int id) const
 	return &particleExistList[id];
 }
 //----------------------------------------------------------------------------------
-SsEffectRenderV2::SsEffectRenderV2(const SsEffectModel* model, int seed)
-	: effectData(model)
+SsEffectRenderV2::SsEffectRenderV2(SS5EventListener* eventListener, const SsEffectModel* model, int seed)
+	: m_eventListener(eventListener)
+	, effectData(model)
 	, mySeed(seed * SEED_MAGIC)
 	, nowFrame(0)
 	, targetFrame(0)
