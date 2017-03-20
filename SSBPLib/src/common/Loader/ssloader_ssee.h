@@ -39,7 +39,7 @@ public:
 
 
 class SsEffectModel{
-public:
+private:
 	std::string	m_effectName;		//エフェクトファイル名
 	int			m_fps;				//FPS
 	bool    	m_isLockRandSeed;	//乱数を固定するかどうか
