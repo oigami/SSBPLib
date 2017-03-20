@@ -262,13 +262,10 @@ public:
 
 	//Modelに記載されているエミッタのリスト
 	std::vector<SsEffectEmitter*>   emmiterList;
-
 	std::vector<SsEffectEmitter*>   updateList;
 
 	//ランダムシード
-	u32				mySeed;
-
-//	Vector2		layoutScale;
+	int				mySeed;
 
 	float			nowFrame;
 	float			targetFrame;
@@ -301,44 +298,43 @@ protected:
 
 
 public:
-	SsEffectRenderV2() : effectTimeLength(0), isIntFrame(true), seedOffset(0), mySeed(0), _parentSprite(0){}
-	virtual ~SsEffectRenderV2() 
-	{
-		clearEmitterList();
-	}
+	SsEffectRenderV2(const SsEffectModel* model, int seed);
+	~SsEffectRenderV2();
 
-	virtual void    play(){ m_isPlay=true; }
-	virtual void	stop(){ m_isPlay = false;}
-	virtual void    pause(){ m_isPlay=false; }
-	virtual void	setLoop(bool flag){ m_isLoop = flag; }
-	virtual bool	isplay(){return m_isPlay;}
-	virtual bool	isloop(){return m_isLoop;}
+	void    play(){ m_isPlay=true; }
+	void	stop(){ m_isPlay = false;}
+	void    pause(){ m_isPlay=false; }
+	void	setLoop(bool flag){ m_isLoop = flag; }
+	bool	isplay(){return m_isPlay;}
+	bool	isloop(){return m_isLoop;}
 
-	virtual void	setEffectData(const SsEffectModel* data);
+private:
+	void	setEffectData(const SsEffectModel* data);
 
 
-	virtual void	setSeed( u32 seed )
-	{
+	void	setSeed( int seed ){
    		mySeed = seed * SEED_MAGIC;
 	}
 
-
-	virtual void	setFrame( float frame )
+public:
+	void	setFrame( float frame )
 	{
     	nowFrame = frame;
 	}
 
-    virtual float	getFrame(){ return nowFrame; }
+    float	getFrame(){ return nowFrame; }
 
-	virtual void	update();
-	virtual void	draw(const std::vector<TextuerData>& textures);
+	void	update();
+	void	draw(const std::vector<TextuerData>& textures);
 
-	virtual void    reload();
+private:
+	void    reload();
 
-    virtual size_t  getEffectTimeLength();
+public:
+    size_t  getEffectTimeLength();
 
 #if 0
-	virtual int	getCurrentFPS();
+	int	getCurrentFPS();
 #endif
 
 	void	drawSprite(
@@ -361,8 +357,8 @@ public:
 			seedOffset = offset;
 		}
 	}
-	virtual bool	isInfinity() { return Infinite; }
-	virtual bool	isWarning() { return _isWarningData; }
+	bool	isInfinity() { return Infinite; }
+	bool	isWarning() { return _isWarningData; }
 
 	//親になるスプライトを設定する
 	void setParentSprite(CustomSprite* sprite) { _parentSprite = sprite; }

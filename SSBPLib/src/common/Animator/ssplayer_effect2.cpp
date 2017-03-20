@@ -417,9 +417,6 @@ void	SsEffectEmitter::precalculate2()
 
 
 
-//----------------------------------------------------------------------------------
-
-
 
 
 void SsEffectEmitter::updateEmitter(double _time, int slide)
@@ -495,6 +492,28 @@ const particleExistSt*	SsEffectEmitter::getParticleDataFromID(int id)
 
 	return &particleExistList[id];
 }
+//----------------------------------------------------------------------------------
+SsEffectRenderV2::SsEffectRenderV2(const SsEffectModel* model, int seed)
+	: effectTimeLength(0)
+	, isIntFrame(true)
+	, seedOffset(0)
+	, mySeed(0)
+	, _parentSprite(0)
+{
+	setEffectData(model);
+	//setEffectSprite(&_effectSprite);	//エフェクトクラスに渡す都合上publicにしておく
+	//setEffectSpriteCount(&_effectSpriteCount);	//エフェクトクラスに渡す都合上publicにしておく
+	setSeed(seed);
+	reload();
+	stop();
+	setLoop(false);
+}
+
+SsEffectRenderV2::~SsEffectRenderV2()
+{
+	clearEmitterList();
+}
+
 
 
 void	SsEffectRenderV2::drawSprite(
