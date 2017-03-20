@@ -7,7 +7,7 @@
 
 namespace ss
 {
-
+#if 0
 class SsEffectElementBase;
 
 class SsEffectBehavior{
@@ -32,7 +32,7 @@ public:
 	const CellRef* getCellRef() const{ return m_cellRef; }
 	SsRenderBlendType getBlendType() const{ return m_blendType; }
 };
-
+#endif
 
 };
 

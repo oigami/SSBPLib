@@ -15,28 +15,36 @@ private:
 	int				 m_parentIndex;
 	SsEffectNodeType m_type;
 
-	SsEffectBehavior m_behavior;
+private:
+	int					m_cellIndex;	//プレイヤー専用に追加
+	const CellRef*		m_cellRef;
+	SsRenderBlendType	m_blendType;
+public:
+	std::vector<const SsEffectElementBase*> plist;
 
 public:
 	SsEffectNode(int parentIndex, SsEffectNodeType type, int cellIndex, const CellRef* cellRef, SsRenderBlendType blendType)
 		: m_parentIndex(parentIndex)
 		, m_type(type)
-		, m_behavior(cellIndex, cellRef, blendType)
+		, m_cellIndex(cellIndex)
+		, m_cellRef(cellRef)
+		, m_blendType(blendType)
 	{}
 	~SsEffectNode(){
-		//ひとまずEffectCacheでのdeleteをこちらに移動。deleteはSsEffectBehaviorがやるべきなので後で修正する
-		for(const SsEffectElementBase* eb : GetMyBehavior()->plist){
+		for(const SsEffectElementBase* eb : plist){
 			delete eb;
 		}
-		m_behavior.plist.clear();
+		plist.clear();
 	}
 
 	int getParentIndex() const{ return m_parentIndex; }
 	SsEffectNodeType GetType() const{ return m_type; }
-	const SsEffectBehavior*	GetMyBehavior() const{ return &m_behavior; }
+	int getCellIndex() const{ return m_cellIndex; }
+	const CellRef* getCellRef() const{ return m_cellRef; }
+	SsRenderBlendType getBlendType() const{ return m_blendType; }
 
 	void addElement(const SsEffectElementBase* element){
-		m_behavior.plist.push_back(element);
+		plist.push_back(element);
 	}
 };
 

@@ -204,7 +204,7 @@ public:
 
     int							_parentIndex;
 
-	const SsEffectBehavior*     refData;	//データ更新用
+	const SsEffectNode*     refData;	//データ更新用
 
 	size_t						globaltime;
 	size_t						seedTableLen;

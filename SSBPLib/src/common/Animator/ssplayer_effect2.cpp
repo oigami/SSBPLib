@@ -704,7 +704,7 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , const SsEffectNode* node)
 {
 
-	e->refData = node->GetMyBehavior();
+	e->refData = node;
 	for(const SsEffectElementBase* element : e->refData->plist){
 		element->initalizeEffect(e);
 	}
