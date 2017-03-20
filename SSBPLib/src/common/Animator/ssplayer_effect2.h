@@ -317,7 +317,7 @@ public:
 	void	draw(const std::vector<TextuerData>& textures);
 
 private:
-	void    reload();
+	void    initialize();
 
 public:
     size_t  getEffectTimeLength();

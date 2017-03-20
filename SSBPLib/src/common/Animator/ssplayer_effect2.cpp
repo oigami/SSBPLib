@@ -494,18 +494,15 @@ const particleExistSt*	SsEffectEmitter::getParticleDataFromID(int id)
 }
 //----------------------------------------------------------------------------------
 SsEffectRenderV2::SsEffectRenderV2(const SsEffectModel* model, int seed)
-	: effectTimeLength(0)
+	: effectData(model)
+	, effectTimeLength(0)
 	, isIntFrame(true)
 	, seedOffset(0)
-	, mySeed(0)
+	, mySeed(seed * SEED_MAGIC)
 	, _parentSprite(0)
 {
-	{ //setEffectData
-		effectData = model;
-		reload();
-	}
-	mySeed = seed * SEED_MAGIC;	//setSeed
-	reload();
+	SS_ASSERT(effectData);
+	initialize();
 	stop();
 	setLoop(false);
 }
@@ -835,7 +832,7 @@ bool compare_priority( SsEffectEmitter* left,  SsEffectEmitter* right)
 }
 
 
-void    SsEffectRenderV2::reload()
+void    SsEffectRenderV2::initialize()
 {
 	nowFrame = 0;
 
