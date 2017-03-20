@@ -52,7 +52,8 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 		SsEffectModel *effectmodel = new SsEffectModel(
 			effectFileName, effectFile->fps,
 			effectFile->isLockRandSeed, effectFile->lockRandSeed,
-			effectFile->layoutScaleX, effectFile->layoutScaleY
+			static_cast<float>(effectFile->layoutScaleX) / 100.0f,
+			static_cast<float>(effectFile->layoutScaleY) / 100.0f
 		);
 
 

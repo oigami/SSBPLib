@@ -523,6 +523,7 @@ void	SsEffectRenderV2::drawSprite(
 	}
 
 	Matrix tmp;
+	Vector2 layoutScale = this->effectData->layoutScale();
 	matrix = tmp.setupTranslation(_position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f) * matrix;
 	//TranslationMatrixM(matrix, _position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f);	//レイアウトスケールの反映
 
@@ -833,9 +834,6 @@ void    SsEffectRenderV2::reload()
 
 	//this->effectData->updateNodeList();//ツールじゃないので要らない
 	const std::vector<const SsEffectNode*>& list = this->effectData->getNodeList();
-
-	layoutScale.x = (float)(this->effectData->layoutScale().x) / 100.0f;
-	layoutScale.y = (float)(this->effectData->layoutScale().x) / 100.0f;
 
 	int* cnum = new int[list.size()];
 	memset(cnum, 0, sizeof(int) * list.size());

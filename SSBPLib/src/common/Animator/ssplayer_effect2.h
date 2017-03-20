@@ -268,7 +268,7 @@ public:
 	//ランダムシード
 	u32				mySeed;
 
-	Vector2		layoutScale;
+//	Vector2		layoutScale;
 
 	float			nowFrame;
 	float			targetFrame;
