@@ -338,7 +338,7 @@ void Player::setPartsParentage()
 		std::string refeffectName = ptr.toString(partData->effectfilename);
 		if (refeffectName != "")
 		{
-			SsEffectModel* effectmodel = _currentRs->m_effectCache->getReference(refeffectName);
+			const SsEffectModel* effectmodel = _currentRs->m_effectCache->getReference(refeffectName);
 			if (effectmodel)
 			{
 				//エフェクトクラスにパラメータを設定する

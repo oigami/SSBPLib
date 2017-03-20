@@ -258,7 +258,7 @@ class SsEffectRenderV2
 public:
 
 	//エフェクトのパラメータデータ
-	SsEffectModel*		effectData;
+	const SsEffectModel*		effectData;
 
 	//Modelに記載されているエミッタのリスト
 	std::vector<SsEffectEmitter*>   emmiterList;
@@ -314,7 +314,7 @@ public:
 	virtual bool	isplay(){return m_isPlay;}
 	virtual bool	isloop(){return m_isLoop;}
 
-	virtual void	setEffectData(SsEffectModel* data);
+	virtual void	setEffectData(const SsEffectModel* data);
 
 
 	virtual void	setSeed( u32 seed )

@@ -16,28 +16,22 @@ EffectCache::EffectCache(const ProjectData* data, const std::string& imageBaseDi
 }
 EffectCache::~EffectCache()
 {
-	releseReference();
+	for(auto str_model : _dic){
+		SS_SAFE_DELETE(str_model.second);
+	}
+	_dic.clear();
 }
 
 
 /**
 * エフェクトファイル名を指定してEffectRefを得る
 */
-SsEffectModel* EffectCache::getReference(const std::string& name)
+const SsEffectModel* EffectCache::getReference(const std::string& name) const
 {
-	SsEffectModel* ref = _dic.at(name);
+	const SsEffectModel* ref = _dic.at(name);
 	return ref;
 }
 
-void EffectCache::dump()
-{
-	std::map<std::string, SsEffectModel*>::iterator it = _dic.begin();
-	while(it != _dic.end())
-	{
-		SS_LOG("%s", (*it).second);
-		++it;
-	}
-}
 
 void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir, CellCache* cellCache)
 {
@@ -107,19 +101,6 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 		SS_LOG("effect key: %s", effectFileName.c_str());
 		_dic.insert(std::map<std::string, SsEffectModel*>::value_type(effectFileName, effectmodel));
 	}
-}
-
-//エフェクトファイル情報の削除
-void EffectCache::releseReference(void)
-{
-	std::map<std::string, SsEffectModel*>::iterator it = _dic.begin();
-	while(it != _dic.end())
-	{
-		SsEffectModel* effectmodel = it->second;
-		delete effectmodel;
-		it++;
-	}
-	_dic.clear();
 }
 
 

@@ -58,8 +58,7 @@ public:
 		nodeList.clear();
 	}
 
-	const std::vector<const SsEffectNode*>& getNodeList()
-	{
+	const std::vector<const SsEffectNode*>& getNodeList() const{
 		return nodeList;
 	}
 };

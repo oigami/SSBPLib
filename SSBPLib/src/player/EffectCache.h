@@ -18,18 +18,13 @@ public:
 	/**
 	 * エフェクトファイル名を指定してEffectRefを得る
 	 */
-	SsEffectModel* getReference(const std::string& name);
-
-	void dump();
+	const SsEffectModel* getReference(const std::string& name) const;
 
 private:
 	void init(const ProjectData* data, const std::string& imageBaseDir, CellCache* cellCache);
 
-	//エフェクトファイル情報の削除
-	void releseReference(void);
-
 	
-	std::map<std::string, SsEffectModel*>		_dic;
+	std::map<std::string, const SsEffectModel*>		_dic;
 };
 
 } //namespace ss
