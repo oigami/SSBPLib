@@ -646,7 +646,7 @@ void	SsEffectRenderV2::drawSprite(
 
 	state.mat.addTranslation(cxy.x, cxy.y);
 
-	SSDrawSprite(state, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);	//描画
+	SSDrawSprite(state, state.quad, state.opacity, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);	//描画
 
 	_drawSpritecount++;
 }

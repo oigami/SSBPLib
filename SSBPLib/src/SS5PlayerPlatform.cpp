@@ -93,7 +93,7 @@ namespace ss
 	/**
 	* スプライトの表示
 	*/
-	void SSDrawSprite(State state, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags)
+	void SSDrawSprite(State state, const SSV3F_C4B_T2F_Quad& quad, int opacity, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags)
 	{
 		//未対応機能
 		//ステータスから情報を取得し、各プラットフォームに合わせて機能を実装してください。
@@ -103,21 +103,21 @@ namespace ss
 		//
 		switch (blendType){
 		case BLEND_MIX:		///< 0 ブレンド（ミックス）
-			if (state.opacity == 255){
-				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, state.opacity);
+			if (opacity == 255){
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, opacity);
 			}
 			else{
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, state.opacity);
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, opacity);
 			}
 			break;
 		case BLEND_MUL:		///< 1 乗算
-			SetDrawBlendMode(DX_BLENDMODE_MULA, state.opacity);
+			SetDrawBlendMode(DX_BLENDMODE_MULA, opacity);
 			break;
 		case BLEND_ADD:		///< 2 加算
-			SetDrawBlendMode(DX_BLENDMODE_ADD, state.opacity);
+			SetDrawBlendMode(DX_BLENDMODE_ADD, opacity);
 			break;
 		case BLEND_SUB:		///< 3 減算
-			SetDrawBlendMode(DX_BLENDMODE_SUB, state.opacity);
+			SetDrawBlendMode(DX_BLENDMODE_SUB, opacity);
 			break;
 		}
 
@@ -138,7 +138,7 @@ namespace ss
 			case BLEND_MUL:		///< 1 乗算
 				// ブレンド方法は乗算以外未対応
 				// とりあえず左上の色を反映させる
-				SetDrawBright(state.quad.tl.colors.r, state.quad.tl.colors.g, state.quad.tl.colors.b);
+				SetDrawBright(quad.tl.colors.r, quad.tl.colors.g, quad.tl.colors.b);
 				break;
 			case BLEND_ADD:		///< 2 加算
 				break;
@@ -153,39 +153,38 @@ namespace ss
 		* 3Dを使用する場合頂点情報を使用して再現すると頂点変形やUV系のアトリビュートを反映させる事ができます。
 		*/
 		//描画用頂点情報を作成
-		SSV3F_C4B_T2F_Quad quad;
-		quad = state.quad;
+		SSV3F_C4B_T2F_Quad quad_ = quad;
 
 		//原点補正
 		float cx = (state.rect.width() * -(state.pivotX - 0.5f));	//デフォルトがpivotX == 0.5になってる
 		float cy = (state.rect.height() * +(state.pivotY - 0.5f));
 
-		quad.tl.vertices.x += cx;
-		quad.tl.vertices.y += cy;
-		quad.tr.vertices.x += cx;
-		quad.tr.vertices.y += cy;
-		quad.bl.vertices.x += cx;
-		quad.bl.vertices.y += cy;
-		quad.br.vertices.x += cx;
-		quad.br.vertices.y += cy;
+		quad_.tl.vertices.x += cx;
+		quad_.tl.vertices.y += cy;
+		quad_.tr.vertices.x += cx;
+		quad_.tr.vertices.y += cy;
+		quad_.bl.vertices.x += cx;
+		quad_.bl.vertices.y += cy;
+		quad_.br.vertices.x += cx;
+		quad_.br.vertices.y += cy;
 
 		//vertexにworldMatrixをかける
-		quad.vertexForeach([&](Vector3& vertex){
+		quad_.vertexForeach([&](Vector3& vertex){
 			vertex *= state.mat;
 		});
 
 		//頂点カラーにアルファを設定
-		quad.tl.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
-		quad.tr.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
-		quad.bl.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
-		quad.br.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
+		quad_.tl.colors.a = quad_.bl.colors.a * state.Calc_opacity / 255;
+		quad_.tr.colors.a = quad_.bl.colors.a * state.Calc_opacity / 255;
+		quad_.bl.colors.a = quad_.bl.colors.a * state.Calc_opacity / 255;
+		quad_.br.colors.a = quad_.bl.colors.a * state.Calc_opacity / 255;
 
 		//DXライブラリ用の頂点バッファを作成する
 		VERTEX_3D vertex[4] = {
-			vertex3Dfrom(quad.tl),
-			vertex3Dfrom(quad.bl),
-			vertex3Dfrom(quad.tr),
-			vertex3Dfrom(quad.br)
+			vertex3Dfrom(quad_.tl),
+			vertex3Dfrom(quad_.bl),
+			vertex3Dfrom(quad_.tr),
+			vertex3Dfrom(quad_.br)
 		};
 		//3Dプリミティブの表示
 		DrawPolygon3DBase(vertex, 4, DX_PRIMTYPE_TRIANGLESTRIP, state.texture.handle, true);
