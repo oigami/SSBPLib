@@ -898,7 +898,7 @@ void Player::draw()
 			else{
 				if (state.texture.handle != -1){
 					if ((state.isVisibled == true) && (state.opacity > 0)){
-						SSDrawSprite(state, state.quad, state.opacity, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
+						SSDrawSprite(state, state.quad, state.opacity, state.Calc_opacity, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
 						_draw_count++;
 					}
 				}

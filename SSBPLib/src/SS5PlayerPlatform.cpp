@@ -93,7 +93,7 @@ namespace ss
 	/**
 	* スプライトの表示
 	*/
-	void SSDrawSprite(State state, const SSV3F_C4B_T2F_Quad& quad, int opacity, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags)
+	void SSDrawSprite(State state, const SSV3F_C4B_T2F_Quad& quad, int opacity, int Calc_opacity, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags)
 	{
 		//未対応機能
 		//ステータスから情報を取得し、各プラットフォームに合わせて機能を実装してください。
@@ -156,17 +156,16 @@ namespace ss
 		SSV3F_C4B_T2F_Quad quad_ = quad;
 
 		//原点補正
-		float cx = (state.rect.width() * -(state.pivotX - 0.5f));	//デフォルトがpivotX == 0.5になってる
-		float cy = (state.rect.height() * +(state.pivotY - 0.5f));
+		Vector3 center(
+			(state.rect.width() * -(state.pivotX - 0.5f)),	//デフォルトがpivotX == 0.5になってる
+			(state.rect.height() * +(state.pivotY - 0.5f)),	//xと同様、-のような気がする
+			0.0f
+		);
 
-		quad_.tl.vertices.x += cx;
-		quad_.tl.vertices.y += cy;
-		quad_.tr.vertices.x += cx;
-		quad_.tr.vertices.y += cy;
-		quad_.bl.vertices.x += cx;
-		quad_.bl.vertices.y += cy;
-		quad_.br.vertices.x += cx;
-		quad_.br.vertices.y += cy;
+		quad_.tl.vertices += center;
+		quad_.tr.vertices += center;
+		quad_.bl.vertices += center;
+		quad_.br.vertices += center;
 
 		//vertexにworldMatrixをかける
 		quad_.vertexForeach([&](Vector3& vertex){
@@ -174,10 +173,10 @@ namespace ss
 		});
 
 		//頂点カラーにアルファを設定
-		quad_.tl.colors.a = quad_.bl.colors.a * state.Calc_opacity / 255;
-		quad_.tr.colors.a = quad_.bl.colors.a * state.Calc_opacity / 255;
-		quad_.bl.colors.a = quad_.bl.colors.a * state.Calc_opacity / 255;
-		quad_.br.colors.a = quad_.bl.colors.a * state.Calc_opacity / 255;
+		quad_.tl.colors.a = quad_.bl.colors.a * Calc_opacity / 255;
+		quad_.tr.colors.a = quad_.bl.colors.a * Calc_opacity / 255;
+		quad_.bl.colors.a = quad_.bl.colors.a * Calc_opacity / 255;
+		quad_.br.colors.a = quad_.bl.colors.a * Calc_opacity / 255;
 
 		//DXライブラリ用の頂点バッファを作成する
 		VERTEX_3D vertex[4] = {
