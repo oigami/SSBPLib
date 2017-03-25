@@ -155,25 +155,7 @@ namespace ss
 		//描画用頂点情報を作成
 		SSV3F_C4B_T2F_Quad quad_ = quad;
 
-		//原点補正
-		Vector3 center(
-			(state.rect.width() * -(state.pivotX - 0.5f)),	//デフォルトがpivotX == 0.5になってる
-			(state.rect.height() * +(state.pivotY - 0.5f)),	//xと同様、-のような気がする
-			0.0f
-		);
-	
-		//vertexにworldMatrixをかける
-		quad_.vertexForeach([&](Vector3& vertex){
-			vertex += center;		//原点補正
-			vertex *= state.mat;
-		});
-
-		//頂点カラーにアルファを設定
-		quad_.tl.colors.a = quad_.bl.colors.a * Calc_opacity / 255;
-		quad_.tr.colors.a = quad_.bl.colors.a * Calc_opacity / 255;
-		quad_.bl.colors.a = quad_.bl.colors.a * Calc_opacity / 255;
-		quad_.br.colors.a = quad_.bl.colors.a * Calc_opacity / 255;
-
+		
 		//DXライブラリ用の頂点バッファを作成する
 		VERTEX_3D vertex[4] = {
 			vertex3Dfrom(quad_.tl),

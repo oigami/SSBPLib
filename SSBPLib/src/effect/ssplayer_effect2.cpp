@@ -646,6 +646,28 @@ void	SsEffectRenderV2::drawSprite(
 
 	state.mat.addTranslation(cxy.x, cxy.y);
 
+	//SSDrawSpriteから出しました-----------------------------------------------
+	//原点補正
+	Vector3 center(
+		(state.rect.width() * -(state.pivotX - 0.5f)),	//デフォルトがpivotX == 0.5になってる
+		(state.rect.height() * +(state.pivotY - 0.5f)),	//xと同様、-のような気がする
+		0.0f
+	);
+
+	//vertexにworldMatrixをかける
+	state.quad.vertexForeach([&](Vector3& vertex){
+		vertex += center;		//原点補正
+		vertex *= state.mat;
+	});
+
+	//頂点カラーにアルファを設定
+	state.quad.tl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+	state.quad.tr.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+	state.quad.bl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+	state.quad.br.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+
+
+
 	SSDrawSprite(state, state.quad, state.opacity, state.Calc_opacity, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);	//描画
 
 	_drawSpritecount++;

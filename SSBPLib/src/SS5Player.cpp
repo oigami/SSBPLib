@@ -881,7 +881,7 @@ void Player::draw()
 		int partIndex = _partIndex[index];
 		//スプライトの表示
 		CustomSprite* sprite = _parts.at(partIndex);
-		const State& state = sprite->_state;
+		State& state = sprite->_state;
 		if (sprite->_haveChildPlayer){
 			if ((state.isVisibled == true) && (state.opacity > 0)){
 				_eventListener->ChildPlayerDraw(partIndex, getPartName(partIndex));
@@ -898,6 +898,29 @@ void Player::draw()
 			else{
 				if (state.texture.handle != -1){
 					if ((state.isVisibled == true) && (state.opacity > 0)){
+
+						//SSDrawSpriteから出しました-----------------------------------------------
+						//原点補正
+						Vector3 center(
+							(state.rect.width() * -(state.pivotX - 0.5f)),	//デフォルトがpivotX == 0.5になってる
+							(state.rect.height() * +(state.pivotY - 0.5f)),	//xと同様、-のような気がする
+							0.0f
+						);
+
+						//vertexにworldMatrixをかける
+						state.quad.vertexForeach([&](Vector3& vertex){
+							vertex += center;		//原点補正
+							vertex *= state.mat;
+						});
+
+						//頂点カラーにアルファを設定
+						state.quad.tl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+						state.quad.tr.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+						state.quad.bl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+						state.quad.br.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+
+
+
 						SSDrawSprite(state, state.quad, state.opacity, state.Calc_opacity, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
 						_draw_count++;
 					}
