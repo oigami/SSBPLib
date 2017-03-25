@@ -23,9 +23,6 @@
     <ClCompile Include="src\SS5Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\SS5PlayerPlatform.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\ResourceManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -80,9 +77,6 @@
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\SS5PlayerData.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SS5PlayerPlatform.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\SS5PlayerTypes.h">

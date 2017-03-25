@@ -155,7 +155,6 @@
     <ClCompile Include="src\player\Util.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\SS5Player.cpp" />
-    <ClCompile Include="src\SS5PlayerPlatform.cpp" />
     <ClCompile Include="src\SS5PlayerTypes.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -191,7 +190,6 @@
     <ClInclude Include="src\SS5EventListener.h" />
     <ClInclude Include="src\SS5Player.h" />
     <ClInclude Include="src\SS5PlayerData.h" />
-    <ClInclude Include="src\SS5PlayerPlatform.h" />
     <ClInclude Include="src\SS5PlayerTypes.h" />
     <ClInclude Include="src\ssShader_frag.h" />
     <ClInclude Include="src\stdafx.h" />

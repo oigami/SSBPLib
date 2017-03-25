@@ -4,7 +4,6 @@
 
 #include "ssplayer_effect2.h"
 
-#include "SS5PlayerPlatform.h"
 #include "player/CustomSprite.h"
 #include "player/PlayerDef.h"
 #include "math/Matrix.h"

@@ -74,7 +74,6 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
 
 #include "SS5PlayerData.h"
 #include "SS5PlayerTypes.h"
-#include "SS5PlayerPlatform.h"
 #include <map>
 #include <vector>
 #include <string>

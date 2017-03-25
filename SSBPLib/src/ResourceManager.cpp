@@ -1,7 +1,7 @@
 ﻿#include "ResourceManager.h"
 #include <string>
+#include "SS5Player.h"
 #include "SS5PlayerData.h"
-#include "SS5PlayerPlatform.h"
 #include "player/Util.h"
 #include "player/ToPointer.h"
 #include "player/CellCache.h"
