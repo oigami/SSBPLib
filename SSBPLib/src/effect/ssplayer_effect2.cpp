@@ -8,6 +8,7 @@
 #include "player/CustomSprite.h"
 #include "player/PlayerDef.h"
 #include "math/Matrix.h"
+#include "SS5EventListener.h"
 
 
 namespace ss
@@ -668,7 +669,7 @@ void	SsEffectRenderV2::drawSprite(
 
 
 
-	SSDrawSprite(state.quad, state.texture.handle, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);	//描画
+	m_eventListener->SSDrawSprite(state.quad, state.texture.handle, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);	//描画
 
 	_drawSpritecount++;
 }

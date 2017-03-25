@@ -79,7 +79,7 @@ namespace ss
 		return true;
 	}
 #endif
-
+#if 0
 	//DXライブラリ用頂点バッファ作成関数
 	VERTEX_3D vertex3Dfrom(const ss::SSV3F_C4B_T2F &vct)
 	{
@@ -158,7 +158,7 @@ namespace ss
 		DrawPolygon3DBase(vertex, 4, DX_PRIMTYPE_TRIANGLESTRIP, textureId, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);	//ブレンドステートを通常へ戻す
 	}
-
+#endif
 #if 0
 	/**
 	* ユーザーデータの取得

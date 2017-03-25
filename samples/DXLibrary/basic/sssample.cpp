@@ -24,6 +24,19 @@ void update(float dt);
 void draw(void);
 void relese(void);
 
+
+//DXライブラリ用頂点バッファ作成関数
+static VERTEX_3D vertex3Dfrom(const ss::SSV3F_C4B_T2F &vct)
+{
+	VERTEX_3D v = {
+		{ vct.vertices.x, vct.vertices.y, vct.vertices.z },
+		vct.colors.b, vct.colors.g, vct.colors.r, vct.colors.a,
+		vct.texCoords.u(), vct.texCoords.v()
+	};
+	return v;
+}
+
+
 /// SS5プレイヤー
 ss::Player *ssplayer;
 ss::ResourceManager *resman;
@@ -47,6 +60,66 @@ public:
 	//テクスチャサイズの取得
 	void SSGetTextureSize(ss::TextureID handle, int* width, int* height) override{
 		GetGraphSize(handle, width, height);
+	}
+
+	//描画 //ひとまずSS5PlayerPlatform.cppの中身をそのまま持ってきた
+	void SSDrawSprite(const ss::SSV3F_C4B_T2F_Quad& quad, ss::TextureID textureId, ss::BlendType blendType, ss::BlendType colorBlendVertexType, int colorBlendVertexFlags) override{
+		//描画ファンクション
+		switch(blendType){
+		case ss::BLEND_MIX:		///< 0 ブレンド（ミックス）
+			if(quad.tl.colors.a == 255 && quad.tr.colors.a == 255 && quad.bl.colors.a == 255 && quad.br.colors.a == 255){
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+			}
+			else{
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+			}
+			break;
+		case ss::BLEND_MUL:		///< 1 乗算
+			SetDrawBlendMode(DX_BLENDMODE_MULA, 255);
+			break;
+		case ss::BLEND_ADD:		///< 2 加算
+			SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
+			break;
+		case ss::BLEND_SUB:		///< 3 減算
+			SetDrawBlendMode(DX_BLENDMODE_SUB, 255);
+			break;
+		}
+
+		if(colorBlendVertexFlags != 0){
+			//RGBのカラーブレンドを設定
+			//厳密に再現するには専用のシェーダーを使い、テクスチャにカラー値を合成する必要がある
+			//作成する場合はssShader_frag.h、CustomSpriteのコメントとなってるシェーダー処理を参考にしてください。
+			if(colorBlendVertexFlags == ss::VERTEX_FLAG_ONE){
+				//単色カラーブレンド
+			}
+			else{
+				//頂点カラーブレンド
+			}
+			switch(colorBlendVertexType){
+			case ss::BLEND_MIX:
+				break;
+			case ss::BLEND_MUL:		///< 1 乗算
+				// ブレンド方法は乗算以外未対応
+				// とりあえず左上の色を反映させる
+				SetDrawBright(quad.tl.colors.r, quad.tl.colors.g, quad.tl.colors.b);
+				break;
+			case ss::BLEND_ADD:		///< 2 加算
+				break;
+			case ss::BLEND_SUB:		///< 3 減算
+				break;
+			}
+		}
+
+		//DXライブラリ用の頂点バッファを作成する
+		VERTEX_3D vertex[4] = {
+			vertex3Dfrom(quad.tl),
+			vertex3Dfrom(quad.bl),
+			vertex3Dfrom(quad.tr),
+			vertex3Dfrom(quad.br)
+		};
+		//3Dプリミティブの表示
+		DrawPolygon3DBase(vertex, 4, DX_PRIMTYPE_TRIANGLESTRIP, textureId, true);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);	//ブレンドステートを通常へ戻す
 	}
 
 
