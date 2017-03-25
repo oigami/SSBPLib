@@ -921,7 +921,7 @@ void Player::draw()
 
 
 
-						SSDrawSprite(state.texture.handle, state.quad, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
+						SSDrawSprite(state.quad, state.texture.handle, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
 						_draw_count++;
 					}
 				}

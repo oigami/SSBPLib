@@ -668,7 +668,7 @@ void	SsEffectRenderV2::drawSprite(
 
 
 
-	SSDrawSprite(state.texture.handle, state.quad, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);	//描画
+	SSDrawSprite(state.quad, state.texture.handle, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);	//描画
 
 	_drawSpritecount++;
 }

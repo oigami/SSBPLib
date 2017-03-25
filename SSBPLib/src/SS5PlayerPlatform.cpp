@@ -93,7 +93,7 @@ namespace ss
 	/**
 	* スプライトの表示
 	*/
-	void SSDrawSprite(TextureID textureId, const SSV3F_C4B_T2F_Quad& quad, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags)
+	void SSDrawSprite(const SSV3F_C4B_T2F_Quad& quad, TextureID textureId, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags)
 	{
 		//未対応機能
 		//ステータスから情報を取得し、各プラットフォームに合わせて機能を実装してください。
