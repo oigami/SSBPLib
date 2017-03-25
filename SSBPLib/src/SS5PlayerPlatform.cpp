@@ -93,7 +93,7 @@ namespace ss
 	/**
 	* スプライトの表示
 	*/
-	void SSDrawSprite(TextureID textureId, const SSV3F_C4B_T2F_Quad& quad, int opacity, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags)
+	void SSDrawSprite(TextureID textureId, const SSV3F_C4B_T2F_Quad& quad, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags)
 	{
 		//未対応機能
 		//ステータスから情報を取得し、各プラットフォームに合わせて機能を実装してください。
@@ -103,21 +103,21 @@ namespace ss
 		//
 		switch (blendType){
 		case BLEND_MIX:		///< 0 ブレンド（ミックス）
-			if (opacity == 255){
-				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, opacity);
+			if (quad.tl.colors.a == 255 && quad.tr.colors.a == 255 && quad.bl.colors.a == 255 && quad.br.colors.a == 255){
+				SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 			}
 			else{
-				SetDrawBlendMode(DX_BLENDMODE_ALPHA, opacity);
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 			}
 			break;
 		case BLEND_MUL:		///< 1 乗算
-			SetDrawBlendMode(DX_BLENDMODE_MULA, opacity);
+			SetDrawBlendMode(DX_BLENDMODE_MULA, 255);
 			break;
 		case BLEND_ADD:		///< 2 加算
-			SetDrawBlendMode(DX_BLENDMODE_ADD, opacity);
+			SetDrawBlendMode(DX_BLENDMODE_ADD, 255);
 			break;
 		case BLEND_SUB:		///< 3 減算
-			SetDrawBlendMode(DX_BLENDMODE_SUB, opacity);
+			SetDrawBlendMode(DX_BLENDMODE_SUB, 255);
 			break;
 		}
 
