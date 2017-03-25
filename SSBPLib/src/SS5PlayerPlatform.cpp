@@ -93,7 +93,7 @@ namespace ss
 	/**
 	* スプライトの表示
 	*/
-	void SSDrawSprite(State state, const SSV3F_C4B_T2F_Quad& quad, int opacity, int Calc_opacity, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags)
+	void SSDrawSprite(State state, const SSV3F_C4B_T2F_Quad& quad, int opacity, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags)
 	{
 		//未対応機能
 		//ステータスから情報を取得し、各プラットフォームに合わせて機能を実装してください。
@@ -147,21 +147,12 @@ namespace ss
 			}
 		}
 
-		/**
-		* DXライブラリの3D機能を使用してスプライトを表示します。
-		* DXライブラリの3D機能は上方向がプラスになります。
-		* 3Dを使用する場合頂点情報を使用して再現すると頂点変形やUV系のアトリビュートを反映させる事ができます。
-		*/
-		//描画用頂点情報を作成
-		SSV3F_C4B_T2F_Quad quad_ = quad;
-
-		
 		//DXライブラリ用の頂点バッファを作成する
 		VERTEX_3D vertex[4] = {
-			vertex3Dfrom(quad_.tl),
-			vertex3Dfrom(quad_.bl),
-			vertex3Dfrom(quad_.tr),
-			vertex3Dfrom(quad_.br)
+			vertex3Dfrom(quad.tl),
+			vertex3Dfrom(quad.bl),
+			vertex3Dfrom(quad.tr),
+			vertex3Dfrom(quad.br)
 		};
 		//3Dプリミティブの表示
 		DrawPolygon3DBase(vertex, 4, DX_PRIMTYPE_TRIANGLESTRIP, state.texture.handle, true);
