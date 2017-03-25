@@ -570,9 +570,6 @@ void	SsEffectRenderV2::drawSprite(
 
 	State state;
 	state = _parentSprite->_state;		//親パーツの情報をコピー
-	state.mat = matrix;					//マトリクスのコピー
-	state.cellIndex = cellIndex;
-	//state.texture = refCell.texture;	//テクスチャID	
 	state.texture = textures[refCell->m_cellMapIndex];
 	state.rect = refCell->m_rect;		//セルの矩形をコピー	
 	float width_h = state.rect.width() / 2;
@@ -605,18 +602,7 @@ void	SsEffectRenderV2::drawSprite(
 	state.quad.bl.texCoords = SSTex2F(left, bottom);
 	state.quad.br.texCoords = SSTex2F(right, bottom);
 
-	//ブレンドタイプを設定
-	if (blendType == SsRenderBlendType::Mix)
-	{
-		state.blendfunc = BLEND_MIX;	//ブレンドタイプを設定
-	}
-	else
-	{
-		state.blendfunc = BLEND_ADD;	//ブレンドタイプを設定
-	}
-	//	state.flags = PART_FLAG_COLOR_BLEND;		//カラーブレンドフラグを設定
-	state.colorBlendVertexFunc = BLEND_MUL;			//カラーブレンドフラグ乗算
-	state.colorBlendVertexFlags = VERTEX_FLAG_ONE;	//カラーブレンドフラグを設定 //memo:意味合いから考えてこれで合ってるはず(todo:Color機能ONのときだけの設定にする必要はあるかも)。色味が変(そもそも元から変だが)なときはここを疑う
+	
 	int r = (int)(fcolor.r * 255.0f);			//カラー値を設定
 	int g = (int)(fcolor.g * 255.0f);
 	int b = (int)(fcolor.b * 255.0f);
@@ -644,7 +630,7 @@ void	SsEffectRenderV2::drawSprite(
 	);
 	cxy.rotate(SSDegToRad(state.rotationZ));
 
-	state.mat.addTranslation(cxy.x, cxy.y);
+	matrix.addTranslation(cxy.x, cxy.y);
 
 	//SSDrawSpriteから出しました-----------------------------------------------
 	//原点補正
@@ -657,7 +643,7 @@ void	SsEffectRenderV2::drawSprite(
 	//vertexにworldMatrixをかける
 	state.quad.vertexForeach([&](Vector3& vertex){
 		vertex += center;		//原点補正
-		vertex *= state.mat;
+		vertex *= matrix;
 	});
 
 	//頂点カラーにアルファを設定
@@ -667,8 +653,16 @@ void	SsEffectRenderV2::drawSprite(
 	state.quad.br.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
 
 
+	
+	//ブレンドタイプを設定
+	BlendType blendfunc = BLEND_ADD;
+	if(blendType == SsRenderBlendType::Mix){
+		blendfunc = BLEND_MIX;	//ブレンドタイプを設定
+	}
+	BlendType colorBlendVertexFunc = BLEND_MUL;		//カラーブレンドフラグ乗算
+	int colorBlendVertexFlags = VERTEX_FLAG_ONE;	//カラーブレンドフラグを設定 //memo:意味合いから考えてこれで合ってるはず(todo:Color機能ONのときだけの設定にする必要はあるかも)。色味が変(そもそも元から変だが)なときはここを疑う
 
-	m_eventListener->SSDrawSprite(state.quad, state.texture.handle, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);	//描画
+	m_eventListener->SSDrawSprite(state.quad, state.texture.handle, blendfunc, colorBlendVertexFunc, colorBlendVertexFlags);	//描画
 
 	_drawSpritecount++;
 }
