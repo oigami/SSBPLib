@@ -633,16 +633,9 @@ void	SsEffectRenderV2::drawSprite(
 	matrix.addTranslation(cxy.x, cxy.y);
 
 	//SSDrawSpriteから出しました-----------------------------------------------
-	//原点補正
-	Vector3 center(
-		(state.rect.width() * -(state.pivotX - 0.5f)),	//デフォルトがpivotX == 0.5になってる
-		(state.rect.height() * +(state.pivotY - 0.5f)),	//xと同様、-のような気がする
-		0.0f
-	);
 
 	//vertexにworldMatrixをかける
 	state.quad.vertexForeach([&](Vector3& vertex){
-		vertex += center;		//原点補正
 		vertex *= matrix;
 	});
 
