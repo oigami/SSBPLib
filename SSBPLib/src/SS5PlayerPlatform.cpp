@@ -161,14 +161,10 @@ namespace ss
 			(state.rect.height() * +(state.pivotY - 0.5f)),	//xと同様、-のような気がする
 			0.0f
 		);
-
-		quad_.tl.vertices += center;
-		quad_.tr.vertices += center;
-		quad_.bl.vertices += center;
-		quad_.br.vertices += center;
-
+	
 		//vertexにworldMatrixをかける
 		quad_.vertexForeach([&](Vector3& vertex){
+			vertex += center;		//原点補正
 			vertex *= state.mat;
 		});
 
