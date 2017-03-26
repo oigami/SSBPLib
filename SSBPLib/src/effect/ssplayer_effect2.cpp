@@ -529,7 +529,7 @@ void	SsEffectRenderV2::drawSprite(
 		Vector2 _size,
 		float     _rotation,
 		float	  direction,
-		SsFColor	_color,
+		SsU8Color	_color,
 		const std::vector<TextuerData>& textures
 	)
 {
@@ -558,10 +558,10 @@ void	SsEffectRenderV2::drawSprite(
 	matrix = localTransformMatrix * matrix;
 
 
-	SsFColor fcolor;
-	fcolor.fromARGB( _color.toARGB() );
-	fcolor.a = fcolor.a * parentAlpha;
-	if (fcolor.a == 0.0f)
+	SsU8Color color;
+	color.fromARGB( _color.toARGB() );
+	color.a = color.a * parentAlpha;
+	if (color.a == 0)
 	{
 		return;
 	}
@@ -593,10 +593,10 @@ void	SsEffectRenderV2::drawSprite(
 	state.quad.br.texCoords = SSTex2F(refCell->m_cell->u2, refCell->m_cell->v2);
 
 	
-	int r = (int)(fcolor.r * 255.0f);			//カラー値を設定
-	int g = (int)(fcolor.g * 255.0f);
-	int b = (int)(fcolor.b * 255.0f);
-	int a = (int)(fcolor.a * 255.0f);
+	int r = (int)(color.r);			//カラー値を設定
+	int g = (int)(color.g);
+	int b = (int)(color.b);
+	int a = (int)(color.a);
 	state.quad.tl.colors.r = r;
 	state.quad.tl.colors.g = g;
 	state.quad.tl.colors.b = b;
@@ -706,13 +706,9 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 
 			e->updateParticle(targettime, &lp);
 
-
-			SsFColor fcolor;
-			fcolor.fromARGB(lp.color.toARGB());
-
 			drawSprite(
 				e->refData->getCellIndex(), e->refData->getCellRef(), e->refData->getBlendType(),
-				Vector2(lp.x,lp.y), lp.scale, lp.rot , lp.direc , fcolor , textures
+				Vector2(lp.x,lp.y), lp.scale, lp.rot , lp.direc , lp.color, textures
 			);
 		}
 

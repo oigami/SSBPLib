@@ -40,7 +40,7 @@ public:
 private:
 };
 
-
+#if 0
 /// rgba 小数版
 template<> inline SsTColor<float>::SsTColor(): r(0.5f), g(0.5f), b(0.5f), a(1.f) {}
 template<> inline void SsTColor<float>::fromARGB(u32 c)
@@ -62,10 +62,10 @@ template<> inline u32 SsTColor<float>::toARGB() const
 	u32 c = (u8)(a * 255) << 24 | (u8)(r * 255) << 16 | (u8)(g * 255) << 8 | (u8)(b * 255);
 	return c;
 }
+#endif
 
 
-
-
+#if 0
 template<> inline SsTColor<u32>::SsTColor(): r(255), g(255), b(255), a(255) {}
 template<> inline void SsTColor<u32>::fromARGB(u32 c)
 {
@@ -86,7 +86,7 @@ template<> inline u32 SsTColor<u32>::toARGB() const
 	u32 c = (u8)(a) << 24 | (u8)(r) << 16 | (u8)(g) << 8 | (u8)(b);
 	return c;
 }
-
+#endif
 
 
 template<> inline SsTColor<u8>::SsTColor(): r(255), g(255), b(255), a(255) {}
@@ -110,10 +110,10 @@ template<> inline u32 SsTColor<u8>::toARGB() const
 	return c;
 }
 
-
+#if 0
 ///floatでのカラー値定義
 typedef SsTColor<float> SsFColor;
-
+#endif
 
 typedef SsTColor<u8> SsU8Color;
 
