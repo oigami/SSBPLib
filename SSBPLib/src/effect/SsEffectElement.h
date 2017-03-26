@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "sstypes.h"
+#include "SS5PlayerTypes.h"
 
 namespace ss{
 class SsEffectEmitter;

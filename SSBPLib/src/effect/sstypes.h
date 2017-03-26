@@ -12,7 +12,7 @@ namespace ss
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-
+#if 0
 ///カラー値を定義するテンプレートクラスです。
 template <typename T>
 class SsTColor
@@ -119,7 +119,7 @@ typedef SsTColor<float> SsFColor;
 #endif
 
 typedef SsTColor<u8> SsU8Color;
-
+#endif
 
 
 //---------------------------------------------------------------

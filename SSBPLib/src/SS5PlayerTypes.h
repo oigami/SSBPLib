@@ -39,6 +39,7 @@ struct SSColor4B {
 	//float版への変換
 	SSColorF toSSColorF() const;
 };
+using SsU8Color = SSColor4B;
 
 /** [0:1]範囲でのカラー表現 */
 struct SSColorF {
