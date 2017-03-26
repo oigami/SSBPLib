@@ -529,7 +529,7 @@ void	SsEffectRenderV2::drawSprite(
 		Vector2 _size,
 		float     _rotation,
 		float	  direction,
-		SsU8Color	_color,
+		SsU8Color	color,
 		const std::vector<TextuerData>& textures
 	)
 {
@@ -558,11 +558,8 @@ void	SsEffectRenderV2::drawSprite(
 	matrix = localTransformMatrix * matrix;
 
 
-	SsU8Color color;
-	color.fromARGB( _color.toARGB() );
 	color.a = color.a * parentAlpha;
-	if (color.a == 0)
-	{
+	if (color.a == 0){
 		return;
 	}
 

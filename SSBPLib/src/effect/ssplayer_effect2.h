@@ -328,7 +328,7 @@ public:
 			Vector2 _size,
 			float     _rotation,
 			float	  direction,
-			SsU8Color	_color,
+			SsU8Color	color,
 			const std::vector<TextuerData>& textures	//todo:とりあえず今はこれを渡していくしかない。後で整理する
 		);
 

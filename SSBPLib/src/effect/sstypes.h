@@ -24,6 +24,7 @@ public:
 	SsTColor(T ar, T ag, T ab, T aa): r(ar), g(ag), b(ab), a(aa) {}
 	SsTColor(const SsTColor& s): r(s.r), g(s.g), b(s.b), a(s.a) {}
 
+#if 0
 	void	fromARGB(u32 c);
 	void	fromBGRA(u32 c);
 
@@ -38,6 +39,7 @@ public:
 	}
 
 private:
+#endif
 };
 
 #if 0
@@ -90,6 +92,7 @@ template<> inline u32 SsTColor<u32>::toARGB() const
 
 
 template<> inline SsTColor<u8>::SsTColor(): r(255), g(255), b(255), a(255) {}
+#if 0
 template<> inline void SsTColor<u8>::fromARGB(u32 c)
 {
 	a = (c >> 24);
@@ -109,7 +112,7 @@ template<> inline u32 SsTColor<u8>::toARGB() const
 	u32 c = (u8)(a) << 24 | (u8)(r) << 16 | (u8)(g) << 8 | (u8)(b);
 	return c;
 }
-
+#endif
 #if 0
 ///floatでのカラー値定義
 typedef SsTColor<float> SsFColor;
