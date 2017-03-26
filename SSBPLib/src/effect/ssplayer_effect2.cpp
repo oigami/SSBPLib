@@ -551,20 +551,12 @@ void	SsEffectRenderV2::drawSprite(
 	//セルの矩形から基本となる頂点座標を計算
 	float width_h = refCell->m_rect.width() / 2;
 	float height_h = refCell->m_rect.height() / 2;
-	float x1 = -width_h;
-	float y1 = -height_h;
-	float x2 = width_h;
-	float y2 = height_h;
 
 	SSV3F_C4B_T2F_Quad quad;
-	quad.tl.vertices.x = x1;
-	quad.tl.vertices.y = y2;
-	quad.tr.vertices.x = x2;
-	quad.tr.vertices.y = y2;
-	quad.bl.vertices.x = x1;
-	quad.bl.vertices.y = y1;
-	quad.br.vertices.x = x2;
-	quad.br.vertices.y = y1;
+	quad.tl.vertices = Vector3(-width_h,  height_h, 0);
+	quad.tr.vertices = Vector3( width_h,  height_h, 0);
+	quad.bl.vertices = Vector3(-width_h, -height_h, 0);
+	quad.br.vertices = Vector3( width_h, -height_h, 0);
 
 	//UVを設定する
 	quad.tl.texCoords = SSTex2F(refCell->m_cell->u1, refCell->m_cell->v1);
