@@ -546,8 +546,7 @@ void	SsEffectRenderV2::drawSprite(
 	matrix = localTransformMatrix * matrix;
 
 
-	State state;
-	state = _parentSprite->_state;		//親パーツの情報をコピー
+
 	//セルの矩形から基本となる頂点座標を計算
 	float width_h = refCell->m_rect.width() / 2;
 	float height_h = refCell->m_rect.height() / 2;
@@ -588,10 +587,11 @@ void	SsEffectRenderV2::drawSprite(
 	});
 
 	//頂点カラーにアルファを設定
-	quad.tl.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
-	quad.tr.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
-	quad.bl.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
-	quad.br.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
+	int calc_opacity = _parentSprite->_state.Calc_opacity;
+	quad.tl.colors.a = quad.bl.colors.a * calc_opacity / 255;
+	quad.tr.colors.a = quad.bl.colors.a * calc_opacity / 255;
+	quad.bl.colors.a = quad.bl.colors.a * calc_opacity / 255;
+	quad.br.colors.a = quad.bl.colors.a * calc_opacity / 255;
 
 
 	
