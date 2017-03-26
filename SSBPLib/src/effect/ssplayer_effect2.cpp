@@ -563,7 +563,7 @@ void	SsEffectRenderV2::drawSprite(
 		(refCell->m_rect.height() * +(refCell->m_cell->pivot_Y)),	//todo:符号あってる？
 		0.0
 	);
-	state.quad.vertexForeach([&](Vector3& vertex){
+	quad.vertexForeach([&](Vector3& vertex){
 		vertex += center;		//原点補正
 	});
 
