@@ -529,12 +529,10 @@ void	SsEffectRenderV2::drawSprite(
 	//todo:matrix演算簡単にする
 	Matrix matrix;
 
-	float parentAlpha = 1.0f;
-
-	if (_parentSprite)
-	{
+	if (_parentSprite){
 		matrix = _parentSprite->_state.mat;
-    	parentAlpha = _parentSprite->_state.opacity / 255.0f;
+    	float parentAlphaRate = _parentSprite->_state.opacity / 255.0f;
+		color.a *= parentAlphaRate;
 	}
 
 	Matrix localTransformMatrix;
@@ -547,11 +545,6 @@ void	SsEffectRenderV2::drawSprite(
 	);
 	matrix = localTransformMatrix * matrix;
 
-
-	color.a = color.a * parentAlpha;
-	if (color.a == 0){
-		return;
-	}
 
 	State state;
 	state = _parentSprite->_state;		//親パーツの情報をコピー
@@ -580,16 +573,11 @@ void	SsEffectRenderV2::drawSprite(
 	quad.bl.texCoords = SSTex2F(refCell->m_cell->u1, refCell->m_cell->v2);
 	quad.br.texCoords = SSTex2F(refCell->m_cell->u2, refCell->m_cell->v2);
 
-	
-	int r = (int)(color.r);			//カラー値を設定
-	int g = (int)(color.g);
-	int b = (int)(color.b);
-	int a = (int)(color.a);
-	quad.tl.colors.r = r;
-	quad.tl.colors.g = g;
-	quad.tl.colors.b = b;
-	quad.tl.colors.a = a;
-	quad.tr.colors = quad.bl.colors = quad.br.colors = quad.tl.colors;
+	//カラー値を設定
+	quad.tl.colors = color;
+	quad.tr.colors = color;
+	quad.bl.colors = color;
+	quad.br.colors = color;
 
 	state.rotationZ += _rotation + SSRadToDeg(direction);		//回転
 	state.scaleX *= _size.x;		//スケール
