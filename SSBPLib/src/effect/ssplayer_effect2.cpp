@@ -537,8 +537,7 @@ void	SsEffectRenderV2::drawSprite(
 	if (cellIndex == -1) return;
 
 	//todo:matrix演算簡単にする
-	Matrix matrix;	//float		matrix[4 * 4];	///< 行列
-	//IdentityMatrix( matrix );
+	Matrix matrix;
 
 	float parentAlpha = 1.0f;
 
@@ -548,17 +547,16 @@ void	SsEffectRenderV2::drawSprite(
     	parentAlpha = _parentSprite->_state.opacity / 255.0f;
 	}
 
-	Matrix tmp;
+	Matrix localTransformMatrix;
+
 	Vector2 layoutScale = this->effectData->layoutScale();
-	matrix = tmp.setupTranslation(_position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f) * matrix;
-	//TranslationMatrixM(matrix, _position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f);	//レイアウトスケールの反映
+	localTransformMatrix.setupSRzyxT(
+		Vector3(_size.x, _size.y, 1.0f),
+		Vector3(0.0f, 0.0f, SSDegToRad(_rotation) + direction),
+		Vector3(_position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f)
+	);
+	matrix = localTransformMatrix * matrix;
 
-	//RotationXYZMatrixM( matrix , 0 , 0 , SSDegToRad(_rotation)+direction );
-	matrix = tmp.setupRotationX(0) * matrix;
-	matrix = tmp.setupRotationY(0) * matrix;
-	matrix = tmp.setupRotationZ(SSDegToRad(_rotation) + direction) * matrix;
-
-	matrix = tmp.setupScale(_size.x, _size.y, 1.0f) * matrix; //ScaleMatrixM(  matrix , _size.x, _size.y, 1.0f );
 
 	SsFColor fcolor;
 	fcolor.fromARGB( _color.toARGB() );
