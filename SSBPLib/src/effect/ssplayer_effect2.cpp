@@ -513,7 +513,8 @@ SsEffectRenderV2::~SsEffectRenderV2()
 
 
 void	SsEffectRenderV2::drawSprite(
-		int cellIndex, const CellRef* refCell, SsRenderBlendType blendType,
+		const CellRef* refCell,
+		SsRenderBlendType blendType,
 		Vector2 _position,
 		Vector2 _size,
 		float     _rotation,
@@ -523,7 +524,7 @@ void	SsEffectRenderV2::drawSprite(
 	)
 {
 
-	if (cellIndex == -1) return;
+	if (refCell == nullptr) return;
 
 	//todo:matrix演算簡単にする
 	Matrix matrix;
@@ -693,7 +694,7 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 			e->updateParticle(targettime, &lp);
 
 			drawSprite(
-				e->refData->getCellIndex(), e->refData->getCellRef(), e->refData->getBlendType(),
+				e->refData->getCellRef(), e->refData->getBlendType(),
 				Vector2(lp.x,lp.y), lp.scale, lp.rot , lp.direc , lp.color, textures
 			);
 		}
