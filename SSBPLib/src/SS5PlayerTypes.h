@@ -23,7 +23,7 @@ struct SSColor4B {
 
 	using uchar = unsigned char;
 	SSColor4B(uchar r_, uchar g_, uchar b_, uchar a_) :r(r_), g(g_), b(b_), a(a_){}
-	SSColor4B() : SSColor4B(0, 0, 0, 0){}
+	SSColor4B() : SSColor4B(255, 255, 255, 255){}
 	
 	//カラーの読み取り
 	void readColor(DataArrayReader& reader);
@@ -47,7 +47,7 @@ struct SSColorF {
 	float b;
 	float a;
 	SSColorF(float r_, float g_, float b_, float a_) :r(r_), g(g_), b(b_), a(a_){}
-	SSColorF() : SSColorF(0.0f, 0.0f, 0.0f, 0.0f){}
+	SSColorF() : SSColorF(1.0f, 1.0f, 1.0f, 1.0f){}
 	
 	//カラーの読み取り
 	void readColor(DataArrayReader& reader);
