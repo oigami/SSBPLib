@@ -10,18 +10,7 @@
 #include "SS5EventListener.h"
 
 
-namespace ss
-{
-
-static u8 blendNumber( u8 a , u8 b , float rate )
-{
-	return ( a + ( b - a ) * rate );
-}
-
-static float blendFloat( float a,float b , float rate )
-{
-	return   ( a + ( b - a ) * rate );
-}
+namespace ss{
 
 double OutQuad(double t, double totaltime, double max, double min)
 {
@@ -182,10 +171,10 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 		ecolor.g = particle.transColor.g + (rand.genrand_float32() * particle.transColor2.g );
 		ecolor.b = particle.transColor.b + (rand.genrand_float32() * particle.transColor2.b );
 
-		p->color.a = blendNumber( p->color.a , ecolor.a , _lifeper );
-		p->color.r = blendNumber( p->color.r , ecolor.r , _lifeper );
-		p->color.g = blendNumber( p->color.g , ecolor.g , _lifeper );
-		p->color.b = blendNumber( p->color.b , ecolor.b , _lifeper );
+		p->color.a = lerp<unsigned char>( p->color.a , ecolor.a , _lifeper );
+		p->color.r = lerp<unsigned char>( p->color.r , ecolor.r , _lifeper );
+		p->color.g = lerp<unsigned char>( p->color.g , ecolor.g , _lifeper );
+		p->color.b = lerp<unsigned char>( p->color.b , ecolor.b , _lifeper );
 	}
 
 	if ( particle.useAlphaFade )
@@ -243,9 +232,9 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 
 		sf2 = particle.transscaleFactor + (rand.genrand_float32() * particle.transscaleFactor2 );
 
-		p->scale.x = blendFloat( p->scale.x , s2.x , _lifeper );
-		p->scale.y = blendFloat( p->scale.y , s2.y , _lifeper );
-        scalefactor = blendFloat( scalefactor , sf2 , _lifeper );
+		p->scale.x = lerp<float>( p->scale.x , s2.x , _lifeper );
+		p->scale.y = lerp<float>( p->scale.y , s2.y , _lifeper );
+        scalefactor = lerp<float>( scalefactor , sf2 , _lifeper );
 
 	}
 
@@ -289,8 +278,8 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 			blend = blend; // *gp;
 			blend += (_t / _life *0.1f);
 
-			p->x = blendFloat(p->x, particle.gravityPos.x, blend);
-			p->y = blendFloat(p->y, particle.gravityPos.y, blend);
+			p->x = lerp<float>(p->x, particle.gravityPos.x, blend);
+			p->y = lerp<float>(p->y, particle.gravityPos.y, blend);
 
 		}
 		else {
@@ -307,14 +296,14 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 		float gp = particle.gravityPower;
 		if (gp < 0)
 		{
-			p->x = blendFloat(p->x, -gx, -gp);
-			p->y = blendFloat(p->y, -gy, -gp);
+			p->x = lerp<float>(p->x, -gx, -gp);
+			p->y = lerp<float>(p->y, -gy, -gp);
 
 		}
 		else
 		{
-			p->x = blendFloat(p->x, gx, gp);
-			p->y = blendFloat(p->y, gy, gp);
+			p->x = lerp<float>(p->x, gx, gp);
+			p->y = lerp<float>(p->y, gy, gp);
 		}
 #endif
 	}

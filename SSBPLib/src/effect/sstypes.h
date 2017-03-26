@@ -9,7 +9,6 @@
 
 namespace ss
 {
-typedef unsigned char u8;
 
 
 /// テクスチャラップモード

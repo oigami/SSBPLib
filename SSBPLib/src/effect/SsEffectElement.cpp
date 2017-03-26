@@ -350,12 +350,12 @@ void ParticleElementTangentialAcceleration::initalizeEffect(SsEffectEmitter* e) 
 	e->particle.tangentialAccel2 = (m_AccelerationMaxValue - m_AccelerationMinValue);
 }
 
-static void getRange(u8 a, u8 b, u8& min, u8& diff)
+static void getRange(unsigned char a, unsigned char b, unsigned char* min, unsigned char* diff)
 {
-	min = a < b ? a : b;
-	u8 max = a < b ? b : a;
+	*min = a < b ? a : b;
+	unsigned char max = a < b ? b : a;
 
-	diff = (max - min);
+	*diff = (max - *min);
 }
 
 //-----------------------------------------------------------------
@@ -393,10 +393,10 @@ void ParticleElementInitColor::initalizeEffect(SsEffectEmitter* e) const
 	SsU8Color color1 = m_ColorMinValue;
 	SsU8Color color2 = m_ColorMaxValue;
 
-	getRange(color1.a, color2.a, e->particle.initColor.a, e->particle.initColor2.a);
-	getRange(color1.r, color2.r, e->particle.initColor.r, e->particle.initColor2.r);
-	getRange(color1.g, color2.g, e->particle.initColor.g, e->particle.initColor2.g);
-	getRange(color1.b, color2.b, e->particle.initColor.b, e->particle.initColor2.b);
+	getRange(color1.a, color2.a, &e->particle.initColor.a, &e->particle.initColor2.a);
+	getRange(color1.r, color2.r, &e->particle.initColor.r, &e->particle.initColor2.r);
+	getRange(color1.g, color2.g, &e->particle.initColor.g, &e->particle.initColor2.g);
+	getRange(color1.b, color2.b, &e->particle.initColor.b, &e->particle.initColor2.b);
 }
 
 
@@ -435,10 +435,10 @@ void ParticleElementTransColor::initalizeEffect(SsEffectEmitter* e) const
 	SsU8Color color1 = m_ColorMinValue;
 	SsU8Color color2 = m_ColorMaxValue;
 
-	getRange(color1.a, color2.a, e->particle.transColor.a, e->particle.transColor2.a);
-	getRange(color1.r, color2.r, e->particle.transColor.r, e->particle.transColor2.r);
-	getRange(color1.g, color2.g, e->particle.transColor.g, e->particle.transColor2.g);
-	getRange(color1.b, color2.b, e->particle.transColor.b, e->particle.transColor2.b);
+	getRange(color1.a, color2.a, &e->particle.transColor.a, &e->particle.transColor2.a);
+	getRange(color1.r, color2.r, &e->particle.transColor.r, &e->particle.transColor2.r);
+	getRange(color1.g, color2.g, &e->particle.transColor.g, &e->particle.transColor2.g);
+	getRange(color1.b, color2.b, &e->particle.transColor.b, &e->particle.transColor2.b);
 }
 
 
