@@ -30,9 +30,63 @@ void SSColor4B::readColorWithRate(DataArrayReader& reader){
 
 
 //unsigned long化
-unsigned long SSColor4B::packARGB() const{
-	return ((unsigned long)((((a) & 0xff) << 24) | (((r) & 0xff) << 16) | (((g) & 0xff) << 8) | ((b) & 0xff)));
+static unsigned long toLong(unsigned int x, unsigned int y, unsigned int z, unsigned int w){
+	return ((unsigned long)((((x) & 0xff) << 24) | (((y) & 0xff) << 16) | (((z) & 0xff) << 8) | ((w) & 0xff)));
 }
+unsigned long SSColor4B::packARGB() const{
+	return toLong(a, r, g, b);
+}
+unsigned long SSColor4B::packRGBA() const{
+	return toLong(r, g, b, a);
+}
+unsigned long SSColor4B::packABGR() const{
+	return toLong(a, b, g, r);
+}
+unsigned long SSColor4B::packBGRA() const{
+	return toLong(b, g, r, a);
+}
+
+//型変換
+SSColorF SSColor4B::toSSColorF() const{
+	return SSColorF(r / 255.0f, g / 255.0f, b / 255.0f, a / 255.0f);
+}
+
+
+//float版--------------------------------------------------
+//カラーの読み取り
+void SSColorF::readColor(DataArrayReader& reader){
+	SSColor4B color;
+	color.readColor(reader);
+	*this = color.toSSColorF();
+}
+
+//rateを考慮して読む
+void SSColorF::readColorWithRate(DataArrayReader& reader){
+	SSColor4B color;
+	color.readColorWithRate(reader);
+	*this = color.toSSColorF();
+}
+
+
+//unsigned long化
+unsigned long SSColorF::packARGB() const{
+	return toSSColor4B().packARGB();
+}
+unsigned long SSColorF::packRGBA() const{
+	return toSSColor4B().packRGBA();
+}
+unsigned long SSColorF::packABGR() const{
+	return toSSColor4B().packABGR();
+}
+unsigned long SSColorF::packBGRA() const{
+	return toSSColor4B().packBGRA();
+}
+
+//型変換
+SSColor4B SSColorF::toSSColor4B() const{
+	return SSColor4B(r*255.0f, g*255.0f, b*255.0f, a*255.0f);
+}
+
 
 
 

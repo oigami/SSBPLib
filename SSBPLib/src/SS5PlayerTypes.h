@@ -9,13 +9,12 @@
 
 namespace ss{
 class DataArrayReader;
+struct SSColorF;
 
 using TextureID = long;	//テクスチャの識別子
 
 
-/**
- * カラー構造体
- */
+/** カラー構造体 */
 struct SSColor4B {
 	unsigned char r;
 	unsigned char g;
@@ -33,6 +32,36 @@ struct SSColor4B {
 
 	//unsigned longにパラメータを固める
 	unsigned long packARGB() const;
+	unsigned long packRGBA() const;
+	unsigned long packABGR() const;
+	unsigned long packBGRA() const;
+
+	//float版への変換
+	SSColorF toSSColorF() const;
+};
+
+/** [0:1]範囲でのカラー表現 */
+struct SSColorF {
+	float r;
+	float g;
+	float b;
+	float a;
+	SSColorF(float r_, float g_, float b_, float a_) :r(r_), g(g_), b(b_), a(a_){}
+	SSColorF() : SSColorF(0.0f, 0.0f, 0.0f, 0.0f){}
+	
+	//カラーの読み取り
+	void readColor(DataArrayReader& reader);
+	//カラーの読み取り(rateを考慮して読む)
+	void readColorWithRate(DataArrayReader& reader);
+
+	//unsigned longにパラメータを固める
+	unsigned long packARGB() const;
+	unsigned long packRGBA() const;
+	unsigned long packABGR() const;
+	unsigned long packBGRA() const;
+
+	//uchar版への変換
+	SSColor4B toSSColor4B() const;
 };
 
 
