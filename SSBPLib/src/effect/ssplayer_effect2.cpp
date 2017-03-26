@@ -589,18 +589,10 @@ void	SsEffectRenderV2::drawSprite(
 	state.quad.br.vertices.y = y1;
 
 	//UVを設定する
-	int atlasWidth = state.texture.size_w;
-	int atlasHeight = state.texture.size_h;
-	float left, right, top, bottom;
-	left = state.rect.left() / (float)atlasWidth;
-	right = state.rect.right() / (float)atlasWidth;
-	top = state.rect.bottom() / (float)atlasHeight;	//todo:座標系後で直す
-	bottom = state.rect.top() / (float)atlasHeight;	//todo:座標系後で直す
-
-	state.quad.tl.texCoords = SSTex2F(left, top);
-	state.quad.tr.texCoords = SSTex2F(right, top);
-	state.quad.bl.texCoords = SSTex2F(left, bottom);
-	state.quad.br.texCoords = SSTex2F(right, bottom);
+	state.quad.tl.texCoords = SSTex2F(refCell->m_cell->u1, refCell->m_cell->v1);
+	state.quad.tr.texCoords = SSTex2F(refCell->m_cell->u2, refCell->m_cell->v1);
+	state.quad.bl.texCoords = SSTex2F(refCell->m_cell->u1, refCell->m_cell->v2);
+	state.quad.br.texCoords = SSTex2F(refCell->m_cell->u2, refCell->m_cell->v2);
 
 	
 	int r = (int)(fcolor.r * 255.0f);			//カラー値を設定
@@ -612,14 +604,12 @@ void	SsEffectRenderV2::drawSprite(
 	state.quad.tl.colors.b = b;
 	state.quad.tl.colors.a = a;
 	state.quad.tr.colors = state.quad.bl.colors = state.quad.br.colors = state.quad.tl.colors;
-	state.opacity = a;							//透明度を設定
 
 	state.rotationZ += _rotation + SSRadToDeg(direction);		//回転
 	state.scaleX *= _size.x;		//スケール
 	state.scaleY *= _size.y;		//スケール
 
-	if ((state.scaleX * state.scaleY) < 0)	//スケールのどちらかが-の場合は回転方向を逆にする
-	{
+	if ((state.scaleX * state.scaleY) < 0){	//スケールのどちらかが-の場合は回転方向を逆にする
 		state.rotationZ = -state.rotationZ;
 	}
 
