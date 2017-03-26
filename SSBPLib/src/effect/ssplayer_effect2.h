@@ -54,11 +54,13 @@ struct particleDrawData
 	//描画用ワーク
 	float	x;
 	float	y;
-	float	rot;
-	float	direc;
+	float	rot;	//degree
+	float	direc;	//radian
 
     SSColor4B color;
     Vector2 scale;
+
+
 };
 
 

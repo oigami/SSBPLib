@@ -318,9 +318,8 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 //		if ( time > 0.0f )
 		{
 			updateParticle(time + 1.0f, &dp, true);
-			p->direc = Vec2Util::getAngle360(
-								Vector2( 1 , 0 ) ,
-								Vector2(p->x - dp.x, p->y - dp.y) ) + SSDegToRad(90) + SSDegToRad(particle.direcRotAdd);
+			p->direc = Vec2Util::getAngle360(Vector2(1, 0), Vector2(p->x - dp.x, p->y - dp.y));
+			p->direc += SSDegToRad(90) + SSDegToRad(particle.direcRotAdd);
 		}
 	}
 
@@ -523,10 +522,8 @@ void	SsEffectRenderV2::drawSprite(
 		const std::vector<TextuerData>& textures
 	)
 {
-
 	if (refCell == nullptr) return;
 
-	//todo:matrix演算簡単にする
 	Matrix matrix;
 
 	if (_parentSprite){
