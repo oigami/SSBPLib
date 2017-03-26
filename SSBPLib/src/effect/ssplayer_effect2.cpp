@@ -548,10 +548,9 @@ void	SsEffectRenderV2::drawSprite(
 
 	State state;
 	state = _parentSprite->_state;		//親パーツの情報をコピー
-	state.texture = textures[refCell->m_cellMapIndex];
-	state.rect = refCell->m_rect;		//セルの矩形をコピー	
-	float width_h = state.rect.width() / 2;
-	float height_h = state.rect.height() / 2;
+	//セルの矩形から基本となる頂点座標を計算
+	float width_h = refCell->m_rect.width() / 2;
+	float height_h = refCell->m_rect.height() / 2;
 	float x1 = -width_h;
 	float y1 = -height_h;
 	float x2 = width_h;
@@ -589,8 +588,8 @@ void	SsEffectRenderV2::drawSprite(
 
 	//原点計算を行う
 	Vector2 cxy(
-		((state.rect.width() * state.scaleX) * -(refCell->m_cell->pivot_X)),
-		((state.rect.height() * state.scaleY) * +(refCell->m_cell->pivot_Y))
+		((refCell->m_rect.width() * state.scaleX) * -(refCell->m_cell->pivot_X)),
+		((refCell->m_rect.height() * state.scaleY) * +(refCell->m_cell->pivot_Y))
 	);
 	cxy.rotate(SSDegToRad(state.rotationZ));
 
@@ -619,7 +618,8 @@ void	SsEffectRenderV2::drawSprite(
 	BlendType colorBlendVertexFunc = BLEND_MUL;		//カラーブレンドフラグ乗算
 	int colorBlendVertexFlags = VERTEX_FLAG_ONE;	//カラーブレンドフラグを設定 //memo:意味合いから考えてこれで合ってるはず(todo:Color機能ONのときだけの設定にする必要はあるかも)。色味が変(そもそも元から変だが)なときはここを疑う
 
-	m_eventListener->SSDrawSprite(quad, state.texture.handle, blendfunc, colorBlendVertexFunc, colorBlendVertexFlags);	//描画
+	TextureID textureId = textures[refCell->m_cellMapIndex].handle;
+	m_eventListener->SSDrawSprite(quad, textureId, blendfunc, colorBlendVertexFunc, colorBlendVertexFlags);	//描画
 
 	_drawSpritecount++;
 }
