@@ -57,7 +57,7 @@ struct particleDrawData
 	float	rot;
 	float	direc;
 
-    SsU8Color color;
+    SSColor4B color;
     Vector2 scale;
 };
 
@@ -93,8 +93,8 @@ struct particleParameter
 
 	Vector2 	scale;
 
-	SsU8Color   startcolor; //スタート時のカラー
-	SsU8Color   endcolor;   //終了時のカラー
+	SSColor4B   startcolor; //スタート時のカラー
+	SSColor4B   endcolor;   //終了時のカラー
 
 	//初速
 	float		speed;		//初速
@@ -128,12 +128,12 @@ struct particleParameter
 	float		tangentialAccel2;
 
 	bool        useColor;
-	SsU8Color   initColor;
-	SsU8Color   initColor2;
+	SSColor4B   initColor;
+	SSColor4B   initColor2;
 
 	bool		useTransColor;
-	SsU8Color   transColor;
-	SsU8Color   transColor2;
+	SSColor4B   transColor;
+	SSColor4B   transColor2;
 
 	bool        useInitScale;
 	Vector2   scaleRange;
@@ -329,7 +329,7 @@ public:
 			Vector2 _size,
 			float     _rotation,
 			float	  direction,
-			SsU8Color	color,
+			SSColor4B	color,
 			const std::vector<TextuerData>& textures	//todo:とりあえず今はこれを渡していくしかない。後で整理する
 		);
 

@@ -116,8 +116,8 @@ void ParticleElementBasic::initalizeEffect(SsEffectEmitter* e) const
 	e->emitter.particleLife2 = m_lifespanMaxValue - m_lifespanMinValue;
 
 	e->particle.scale = Vector2(1.0f, 1.0f);
-	e->particle.startcolor = SsU8Color(255, 255, 255, 255);
-	e->particle.endcolor = SsU8Color(255, 255, 255, 255);
+	e->particle.startcolor = SSColor4B(255, 255, 255, 255);
+	e->particle.endcolor = SSColor4B(255, 255, 255, 255);
 
 	e->particle.speed = m_speedMinValue;
 	e->particle.speed2 = m_speedMaxValue - m_speedMinValue;
@@ -376,12 +376,12 @@ void ParticleElementInitColor::readData(DataArrayReader& reader)
 	int r = (colorMinValue & 0x00FF0000) >> 16;
 	int g = (colorMinValue & 0x0000FF00) >> 8;
 	int b = (colorMinValue & 0x000000FF) >> 0;
-	SsU8Color mincol(r, g, b, a);
+	SSColor4B mincol(r, g, b, a);
 	a = (colorMaxValue & 0xFF000000) >> 24;
 	r = (colorMaxValue & 0x00FF0000) >> 16;
 	g = (colorMaxValue & 0x0000FF00) >> 8;
 	b = (colorMaxValue & 0x000000FF) >> 0;
-	SsU8Color maxcol(r, g, b, a);
+	SSColor4B maxcol(r, g, b, a);
 	m_ColorMinValue = mincol;			//設定カラー最小
 	m_ColorMaxValue = maxcol;			//設定カラー最大
 }
@@ -390,8 +390,8 @@ void ParticleElementInitColor::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useColor = true;
 
-	SsU8Color color1 = m_ColorMinValue;
-	SsU8Color color2 = m_ColorMaxValue;
+	SSColor4B color1 = m_ColorMinValue;
+	SSColor4B color2 = m_ColorMaxValue;
 
 	getRange(color1.a, color2.a, &e->particle.initColor.a, &e->particle.initColor2.a);
 	getRange(color1.r, color2.r, &e->particle.initColor.r, &e->particle.initColor2.r);
@@ -418,12 +418,12 @@ void ParticleElementTransColor::readData(DataArrayReader& reader)
 	int r = (colorMinValue & 0x00FF0000) >> 16;
 	int g = (colorMinValue & 0x0000FF00) >> 8;
 	int b = (colorMinValue & 0x000000FF) >> 0;
-	SsU8Color mincol(r, g, b, a);
+	SSColor4B mincol(r, g, b, a);
 	a = (colorMaxValue & 0xFF000000) >> 24;
 	r = (colorMaxValue & 0x00FF0000) >> 16;
 	g = (colorMaxValue & 0x0000FF00) >> 8;
 	b = (colorMaxValue & 0x000000FF) >> 0;
-	SsU8Color maxcol(r, g, b, a);
+	SSColor4B maxcol(r, g, b, a);
 	m_ColorMinValue = mincol;			//設定カラー最小
 	m_ColorMaxValue = maxcol;			//設定カラー最大
 }
@@ -432,8 +432,8 @@ void ParticleElementTransColor::initalizeEffect(SsEffectEmitter* e) const
 {
 	e->particle.useTransColor = true;
 
-	SsU8Color color1 = m_ColorMinValue;
-	SsU8Color color2 = m_ColorMaxValue;
+	SSColor4B color1 = m_ColorMinValue;
+	SSColor4B color2 = m_ColorMaxValue;
 
 	getRange(color1.a, color2.a, &e->particle.transColor.a, &e->particle.transColor2.a);
 	getRange(color1.r, color2.r, &e->particle.transColor.r, &e->particle.transColor2.r);

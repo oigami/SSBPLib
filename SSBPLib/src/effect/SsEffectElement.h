@@ -192,8 +192,8 @@ public:
 //頂点カラーを制御する
 class ParticleElementInitColor : public SsEffectElementBase{
 private:
-	SsU8Color m_ColorMinValue;		//設定カラー最小
-	SsU8Color m_ColorMaxValue;		//設定カラー最大
+	SSColor4B m_ColorMinValue;		//設定カラー最小
+	SSColor4B m_ColorMaxValue;		//設定カラー最大
 
 public:
 	ParticleElementInitColor();
@@ -206,8 +206,8 @@ public:
 //頂点カラーを制御する
 class ParticleElementTransColor : public SsEffectElementBase{
 private:
-	SsU8Color m_ColorMinValue;		//設定カラー最小
-	SsU8Color m_ColorMaxValue;		//設定カラー最大
+	SSColor4B m_ColorMinValue;		//設定カラー最小
+	SSColor4B m_ColorMaxValue;		//設定カラー最大
 
 public:
 	ParticleElementTransColor();

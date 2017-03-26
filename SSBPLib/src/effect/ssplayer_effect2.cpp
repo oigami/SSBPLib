@@ -165,7 +165,7 @@ void	SsEffectEmitter::updateParticle(float time, particleDrawData* p, bool recal
 
 	if ( particle.useTransColor )
 	{
-		SsU8Color ecolor;
+		SSColor4B ecolor;
 		ecolor.a = particle.transColor.a + (rand.genrand_float32() * particle.transColor2.a );
 		ecolor.r = particle.transColor.r + (rand.genrand_float32() * particle.transColor2.r );
 		ecolor.g = particle.transColor.g + (rand.genrand_float32() * particle.transColor2.g );
@@ -519,7 +519,7 @@ void	SsEffectRenderV2::drawSprite(
 		Vector2 _size,
 		float     _rotation,
 		float	  direction,
-		SsU8Color	color,
+		SSColor4B	color,
 		const std::vector<TextuerData>& textures
 	)
 {
