@@ -564,31 +564,32 @@ void	SsEffectRenderV2::drawSprite(
 	float x2 = width_h;
 	float y2 = height_h;
 
-	state.quad.tl.vertices.x = x1;
-	state.quad.tl.vertices.y = y2;
-	state.quad.tr.vertices.x = x2;
-	state.quad.tr.vertices.y = y2;
-	state.quad.bl.vertices.x = x1;
-	state.quad.bl.vertices.y = y1;
-	state.quad.br.vertices.x = x2;
-	state.quad.br.vertices.y = y1;
+	SSV3F_C4B_T2F_Quad quad;
+	quad.tl.vertices.x = x1;
+	quad.tl.vertices.y = y2;
+	quad.tr.vertices.x = x2;
+	quad.tr.vertices.y = y2;
+	quad.bl.vertices.x = x1;
+	quad.bl.vertices.y = y1;
+	quad.br.vertices.x = x2;
+	quad.br.vertices.y = y1;
 
 	//UVを設定する
-	state.quad.tl.texCoords = SSTex2F(refCell->m_cell->u1, refCell->m_cell->v1);
-	state.quad.tr.texCoords = SSTex2F(refCell->m_cell->u2, refCell->m_cell->v1);
-	state.quad.bl.texCoords = SSTex2F(refCell->m_cell->u1, refCell->m_cell->v2);
-	state.quad.br.texCoords = SSTex2F(refCell->m_cell->u2, refCell->m_cell->v2);
+	quad.tl.texCoords = SSTex2F(refCell->m_cell->u1, refCell->m_cell->v1);
+	quad.tr.texCoords = SSTex2F(refCell->m_cell->u2, refCell->m_cell->v1);
+	quad.bl.texCoords = SSTex2F(refCell->m_cell->u1, refCell->m_cell->v2);
+	quad.br.texCoords = SSTex2F(refCell->m_cell->u2, refCell->m_cell->v2);
 
 	
 	int r = (int)(color.r);			//カラー値を設定
 	int g = (int)(color.g);
 	int b = (int)(color.b);
 	int a = (int)(color.a);
-	state.quad.tl.colors.r = r;
-	state.quad.tl.colors.g = g;
-	state.quad.tl.colors.b = b;
-	state.quad.tl.colors.a = a;
-	state.quad.tr.colors = state.quad.bl.colors = state.quad.br.colors = state.quad.tl.colors;
+	quad.tl.colors.r = r;
+	quad.tl.colors.g = g;
+	quad.tl.colors.b = b;
+	quad.tl.colors.a = a;
+	quad.tr.colors = quad.bl.colors = quad.br.colors = quad.tl.colors;
 
 	state.rotationZ += _rotation + SSRadToDeg(direction);		//回転
 	state.scaleX *= _size.x;		//スケール
@@ -610,15 +611,15 @@ void	SsEffectRenderV2::drawSprite(
 	//SSDrawSpriteから出しました-----------------------------------------------
 
 	//vertexにworldMatrixをかける
-	state.quad.vertexForeach([&](Vector3& vertex){
+	quad.vertexForeach([&](Vector3& vertex){
 		vertex *= matrix;
 	});
 
 	//頂点カラーにアルファを設定
-	state.quad.tl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
-	state.quad.tr.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
-	state.quad.bl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
-	state.quad.br.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+	quad.tl.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
+	quad.tr.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
+	quad.bl.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
+	quad.br.colors.a = quad.bl.colors.a * state.Calc_opacity / 255;
 
 
 	
@@ -630,7 +631,7 @@ void	SsEffectRenderV2::drawSprite(
 	BlendType colorBlendVertexFunc = BLEND_MUL;		//カラーブレンドフラグ乗算
 	int colorBlendVertexFlags = VERTEX_FLAG_ONE;	//カラーブレンドフラグを設定 //memo:意味合いから考えてこれで合ってるはず(todo:Color機能ONのときだけの設定にする必要はあるかも)。色味が変(そもそも元から変だが)なときはここを疑う
 
-	m_eventListener->SSDrawSprite(state.quad, state.texture.handle, blendfunc, colorBlendVertexFunc, colorBlendVertexFlags);	//描画
+	m_eventListener->SSDrawSprite(quad, state.texture.handle, blendfunc, colorBlendVertexFunc, colorBlendVertexFlags);	//描画
 
 	_drawSpritecount++;
 }
