@@ -557,6 +557,16 @@ void	SsEffectRenderV2::drawSprite(
 	quad.tr.vertices = Vector3( width_h,  height_h, 0);
 	quad.bl.vertices = Vector3(-width_h, -height_h, 0);
 	quad.br.vertices = Vector3( width_h, -height_h, 0);
+	//原点補正
+	Vector3 center(
+		(refCell->m_rect.width() * -(refCell->m_cell->pivot_X)),
+		(refCell->m_rect.height() * +(refCell->m_cell->pivot_Y)),	//todo:符号あってる？
+		0.0
+	);
+	state.quad.vertexForeach([&](Vector3& vertex){
+		vertex += center;		//原点補正
+	});
+
 
 	//UVを設定する
 	quad.tl.texCoords = SSTex2F(refCell->m_cell->u1, refCell->m_cell->v1);
@@ -569,23 +579,6 @@ void	SsEffectRenderV2::drawSprite(
 	quad.tr.colors = color;
 	quad.bl.colors = color;
 	quad.br.colors = color;
-
-	state.rotationZ += _rotation + SSRadToDeg(direction);		//回転
-	state.scaleX *= _size.x;		//スケール
-	state.scaleY *= _size.y;		//スケール
-
-	if ((state.scaleX * state.scaleY) < 0){	//スケールのどちらかが-の場合は回転方向を逆にする
-		state.rotationZ = -state.rotationZ;
-	}
-
-	//原点計算を行う
-	Vector2 cxy(
-		((refCell->m_rect.width() * state.scaleX) * -(refCell->m_cell->pivot_X)),
-		((refCell->m_rect.height() * state.scaleY) * +(refCell->m_cell->pivot_Y))
-	);
-	cxy.rotate(SSDegToRad(state.rotationZ));
-
-	matrix.addTranslation(cxy.x, cxy.y);
 
 	//SSDrawSpriteから出しました-----------------------------------------------
 
