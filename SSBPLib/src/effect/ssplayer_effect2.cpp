@@ -514,10 +514,7 @@ SsEffectRenderV2::~SsEffectRenderV2()
 void	SsEffectRenderV2::drawSprite(
 		const CellRef* refCell,
 		SsRenderBlendType blendType,
-		Vector2 _position,
-		Vector2 _size,
-		float     _rotation,
-		float	  direction,
+		const Matrix& localMatrix,
 		SSColor4B	color,
 		const std::vector<TextuerData>& textures
 	)
@@ -531,16 +528,7 @@ void	SsEffectRenderV2::drawSprite(
     	float parentAlphaRate = _parentSprite->_state.opacity / 255.0f;
 		color.a *= parentAlphaRate;
 	}
-
-	Matrix localTransformMatrix;
-
-	Vector2 layoutScale = this->effectData->layoutScale();
-	localTransformMatrix.setupSRzyxT(
-		Vector3(_size.x, _size.y, 1.0f),
-		Vector3(0.0f, 0.0f, SSDegToRad(_rotation) + direction),
-		Vector3(_position.x * layoutScale.x, _position.y * layoutScale.y, 0.0f)
-	);
-	matrix = localTransformMatrix * matrix;
+	matrix = localMatrix * matrix;
 
 
 
@@ -664,9 +652,10 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 
 			e->updateParticle(targettime, &lp);
 
+			Matrix localTransformMatrix = lp.craeteLocalTransformMatrix(this->effectData->layoutScale());
 			drawSprite(
 				e->refData->getCellRef(), e->refData->getBlendType(),
-				Vector2(lp.x,lp.y), lp.scale, lp.rot , lp.direc , lp.color, textures
+				localTransformMatrix, lp.color, textures
 			);
 		}
 

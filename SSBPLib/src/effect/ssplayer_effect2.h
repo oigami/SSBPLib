@@ -60,7 +60,16 @@ struct particleDrawData
     SSColor4B color;
     Vector2 scale;
 
-
+	//変換行列の取得(layoutScaleは一応そのまま持ってきたがそもそもこれで合ってるのか謎)
+	Matrix craeteLocalTransformMatrix(Vector2 layoutScale) const{
+		Matrix localTransformMatrix;
+		localTransformMatrix.setupSRzyxT(
+			Vector3(scale.x, scale.y, 1.0f),
+			Vector3(0.0f, 0.0f, SSDegToRad(rot) + direc),
+			Vector3(x * layoutScale.x, y * layoutScale.y, 0.0f)
+		);
+		return localTransformMatrix;
+	}
 };
 
 
@@ -327,10 +336,7 @@ public:
 	void	drawSprite(
 			const CellRef* refCell,
 			SsRenderBlendType blendType,
-			Vector2	_position,
-			Vector2 _size,
-			float     _rotation,
-			float	  direction,
+			const Matrix& localMatrix,
 			SSColor4B	color,
 			const std::vector<TextuerData>& textures	//todo:とりあえず今はこれを渡していくしかない。後で整理する
 		);
