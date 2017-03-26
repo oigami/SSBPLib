@@ -36,6 +36,7 @@ public:
 
 	int getParentIndex() const{ return m_parentIndex; }
 	SsEffectNodeType GetType() const{ return m_type; }
+	//int getCellIndex() const{ return m_cellIndex; }
 	const CellRef* getCellRef() const{ return m_cellRef; }
 	SsRenderBlendType getBlendType() const{ return m_blendType; }
 

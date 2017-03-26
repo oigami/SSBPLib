@@ -516,11 +516,9 @@ void	SsEffectRenderV2::drawSprite(
 		SsRenderBlendType blendType,
 		const Matrix& localMatrix,
 		SSColor4B	color,
-		const std::vector<TextuerData>& textures
+		TextureID textureId
 	)
 {
-	if (refCell == nullptr) return;
-
 	Matrix matrix;
 
 	if (_parentSprite){
@@ -588,7 +586,6 @@ void	SsEffectRenderV2::drawSprite(
 	BlendType colorBlendVertexFunc = BLEND_MUL;		//カラーブレンドフラグ乗算
 	int colorBlendVertexFlags = VERTEX_FLAG_ONE;	//カラーブレンドフラグを設定 //memo:意味合いから考えてこれで合ってるはず(todo:Color機能ONのときだけの設定にする必要はあるかも)。色味が変(そもそも元から変だが)なときはここを疑う
 
-	TextureID textureId = textures[refCell->m_cellMapIndex].handle;
 	m_eventListener->SSDrawSprite(quad, textureId, blendfunc, colorBlendVertexFunc, colorBlendVertexFlags);	//描画
 
 	_drawSpritecount++;
@@ -652,11 +649,13 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 
 			e->updateParticle(targettime, &lp);
 
-			Matrix localTransformMatrix = lp.craeteLocalTransformMatrix(this->effectData->layoutScale());
-			drawSprite(
-				e->refData->getCellRef(), e->refData->getBlendType(),
-				localTransformMatrix, lp.color, textures
-			);
+			if(e->refData->getCellRef()){
+				Matrix localTransformMatrix = lp.craeteLocalTransformMatrix(this->effectData->layoutScale());
+				drawSprite(
+					e->refData->getCellRef(), e->refData->getBlendType(),
+					localTransformMatrix, lp.color, textures[e->refData->getCellRef()->m_cellMapIndex].handle
+				);
+			}
 		}
 
 	}

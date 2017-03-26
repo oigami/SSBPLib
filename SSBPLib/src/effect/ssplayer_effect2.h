@@ -338,7 +338,7 @@ public:
 			SsRenderBlendType blendType,
 			const Matrix& localMatrix,
 			SSColor4B	color,
-			const std::vector<TextuerData>& textures	//todo:とりあえず今はこれを渡していくしかない。後で整理する
+			TextureID textureId
 		);
 
 	void	setSeedOffset(int offset) {
