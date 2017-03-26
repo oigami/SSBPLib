@@ -48,8 +48,9 @@ T fwrap(T val, T minVal, T maxVal){
 /** 線形補間 t[0:1] */
 template <typename T>
 T lerp(const T &from, const T &to, double t){
-	T diff = to - from;
-	return from + diff*t;
+//	T diff = to - from;
+//	return from + diff*t;
+	return from * (1.0 - t) + to * t;
 }
 
 /** 角度を[0:360)の範囲で補完する t[0:1] */
