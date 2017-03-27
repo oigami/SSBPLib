@@ -13,11 +13,14 @@ struct Cell;
  * CellRef
  */
 struct CellRef{
-	const Cell* m_cell;
+	//const Cell* m_cell;
 	const char* m_cellName;		//cellの名前
 	int			m_cellMapIndex;	//セルマップ番号
 	const char* m_cellMapName;	//セルマップ名
 	SSRect		m_rect;			//cellの範囲
+	Vector2		m_pivot;		//原点補正
+	Vector2		m_uv1;			//uv1
+	Vector2		m_uv2;			//uv2
 };
 
 /**

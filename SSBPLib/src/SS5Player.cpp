@@ -604,8 +604,8 @@ void Player::setFrame(int frameNo, float dt)
 		//セルの原点設定を反映させる
 		const CellRef* cellRef = state.cellIndex >= 0 ? _currentRs->m_cellCache->getReference(state.cellIndex) : nullptr;
 		if (cellRef){
-			float cpx = cellRef->m_cell->pivot_X;
-			float cpy = cellRef->m_cell->pivot_Y;
+			float cpx = cellRef->m_pivot.x;
+			float cpy = cellRef->m_pivot.y;
 
 			if(state.flipX){ cpx = -cpx; }	// 水平フリップによって原点を入れ替える
 			if(state.flipY){ cpy = -cpy; }	// 垂直フリップによって原点を入れ替える
@@ -720,8 +720,8 @@ void Player::setFrame(int frameNo, float dt)
 		//UVを設定する
 		SSTex2F uv_tl, uv_br;
 		if(cellRef){
-			uv_tl = SSTex2F(cellRef->m_cell->u1, cellRef->m_cell->v1);
-			uv_br = SSTex2F(cellRef->m_cell->u2, cellRef->m_cell->v2);
+			uv_tl = cellRef->m_uv1;
+			uv_br = cellRef->m_uv2;
 		}
 		state.uvCompute(&quad, uv_tl, uv_br);
 

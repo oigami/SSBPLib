@@ -541,8 +541,8 @@ void	SsEffectRenderV2::drawSprite(
 	quad.br.vertices = Vector3( width_h, -height_h, 0);
 	//原点補正
 	Vector3 center(
-		(refCell->m_rect.width() * -(refCell->m_cell->pivot_X)),
-		(refCell->m_rect.height() * +(refCell->m_cell->pivot_Y)),	//todo:符号あってる？
+		(refCell->m_rect.width() * -(refCell->m_pivot.x)),
+		(refCell->m_rect.height() * +(refCell->m_pivot.y)),	//todo:符号あってる？
 		0.0
 	);
 	quad.vertexForeach([&](Vector3& vertex){
@@ -551,10 +551,10 @@ void	SsEffectRenderV2::drawSprite(
 
 
 	//UVを設定する
-	quad.tl.texCoords = SSTex2F(refCell->m_cell->u1, refCell->m_cell->v1);
-	quad.tr.texCoords = SSTex2F(refCell->m_cell->u2, refCell->m_cell->v1);
-	quad.bl.texCoords = SSTex2F(refCell->m_cell->u1, refCell->m_cell->v2);
-	quad.br.texCoords = SSTex2F(refCell->m_cell->u2, refCell->m_cell->v2);
+	quad.tl.texCoords = SSTex2F(refCell->m_uv1.u(), refCell->m_uv1.v());
+	quad.tr.texCoords = SSTex2F(refCell->m_uv2.u(), refCell->m_uv1.v());
+	quad.bl.texCoords = SSTex2F(refCell->m_uv1.u(), refCell->m_uv2.v());
+	quad.br.texCoords = SSTex2F(refCell->m_uv2.u(), refCell->m_uv2.v());
 
 	//カラー値を設定
 	quad.tl.colors = color;

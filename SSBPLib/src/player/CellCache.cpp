@@ -70,9 +70,12 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 
 		const char* cellname = ptr.toString(cell->name);			//セル名
 		const char* cellmapname = ptr.toString(cellMap->name);		//セルマップ名
-		CellRef ref = {
-			cell,  cellname, cellMap->index, cellmapname,
-			SSRect(cell->x, cell->y, cell->width, cell->height)
+		CellRef ref = {	/*cell,*/ 
+			cellname, cellMap->index, cellmapname,
+			SSRect(cell->x, cell->y, cell->width, cell->height),
+			Vector2(cell->pivot_X, cell->pivot_Y),
+			Vector2(cell->u1, cell->v1),
+			Vector2(cell->u2, cell->v2)
 		};
 		m_cellRefs[i] = ref;
 	}
