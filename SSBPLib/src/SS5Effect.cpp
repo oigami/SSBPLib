@@ -143,7 +143,7 @@ void SsEffectRenderV2::drawSprite(
 }
 
 
-void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectEmitter* parent , particleDrawData* plp)
+void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectEmitter* parent , const particleDrawData* plp)
 {
 	double t = time;
 

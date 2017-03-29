@@ -49,7 +49,7 @@ private:
 
 
 private:
-	void particleDraw(SsEffectEmitter* e, double t, SsEffectEmitter* parent, particleDrawData* plp);
+	void particleDraw(SsEffectEmitter* e, double time, SsEffectEmitter* parent, const particleDrawData* plp);
 	void initEmitter(SsEffectEmitter* e, const SsEffectNode* node);
 
 
