@@ -482,31 +482,31 @@ const particleExistSt*	SsEffectEmitter::getParticleDataFromID(int id) const
 //----------------------------------------------------------------------------------
 SsEffectRenderV2::SsEffectRenderV2(SS5EventListener* eventListener, const SsEffectModel* model, int seed)
 	: m_eventListener(eventListener)
-	, effectData(model)
-	, mySeed(seed * SEED_MAGIC)
-	, nowFrame(0)
-	, targetFrame(0)
-	, effectTimeLength(0)
-	, Infinite(false)
+	, m_effectData(model)
+	, m_mySeed(seed * SEED_MAGIC)
+	, m_nowFrame(0)
+	, m_targetFrame(0)
+	, m_effectTimeLength(0)
+	, m_infinite(false)
 	, m_isPlay(false)
 	, m_isLoop(false)
-	, seedOffset(0)
-	, _isWarningData(false)
-	, _parentSprite(nullptr)
-	, _drawSpritecount(0)
+	, m_seedOffset(0)
+	, m_isWarningData(false)
+	, m_parentSprite(nullptr)
+	, m_drawSpritecount(0)
 {
-	SS_ASSERT(effectData);
+	SS_ASSERT(m_effectData);
 	initialize();
 }
 
 SsEffectRenderV2::~SsEffectRenderV2()
 {
-	for(SsEffectEmitter* emitter : this->emmiterList){
+	for(SsEffectEmitter* emitter : m_emmiterList){
 		delete emitter;
 	}
 
-	emmiterList.clear();
-	updateList.clear();
+	m_emmiterList.clear();
+	m_updateList.clear();
 }
 
 
@@ -521,9 +521,9 @@ void	SsEffectRenderV2::drawSprite(
 {
 	Matrix matrix;
 
-	if (_parentSprite){
-		matrix = _parentSprite->_state.mat;
-    	float parentAlphaRate = _parentSprite->_state.opacity / 255.0f;
+	if (m_parentSprite){
+		matrix = m_parentSprite->_state.mat;
+    	float parentAlphaRate = m_parentSprite->_state.opacity / 255.0f;
 		color.a *= parentAlphaRate;
 	}
 	matrix = localMatrix * matrix;
@@ -570,7 +570,7 @@ void	SsEffectRenderV2::drawSprite(
 	});
 
 	//頂点カラーにアルファを設定
-	int calc_opacity = _parentSprite->_state.Calc_opacity;
+	int calc_opacity = m_parentSprite->_state.Calc_opacity;
 	quad.tl.colors.a = quad.bl.colors.a * calc_opacity / 255;
 	quad.tr.colors.a = quad.bl.colors.a * calc_opacity / 255;
 	quad.bl.colors.a = quad.bl.colors.a * calc_opacity / 255;
@@ -588,7 +588,7 @@ void	SsEffectRenderV2::drawSprite(
 
 	m_eventListener->SSDrawSprite(quad, textureId, blendfunc, colorBlendVertexFunc, colorBlendVertexFlags);	//描画
 
-	_drawSpritecount++;
+	m_drawSpritecount++;
 }
 
 
@@ -650,7 +650,7 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 			e->updateParticle(targettime, &lp);
 
 			if(e->refData->getCellRef()){
-				Matrix localTransformMatrix = lp.craeteLocalTransformMatrix(this->effectData->layoutScale());
+				Matrix localTransformMatrix = lp.craeteLocalTransformMatrix(m_effectData->layoutScale());
 				drawSprite(
 					e->refData->getCellRef(), e->refData->getBlendType(),
 					localTransformMatrix, lp.color, textures[e->refData->getCellRef()->m_cellMapIndex].handle
@@ -675,14 +675,14 @@ void	SsEffectRenderV2::initEmitter( SsEffectEmitter* e , const SsEffectNode* nod
 		element->initalizeEffect(e);
 	}
 
-	e->emitterSeed = this->mySeed;
+	e->emitterSeed = m_mySeed;
 
 	if ( e->particle.userOverrideRSeed ){
 		e->emitterSeed = e->particle.overrideRSeed;
 	}
 	else{
-		if ( this->effectData->isLockRandSeed() ){
-			e->emitterSeed = (this->effectData->lockRandSeed()+1) * SEED_MAGIC;
+		if ( m_effectData->isLockRandSeed() ){
+			e->emitterSeed = (m_effectData->lockRandSeed()+1) * SEED_MAGIC;
 		}
 	}
 
@@ -697,16 +697,16 @@ void	SsEffectRenderV2::update()
 
 	if ( !m_isPlay ) return;
 
-	targetFrame = nowFrame;
+	m_targetFrame = m_nowFrame;
 
-	if ( !this->Infinite )
+	if ( !m_infinite )
 	{
 		if (this->isloop()) //自動ループの場合
 		{
-			if (nowFrame > getEffectTimeLength())
+			if (m_nowFrame > getEffectTimeLength())
 			{
-				targetFrame = (int)((int)nowFrame % getEffectTimeLength());
-				int l = (nowFrame / getEffectTimeLength());
+				m_targetFrame = (int)((int)m_nowFrame % getEffectTimeLength());
+				int l = (m_nowFrame / getEffectTimeLength());
 				setSeedOffset(l);
 			}
 		}
@@ -715,22 +715,22 @@ void	SsEffectRenderV2::update()
 
 void	SsEffectRenderV2::draw(const std::vector<TextuerData>& textures)
 {
-	_drawSpritecount = 0;	//表示スプライト数のクリア
+	m_drawSpritecount = 0;	//表示スプライト数のクリア
 
-	if (nowFrame < 0) return;
+	if (m_nowFrame < 0) return;
 
-	for (SsEffectEmitter* e : updateList){
+	for (SsEffectEmitter* e : m_updateList){
 		if (e){
-			e->setSeedOffset(seedOffset);
+			e->setSeedOffset(m_seedOffset);
 		}
 	}
 
-	for (SsEffectEmitter* e : updateList){
+	for (SsEffectEmitter* e : m_updateList){
 
 		if ( e->_parent )
 		{
 			//グローバルの時間で現在親がどれだけ生成されているのかをチェックする
-			e->_parent->updateEmitter(targetFrame, 0);
+			e->_parent->updateEmitter(m_targetFrame, 0);
 
 			int loopnum =  e->_parent->getParticleIDMax();
 			for ( int n = 0 ; n < loopnum ; n ++ )
@@ -745,7 +745,7 @@ void	SsEffectRenderV2::draw(const std::vector<TextuerData>& textures)
 					lp.id = n;
 					lp.pid = 0;
 
-					float targettime = (targetFrame + 0.0f);
+					float targettime = (m_targetFrame + 0.0f);
 					float ptime = (targettime - lp.stime );
 
 	  				particleDraw( e , ptime , e->_parent , &lp, textures);
@@ -753,7 +753,7 @@ void	SsEffectRenderV2::draw(const std::vector<TextuerData>& textures)
 			}
 
 		}else{
-			particleDraw( e , targetFrame ,nullptr, nullptr, textures);
+			particleDraw( e , m_targetFrame ,nullptr, nullptr, textures);
 		}
 	}
 
@@ -773,7 +773,7 @@ bool compare_priority( SsEffectEmitter* left,  SsEffectEmitter* right)
 
 void    SsEffectRenderV2::initialize()
 {
-	const std::vector<const SsEffectNode*>& list = this->effectData->getNodeList();
+	const std::vector<const SsEffectNode*>& list = m_effectData->getNodeList();
 
 	std::vector<int> cnum(list.size(), 0);
 
@@ -795,7 +795,7 @@ void    SsEffectRenderV2::initialize()
 
 			cnum[e->_parentIndex]++;
 			if (cnum[e->_parentIndex] > 10){
-				_isWarningData = true;
+				m_isWarningData = true;
 				delete e;
 				continue; //子１０ノード表示制限
 			}
@@ -805,7 +805,7 @@ void    SsEffectRenderV2::initialize()
 				int a = list[e->_parentIndex]->getParentIndex();
 				if (a != 0){
 					if (list[a]->getParentIndex() > 0) {
-						_isWarningData = true;
+						m_isWarningData = true;
 						delete e;
 						continue;
 					}
@@ -813,59 +813,59 @@ void    SsEffectRenderV2::initialize()
 			}
 
 			initEmitter(e, node);
-			this->emmiterList.push_back(e);
+			m_emmiterList.push_back(e);
 			if(e->emitter.Infinite){
-				Infinite = true;
+				m_infinite = true;
 			}
 		}
 		else{
 			//エミッター同士を繋ぎたいので
-			this->emmiterList.push_back(nullptr);
+			m_emmiterList.push_back(nullptr);
 		}
 	}
 
 	//親子関係整理
 
 
-	effectTimeLength = 0;
+	m_effectTimeLength = 0;
 	//事前計算計算  updateListにルートの子を配置し親子関係を結ぶ
-	for (size_t i = 0; i < this->emmiterList.size(); i++)
+	for (size_t i = 0; i < m_emmiterList.size(); i++)
 	{
 
-		if (emmiterList[i] != 0)
+		if (m_emmiterList[i] != 0)
 		{
-			emmiterList[i]->uid = i;
-			emmiterList[i]->precalculate2(); //ループ対応形式
+			m_emmiterList[i]->uid = i;
+			m_emmiterList[i]->precalculate2(); //ループ対応形式
 
 
-			int  pi = emmiterList[i]->_parentIndex;
+			int  pi = m_emmiterList[i]->_parentIndex;
 
-			if (emmiterList[i]->_parentIndex == 0)  //ルート直下
+			if (m_emmiterList[i]->_parentIndex == 0)  //ルート直下
 			{
-				emmiterList[i]->_parent = 0;
-				emmiterList[i]->globaltime = emmiterList[i]->getTimeLength();
-				updateList.push_back(emmiterList[i]);
+				m_emmiterList[i]->_parent = 0;
+				m_emmiterList[i]->globaltime = m_emmiterList[i]->getTimeLength();
+				m_updateList.push_back(m_emmiterList[i]);
 			}
 			else
 			{
 
-				void* t = this->emmiterList[pi];
+				void* t = m_emmiterList[pi];
 
-				emmiterList[i]->_parent = emmiterList[pi];
+				m_emmiterList[i]->_parent = m_emmiterList[pi];
 
-				emmiterList[i]->globaltime = emmiterList[i]->getTimeLength() + this->emmiterList[pi]->getTimeLength();
+				m_emmiterList[i]->globaltime = m_emmiterList[i]->getTimeLength() + m_emmiterList[pi]->getTimeLength();
 
-				updateList.push_back(emmiterList[i]);
+				m_updateList.push_back(m_emmiterList[i]);
 			}
 
-			if (emmiterList[i]->globaltime > effectTimeLength)
+			if (m_emmiterList[i]->globaltime > m_effectTimeLength)
 			{
-				effectTimeLength = emmiterList[i]->globaltime;
+				m_effectTimeLength = m_emmiterList[i]->globaltime;
 			}
 		}
 	}
 	//プライオリティソート
-	std::sort(updateList.begin(), updateList.end(), compare_priority);
+	std::sort(m_updateList.begin(), m_updateList.end(), compare_priority);
 
 
 }
@@ -874,16 +874,16 @@ void    SsEffectRenderV2::initialize()
 size_t  SsEffectRenderV2::getEffectTimeLength()
 {
 
-	return effectTimeLength;
+	return m_effectTimeLength;
 }
 
 #if 0
 int	SsEffectRenderV2::getCurrentFPS(){
-	if (effectData)
+	if (m_effectData)
 	{
-		if ( effectData->fps == 0 ) return 30;
+		if (m_effectData->fps == 0 ) return 30;
 
-		return effectData->fps;
+		return m_effectData->fps;
 	}
 	return 30;
 }

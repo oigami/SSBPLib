@@ -269,95 +269,93 @@ public:
 class SsEffectRenderV2
 {
 private:
-	SS5EventListener*	m_eventListener;
+	SS5EventListener* m_eventListener;
 
 	//エフェクトのパラメータデータ
-	const SsEffectModel*		effectData;
+	const SsEffectModel* m_effectData;
 
 	//Modelに記載されているエミッタのリスト
-	std::vector<SsEffectEmitter*>   emmiterList;
-	std::vector<SsEffectEmitter*>   updateList;
+	std::vector<SsEffectEmitter*> m_emmiterList;
+	std::vector<SsEffectEmitter*> m_updateList;
 
 	//ランダムシード
-	int				mySeed;
+	int	m_mySeed;
 
-	float			nowFrame;
-	float			targetFrame;
+	float m_nowFrame;
+	float m_targetFrame;
 
-	size_t          effectTimeLength;
+	size_t m_effectTimeLength;
 
-    bool			Infinite;	//無限に発生出来るかどうか
+    bool m_infinite;	//無限に発生出来るかどうか
 
-	bool			m_isPlay;
-	bool			m_isLoop;
+	bool m_isPlay;
+	bool m_isLoop;
 
-	int				seedOffset;
-	bool		_isWarningData;
+	int  m_seedOffset;
+	bool m_isWarningData;
 
 	//親になるスプライト
-	CustomSprite						*_parentSprite;
+	const CustomSprite* m_parentSprite;
 
-	int			_drawSpritecount; 
+	int m_drawSpritecount; 
 
 
 private:
-	void 	particleDraw(SsEffectEmitter* e , double t , SsEffectEmitter* parent , particleDrawData* plp, const std::vector<TextuerData>& textures);
-	void	initEmitter( SsEffectEmitter* e , const SsEffectNode* node);
+	void particleDraw(SsEffectEmitter* e , double t , SsEffectEmitter* parent , particleDrawData* plp, const std::vector<TextuerData>& textures);
+	void initEmitter( SsEffectEmitter* e , const SsEffectNode* node);
 
 
 public:
 	SsEffectRenderV2(SS5EventListener* eventListener, const SsEffectModel* model, int seed);
 	~SsEffectRenderV2();
 
-	void    play(){ m_isPlay=true; }
-	void	stop(){ m_isPlay = false;}
-	void	setLoop(bool flag){ m_isLoop = flag; }
-	bool	isplay(){return m_isPlay;}
-	bool	isloop(){return m_isLoop;}
+	void play(){ m_isPlay=true; }
+	void stop(){ m_isPlay = false;}
+	void setLoop(bool flag){ m_isLoop = flag; }
+	bool isplay() const{return m_isPlay;}
+	bool isloop() const{return m_isLoop;}
 
-	void	setFrame( float frame ){
-    	nowFrame = frame;
+	void setFrame( float frame ){
+    	m_nowFrame = frame;
 	}
-    float	getFrame(){ return nowFrame; }
+    float getFrame() const{ return m_nowFrame; }
 
-	void	update();
-	void	draw(const std::vector<TextuerData>& textures);
+	void update();
+	void draw(const std::vector<TextuerData>& textures);
 
 private:
-	void    initialize();
+	void initialize();
 
 public:
-    size_t  getEffectTimeLength();
+    size_t getEffectTimeLength();
 
 #if 0
 	int	getCurrentFPS();
 #endif
 
-	void	drawSprite(
-			const CellRef* refCell,
-			SsRenderBlendType blendType,
-			const Matrix& localMatrix,
-			SSColor4B	color,
-			TextureID textureId
-		);
+	void drawSprite(
+		const CellRef* refCell,
+		SsRenderBlendType blendType,
+		const Matrix& localMatrix,
+		SSColor4B	color,
+		TextureID textureId
+	);
 
-	void	setSeedOffset(int offset) {
-		if (effectData->isLockRandSeed())
-		{
-			seedOffset = 0;
+	void setSeedOffset(int offset) {
+		if (m_effectData->isLockRandSeed()){
+			m_seedOffset = 0;
 		}
-		else
-		{
-			seedOffset = offset;
+		else{
+			m_seedOffset = offset;
 		}
 	}
-	bool	isInfinity() { return Infinite; }
-	bool	isWarning() { return _isWarningData; }
+	bool isInfinity() const{ return m_infinite; }
+	bool isWarning() const{ return m_isWarningData; }
 
 	//親になるスプライトを設定する
-	void setParentSprite(CustomSprite* sprite) { _parentSprite = sprite; }
+	void setParentSprite(const CustomSprite* sprite) { m_parentSprite = sprite; }
 
-	int	getDrawSpriteCount() { return _drawSpritecount; }
+	int	getDrawSpriteCount() const{ return m_drawSpritecount; }
 };
 
 };
