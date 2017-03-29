@@ -9,9 +9,9 @@ class SsEffectNode;
 
 
 
-#define SEED_MAGIC (7573)
-#define LIFE_EXTEND_SCALE (8)
-#define LIFE_EXTEND_MIN	  (64)
+static const int SEED_MAGIC = 7573;
+static const int LIFE_EXTEND_SCALE = 8;
+static const int LIFE_EXTEND_MIN = 64;
 
 
 

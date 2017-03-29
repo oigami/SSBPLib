@@ -1,4 +1,5 @@
-﻿//-----------------------------------------------------------
+﻿#pragma once
+//-----------------------------------------------------------
 // ssbpLib v1.3.5
 //
 // Copyright(C) Web Technology Corp.
@@ -68,9 +69,6 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
   使用方法についてはPlayerクラスのコメントを参照してください。
 
 *************************************************************/
-
-#ifndef SS5Player_h
-#define SS5Player_h
 
 #include "SS5PlayerData.h"
 #include "SS5PlayerTypes.h"
@@ -345,6 +343,4 @@ private:
 };
 
 
-};	// namespace ss
-
-#endif
+} // namespace ss

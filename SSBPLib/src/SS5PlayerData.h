@@ -1,9 +1,4 @@
-﻿/**
-*  SS5PlayerData.h
-*/
-
-#ifndef SS5PlayerData_h
-#define SS5PlayerData_h
+﻿#pragma once
 
 namespace ss
 {
@@ -307,6 +302,5 @@ struct ProjectData
 	ss_s16		numEffectFileList;	// プロジェクトに登録されているエフェクトファイル数
 };
 
-};	// namespace ss
+} // namespace ss
 
-#endif
