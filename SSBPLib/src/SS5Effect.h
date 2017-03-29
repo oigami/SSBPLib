@@ -12,15 +12,14 @@ class SsEffectEmitter;
 struct particleDrawData;
 class CustomSprite;
 struct CellRef;
+class ResourceSet;
 
 
 class SsEffectRenderV2{
 private:
 	SS5EventListener* m_eventListener;
-
-
-	//エフェクトのパラメータデータ
-	const SsEffectModel* m_effectData;
+	const ResourceSet* m_resource;		//ssbp
+	const SsEffectModel* m_effectData;	//エフェクトのパラメータデータ
 
 	//Modelに記載されているエミッタのリスト
 	std::vector<SsEffectEmitter*> m_emmiterList;
@@ -54,7 +53,7 @@ private:
 
 
 public:
-	SsEffectRenderV2(SS5EventListener* eventListener, const SsEffectModel* model, int seed);
+	SsEffectRenderV2(const ResourceSet* resource, SS5EventListener* eventListener, const std::string& effectName, int seed);
 	~SsEffectRenderV2();
 
 	void play(){ m_isPlay = true; }

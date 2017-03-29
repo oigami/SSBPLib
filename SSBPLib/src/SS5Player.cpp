@@ -330,21 +330,15 @@ void Player::setPartsParentage()
 		}
 
 		//エフェクトパーツの生成
-		if (sprite->refEffect)
-		{
+		if (sprite->refEffect){
 			delete sprite->refEffect;
 			sprite->refEffect = 0;
 		}
 
 		std::string refeffectName = ptr.toString(partData->effectfilename);
-		if (refeffectName != "")
-		{
-			const SsEffectModel* effectmodel = _currentRs->m_effectCache->getReference(refeffectName);
-			if (effectmodel)
-			{
-				//エフェクトクラスにパラメータを設定する
-				sprite->refEffect = new SsEffectRenderV2(_eventListener, effectmodel, getRandomSeed());	//ひとまず今セットされているイベントリスナーを渡す //todo:最終的にはChildPlayer同様に外に制御を任せたい
-			}
+		if (refeffectName != ""){
+			//エフェクトクラスにパラメータを設定する
+			sprite->refEffect = new SsEffectRenderV2(_currentRs, _eventListener, refeffectName, getRandomSeed());	//ひとまず今セットされているイベントリスナーを渡す //todo:最終的にはChildPlayer同様に外に制御を任せたい
 		}
 	}
 }

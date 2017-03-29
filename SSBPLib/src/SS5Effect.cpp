@@ -2,14 +2,16 @@
 #include "SS5EventListener.h"
 #include "effect/ssplayer_effect2.h"
 #include "player/CustomSprite.h"
-
+#include "player/ResourceSet.h"
+#include "player/EffectCache.h"
 
 namespace ss{
 
 
-SsEffectRenderV2::SsEffectRenderV2(SS5EventListener* eventListener, const SsEffectModel* model, int seed)
+SsEffectRenderV2::SsEffectRenderV2(const ResourceSet* resource, SS5EventListener* eventListener, const std::string& effectName, int seed)
 	: m_eventListener(eventListener)
-	, m_effectData(model)
+	, m_resource(resource)
+	, m_effectData(nullptr)
 	, m_mySeed(seed * SEED_MAGIC)
 	, m_nowFrame(0)
 	, m_targetFrame(0)
@@ -22,7 +24,12 @@ SsEffectRenderV2::SsEffectRenderV2(SS5EventListener* eventListener, const SsEffe
 	, m_parentSprite(nullptr)
 	, m_drawSpritecount(0)
 {
+	SS_ASSERT(m_eventListener);
+	SS_ASSERT(m_resource);
+
+	m_effectData = m_resource->m_effectCache->getReference(effectName);
 	SS_ASSERT(m_effectData);
+	
 	initialize();
 }
 
@@ -295,6 +302,7 @@ bool compare_priority( SsEffectEmitter* left,  SsEffectEmitter* right)
 	//	return true;
   return left->priority < right->priority ;
 }
+
 
 
 void SsEffectRenderV2::initialize()
