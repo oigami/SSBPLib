@@ -154,6 +154,7 @@
     <ClCompile Include="src\player\UserData.cpp" />
     <ClCompile Include="src\player\Util.cpp" />
     <ClCompile Include="src\ResourceManager.cpp" />
+    <ClCompile Include="src\SS5Effect.cpp" />
     <ClCompile Include="src\SS5Player.cpp" />
     <ClCompile Include="src\SS5PlayerTypes.cpp" />
     <ClCompile Include="src\stdafx.cpp">
@@ -187,6 +188,7 @@
     <ClInclude Include="src\player\Util.h" />
     <ClInclude Include="src\ResluteState.h" />
     <ClInclude Include="src\ResourceManager.h" />
+    <ClInclude Include="src\SS5Effect.h" />
     <ClInclude Include="src\SS5EventListener.h" />
     <ClInclude Include="src\SS5Player.h" />
     <ClInclude Include="src\SS5PlayerData.h" />

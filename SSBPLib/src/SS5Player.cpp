@@ -19,6 +19,7 @@
 #include "ResourceManager.h"
 #include "SS5EventListener.h"
 #include "effect/ssplayer_effect2.h"
+#include "SS5Effect.h"
 
 
 namespace ss{

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "SS5PlayerTypes.h"
+#include "player/PlayerDef.h"
 
 namespace ss{
 class Player;
