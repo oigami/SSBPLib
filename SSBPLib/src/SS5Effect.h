@@ -20,6 +20,7 @@ private:
 	SS5EventListener* m_eventListener;
 	const ResourceSet* m_resource;		//ssbp
 	const SsEffectModel* m_effectData;	//エフェクトのパラメータデータ
+	std::vector<TextureID> m_textures;	//テクスチャ
 
 	//Modelに記載されているエミッタのリスト
 	std::vector<SsEffectEmitter*> m_emmiterList;
@@ -48,7 +49,7 @@ private:
 
 
 private:
-	void particleDraw(SsEffectEmitter* e, double t, SsEffectEmitter* parent, particleDrawData* plp, const std::vector<TextuerData>& textures);
+	void particleDraw(SsEffectEmitter* e, double t, SsEffectEmitter* parent, particleDrawData* plp);
 	void initEmitter(SsEffectEmitter* e, const SsEffectNode* node);
 
 
@@ -68,7 +69,7 @@ public:
 	float getFrame() const{ return m_nowFrame; }
 
 	void update();
-	void draw(const std::vector<TextuerData>& textures);
+	void draw();
 
 private:
 	void initialize();

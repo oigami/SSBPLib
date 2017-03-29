@@ -27,6 +27,18 @@ SsEffectRenderV2::SsEffectRenderV2(const ResourceSet* resource, SS5EventListener
 	SS_ASSERT(m_eventListener);
 	SS_ASSERT(m_resource);
 
+	//ロードイベントを投げてcellMapのテクスチャを取得する
+	int cellMapNum = m_resource->m_cellCache->getCellMapNum();
+	m_textures.resize(cellMapNum);
+	for(int i = 0; i < cellMapNum; ++i){
+		std::string textureName = m_resource->m_cellCache->getTexturePath(i);
+		SsTexWrapMode wrapmode = m_resource->m_cellCache->getWrapMode(i);
+		SsTexFilterMode filtermode = m_resource->m_cellCache->getFilterMode(i);
+
+		m_textures[i] = m_eventListener->SSTextureLoad(textureName.c_str(), wrapmode, filtermode);
+	}
+
+	//利用するエフェクトデータをセットして初期化する
 	m_effectData = m_resource->m_effectCache->getReference(effectName);
 	SS_ASSERT(m_effectData);
 	
@@ -41,6 +53,12 @@ SsEffectRenderV2::~SsEffectRenderV2()
 
 	m_emmiterList.clear();
 	m_updateList.clear();
+
+	//テクスチャの解放イベントを投げる
+	for(TextureID textureID : m_textures){
+		m_eventListener->SSTextureRelease(textureID);
+	}
+	m_textures.clear();
 }
 
 
@@ -125,7 +143,7 @@ void SsEffectRenderV2::drawSprite(
 }
 
 
-void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectEmitter* parent , particleDrawData* plp, const std::vector<TextuerData>& textures)
+void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectEmitter* parent , particleDrawData* plp)
 {
 	double t = time;
 
@@ -186,7 +204,7 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 				Matrix localTransformMatrix = lp.craeteLocalTransformMatrix(m_effectData->layoutScale());
 				drawSprite(
 					e->refData->getCellRef(), e->refData->getBlendType(),
-					localTransformMatrix, lp.color, textures[e->refData->getCellRef()->m_cellMapIndex].handle
+					localTransformMatrix, lp.color, m_textures[e->refData->getCellRef()->m_cellMapIndex]
 				);
 			}
 		}
@@ -246,7 +264,7 @@ void SsEffectRenderV2::update()
 	}
 }
 
-void SsEffectRenderV2::draw(const std::vector<TextuerData>& textures)
+void SsEffectRenderV2::draw()
 {
 	m_drawSpritecount = 0;	//表示スプライト数のクリア
 
@@ -281,12 +299,12 @@ void SsEffectRenderV2::draw(const std::vector<TextuerData>& textures)
 					float targettime = (m_targetFrame + 0.0f);
 					float ptime = (targettime - lp.stime );
 
-	  				particleDraw( e , ptime , e->_parent , &lp, textures);
+	  				particleDraw( e , ptime , e->_parent , &lp);
 				}
 			}
 
 		}else{
-			particleDraw( e , m_targetFrame ,nullptr, nullptr, textures);
+			particleDraw( e , m_targetFrame ,nullptr, nullptr);
 		}
 	}
 

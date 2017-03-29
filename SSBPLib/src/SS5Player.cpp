@@ -884,7 +884,7 @@ void Player::draw()
 			if (sprite->refEffect){ 
 				if ((state.isVisibled == true) && (state.opacity > 0)){
 					//エフェクトパーツ
-					sprite->refEffect->draw(m_textures);
+					sprite->refEffect->draw();
 					_draw_count = sprite->refEffect->getDrawSpriteCount();
 				}
 			}
