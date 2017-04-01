@@ -12,7 +12,7 @@ class SsEffectModel;
  */
 class EffectCache{
 public:
-	EffectCache(const ProjectData* data, const std::string& imageBaseDir, CellCache* cellCache);
+	EffectCache(const ProjectData* data, const CellCache* cellCache);
 	~EffectCache();
 	
 	/**
@@ -21,7 +21,7 @@ public:
 	const SsEffectModel* getReference(const std::string& name) const;
 
 private:
-	void init(const ProjectData* data, const std::string& imageBaseDir, CellCache* cellCache);
+	void init(const ProjectData* data, const CellCache* cellCache);
 
 	
 	std::map<std::string, const SsEffectModel*>		_dic;

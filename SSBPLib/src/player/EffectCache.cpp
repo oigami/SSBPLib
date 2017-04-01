@@ -10,9 +10,9 @@
 namespace ss{
 
 
-EffectCache::EffectCache(const ProjectData* data, const std::string& imageBaseDir, CellCache* cellCache)
+EffectCache::EffectCache(const ProjectData* data, const CellCache* cellCache)
 {
-	init(data, imageBaseDir, cellCache);
+	init(data, cellCache);
 }
 EffectCache::~EffectCache()
 {
@@ -33,7 +33,7 @@ const SsEffectModel* EffectCache::getReference(const std::string& name) const
 }
 
 
-void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir, CellCache* cellCache)
+void EffectCache::init(const ProjectData* data, const CellCache* cellCache)
 {
 	SS_ASSERT_LOG(data != NULL, "Invalid data");
 
@@ -62,16 +62,16 @@ void EffectCache::init(const ProjectData* data, const std::string& imageBaseDir,
 		for(int nodeindex = 0; nodeindex < effectFile->numNodeList; nodeindex++)
 		{
 			const EffectNode* effectNode = &effectNodeArray[nodeindex];		//エフェクトノード配列からエフェクトノードを取得
+			
+			int cellIndex = effectNode->cellIndex;
+			const CellRef* cellRef = (cellIndex >= 0) ? cellCache->getReference(cellIndex) : nullptr;
 
 			//セル情報を作成
-			int cellIndex = effectNode->cellIndex;
-			const CellRef* cellRef = cellIndex >= 0 ? cellCache->getReference(cellIndex) : nullptr;
-			SsRenderBlendType blendType = static_cast<SsRenderBlendType>(effectNode->blendType);
-
 			SsEffectNode *node = new SsEffectNode(
 				effectNode->parentIndex,
 				static_cast<SsEffectNodeType>(effectNode->type),
-				cellIndex, cellRef, blendType
+				static_cast<SsRenderBlendType>(effectNode->blendType),
+				cellRef
 			);
 
 			//エフェクトノードからビヘイビア配列を取得

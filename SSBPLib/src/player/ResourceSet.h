@@ -42,7 +42,7 @@ public:
 
 		//エフェクトはセルを参照するのでこの順番で生成する必要がある
 		m_cellCache.reset(new CellCache(m_data, imageBaseDir));
-		m_effectCache.reset(new EffectCache(m_data, imageBaseDir, m_cellCache.get()));
+		m_effectCache.reset(new EffectCache(m_data, m_cellCache.get()));
 		m_animeCache.reset(new AnimeCache(m_data));
 	}
 

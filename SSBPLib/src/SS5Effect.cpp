@@ -199,12 +199,13 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 
 
 			e->updateParticle(targettime, &lp);
-
-			if(e->refData->getCellRef()){
+			
+			const CellRef* cellRef = e->refData->getCellRef();
+			if( cellRef ){
 				Matrix localTransformMatrix = lp.craeteLocalTransformMatrix(m_effectData->layoutScale());
 				drawSprite(
-					e->refData->getCellRef(), e->refData->getBlendType(),
-					localTransformMatrix, lp.color, m_textures[e->refData->getCellRef()->m_cellMapIndex]
+					cellRef, e->refData->getBlendType(),
+					localTransformMatrix, lp.color, m_textures[cellRef->m_cellMapIndex]
 				);
 			}
 		}
@@ -335,7 +336,7 @@ void SsEffectRenderV2::initialize()
 	{
 		const SsEffectNode *node = list[i];
 
-		if (node->GetType() == SsEffectNodeType::emmiter){
+		if (node->getType() == SsEffectNodeType::emmiter){
 			SsEffectEmitter* e = new SsEffectEmitter();
 			//パラメータをコピー
 

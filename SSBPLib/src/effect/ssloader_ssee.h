@@ -9,23 +9,19 @@ namespace ss{
 
 class SsEffectNode{
 private:
-	int				 m_parentIndex;
-	SsEffectNodeType m_type;
-
-private:
-	int					m_cellIndex;	//プレイヤー専用に追加
-	const CellRef*		m_cellRef;
+	int					m_parentIndex;
+	SsEffectNodeType	m_type;
 	SsRenderBlendType	m_blendType;
+	const CellRef*		m_cellRef;
 public:
 	std::vector<const SsEffectElementBase*> plist;
 
 public:
-	SsEffectNode(int parentIndex, SsEffectNodeType type, int cellIndex, const CellRef* cellRef, SsRenderBlendType blendType)
+	SsEffectNode(int parentIndex, SsEffectNodeType type, SsRenderBlendType blendType, const CellRef* cellRef)
 		: m_parentIndex(parentIndex)
 		, m_type(type)
-		, m_cellIndex(cellIndex)
-		, m_cellRef(cellRef)
 		, m_blendType(blendType)
+		, m_cellRef(cellRef)
 	{}
 	~SsEffectNode(){
 		for(const SsEffectElementBase* eb : plist){
@@ -35,10 +31,9 @@ public:
 	}
 
 	int getParentIndex() const{ return m_parentIndex; }
-	SsEffectNodeType GetType() const{ return m_type; }
-	//int getCellIndex() const{ return m_cellIndex; }
-	const CellRef* getCellRef() const{ return m_cellRef; }
+	SsEffectNodeType getType() const{ return m_type; }
 	SsRenderBlendType getBlendType() const{ return m_blendType; }
+	const CellRef* getCellRef() const{ return m_cellRef; }
 
 	void addElement(const SsEffectElementBase* element){
 		plist.push_back(element);
