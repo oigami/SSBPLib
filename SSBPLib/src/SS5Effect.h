@@ -45,9 +45,6 @@ private:
 	//親になるスプライト
 	const CustomSprite* m_parentSprite;
 
-	int m_drawSpritecount;
-
-
 private:
 	void particleDraw(SsEffectEmitter* e, double time, SsEffectEmitter* parent, const particleDrawData* plp);
 	void initEmitter(SsEffectEmitter* e, const SsEffectNode* node);
@@ -95,8 +92,6 @@ public:
 
 	//親になるスプライトを設定する
 	void setParentSprite(const CustomSprite* sprite) { m_parentSprite = sprite; }
-
-	int	getDrawSpriteCount() const{ return m_drawSpritecount; }
 };
 
 } //namespace ss

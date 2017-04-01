@@ -22,7 +22,6 @@ SsEffectRenderV2::SsEffectRenderV2(const ResourceSet* resource, SS5EventListener
 	, m_seedOffset(0)
 	, m_isWarningData(false)
 	, m_parentSprite(nullptr)
-	, m_drawSpritecount(0)
 {
 	SS_ASSERT(m_eventListener);
 	SS_ASSERT(m_resource);
@@ -138,8 +137,6 @@ void SsEffectRenderV2::drawSprite(
 	int colorBlendVertexFlags = VERTEX_FLAG_ONE;	//カラーブレンドフラグを設定 //memo:意味合いから考えてこれで合ってるはず(todo:Color機能ONのときだけの設定にする必要はあるかも)。色味が変(そもそも元から変だが)なときはここを疑う
 
 	m_eventListener->SSDrawSprite(quad, textureId, blendfunc, colorBlendVertexFunc, colorBlendVertexFlags);	//描画
-
-	m_drawSpritecount++;
 }
 
 
@@ -267,8 +264,6 @@ void SsEffectRenderV2::update()
 
 void SsEffectRenderV2::draw()
 {
-	m_drawSpritecount = 0;	//表示スプライト数のクリア
-
 	if (m_nowFrame < 0) return;
 
 	for (SsEffectEmitter* e : m_updateList){

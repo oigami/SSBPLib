@@ -287,8 +287,6 @@ public:
 	 */
 	const CustomSprite* getSpriteData(int partIndex) const;
 
-	/** 表示を行うパーツ数を取得します */
-	int getDrawSpriteCount(void);
 
 	/** プレイヤーの更新を行います。ゲームの更新タイミングで呼び出してください。*/
 	void update(float dt);
@@ -325,7 +323,6 @@ private:
 	int					_cellChange[PART_VISIBLE_MAX];
 	int					_partIndex[PART_VISIBLE_MAX];
 	int					_seedOffset;					//エフェクトシードオフセット
-	int					_draw_count;					//表示スプライト数
 
 	PlayerSetting		_playerSetting;			//プレイヤー単位での操作設定についてを抱えておく(移動、回転など)
 

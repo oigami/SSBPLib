@@ -44,6 +44,8 @@ ss::ResourceManager *resman;
 /*イベントリスナーの実装*/
 class SimpleSS5EventListener: public ss::SS5EventListener{
 public:
+	int m_drawSpriteCount;	//【デバッグ用】スプライト表示数
+
 	void onUserData(ss::Player* player, const ss::UserData& userData, int frameNo) override{}	//ユーザーデータは特に何も処理しない
 	int limitFrame(ss::Player* player, int frame, int maxFrame) override{
 		return ss::SS5EventListener::limitFrame(player, frame, maxFrame);	//フレーム制限はデフォルト実装に任せる
@@ -64,6 +66,8 @@ public:
 
 	//描画 //ひとまずSS5PlayerPlatform.cppの中身をそのまま持ってきた
 	void SSDrawSprite(const ss::SSV3F_C4B_T2F_Quad& quad, ss::TextureID textureId, ss::BlendType blendType, ss::BlendType colorBlendVertexType, int colorBlendVertexFlags) override{
+		m_drawSpriteCount++;	//デバッグ用
+
 		//描画ファンクション
 		switch(blendType){
 		case ss::BLEND_MIX:		///< 0 ブレンド（ミックス）
@@ -360,7 +364,7 @@ void update(float dt)
 	}
 
 	//アニメーションのフレームを表示
-	sprintf_s(str, "play:%d frame:%d drawCount:%d", (int)sstest_pause, sstest_count, ssplayer->getDrawSpriteCount());
+	sprintf_s(str, "play:%d frame:%d drawCount:%d", (int)sstest_pause, sstest_count, g_eventListener.m_drawSpriteCount);
 	DrawString(100, 100, str, GetColor(255, 255, 255));
 
 	//プレイヤーの更新、引数は前回の更新処理から経過した時間
@@ -371,6 +375,8 @@ void update(float dt)
 //描画
 void draw(void)
 {
+	g_eventListener.m_drawSpriteCount = 0;//デバッグ用変数のクリア
+	
 	//プレイヤーの描画
 	ssplayer->draw();
 }

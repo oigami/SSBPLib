@@ -552,13 +552,6 @@ const CustomSprite* Player::getSpriteData(int partIndex) const
 	return _parts.at(partIndex);
 }
 
-/*
-* 表示を行うパーツ数を取得します
-*/
-int Player::getDrawSpriteCount(void)
-{
-	return (_draw_count);
-}
 
 void Player::setFrame(int frameNo, float dt)
 {
@@ -865,8 +858,6 @@ void Player::setFrame(int frameNo, float dt)
 //プレイヤーの描画
 void Player::draw()
 {
-	_draw_count = 0;
-
 	if (!_currentAnimeRef) return;
 
 	for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
@@ -885,7 +876,6 @@ void Player::draw()
 				if ((state.isVisibled == true) && (state.opacity > 0)){
 					//エフェクトパーツ
 					sprite->refEffect->draw();
-					_draw_count = sprite->refEffect->getDrawSpriteCount();
 				}
 			}
 			else{
@@ -915,7 +905,6 @@ void Player::draw()
 
 
 						_eventListener->SSDrawSprite(state.quad, state.texture.handle, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
-						_draw_count++;
 					}
 				}
 			}
