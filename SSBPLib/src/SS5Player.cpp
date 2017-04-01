@@ -338,7 +338,7 @@ void Player::setPartsParentage()
 		std::string refeffectName = ptr.toString(partData->effectfilename);
 		if (refeffectName != ""){
 			//エフェクトクラスにパラメータを設定する
-			sprite->refEffect = new SsEffectRenderV2(_currentRs, _eventListener, refeffectName, getRandomSeed());	//ひとまず今セットされているイベントリスナーを渡す //todo:最終的にはChildPlayer同様に外に制御を任せたい
+			sprite->refEffect = new SS5Effect(_currentRs, _eventListener, refeffectName, getRandomSeed());	//ひとまず今セットされているイベントリスナーを渡す //todo:最終的にはChildPlayer同様に外に制御を任せたい
 		}
 	}
 }

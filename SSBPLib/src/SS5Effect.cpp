@@ -8,7 +8,7 @@
 namespace ss{
 
 
-SsEffectRenderV2::SsEffectRenderV2(const ResourceSet* resource, SS5EventListener* eventListener, const std::string& effectName, int seed)
+SS5Effect::SS5Effect(const ResourceSet* resource, SS5EventListener* eventListener, const std::string& effectName, int seed)
 	: m_eventListener(eventListener)
 	, m_resource(resource)
 	, m_effectData(nullptr)
@@ -44,7 +44,7 @@ SsEffectRenderV2::SsEffectRenderV2(const ResourceSet* resource, SS5EventListener
 	initialize();
 }
 
-SsEffectRenderV2::~SsEffectRenderV2()
+SS5Effect::~SS5Effect()
 {
 	for(SsEffectEmitter* emitter : m_emmiterList){
 		delete emitter;
@@ -62,7 +62,7 @@ SsEffectRenderV2::~SsEffectRenderV2()
 
 
 
-void SsEffectRenderV2::drawSprite(
+void SS5Effect::drawSprite(
 	const CellRef* refCell,
 	SsRenderBlendType blendType,
 	const Matrix& localMatrix,
@@ -140,7 +140,7 @@ void SsEffectRenderV2::drawSprite(
 }
 
 
-void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectEmitter* parent , const particleDrawData* plp)
+void SS5Effect::particleDraw(SsEffectEmitter* e , double time , SsEffectEmitter* parent , const particleDrawData* plp)
 {
 	double t = time;
 
@@ -216,7 +216,7 @@ void SsEffectRenderV2::particleDraw(SsEffectEmitter* e , double time , SsEffectE
 
 
 //パラメータをコピーする
-void SsEffectRenderV2::initEmitter( SsEffectEmitter* e , const SsEffectNode* node)
+void SS5Effect::initEmitter( SsEffectEmitter* e , const SsEffectNode* node)
 {
 
 	e->refData = node;
@@ -241,7 +241,7 @@ void SsEffectRenderV2::initEmitter( SsEffectEmitter* e , const SsEffectNode* nod
 
 
 
-void SsEffectRenderV2::update()
+void SS5Effect::update()
 {
 
 	if ( !m_isPlay ) return;
@@ -262,7 +262,7 @@ void SsEffectRenderV2::update()
 	}
 }
 
-void SsEffectRenderV2::draw()
+void SS5Effect::draw()
 {
 	if (m_nowFrame < 0) return;
 
@@ -319,7 +319,7 @@ bool compare_priority( SsEffectEmitter* left,  SsEffectEmitter* right)
 
 
 
-void SsEffectRenderV2::initialize()
+void SS5Effect::initialize()
 {
 	const std::vector<const SsEffectNode*>& list = m_effectData->getNodeList();
 
@@ -417,14 +417,14 @@ void SsEffectRenderV2::initialize()
 }
 
 
-size_t SsEffectRenderV2::getEffectTimeLength()
+size_t SS5Effect::getEffectTimeLength()
 {
 
 	return m_effectTimeLength;
 }
 
 #if 0
-int	SsEffectRenderV2::getCurrentFPS(){
+int	SS5Effect::getCurrentFPS(){
 	if (m_effectData)
 	{
 		if (m_effectData->fps == 0 ) return 30;
@@ -435,7 +435,7 @@ int	SsEffectRenderV2::getCurrentFPS(){
 }
 #endif
 
-void SsEffectRenderV2::setSeedOffset(int offset)
+void SS5Effect::setSeedOffset(int offset)
 {
 	if(m_effectData->isLockRandSeed()){
 		m_seedOffset = 0;

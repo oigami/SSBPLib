@@ -15,7 +15,7 @@ struct CellRef;
 class ResourceSet;
 
 
-class SsEffectRenderV2{
+class SS5Effect{
 private:
 	SS5EventListener* m_eventListener;
 	const ResourceSet* m_resource;		//ssbp
@@ -51,8 +51,8 @@ private:
 
 
 public:
-	SsEffectRenderV2(const ResourceSet* resource, SS5EventListener* eventListener, const std::string& effectName, int seed);
-	~SsEffectRenderV2();
+	SS5Effect(const ResourceSet* resource, SS5EventListener* eventListener, const std::string& effectName, int seed);
+	~SS5Effect();
 
 	void play(){ m_isPlay = true; }
 	void stop(){ m_isPlay = false; }

@@ -4,7 +4,7 @@
 #include "math/Matrix.h"
 
 namespace ss{
-class SsEffectRenderV2;
+class SS5Effect;
 
 /**
  * CustomSprite
@@ -23,7 +23,7 @@ public:
 
 
 	//エフェクト用パラメータ
-	SsEffectRenderV2*	refEffect;
+	SS5Effect*	refEffect;
 
 	//モーションブレンド用ステータス
 	State				_orgState;
