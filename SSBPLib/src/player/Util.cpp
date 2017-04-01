@@ -2,6 +2,7 @@
 #include <string>
 #include <Windows.h>
 #include <stdio.h>
+#include "math/vector3.h"
 using namespace std;
 
 namespace ss{
@@ -12,6 +13,21 @@ double SSRadToDeg(double rad){
 }
 double SSDegToRad(double deg){
 	return deg * (SS_PI / 180.0);
+}
+
+Vector3 SSRadToDegVec3(Vector3 rad){
+	return Vector3(
+		SSRadToDeg(rad.x),
+		SSRadToDeg(rad.x),
+		SSRadToDeg(rad.z)
+	);
+}
+Vector3 SSDegToRadVec3(Vector3 deg){
+	return Vector3(
+		SSDegToRad(deg.x),
+		SSDegToRad(deg.x),
+		SSDegToRad(deg.z)
+	);
 }
 
 

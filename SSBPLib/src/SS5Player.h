@@ -81,6 +81,7 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
 #include "player/UserData.h"
 #include "player/State.h"
 #include "player/InstancePartStatus.h"
+#include "player/Util.h"
 
 
 namespace ss
@@ -109,7 +110,11 @@ class SS5EventListener;
 
 /** Playerが再生するパーツ全体に影響を与える設定を抱えておく */
 struct PlayerSetting{
-	PlayerSetting() : m_opacity(255), m_col_r(255), m_col_g(255), m_col_b(255){}
+	PlayerSetting() :
+		m_position(Vector3::zero),
+		m_rotation(Vector3::zero),
+		m_scale(Vector3::one),
+		m_opacity(255), m_col_r(255), m_col_g(255), m_col_b(255){}
 
 	Vector3 m_position;	//位置
 	Vector3 m_rotation;	//回転(deg)
@@ -121,11 +126,7 @@ struct PlayerSetting{
 	int		m_col_b;
 
 	void getTransformMatrix(Matrix* matrix) const{
-		Vector3 rotRadian = Vector3(
-			SSDegToRad(m_rotation.x),
-			SSDegToRad(m_rotation.y),
-			SSDegToRad(m_rotation.z)
-		);
+		Vector3 rotRadian = SSDegToRadVec3(m_rotation);
 		matrix->setupSRzyxT(m_scale, rotRadian, m_position);
 	}
 };
