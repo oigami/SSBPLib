@@ -130,4 +130,8 @@ inline const Vector3 operator *(float s, const Vector3& o){
 
 
 
+Vector3 SSRadToDeg(Vector3 rad);
+Vector3 SSDegToRad(Vector3 deg);
+
+
 } //namespace ss

@@ -81,7 +81,6 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
 #include "player/UserData.h"
 #include "player/State.h"
 #include "player/InstancePartStatus.h"
-#include "player/Util.h"
 
 
 namespace ss
@@ -126,7 +125,7 @@ struct PlayerSetting{
 	int		m_col_b;
 
 	void getTransformMatrix(Matrix* matrix) const{
-		Vector3 rotRadian = SSDegToRadVec3(m_rotation);
+		Vector3 rotRadian = SSDegToRad(m_rotation);
 		matrix->setupSRzyxT(m_scale, rotRadian, m_position);
 	}
 };
