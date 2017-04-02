@@ -774,7 +774,8 @@ void Player::setFrame(int frameNo, float dt)
 				
 				//インスタンスアニメーションがある場合は親パーツ情報を通知する
 				if(sprite->_haveChildPlayer){
-					float alpha = sprite->_state.Calc_opacity / 255.0f;
+					float alpha = sprite->_state.opacity / 255.0f;
+					alpha *= sprite->_state.Calc_opacity / 255.0f;	//todo:Calc_opacity紛らわしいのでやめたい・・・
 					InstancePartStatus ips = sprite->_state.instanceValue;
 					_eventListener->ChildPlayerSetFrame(
 						partIndex, getPartName(partIndex),
@@ -795,8 +796,6 @@ void Player::setFrame(int frameNo, float dt)
 		//エフェクトのアップデート
 		if (sprite->refEffect)
 		{
-			sprite->refEffect->setParentSprite(sprite);
-
 			//エフェクトアトリビュート
 			int curKeyframe = sprite->_state.effectValue_curKeyframe;
 			int refStartframe = sprite->_state.effectValue_startTime;
@@ -813,7 +812,13 @@ void Player::setFrame(int frameNo, float dt)
 				sprite->effectTimeTotal = refStartframe;
 			}
 
-			sprite->refEffect->setParentSprite(sprite);	//親スプライトの設定
+			//親情報の設定
+			float alpha = sprite->_state.opacity / 255.0f;
+			alpha *= sprite->_state.Calc_opacity / 255.0f;	//todo:Calc_opacity紛らわしいのでやめたい・・・
+			sprite->refEffect->setAlpha(alpha);
+			sprite->refEffect->setRootMatrix(sprite->_mat);
+			
+			
 			if (sprite->_state.isVisibled == true){
 
 				if (independent){

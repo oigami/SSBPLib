@@ -3,6 +3,7 @@
 #include "SS5PlayerTypes.h"
 #include "effect/sstypes.h"
 #include "math/Matrix.h"
+#include "player/PlayerSetting.h"
 
 namespace ss{
 class SS5EventListener;
@@ -41,9 +42,6 @@ private:
 
 	int  m_seedOffset;
 	bool m_isWarningData;
-
-	//親になるスプライト
-	const CustomSprite* m_parentSprite;
 
 private:
 	void particleDraw(SsEffectEmitter* e, double time, SsEffectEmitter* parent, const particleDrawData* plp);
@@ -90,8 +88,16 @@ public:
 	bool isInfinity() const{ return m_infinite; }
 	bool isWarning() const{ return m_isWarningData; }
 
-	//親になるスプライトを設定する
-	void setParentSprite(const CustomSprite* sprite) { m_parentSprite = sprite; }
+public:
+	//各種設定
+	void setRootMatrix(const Matrix& matrix);
+	void setPosition(float x, float y);
+	void setRotation(float x, float y, float z);
+	void setScale(float x, float y);
+	void setAlpha(float a);						 /*[0:1]*/
+	void setColor(float r, float g, float b);	 /*[0:1]*/
+private:
+	PlayerSetting m_playerSetting;
 };
 
 } //namespace ss

@@ -21,7 +21,6 @@ SS5Effect::SS5Effect(const ResourceSet* resource, SS5EventListener* eventListene
 	, m_isLoop(false)
 	, m_seedOffset(0)
 	, m_isWarningData(false)
-	, m_parentSprite(nullptr)
 {
 	SS_ASSERT(m_eventListener);
 	SS_ASSERT(m_resource);
@@ -69,15 +68,8 @@ void SS5Effect::drawSprite(
 	SSColor4B	color,
 	TextureID textureId
 ){
-	Matrix matrix;
-
-	if (m_parentSprite){
-		matrix = m_parentSprite->_state.mat;
-    	float parentAlphaRate = m_parentSprite->_state.opacity / 255.0f;
-		color.a *= parentAlphaRate;
-	}
-	matrix = localMatrix * matrix;
-
+	Matrix matrix = localMatrix * m_playerSetting.getWorldMatrix();
+	color.a *= m_playerSetting.m_color.a;	//todo:他のカラー値の反映もやる
 
 
 	//セルの矩形から基本となる頂点座標を計算
@@ -118,14 +110,6 @@ void SS5Effect::drawSprite(
 	quad.vertexForeach([&](Vector3& vertex){
 		vertex *= matrix;
 	});
-
-	//頂点カラーにアルファを設定
-	int calc_opacity = m_parentSprite->_state.Calc_opacity;
-	quad.tl.colors.a = quad.bl.colors.a * calc_opacity / 255;
-	quad.tr.colors.a = quad.bl.colors.a * calc_opacity / 255;
-	quad.bl.colors.a = quad.bl.colors.a * calc_opacity / 255;
-	quad.br.colors.a = quad.bl.colors.a * calc_opacity / 255;
-
 
 	
 	//ブレンドタイプを設定
@@ -443,6 +427,30 @@ void SS5Effect::setSeedOffset(int offset)
 	else{
 		m_seedOffset = offset;
 	}	
+}
+
+
+
+//各種設定
+void SS5Effect::setRootMatrix(const Matrix& matrix){
+	m_playerSetting.m_rootMatrix = matrix;
+}
+void SS5Effect::setPosition(float x, float y){
+	m_playerSetting.m_position = Vector3(x, y, 0.0f);
+}
+void SS5Effect::setRotation(float x, float y, float z){
+	m_playerSetting.m_rotation = Vector3(x, y, z);
+}
+void SS5Effect::setScale(float x, float y){
+	m_playerSetting.m_scale = Vector3(x, y, 1.0f);
+}
+void SS5Effect::setAlpha(float a){						 /*[0:1]*/
+	m_playerSetting.m_color.a = clamp(a, 0.0f, 1.0f);
+}
+void SS5Effect::setColor(float r, float g, float b){	 /*[0:1]*/
+	m_playerSetting.m_color.r = clamp(r, 0.0f, 1.0f);
+	m_playerSetting.m_color.g = clamp(g, 0.0f, 1.0f);
+	m_playerSetting.m_color.b = clamp(b, 0.0f, 1.0f);
 }
 
 
