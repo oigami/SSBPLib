@@ -132,7 +132,7 @@ public:
 	void ChildPlayerRelease(int parentPartIndex, const std::string& parentPartName){}
 	void ChildPlayerSetFrame(
 		int parentPartIndex, const std::string& parentPartName,
-		const ss::ParentPartState& parentPartState, int frame, bool independent
+		const ss::Matrix& parentWorldMatrix, float parentAlpha, int frame, bool independent
 	)override{}
 	void ChildPlayerDraw(int parentPartIndex, const std::string& parentPartName){}
 

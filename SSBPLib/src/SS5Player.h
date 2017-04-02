@@ -120,7 +120,7 @@ public:
 	Vector3 m_position;		//位置
 	Vector3 m_rotation;		//回転(deg)
 	Vector3 m_scale;		//スケール
-	SSColorF m_color;	
+	SSColorF m_color;		//rgbのついでにalphaも保持します
 
 
 	Matrix getWorldMatrix() const{

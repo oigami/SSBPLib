@@ -6,14 +6,6 @@ namespace ss{
 class Player;
 struct UserData;
 
-//親パーツ情報 
-struct ParentPartState{	//todo:そのうちSRTMatrixを渡すようにしたい
-	Vector3 m_position;
-	Vector3 m_rotation;
-	Vector3 m_scale;
-	SSColorF m_color;
-};
-
 
 /** ロードイベントなどを捕まえるのでこれを継承して作ってください */
 class SS5EventListener{
@@ -48,13 +40,14 @@ public:
 	 * Player内部ではChildPlayerの制御はしないため、このイベントを活用してください。
 	 * @param parentPartIndex	親パーツのindex
 	 * @param parentPartName	親パーツの名前
-	 * @param parentpartState	親パーツの情報(座標とかが入っているので、子供のPlayerにセットしてください)
+	 * @param parentWorldMatrix	親パーツのワールド行列(アタッチするなら、子供のPlayerにセットしてください)
+	 * @param parentAlpha		親パーツのアルファ値[0:1]
 	 * @param frame				インスタンスアニメの設定で指定したframeの計算結果
 	 * @param independent		インスタンスアニメの設定で独立動作を指定していればtrue
 	 */
 	virtual void ChildPlayerSetFrame(
 		int parentPartIndex, const std::string& parentPartName,
-		const ParentPartState& parentPartState, int frame, bool independent
+		const Matrix& parentWorldMatrix, float parentAlpha, int frame, bool independent
 	) = 0;
 
 	/** 描画イベント */

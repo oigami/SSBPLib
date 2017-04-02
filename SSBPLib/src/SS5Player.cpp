@@ -774,18 +774,11 @@ void Player::setFrame(int frameNo, float dt)
 				
 				//インスタンスアニメーションがある場合は親パーツ情報を通知する
 				if(sprite->_haveChildPlayer){
-					Vector3 pos, rot, scale;
-					sprite->_mat.getTranslation(&pos.x, &pos.y, &pos.z);
-					sprite->_mat.getRotation(&rot.x, &rot.y, &rot.z);
-					sprite->_mat.getScale(&scale.x, &scale.y, &scale.z);
-					SSColorF col(_playerSetting.m_color.r, _playerSetting.m_color.g, _playerSetting.m_color.b, sprite->_state.Calc_opacity/255.0f);
-					ParentPartState parentPartState = {
-						pos, rot, scale, col
-					};
+					float alpha = sprite->_state.Calc_opacity / 255.0f;
 					InstancePartStatus ips = sprite->_state.instanceValue;
-					_eventListener->ChildPlayerSetFrame(		//todo:行列そのものを渡すようにすべき
+					_eventListener->ChildPlayerSetFrame(
 						partIndex, getPartName(partIndex),
-						parentPartState, ips.getFrame(frameNo), ips.m_independent
+						sprite->_mat, alpha, ips.getFrame(frameNo), ips.m_independent
 					);
 				}
 			}
