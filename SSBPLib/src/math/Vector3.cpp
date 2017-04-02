@@ -16,14 +16,14 @@ const Vector3 Vector3::zero(0.0f, 0.0f, 0.0f);
 Vector3 SSRadToDeg(Vector3 rad){
 	return Vector3(
 		SSRadToDeg(rad.x),
-		SSRadToDeg(rad.x),
+		SSRadToDeg(rad.y),
 		SSRadToDeg(rad.z)
 	);
 }
 Vector3 SSDegToRad(Vector3 deg){
 	return Vector3(
 		SSDegToRad(deg.x),
-		SSDegToRad(deg.x),
+		SSDegToRad(deg.y),
 		SSDegToRad(deg.z)
 	);
 }
