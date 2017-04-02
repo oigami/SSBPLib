@@ -751,7 +751,7 @@ void Player::setFrame(int frameNo, float dt)
 			}
 			else{				
 				//rootパーツはプレイヤーからステータスを引き継ぐ
-				_playerSetting.getTransformMatrix(&mat);
+				mat = _playerSetting.getWorldMatrix();
 			}
 			// SRzRyRxT mat
 			Matrix localTransformMatrix;
