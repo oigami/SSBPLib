@@ -81,7 +81,7 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
 #include "player/UserData.h"
 #include "player/State.h"
 #include "player/InstancePartStatus.h"
-
+#include "player/PlayerSetting.h"
 
 namespace ss
 {
@@ -105,36 +105,6 @@ class SS5EventListener;
 //座標系の設定：上方向がマイナスの場合はscaleYを-1にしてください
 
 //------------------------------------------------------------------------------
-
-
-/** Playerが再生するパーツ全体に影響を与える設定を抱えておく */
-class PlayerSetting{
-public:
-	PlayerSetting() :
-		m_position(Vector3::zero),
-		m_rotation(Vector3::zero),
-		m_scale(Vector3::one),
-		m_color(1.0f, 1.0f, 1.0f, 1.0f){}
-
-	Matrix  m_rootMatrix;	//最初にかかる行列(普段は単位行列だが、親子付けするときなどは親の行列を設定する)
-	Vector3 m_position;		//位置
-	Vector3 m_rotation;		//回転(deg)
-	Vector3 m_scale;		//スケール
-	SSColorF m_color;		//rgbのついでにalphaも保持します
-
-
-	Matrix getWorldMatrix() const{
-		return m_rootMatrix * getLocalMatrix();
-	}
-
-private:
-	Matrix getLocalMatrix() const{
-		Matrix mat;
-		Vector3 rotRadian = SSDegToRad(m_rotation);
-		mat.setupSRzyxT(m_scale, rotRadian, m_position);
-		return mat;
-	}
-};
 
 
 
@@ -263,6 +233,10 @@ public:
 	 * @param  cellname          表示させたいセル名
 	 */
 	void setPartCell(std::string partsname, std::string sscename, std::string cellname);
+
+
+	/** プレイヤー本体に最初に掛ける行列を設定します */
+	void setRootMatrix(const Matrix& matrix);
 
 	/** プレイヤー本体の位置を設定します */
 	void  setPosition(float x, float y);

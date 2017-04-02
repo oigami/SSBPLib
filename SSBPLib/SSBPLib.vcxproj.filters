@@ -166,5 +166,8 @@
     <ClInclude Include="src\SS5Effect.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="src\player\PlayerSetting.h">
+      <Filter>ソース ファイル\player</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -935,6 +935,9 @@ int Player::getAnimeFPS() const{
 }
 
 /** プレイヤーへの各種設定 ------------------------------*/
+void Player::setRootMatrix(const Matrix& matrix){
+	_playerSetting.m_rootMatrix = matrix;
+}
 void Player::setPosition(float x, float y){
 	_playerSetting.m_position = Vector3(x, y, 0.0f);
 }

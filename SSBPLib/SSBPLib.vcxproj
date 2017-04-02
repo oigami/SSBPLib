@@ -181,6 +181,7 @@
     <ClInclude Include="src\player\EffectCache.h" />
     <ClInclude Include="src\player\InstancePartStatus.h" />
     <ClInclude Include="src\player\PlayerDef.h" />
+    <ClInclude Include="src\player\PlayerSetting.h" />
     <ClInclude Include="src\player\ResourceSet.h" />
     <ClInclude Include="src\player\State.h" />
     <ClInclude Include="src\player\ToPointer.h" />
