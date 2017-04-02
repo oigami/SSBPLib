@@ -46,7 +46,7 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
   //回転を設定
   ssplayer->setRotation(0.0f, 0.0f, 0.0f);
   //透明度を設定
-  ssplayer->setAlpha(255);
+  ssplayer->setAlpha(1.0f);
   //反転を設定
   ssplayer->setFlip(false, false);
 
@@ -113,16 +113,20 @@ struct PlayerSetting{
 		m_position(Vector3::zero),
 		m_rotation(Vector3::zero),
 		m_scale(Vector3::one),
-		m_opacity(255), m_col_r(255), m_col_g(255), m_col_b(255){}
+		m_color(1.0f, 1.0f, 1.0f, 1.0f){}
+		//m_opacity(255), m_col_r(255), m_col_g(255), m_col_b(255){}
 
 	Vector3 m_position;	//位置
 	Vector3 m_rotation;	//回転(deg)
 	Vector3 m_scale;	//スケール
-	
+	SSColorF m_color;	
+
+	/*
 	int     m_opacity;	//不透明度[0:255]
 	int		m_col_r;
 	int		m_col_g;
 	int		m_col_b;
+	*/
 
 	void getTransformMatrix(Matrix* matrix) const{
 		Vector3 rotRadian = SSDegToRad(m_rotation);
@@ -266,19 +270,16 @@ public:
 	/** プレイヤー本体のスケールを設定します。*/
 	void  setScale(float x, float y);
 
-	/** プレイヤー本体の透明度を設定します。*/
-	void  setAlpha(int a);
+	/** プレイヤー本体の透明度を設定します[0:1]*/
+	void  setAlpha(float a);
 
 	/**
-	 * アニメの輝度を設定します.
-	 * setColor(Color3B)ではなくこちらを使用してください。
-	 * 制限としてカラーブレンドが適用されたパーツの色は変更できませんので注意してください。
-	 *
-	 * @param  r          赤成分(0～255)
-	 * @param  g          緑成分(0～255)
-	 * @param  b          青成分(0～255)
+	 * アニメの色設定
+	 * @param  r          赤成分[0:1]
+	 * @param  g          緑成分[0:1]
+	 * @param  b          青成分[0:1]
 	 */
-	void setColor(int r, int g, int b);
+	void setColor(float r, float g, float b);
 
 
 	/*

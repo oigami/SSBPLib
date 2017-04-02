@@ -243,7 +243,7 @@ void init( void )
 	//回転を設定
 	ssplayer->setRotation(0.0f, 0.0f, 0.0f);
 	//透明度を設定
-	ssplayer->setAlpha(255);
+	ssplayer->setAlpha(1.0f);
 
 
 	//エフェクトのテストのためついでに追加しておく

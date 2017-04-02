@@ -11,7 +11,7 @@ struct ParentPartState{	//todo:そのうちSRTMatrixを渡すようにしたい
 	Vector3 m_position;
 	Vector3 m_rotation;
 	Vector3 m_scale;
-	SSColor4B m_color;
+	SSColorF m_color;
 };
 
 

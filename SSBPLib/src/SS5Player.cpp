@@ -698,9 +698,9 @@ void Player::setFrame(int frameNo, float dt)
 			}
 		}
 		quad.colorsForeach([&](SSColor4B& color){
-			color.r *= (_playerSetting.m_col_r / 255.0);
-			color.g *= (_playerSetting.m_col_g / 255.0);
-			color.b *= (_playerSetting.m_col_b / 255.0);
+			color.r *= _playerSetting.m_color.r;
+			color.g *= _playerSetting.m_color.g;
+			color.b *= _playerSetting.m_color.b;
 			color.a *= (state.opacity / 255.0);
 		});
 
@@ -770,7 +770,7 @@ void Player::setFrame(int frameNo, float dt)
 				CustomSprite* parent = _parts.at(partData->parentIndex);
 				//子供は親のステータスを引き継ぐ
 				//ルートパーツのアルファ値を反映させる
-				sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _playerSetting.m_opacity) / 255;
+				sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _playerSetting.m_color.a);
 				
 				//インスタンスアニメーションがある場合は親パーツ情報を通知する
 				if(sprite->_haveChildPlayer){
@@ -778,7 +778,7 @@ void Player::setFrame(int frameNo, float dt)
 					sprite->_mat.getTranslation(&pos.x, &pos.y, &pos.z);
 					sprite->_mat.getRotation(&rot.x, &rot.y, &rot.z);
 					sprite->_mat.getScale(&scale.x, &scale.y, &scale.z);
-					SSColor4B col(_playerSetting.m_col_r, _playerSetting.m_col_g, _playerSetting.m_col_b, sprite->_state.Calc_opacity);
+					SSColorF col(_playerSetting.m_color.r, _playerSetting.m_color.g, _playerSetting.m_color.b, sprite->_state.Calc_opacity/255.0f);
 					ParentPartState parentPartState = {
 						pos, rot, scale, col
 					};
@@ -952,16 +952,16 @@ void Player::setScale(float x, float y){
 	_playerSetting.m_scale = Vector3(x, y, 1.0f);
 }
 
-void Player::setAlpha(int a){
-	_playerSetting.m_opacity = a;
+void Player::setAlpha(float a){
+	_playerSetting.m_color.a = clamp(a, 0.0f, 1.0f);
 }
 
 //アニメーションの色成分を変更します
-void Player::setColor(int r, int g, int b)
+void Player::setColor(float r, float g, float b)
 {
-	_playerSetting.m_col_r = r;
-	_playerSetting.m_col_g = g;
-	_playerSetting.m_col_b = b;
+	_playerSetting.m_color.r = clamp(r, 0.0f, 1.0f);
+	_playerSetting.m_color.g = clamp(g, 0.0f, 1.0f);
+	_playerSetting.m_color.b = clamp(b, 0.0f, 1.0f);
 }
 /*-------------------------------------------------------*/
 
