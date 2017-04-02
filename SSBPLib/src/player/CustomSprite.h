@@ -10,10 +10,6 @@ class SS5Effect;
  * CustomSprite
  */
 class CustomSprite{
-private:
-	bool				_flipX;
-	bool				_flipY;
-
 public:
 	Matrix				_mat;
 	State				_state;

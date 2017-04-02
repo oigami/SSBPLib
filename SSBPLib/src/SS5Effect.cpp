@@ -1,7 +1,6 @@
 ﻿#include "SS5Effect.h"
 #include "SS5EventListener.h"
 #include "effect/ssplayer_effect2.h"
-#include "player/CustomSprite.h"
 #include "player/ResourceSet.h"
 #include "player/EffectCache.h"
 

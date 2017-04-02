@@ -11,7 +11,6 @@ class SsEffectModel;
 class SsEffectNode;
 class SsEffectEmitter;
 struct particleDrawData;
-class CustomSprite;
 struct CellRef;
 class ResourceSet;
 
