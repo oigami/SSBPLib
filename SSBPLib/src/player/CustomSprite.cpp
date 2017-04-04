@@ -8,7 +8,6 @@ CustomSprite::CustomSprite()
 	: _haveChildPlayer(false)
 	, refEffect(0)
 	, effectAttrInitialized(false)
-	, effectTimeTotal(0)
 {
 	_state.init();
 	_isStateChanged = true;

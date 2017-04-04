@@ -804,7 +804,6 @@ void Player::setFrame(int frameNo, float dt)
 
 			if (sprite->effectAttrInitialized == false){
 				sprite->effectAttrInitialized = true;
-				sprite->effectTimeTotal = refStartframe;
 				
 				sprite->refEffect->setFrame(refStartframe);
 			}
@@ -834,7 +833,6 @@ void Player::setFrame(int frameNo, float dt)
 					else{
 						time *= refSpeed;
 						time = time + refStartframe;
-						sprite->effectTimeTotal = time;
 
 						sprite->refEffect->setSeedOffset(_seedOffset);
 						sprite->refEffect->setFrame(time);

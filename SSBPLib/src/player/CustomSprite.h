@@ -26,7 +26,6 @@ public:
 
 	//エフェクト制御用ワーク
 	bool effectAttrInitialized;
-	float effectTimeTotal;
 
 public:
 	CustomSprite();
