@@ -5,6 +5,7 @@
 #include "math/SSRect.h"
 #include "math/Matrix.h"
 #include "InstancePartStatus.h"
+#include "EffectPartStatus.h"
 #include "PlayerDef.h"
 
 namespace ss{
@@ -54,13 +55,9 @@ struct State{
 																
 	//再生用パラメータ
 	int Calc_opacity;				/// 不透明度（0～255）（親子関係計算済）
-	//インスタンスアトリビュート
-	InstancePartStatus instanceValue;
-	//エフェクトアトリビュート
-	int			effectValue_curKeyframe;
-	int			effectValue_startTime;
-	float		effectValue_speed;
-	int			effectValue_loopflag;
+	
+	InstancePartStatus instanceValue;	//インスタンスアトリビュート
+	EffectPartStatus effectValue;		//エフェクトアトリビュート
 
 
 	//readerを介してデータを読み取る

@@ -780,7 +780,7 @@ void Player::setFrame(int frameNo, float dt)
 					_eventListener->ChildPlayerSetFrame(
 						partIndex, getPartName(partIndex),
 						sprite->_mat, alpha, ips.getFrame(frameNo), ips.m_independent
-					);
+					);		//todo:再生開始時間があるはずなのでその情報も渡す
 				}
 			}
 			
@@ -797,12 +797,12 @@ void Player::setFrame(int frameNo, float dt)
 		if (sprite->refEffect)
 		{
 			//エフェクトアトリビュート
-			int curKeyframe = sprite->_state.effectValue_curKeyframe;
-			int refStartframe = sprite->_state.effectValue_startTime;
-			float refSpeed = sprite->_state.effectValue_speed;
+			int curKeyframe = sprite->_state.effectValue.m_curKeyframe;	//キーフレーム
+			int refStartframe = sprite->_state.effectValue.m_startTime;	//再生開始時間
+			float refSpeed = sprite->_state.effectValue.m_speed;			//再生スピード
 			bool independent = false;
 
-			int lflags = sprite->_state.effectValue_loopflag;
+			int lflags = sprite->_state.effectValue.m_loopflag;
 			if (lflags & EFFECT_LOOP_FLAG_INDEPENDENT){
 				independent = true;
 			}

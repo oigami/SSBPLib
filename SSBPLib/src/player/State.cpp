@@ -3,6 +3,7 @@
 #include "PlayerDef.h"
 #include "math/Matrix.h"
 #include "InstancePartStatus.h"
+#include "EffectPartStatus.h"
 
 namespace ss{
 
@@ -44,10 +45,7 @@ void State::init()
 	mat.setupIdentity();
 
 	instanceValue = InstancePartStatus();
-	effectValue_curKeyframe = 0;
-	effectValue_startTime = 0;
-	effectValue_speed = 0;
-	effectValue_loopflag = 0;
+	effectValue = EffectPartStatus();
 
 	Calc_opacity = 255;
 
@@ -83,10 +81,7 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 	instanceValue.readData(flags, reader, init);
 
 	//エフェクトアトリビュート
-	effectValue_curKeyframe		= flags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_curKeyframe;
-	effectValue_startTime		= flags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_startTime;
-	effectValue_speed			= flags & PART_FLAG_EFFECT_KEYFRAME ? reader.readFloat() : init->effectValue_speed;
-	effectValue_loopflag		= flags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_loopflag;
+	effectValue.readData(flags, reader, init);
 
 
 	flipX = (flags & PART_FLAG_FLIP_H);
