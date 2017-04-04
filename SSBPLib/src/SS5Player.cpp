@@ -805,6 +805,8 @@ void Player::setFrame(int frameNo, float dt)
 			if (sprite->effectAttrInitialized == false){
 				sprite->effectAttrInitialized = true;
 				sprite->effectTimeTotal = refStartframe;
+				
+				sprite->refEffect->setFrame(refStartframe);
 			}
 
 			//親情報の設定
@@ -819,12 +821,9 @@ void Player::setFrame(int frameNo, float dt)
 				if (independent){
 					//独立動作
 					if (sprite->effectAttrInitialized){
-						float delta = dt / (1.0f / getAnimeFPS());						//	独立動作時は親アニメのfpsを使用する
-						sprite->effectTimeTotal += delta * refSpeed;
 						sprite->refEffect->setLoop(true);
-						sprite->refEffect->setFrame(sprite->effectTimeTotal);
 						sprite->refEffect->play();
-						sprite->refEffect->update();
+						sprite->refEffect->update(dt * refSpeed);
 					}
 				}
 				else {
@@ -840,7 +839,7 @@ void Player::setFrame(int frameNo, float dt)
 						sprite->refEffect->setSeedOffset(_seedOffset);
 						sprite->refEffect->setFrame(time);
 						sprite->refEffect->play();
-						sprite->refEffect->update();
+						sprite->refEffect->update(0);
 					}
 				}
 			}

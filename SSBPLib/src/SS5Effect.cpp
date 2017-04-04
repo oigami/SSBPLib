@@ -224,11 +224,12 @@ void SS5Effect::initEmitter( SsEffectEmitter* e , const SsEffectNode* node)
 
 
 
-void SS5Effect::update()
+void SS5Effect::update(float dt)
 {
 
 	if ( !m_isPlay ) return;
 
+	m_nowFrame += dt * getFPS();		//時間をフレーム単位に変換
 	m_targetFrame = m_nowFrame;
 
 	if ( !m_infinite )
@@ -400,23 +401,18 @@ void SS5Effect::initialize()
 }
 
 
-size_t SS5Effect::getEffectTimeLength()
-{
 
+size_t SS5Effect::getEffectTimeLength() const{
 	return m_effectTimeLength;
 }
 
-#if 0
-int	SS5Effect::getCurrentFPS(){
-	if (m_effectData)
-	{
-		if (m_effectData->fps == 0 ) return 30;
-
-		return m_effectData->fps;
+int	SS5Effect::getFPS() const{
+	if(m_effectData->getFPS() == 0){
+		return 30;
 	}
-	return 30;
+	return m_effectData->getFPS();
 }
-#endif
+
 
 void SS5Effect::setSeedOffset(int offset)
 {

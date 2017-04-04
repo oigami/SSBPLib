@@ -66,6 +66,10 @@ public:
 		m_nodeList.clear();
 	}
 
+
+	int getFPS() const{
+		return m_fps;
+	}
 	bool isLockRandSeed() const{
 		return m_isLockRandSeed;
 	}

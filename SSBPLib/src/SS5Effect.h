@@ -29,8 +29,8 @@ private:
 	//ランダムシード
 	int	m_mySeed;
 
-	float m_nowFrame;
-	float m_targetFrame;
+	float m_nowFrame;		//フレーム(小数点を考慮)	//memo:nowというよりもtotalな気がする
+	float m_targetFrame;	//こちらのフレームの値でdrawされる
 
 	size_t m_effectTimeLength;
 
@@ -62,18 +62,16 @@ public:
 	}
 	float getFrame() const{ return m_nowFrame; }
 
-	void update();
+	void update(float dt);
 	void draw();
 
 private:
 	void initialize();
 
 public:
-	size_t getEffectTimeLength();
+	size_t getEffectTimeLength() const;
+	int	getFPS() const;
 
-#if 0
-	int	getCurrentFPS();
-#endif
 
 	void drawSprite(
 		const CellRef* refCell,
