@@ -15,7 +15,9 @@ public:
 	int		m_curKeyframe;	//エフェクトが配置されたキーフレーム	/*effectValue_curKeyframe*/
 	int		m_startTime;	//再生開始フレーム	/*effectValue_startTime*/
 	float	m_speed;		//再生スピード		/*effectValue_speed*/
-	int		m_loopflag;		//再生制御フラグ	/*effectValue_loopflag*/
+	
+	//再生制御フラグ	/*effectValue_loopflag*/
+	bool	m_independent;	//独立動作
 };
 
 

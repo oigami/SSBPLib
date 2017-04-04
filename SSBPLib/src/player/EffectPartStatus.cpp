@@ -9,7 +9,7 @@ EffectPartStatus::EffectPartStatus()
 	: m_curKeyframe(0)
 	, m_startTime(0)
 	, m_speed(0)
-	, m_loopflag(0)
+	, m_independent(false)
 {
 	/**/
 }
@@ -19,7 +19,9 @@ void EffectPartStatus::readData(int readFlags, DataArrayReader &reader, const An
 	m_curKeyframe	= readFlags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_curKeyframe;
 	m_startTime		= readFlags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_startTime;
 	m_speed			= readFlags & PART_FLAG_EFFECT_KEYFRAME ? reader.readFloat() : init->effectValue_speed;
-	m_loopflag		= readFlags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_loopflag;
+	
+	int loopflag	= readFlags & PART_FLAG_EFFECT_KEYFRAME ? reader.readS32() : init->effectValue_loopflag;
+	m_independent = (loopflag & EFFECT_LOOP_FLAG_INDEPENDENT);
 }
 
 

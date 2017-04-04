@@ -800,12 +800,7 @@ void Player::setFrame(int frameNo, float dt)
 			int curKeyframe = sprite->_state.effectValue.m_curKeyframe;	//キーフレーム
 			int refStartframe = sprite->_state.effectValue.m_startTime;	//再生開始時間
 			float refSpeed = sprite->_state.effectValue.m_speed;			//再生スピード
-			bool independent = false;
-
-			int lflags = sprite->_state.effectValue.m_loopflag;
-			if (lflags & EFFECT_LOOP_FLAG_INDEPENDENT){
-				independent = true;
-			}
+			bool independent = sprite->_state.effectValue.m_independent;
 
 			if (sprite->effectAttrInitialized == false){
 				sprite->effectAttrInitialized = true;
