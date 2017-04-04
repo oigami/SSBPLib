@@ -797,7 +797,6 @@ void Player::setFrame(int frameNo, float dt)
 		if (sprite->refEffect)
 		{
 			//エフェクトアトリビュート
-			int curKeyframe = sprite->_state.effectValue.m_curKeyframe;	//キーフレーム
 			int refStartframe = sprite->_state.effectValue.m_startTime;	//再生開始時間
 			float refSpeed = sprite->_state.effectValue.m_speed;			//再生スピード
 			bool independent = sprite->_state.effectValue.m_independent;
@@ -823,20 +822,13 @@ void Player::setFrame(int frameNo, float dt)
 					sprite->refEffect->play();
 					sprite->refEffect->update(dt * refSpeed);
 				}
-				else {
-					
-					float time = frameNo - curKeyframe;
-					if (time < 0){
-					}
-					else{
-						time *= refSpeed;
-						time = time + refStartframe;
+				else if(sprite->_state.effectValue.isValidFrame(frameNo)){
+					float nextFrame = sprite->_state.effectValue.getFrame(frameNo);
 
-						sprite->refEffect->setSeedOffset(_seedOffset);
-						sprite->refEffect->setFrame(time);
-						sprite->refEffect->play();
-						sprite->refEffect->update(0);
-					}
+					sprite->refEffect->setSeedOffset(_seedOffset);
+					sprite->refEffect->setFrame(nextFrame);
+					sprite->refEffect->play();
+					sprite->refEffect->update(0);
 				}
 			}
 		}
