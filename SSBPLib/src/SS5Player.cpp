@@ -819,11 +819,9 @@ void Player::setFrame(int frameNo, float dt)
 
 				if (independent){
 					//独立動作
-					if (sprite->effectAttrInitialized){
-						sprite->refEffect->setLoop(true);
-						sprite->refEffect->play();
-						sprite->refEffect->update(dt * refSpeed);
-					}
+					sprite->refEffect->setLoop(true);
+					sprite->refEffect->play();
+					sprite->refEffect->update(dt * refSpeed);
 				}
 				else {
 					
