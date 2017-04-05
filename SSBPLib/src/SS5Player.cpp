@@ -801,6 +801,7 @@ void Player::setFrame(int frameNo, float dt)
 			float refSpeed = sprite->_state.effectValue.m_speed;			//再生スピード
 			bool independent = sprite->_state.effectValue.m_independent;
 
+
 			if (sprite->effectAttrInitialized == false){
 				sprite->effectAttrInitialized = true;
 				
@@ -814,7 +815,7 @@ void Player::setFrame(int frameNo, float dt)
 			sprite->refEffect->setRootMatrix(sprite->_mat);
 			
 			
-			if (sprite->_state.isVisibled == true){
+			if (sprite->_state.effectValue.isValidFrame(frameNo)){
 
 				if (independent){
 					//独立動作
@@ -822,7 +823,7 @@ void Player::setFrame(int frameNo, float dt)
 					sprite->refEffect->play();
 					sprite->refEffect->update(dt * refSpeed);
 				}
-				else if(sprite->_state.effectValue.isValidFrame(frameNo)){
+				else{
 					float nextFrame = sprite->_state.effectValue.getFrame(frameNo);
 
 					sprite->refEffect->setSeedOffset(_seedOffset);
