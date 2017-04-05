@@ -798,9 +798,6 @@ void Player::setFrame(int frameNo, float dt)
 		{
 			//エフェクトアトリビュート
 			int refStartframe = sprite->_state.effectValue.m_startTime;	//再生開始時間
-			float refSpeed = sprite->_state.effectValue.m_speed;			//再生スピード
-			bool independent = sprite->_state.effectValue.m_independent;
-
 
 			if (sprite->effectAttrInitialized == false){
 				sprite->effectAttrInitialized = true;
@@ -811,27 +808,11 @@ void Player::setFrame(int frameNo, float dt)
 			//親情報の設定
 			float alpha = sprite->_state.opacity / 255.0f;
 			alpha *= sprite->_state.Calc_opacity / 255.0f;	//todo:Calc_opacity紛らわしいのでやめたい・・・
-			sprite->refEffect->setAlpha(alpha);
-			sprite->refEffect->setRootMatrix(sprite->_mat);
 			
-			
-			if (sprite->_state.effectValue.isValidFrame(frameNo)){
-
-				if (independent){
-					//独立動作
-					sprite->refEffect->setLoop(true);
-					sprite->refEffect->play();
-					sprite->refEffect->update(dt * refSpeed);
-				}
-				else{
-					float nextFrame = sprite->_state.effectValue.getFrame(frameNo);
-
-					sprite->refEffect->setSeedOffset(_seedOffset);
-					sprite->refEffect->setFrame(nextFrame);
-					sprite->refEffect->play();
-					sprite->refEffect->update(0);
-				}
-			}
+			sprite->refEffect->effectUpdate(
+				sprite->_mat, alpha,
+				sprite->_state.effectValue, _seedOffset, frameNo
+			);
 		}
 	}
 }

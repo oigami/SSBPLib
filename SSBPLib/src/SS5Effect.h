@@ -4,6 +4,7 @@
 #include "effect/sstypes.h"
 #include "math/Matrix.h"
 #include "player/PlayerSetting.h"
+#include "player/EffectPartStatus.h"
 
 namespace ss{
 class SS5EventListener;
@@ -95,6 +96,33 @@ public:
 	void setColor(float r, float g, float b);	 /*[0:1]*/
 private:
 	PlayerSetting m_playerSetting;
+
+public:
+	//todo:これは後でイベント化する
+	void effectUpdate(
+		const Matrix& parentMatrix, float parentAlpha,
+		const EffectPartStatus& effectAttribute, int parentSeedOffset, int parentFrame
+	){
+		setAlpha(parentAlpha);
+		setRootMatrix(parentMatrix);
+		
+		if(effectAttribute.isValidFrame(parentFrame)){
+			if(effectAttribute.m_independent){
+				//独立動作
+				setLoop(true);
+				play();
+				update(1.0f/60.0f * effectAttribute.m_speed);	//・・・というより独立動作なのだからこの外側でupdateするべき。dtは渡さないので今は適当に値入れとく
+			}
+			else{
+				float nextFrame = effectAttribute.getFrame(parentFrame);
+
+				setSeedOffset(parentSeedOffset);
+				setFrame(nextFrame);
+				play();
+				update(0);
+			}
+		}
+	}
 };
 
 } //namespace ss
