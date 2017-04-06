@@ -555,7 +555,7 @@ void Player::setFrame(int frameNo, float dt)
 			state.blendfunc = static_cast<BlendType>(partData->alphaBlendType);
 		}
 		else{
-			state.texture.handle = -1;
+			state.texture.handle = TEXTURE_ID_INVALID;
 			//セルが無く通常パーツ、ヌルパーツの時は非表示にする
 			if ((partData->type == PARTTYPE_NORMAL) || (partData->type == PARTTYPE_NULL)){
 				state.isVisibled = false;
@@ -738,33 +738,31 @@ void Player::draw()
 				}
 			}
 			else{
-				if (state.texture.handle != -1){
-					if (state.isVisibled == true){
+				if (state.isVisibled == true){
 
-						//SSDrawSpriteから出しました-----------------------------------------------
-						//原点補正
-						Vector3 center(
-							(state.rect.width() * -(state.pivotX)),
-							(state.rect.height() * +(state.pivotY)),	//xと同様、-のような気がする
-							0.0f
-						);
+					//SSDrawSpriteから出しました-----------------------------------------------
+					//原点補正
+					Vector3 center(
+						(state.rect.width() * -(state.pivotX)),
+						(state.rect.height() * +(state.pivotY)),	//xと同様、-のような気がする
+						0.0f
+					);
 
-						//vertexにworldMatrixをかける
-						state.quad.vertexForeach([&](Vector3& vertex){
-							vertex += center;		//原点補正
-							vertex *= state.mat;
-						});
+					//vertexにworldMatrixをかける
+					state.quad.vertexForeach([&](Vector3& vertex){
+						vertex += center;		//原点補正
+						vertex *= state.mat;
+					});
 
-						//頂点カラーにアルファを設定
-						state.quad.tl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
-						state.quad.tr.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
-						state.quad.bl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
-						state.quad.br.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
-
+					//頂点カラーにアルファを設定
+					state.quad.tl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+					state.quad.tr.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+					state.quad.bl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+					state.quad.br.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
 
 
-						_eventListener->SSDrawSprite(state.quad, state.texture.handle, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
-					}
+
+					_eventListener->SSDrawSprite(state.quad, state.texture.handle, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
 				}
 			}
 		}

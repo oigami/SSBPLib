@@ -12,6 +12,7 @@ class DataArrayReader;
 struct SSColorF;
 
 using TextureID = long;	//テクスチャの識別子
+static const TextureID TEXTURE_ID_INVALID = -1;	//無効なテクスチャID
 
 
 /** カラー構造体 */
