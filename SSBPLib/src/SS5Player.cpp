@@ -726,20 +726,20 @@ void Player::draw()
 		CustomSprite* sprite = _parts.at(partIndex);
 		State& state = sprite->_state;
 		if (sprite->_haveChildPlayer){
-			if ((state.isVisibled == true) && (state.opacity > 0)){
+			if (state.isVisibled == true){
 				_eventListener->ChildPlayerDraw(partIndex);
 			}
 		}
 		else{
 			if (sprite->_haveEffect){ 
-				if ((state.isVisibled == true) && (state.opacity > 0)){
+				if (state.isVisibled == true){
 					//エフェクトパーツ
 					_eventListener->EffectDraw(partIndex);
 				}
 			}
 			else{
 				if (state.texture.handle != -1){
-					if ((state.isVisibled == true) && (state.opacity > 0)){
+					if (state.isVisibled == true){
 
 						//SSDrawSpriteから出しました-----------------------------------------------
 						//原点補正
