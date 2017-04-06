@@ -49,8 +49,10 @@ private:
 
 
 public:
-	SS5Effect(const ResourceSet* resource, SS5EventListener* eventListener, const std::string& effectName, int seed);
-	~SS5Effect();
+	/** Effectインスタンスを構築します。利用するときはResourceManger::create, destroyを使ってください */
+	SS5Effect(SS5EventListener* eventListener, const ResourceSet* resource, const std::string& effectName, int seed);
+	~SS5Effect();	//memo:なるべくResourceManger.create, destroyを使ってほしい
+	
 
 	void play(){ m_isPlay = true; }
 	void stop(){ m_isPlay = false; }

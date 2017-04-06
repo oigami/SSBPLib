@@ -7,7 +7,7 @@
 namespace ss{
 
 
-SS5Effect::SS5Effect(const ResourceSet* resource, SS5EventListener* eventListener, const std::string& effectName, int seed)
+SS5Effect::SS5Effect(SS5EventListener* eventListener, const ResourceSet* resource, const std::string& effectName, int seed)
 	: m_eventListener(eventListener)
 	, m_resource(resource)
 	, m_effectData(nullptr)

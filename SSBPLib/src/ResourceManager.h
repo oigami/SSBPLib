@@ -8,6 +8,7 @@ namespace ss{
 class ResourceSet;
 struct ProjectData;
 class Player;
+class SS5Effect;
 class SS5EventListener;
 
 /**
@@ -42,9 +43,13 @@ public:
 	void getTextureList(std::vector<std::string> *textureList, const std::string &dataKey) const;
 
 	/** SS5Playerの生成 */
-	Player* createPlayer(const std::string& dataKey,/* SS5Renderer *renderer,*/ SS5EventListener* eventListener) const;
+	Player* createPlayer(const std::string& dataKey, SS5EventListener* eventListener) const;
 	void destroyPlayer(Player *&player) const;
 
+	/** SS5Effectの生成 */
+	SS5Effect* createEffect(SS5EventListener* eventListener, const std::string& dataKey, const std::string& effectName, int seed) const;
+	void destroyEffect(SS5Effect*& effect) const;
+	
 private:
 	//imageBaseDirの指定がないときはdataの中を見てディレクトリを返す
 	std::string getImageBaseDir(const std::string &imageBaseDir, const ProjectData *data) const;

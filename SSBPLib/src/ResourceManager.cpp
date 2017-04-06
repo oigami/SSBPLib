@@ -1,6 +1,7 @@
 ﻿#include "ResourceManager.h"
 #include <string>
 #include "SS5Player.h"
+#include "SS5Effect.h"
 #include "SS5PlayerData.h"
 #include "player/Util.h"
 #include "player/ToPointer.h"
@@ -90,18 +91,29 @@ void ResourceManager::getTextureList(std::vector<std::string> *textureList, cons
 	}
 }
 
-Player* ResourceManager::createPlayer(const std::string& dataKey,/* SS5Renderer *renderer,*/ SS5EventListener* eventListener) const
+//player
+Player* ResourceManager::createPlayer(const std::string& dataKey, SS5EventListener* eventListener) const
 {
 	const ResourceSet* rs = getData(dataKey);
-	return new Player(rs, /*renderer,*/ eventListener);
+	return new Player(rs, eventListener);
 }
-
 void ResourceManager::destroyPlayer(Player *&player) const
 {
 	delete player;
 	player = nullptr;
 }
 
+//effect
+SS5Effect* ResourceManager::createEffect(SS5EventListener* eventListener, const std::string& dataKey, const std::string& effectName, int seed) const
+{
+	const ResourceSet* rs = getData(dataKey);
+	return new SS5Effect(eventListener, rs, effectName, seed);
+}
+void ResourceManager::destroyEffect(SS5Effect*& effect) const
+{
+	delete effect;
+	effect = nullptr;
+}
 
 
 
