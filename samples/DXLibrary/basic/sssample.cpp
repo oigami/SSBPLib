@@ -125,6 +125,7 @@ public:
 		//3Dプリミティブの表示
 		DrawPolygon3DBase(vertex, 4, DX_PRIMTYPE_TRIANGLESTRIP, textureId, true);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);	//ブレンドステートを通常へ戻す
+		SetDrawBright(255, 255, 255);
 	}
 
 
