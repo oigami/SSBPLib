@@ -1,6 +1,7 @@
 ﻿#include "DxLib.h"
 #include <fstream>
 #include "SS5Player.h"
+#include "SS5Effect.h"
 #include "ResourceManager.h"
 #include "ResluteState.h"
 #include "SS5EventListener.h"
@@ -42,7 +43,7 @@ ss::Player *ssplayer;
 ss::ResourceManager *resman;
 
 /*イベントリスナーの実装*/
-class SimpleSS5EventListener: public ss::SS5EventListener{
+class SampleSS5EventListener: public ss::SS5EventListener{
 public:
 	int m_drawSpriteCount;	//【デバッグ用】スプライト表示数
 
@@ -128,24 +129,61 @@ public:
 
 
 	//インスタンスアニメーションのイベント
-	void ChildPlayerLoad(int parentPartIndex, const std::string& animName){}
-	void ChildPlayerRelease(int parentPartIndex){}
+	void ChildPlayerLoad(int parentPartIndex, const std::string& animName) override{}
+	void ChildPlayerRelease(int parentPartIndex) override{}
 	void ChildPlayerUpdate(
 		int parentPartIndex, const ss::Matrix& parentWorldMatrix, float parentAlpha,
 		int frame, bool independent
-	)override{}
-	void ChildPlayerDraw(int parentPartIndex){}
+	) override{}
+	void ChildPlayerDraw(int parentPartIndex) override{}
 
-	//エフェクトのイベント
-	void EffectLoad(int parentPartIndex, const std::string& animName){}
-	void EffectRelease(int parentPartIndex){}
+
+	//エフェクトのイベント ----------------------------------------------------
+	void EffectLoad(int parentPartIndex, const std::string& effectName) override{
+		assert(m_effects.find(parentPartIndex) == m_effects.end());
+		//エフェクトとイベントリスナーを生成する
+		ss::SS5EventListener* listener = new SampleSS5EventListener();
+		ss::SS5Effect* effect = resman->createEffect(listener, "effectsample", effectName, 0);
+		m_effects.insert(std::make_pair(parentPartIndex, effect));
+		m_effectEventListeners.insert(std::make_pair(parentPartIndex, listener));
+	}
+	void EffectRelease(int parentPartIndex) override{
+		auto it = m_effects.find(parentPartIndex);
+		assert(it != m_effects.end());
+		
+		//エフェクトとイベントリスナーを破棄する
+		resman->destroyEffect(it->second);
+		m_effects.erase(it);
+
+		ss::SS5EventListener* listener = m_effectEventListeners.at(parentPartIndex);
+		delete listener;
+		m_effectEventListeners.erase(parentPartIndex);
+	}
+
 	void EffectUpdate(
 		int parentPartIndex, const ss::Matrix& parentMatrix, float parentAlpha,
 		int parentFrame, int parentSeedOffset, const ss::EffectPartStatus& effectAttribute
-	)override{}
-	void EffectDraw(int parentPartIndex){}
+	) override{
+		auto it = m_effects.find(parentPartIndex);
+		assert(it != m_effects.end());
+
+		ss::SS5Effect* effect = it->second;
+		effect->effectUpdate(parentMatrix, parentAlpha, parentFrame, parentSeedOffset, effectAttribute);
+	}
+	
+	void EffectDraw(int parentPartIndex) override{
+		auto it = m_effects.find(parentPartIndex);
+		assert(it != m_effects.end());
+		
+		ss::SS5Effect* effect = it->second;
+		effect->draw();
+	}
+
+private:
+	std::map<int, ss::SS5Effect*> m_effects;
+	std::map<int, ss::SS5EventListener*> m_effectEventListeners;
 };
-SimpleSS5EventListener g_eventListener;
+SampleSS5EventListener g_eventListener;
 
 
 //ファイル読み込みして中身を返します
@@ -346,6 +384,7 @@ void update(float dt)
 
 			ssplayer->setPosition(800 / 2, 150);
 			ssplayer->setScale(0.5f, 0.5f);
+			sstest_count = 0;
 		}
 		sstest_push = true;
 	}
@@ -357,6 +396,7 @@ void update(float dt)
 
 			ssplayer->setPosition(800 / 2, 300);
 			ssplayer->setScale(0.5f, 0.5f);
+			sstest_count = 0;
 		}
 		sstest_push = true;
 	}

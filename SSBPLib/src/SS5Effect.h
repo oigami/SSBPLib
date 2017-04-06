@@ -103,7 +103,7 @@ public:
 	//todo:これは後でイベント化する
 	void effectUpdate(
 		const Matrix& parentMatrix, float parentAlpha,
-		const EffectPartStatus& effectAttribute, int parentSeedOffset, int parentFrame
+		int parentFrame, int parentSeedOffset, const EffectPartStatus& effectAttribute
 	){
 		bool isValid = effectAttribute.isValidFrame(parentFrame);
 		//有効フレーム&&未再生 --> 再生開始のタイミング

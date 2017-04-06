@@ -83,7 +83,7 @@ public:
 	 * @param parentPartIndex	親になるパーツのindex
 	 * @param effectName		エフェクト名
 	 */
-	virtual void EffectLoad(int parentPartIndex, const std::string& animName) = 0;
+	virtual void EffectLoad(int parentPartIndex, const std::string& effectName) = 0;
 	virtual void EffectRelease(int parentPartIndex) = 0;
 	
 	/**
