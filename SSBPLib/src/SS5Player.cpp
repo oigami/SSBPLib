@@ -270,15 +270,9 @@ void Player::setPartsParentage()
 			sprite->_haveChildPlayer = _eventListener->ChildPlayerLoad(partIndex, getPartName(partIndex), refanimeName);
 		}
 
-		//エフェクトパーツの生成
-		if (sprite->refEffect){
-			delete sprite->refEffect;
-			sprite->refEffect = 0;
-		}
-
-		std::string refeffectName = ptr.toString(partData->effectfilename);
-		if (refeffectName != ""){
-			//エフェクトクラスにパラメータを設定する
+		//エフェクトパーツならパラメータを設定する
+		if(partData->type == PARTTYPE_EFFECT){
+			std::string refeffectName = ptr.toString(partData->effectfilename);
 			sprite->refEffect = new SS5Effect(_currentRs, _eventListener, refeffectName, getRandomSeed());	//ひとまず今セットされているイベントリスナーを渡す //todo:最終的にはChildPlayer同様に外に制御を任せたい
 		}
 	}
