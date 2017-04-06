@@ -236,8 +236,13 @@ void Player::releaseParts()
 		CustomSprite* sprite = _parts[i];
 	
 		//ChildPlayerがあるなら、spriteを破棄する前にリリースイベントを飛ばす
-		if(sprite->_haveChildPlayer){	//todo:customspriteでやる?
+		if(sprite->_haveChildPlayer){
+			sprite->_haveChildPlayer = false;
 			_eventListener->ChildPlayerRelease(i);
+		}
+		if(sprite->_haveEffect){
+			sprite->_haveEffect = false;
+			_eventListener->EffectRelease(i);
 		}
 		SS_SAFE_DELETE(sprite);
 	}
@@ -274,8 +279,10 @@ void Player::setPartsParentage()
 
 		//エフェクトパーツならパラメータを設定する
 		if(partData->type == PARTTYPE_EFFECT){
+			sprite->_haveEffect = true;
+
 			std::string refeffectName = ptr.toString(partData->effectfilename);
-			sprite->refEffect = new SS5Effect(_currentRs, _eventListener, refeffectName, getRandomSeed());	//ひとまず今セットされているイベントリスナーを渡す //todo:最終的にはChildPlayer同様に外に制御を任せたい
+			_eventListener->EffectLoad(partIndex, refeffectName);	//sprite->refEffect = new SS5Effect(_currentRs, _eventListener, refeffectName, getRandomSeed());	//ひとまず今セットされているイベントリスナーを渡す
 		}
 	}
 }
@@ -693,15 +700,15 @@ void Player::setFrame(int frameNo, float dt)
 		CustomSprite* sprite = _parts.at(partIndex);
 
 		//エフェクトのアップデート
-		if (sprite->refEffect)
+		if (sprite->_haveEffect)
 		{
 			//親情報の設定
 			float alpha = sprite->_state.opacity / 255.0f;
 			alpha *= sprite->_state.Calc_opacity / 255.0f;	//todo:Calc_opacity紛らわしいのでやめたい・・・
 			
-			sprite->refEffect->effectUpdate(
-				sprite->_mat, alpha,
-				sprite->_state.effectValue, _seedOffset, frameNo
+			_eventListener->EffectUpdate(
+				partIndex, sprite->_mat, alpha,
+				frameNo, _seedOffset, sprite->_state.effectValue
 			);
 		}
 	}
@@ -724,10 +731,10 @@ void Player::draw()
 			}
 		}
 		else{
-			if (sprite->refEffect){ 
+			if (sprite->_haveEffect){ 
 				if ((state.isVisibled == true) && (state.opacity > 0)){
 					//エフェクトパーツ
-					sprite->refEffect->draw();
+					_eventListener->EffectDraw(partIndex);
 				}
 			}
 			else{

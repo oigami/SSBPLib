@@ -136,6 +136,14 @@ public:
 	)override{}
 	void ChildPlayerDraw(int parentPartIndex){}
 
+	//エフェクトのイベント
+	void EffectLoad(int parentPartIndex, const std::string& animName){}
+	void EffectRelease(int parentPartIndex){}
+	void EffectUpdate(
+		int parentPartIndex, const ss::Matrix& parentMatrix, float parentAlpha,
+		int parentFrame, int parentSeedOffset, const ss::EffectPartStatus& effectAttribute
+	)override{}
+	void EffectDraw(int parentPartIndex){}
 };
 SimpleSS5EventListener g_eventListener;
 

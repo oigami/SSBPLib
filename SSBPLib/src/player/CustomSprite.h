@@ -14,11 +14,9 @@ public:
 	Matrix				_mat;
 	State				_state;
 	CustomSprite*		_parent;
-	bool				_haveChildPlayer;		//ChildPlayer(インスタンスアニメーション)を持っているならtrue
 
-
-	//エフェクト用パラメータ
-	SS5Effect*	refEffect;
+	bool				_haveChildPlayer;	//ChildPlayer(インスタンスアニメーション)を持っているならtrue
+	bool				_haveEffect;		//エフェクトを持っているならtrue
 
 public:
 	CustomSprite();

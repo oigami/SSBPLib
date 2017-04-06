@@ -24,7 +24,32 @@ public:
 	//描画
 	virtual void SSDrawSprite(const SSV3F_C4B_T2F_Quad& quad, TextureID textureId, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags) = 0;
 
+	
+	/**
+	 * 再生フレームに制限をかけます
+	 * @param frame		これからPlayerが処理したいフレーム番号
+	 * @param maxFrame	アニメーションの総フレーム数
+	 * @return 制限をかけた後のフレーム番号
+	 */
+	virtual int limitFrame(int frame, int maxFrame){
+		return ss::wrap<int>(frame, 0, maxFrame);		//ループ再生になります
+		
+		//例:
+		//return ss::clamp<int>(frame, 0, maxFrame-1);	//最終フレームで止める
+		//return ss::wrap<int>(frame, 3, 7);			//3～6フレームでループさせる
+		//if(frame>10){ return 5; }else{ return frame; }//10フレームを過ぎたら5フレームに飛ばす
+	}
 
+	/**
+	 * ユーザーデータがあったときに呼ばれる
+	 * @param userData	一時オブジェクトなのでコピーして使ってください
+	 * @param frame		userDataが設定されているフレーム
+	 */
+	virtual void onUserData(const UserData& userData, int frameNo) = 0;
+
+	
+	
+	//ChildPlayer -----------------------------------------
 	/**
 	 * インスタンスアニメーションのロード・リリースのイベント
 	 * @param parentPartIndex	親になるパーツのindex
@@ -34,7 +59,7 @@ public:
 	virtual void ChildPlayerRelease(int parentPartIndex) = 0;
 
 	/**
-	 * 更新時などに呼び出されるSet系のイベント。
+	 * 更新時に呼び出されるイベント。
 	 * 親のパーツの情報を伝播させるために必要になります。
 	 * Player内部ではChildPlayerの制御はしないため、このイベントを活用してください。
 	 * @param parentPartIndex	親パーツのindex
@@ -52,28 +77,33 @@ public:
 	virtual void ChildPlayerDraw(int parentPartIndex) = 0;
 
 	
-
+	//Effect ----------------------------------------------
 	/**
-	 * ユーザーデータがあったときに呼ばれる
-	 * @param userData	一時オブジェクトなのでコピーして使ってください
-	 * @param frame		userDataが設定されているフレーム
+	 * エフェクトのロード・リリースのイベント
+	 * @param parentPartIndex	親になるパーツのindex
+	 * @param effectName		エフェクト名
 	 */
-	virtual void onUserData(const UserData& userData, int frameNo) = 0;
-
+	virtual void EffectLoad(int parentPartIndex, const std::string& animName) = 0;
+	virtual void EffectRelease(int parentPartIndex) = 0;
+	
 	/**
-	 * 再生フレームに制限をかけます
-	 * @param frame		これからPlayerが処理したいフレーム番号
-	 * @param maxFrame	アニメーションの総フレーム数
-	 * @return 制限をかけた後のフレーム番号
+	 * 更新時に呼び出されるイベント。
+	 * 親のパーツの情報を伝播させるために必要になります。
+	 * Player内部ではEffectの制御はしないため、このイベントを活用してください。
+	 * @param parentPartIndex	親パーツのindex
+	 * @param parentWorldMatrix	親パーツのワールド行列(アタッチするなら、子供のPlayerにセットしてください)
+	 * @param parentAlpha		親パーツのアルファ値[0:1]
+	 * @param parentFrame		親の再生フレーム
+	 * @param parentSeedOffset	親のランダムSeed値
+	 * @param effectAttribute	エフェクトの再生制御情報
 	 */
-	virtual int limitFrame(int frame, int maxFrame){
-		return ss::wrap<int>(frame, 0, maxFrame);		//ループ再生になります
-		
-		//例:
-		//return ss::clamp<int>(frame, 0, maxFrame-1);	//最終フレームで止める
-		//return ss::wrap<int>(frame, 3, 7);			//3～6フレームでループさせる
-		//if(frame>10){ return 5; }else{ return frame; }//10フレームを過ぎたら5フレームに飛ばす
-	}
+	virtual void EffectUpdate(
+		int parentPartIndex, const Matrix& parentMatrix, float parentAlpha,
+		int parentFrame, int parentSeedOffset, const EffectPartStatus& effectAttribute
+	) = 0;
+
+	/** 描画イベント */
+	virtual void EffectDraw(int parentPartIndex) = 0;
 	
 };
 
