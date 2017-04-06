@@ -685,11 +685,11 @@ void Player::setFrame(int frameNo, float dt)
 			if(sprite->_haveChildPlayer){
 				float alpha = sprite->_state.opacity / 255.0f;
 				alpha *= sprite->_state.Calc_opacity / 255.0f;	//todo:Calc_opacity紛らわしいのでやめたい・・・
-				InstancePartStatus ips = sprite->_state.instanceValue;
+
 				_eventListener->ChildPlayerUpdate(
 					partIndex, sprite->_mat, alpha,
-					ips.getFrame(frameNo), ips.m_independent
-				);		//todo:再生開始時間があるはずなのでその情報も渡す
+					frameNo, sprite->_state.instanceValue	//InstancePartStatus::getFrame(frameNo), m_independent,,,
+				);
 			}
 		}
 	}

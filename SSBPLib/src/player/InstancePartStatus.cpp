@@ -36,11 +36,13 @@ void InstancePartStatus::readData(int readFlags, DataArrayReader &reader, const 
 }
 
 
+bool InstancePartStatus::isValidFrame(int frame) const{
+	return (frame >= m_refKeyframe);		//配置されたフレームより前では再生できない
+}
 int InstancePartStatus::getFrame(int frame) const
 {
 	int	reftime = static_cast<int>((frame - m_refKeyframe) * m_refSpeed);	//開始から現在の経過時間
 	if(reftime < 0){ return frame; }										//そもそも生存時間に存在していない
-	if(m_refKeyframe > frame){ return frame; }		//memo:このあたりの制限特に要らない気がする。時間がエラー範囲のときに返すべきフレームもないと思うので。
 
 	int inst_scale = (m_refEndframe - m_refStartframe) + 1; //インスタンスの尺
 	if(inst_scale <= 0){ return frame; }					//尺が０もしくはマイナス（あり得ない

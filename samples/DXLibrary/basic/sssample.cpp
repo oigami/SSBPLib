@@ -134,7 +134,7 @@ public:
 	void ChildPlayerRelease(int parentPartIndex) override{}
 	void ChildPlayerUpdate(
 		int parentPartIndex, const ss::Matrix& parentWorldMatrix, float parentAlpha,
-		int frame, bool independent
+		int parentFrame, const ss::InstancePartStatus& instanceAttribute
 	) override{}
 	void ChildPlayerDraw(int parentPartIndex) override{}
 

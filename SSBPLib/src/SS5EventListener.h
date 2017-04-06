@@ -5,6 +5,8 @@
 namespace ss{
 class Player;
 struct UserData;
+class InstancePartStatus;
+class EffectPartStatus;
 
 
 /** ロードイベントなどを捕まえるのでこれを継承して作ってください */
@@ -65,12 +67,12 @@ public:
 	 * @param parentPartIndex	親パーツのindex
 	 * @param parentWorldMatrix	親パーツのワールド行列(アタッチするなら、子供のPlayerにセットしてください)
 	 * @param parentAlpha		親パーツのアルファ値[0:1]
-	 * @param frame				インスタンスアニメの設定で指定したframeの計算結果
-	 * @param independent		インスタンスアニメの設定で独立動作を指定していればtrue
+	 * @param parentFrame		親の再生フレーム
+	 * @param instanceAttribute	インスタンスアニメーションの再生制御情報
 	 */
 	virtual void ChildPlayerUpdate(
 		int parentPartIndex, const Matrix& parentWorldMatrix, float parentAlpha,
-		/*bool isValidFrame, */int frame, bool independent
+		int parentFrame, const InstancePartStatus& instanceAttribute
 	) = 0;
 
 	/** 描画イベント */
