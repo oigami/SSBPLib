@@ -100,9 +100,9 @@ private:
 	PlayerSetting m_playerSetting;
 
 public:
-	//todo:これは後でイベント化する
+	//todo:これは後で削除する
 	void effectUpdate(
-		const Matrix& parentMatrix, float parentAlpha,
+		const Matrix& parentWorldMatrix, float parentAlpha,
 		int parentFrame, int parentSeedOffset, const EffectPartStatus& effectAttribute
 	){
 		bool isValid = effectAttribute.isValidFrame(parentFrame);
@@ -113,7 +113,7 @@ public:
 		}
 
 		setAlpha(parentAlpha);
-		setRootMatrix(parentMatrix);
+		setRootMatrix(parentWorldMatrix);
 		
 		if(isValid){
 			if(effectAttribute.m_independent){

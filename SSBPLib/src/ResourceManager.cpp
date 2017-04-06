@@ -92,7 +92,7 @@ void ResourceManager::getTextureList(std::vector<std::string> *textureList, cons
 }
 
 //player
-Player* ResourceManager::createPlayer(const std::string& dataKey, SS5EventListener* eventListener) const
+Player* ResourceManager::createPlayer(SS5EventListener* eventListener, const std::string& dataKey) const
 {
 	const ResourceSet* rs = getData(dataKey);
 	return new Player(rs, eventListener);

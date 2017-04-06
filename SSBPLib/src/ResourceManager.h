@@ -43,7 +43,7 @@ public:
 	void getTextureList(std::vector<std::string> *textureList, const std::string &dataKey) const;
 
 	/** SS5Playerの生成 */
-	Player* createPlayer(const std::string& dataKey, SS5EventListener* eventListener) const;
+	Player* createPlayer(SS5EventListener* eventListener, const std::string& dataKey) const;
 	void destroyPlayer(Player *&player) const;
 
 	/** SS5Effectの生成 */

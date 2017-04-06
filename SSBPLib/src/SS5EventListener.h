@@ -98,7 +98,7 @@ public:
 	 * @param effectAttribute	エフェクトの再生制御情報
 	 */
 	virtual void EffectUpdate(
-		int parentPartIndex, const Matrix& parentMatrix, float parentAlpha,
+		int parentPartIndex, const Matrix& parentWorldMatrix, float parentAlpha,
 		int parentFrame, int parentSeedOffset, const EffectPartStatus& effectAttribute
 	) = 0;
 

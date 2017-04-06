@@ -162,14 +162,14 @@ public:
 	}
 
 	void EffectUpdate(
-		int parentPartIndex, const ss::Matrix& parentMatrix, float parentAlpha,
+		int parentPartIndex, const ss::Matrix& parentWorldMatrix, float parentAlpha,
 		int parentFrame, int parentSeedOffset, const ss::EffectPartStatus& effectAttribute
 	) override{
 		auto it = m_effects.find(parentPartIndex);
 		assert(it != m_effects.end());
 
 		ss::SS5Effect* effect = it->second;
-		effect->effectUpdate(parentMatrix, parentAlpha, parentFrame, parentSeedOffset, effectAttribute);
+		effect->effectUpdate(parentWorldMatrix, parentAlpha, parentFrame, parentSeedOffset, effectAttribute);
 	}
 	
 	void EffectDraw(int parentPartIndex) override{
@@ -278,7 +278,7 @@ void init( void )
 		"Resources/character_template_comipo/"	//画像ファイルの読み込み元ルートパス
 	);
 	//プレイヤーにリソースを割り当て
-	ssplayer = resman->createPlayer("character_template1", &g_eventListener);       //addDataで指定した登録名
+	ssplayer = resman->createPlayer(&g_eventListener, "character_template1");       //addDataで指定した登録名
 	//再生するモーションを設定
 	ssplayer->play("character_template_3head/stance");				 // アニメーション名を指定(ssae名/アニメーション名も可能、詳しくは後述)
 
@@ -380,7 +380,7 @@ void update(float dt)
 	else if(CheckHitKey(KEY_INPUT_X)){
 		if(sstest_push == false){
 			resman->destroyPlayer(ssplayer);
-			ssplayer = resman->createPlayer("character_template1", &g_eventListener);
+			ssplayer = resman->createPlayer(&g_eventListener, "character_template1");
 			ssplayer->play("character_template_3head/stance");
 
 			ssplayer->setPosition(800 / 2, 150);
@@ -392,7 +392,7 @@ void update(float dt)
 	else if(CheckHitKey(KEY_INPUT_C)){
 		if(sstest_push == false){
 			resman->destroyPlayer(ssplayer);
-			ssplayer = resman->createPlayer("effectsample", &g_eventListener);
+			ssplayer = resman->createPlayer(&g_eventListener, "effectsample");
 			ssplayer->play("e001/emission");
 
 			ssplayer->setPosition(800 / 2, 300);
