@@ -185,7 +185,7 @@ void Player::update(float dt)
 		int seekCount = nextFrameTime - getCurrentFrame();
 		// 順再生時.
 		for(int i = 0; i < seekCount; ++i){
-			checkFrame = _eventListener->limitFrame(this, checkFrame + 1, getMaxFrame());	//範囲制限
+			checkFrame = _eventListener->limitFrame(checkFrame + 1, getMaxFrame());	//範囲制限
 			SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
 			
 			// このフレームのユーザーデータをチェック
@@ -197,7 +197,7 @@ void Player::update(float dt)
 		}
 		// 逆再生時.
 		for(int i = 0; i > seekCount; --i){
-			checkFrame = _eventListener->limitFrame(this, checkFrame - 1, getMaxFrame());	//範囲制限
+			checkFrame = _eventListener->limitFrame(checkFrame - 1, getMaxFrame());	//範囲制限
 			SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
 
 			// このフレームのユーザーデータをチェック
@@ -237,7 +237,7 @@ void Player::releaseParts()
 	
 		//ChildPlayerがあるなら、spriteを破棄する前にリリースイベントを飛ばす
 		if(sprite->_haveChildPlayer){	//todo:customspriteでやる?
-			_eventListener->ChildPlayerRelease(i, getPartName(i));
+			_eventListener->ChildPlayerRelease(i);
 		}
 		SS_SAFE_DELETE(sprite);
 	}
@@ -266,8 +266,10 @@ void Player::setPartsParentage()
 
 		//インスタンスパーツならChildPlayerの生成イベントを飛ばす
 		if(partData->type == PARTTYPE_INSTANCE){
+			sprite->_haveChildPlayer = true;
+
 			std::string refanimeName = ptr.toString(partData->refname);
-			sprite->_haveChildPlayer = _eventListener->ChildPlayerLoad(partIndex, getPartName(partIndex), refanimeName);
+			_eventListener->ChildPlayerLoad(partIndex, refanimeName);
 		}
 
 		//エフェクトパーツならパラメータを設定する
@@ -677,9 +679,9 @@ void Player::setFrame(int frameNo, float dt)
 				float alpha = sprite->_state.opacity / 255.0f;
 				alpha *= sprite->_state.Calc_opacity / 255.0f;	//todo:Calc_opacity紛らわしいのでやめたい・・・
 				InstancePartStatus ips = sprite->_state.instanceValue;
-				_eventListener->ChildPlayerSetFrame(
-					partIndex, getPartName(partIndex),
-					sprite->_mat, alpha, ips.getFrame(frameNo), ips.m_independent
+				_eventListener->ChildPlayerUpdate(
+					partIndex, sprite->_mat, alpha,
+					ips.getFrame(frameNo), ips.m_independent
 				);		//todo:再生開始時間があるはずなのでその情報も渡す
 			}
 		}
@@ -718,7 +720,7 @@ void Player::draw()
 		State& state = sprite->_state;
 		if (sprite->_haveChildPlayer){
 			if ((state.isVisibled == true) && (state.opacity > 0)){
-				_eventListener->ChildPlayerDraw(partIndex, getPartName(partIndex));
+				_eventListener->ChildPlayerDraw(partIndex);
 			}
 		}
 		else{
@@ -780,7 +782,7 @@ void Player::checkUserData(int frameNo)
 	for (int i = 0; i < numUserData; i++){
 		UserData userData;
 		userData.readData(reader, ptr);
-		_eventListener->onUserData(this, userData, frameNo);
+		_eventListener->onUserData(userData, frameNo);
 	}
 
 }

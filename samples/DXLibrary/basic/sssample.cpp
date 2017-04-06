@@ -46,9 +46,9 @@ class SimpleSS5EventListener: public ss::SS5EventListener{
 public:
 	int m_drawSpriteCount;	//【デバッグ用】スプライト表示数
 
-	void onUserData(ss::Player* player, const ss::UserData& userData, int frameNo) override{}	//ユーザーデータは特に何も処理しない
-	int limitFrame(ss::Player* player, int frame, int maxFrame) override{
-		return ss::SS5EventListener::limitFrame(player, frame, maxFrame);	//フレーム制限はデフォルト実装に任せる
+	void onUserData(const ss::UserData& userData, int frameNo) override{}	//ユーザーデータは特に何も処理しない
+	int limitFrame(int frame, int maxFrame) override{
+		return ss::SS5EventListener::limitFrame(frame, maxFrame);	//フレーム制限はデフォルト実装に任せる
 	}
 
 	//テクスチャのロード・リリースのイベント。内部ではPlayer単位で管理されます
@@ -128,13 +128,13 @@ public:
 
 
 	//インスタンスアニメーションのイベント
-	bool ChildPlayerLoad(int parentPartIndex, const std::string& parentPartName, const std::string& animName){ return false; }
-	void ChildPlayerRelease(int parentPartIndex, const std::string& parentPartName){}
-	void ChildPlayerSetFrame(
-		int parentPartIndex, const std::string& parentPartName,
-		const ss::Matrix& parentWorldMatrix, float parentAlpha, int frame, bool independent
+	void ChildPlayerLoad(int parentPartIndex, const std::string& animName){}
+	void ChildPlayerRelease(int parentPartIndex){}
+	void ChildPlayerUpdate(
+		int parentPartIndex, const ss::Matrix& parentWorldMatrix, float parentAlpha,
+		int frame, bool independent
 	)override{}
-	void ChildPlayerDraw(int parentPartIndex, const std::string& parentPartName){}
+	void ChildPlayerDraw(int parentPartIndex){}
 
 };
 SimpleSS5EventListener g_eventListener;

@@ -26,42 +26,39 @@ public:
 
 
 	/**
-	 * インスタンスアニメーションのロード・リリースのイベント。ロード成功時はtrue返してください
+	 * インスタンスアニメーションのロード・リリースのイベント
 	 * @param parentPartIndex	親になるパーツのindex
-	 * @param parentPartName	親になるパーツの名前
 	 * @param animName			再生アニメーション名
 	 */
-	virtual bool ChildPlayerLoad(int parentPartIndex, const std::string& parentPartName, const std::string& animName) = 0;
-	virtual void ChildPlayerRelease(int parentPartIndex, const std::string& parentPartName) = 0;
+	virtual void ChildPlayerLoad(int parentPartIndex, const std::string& animName) = 0;
+	virtual void ChildPlayerRelease(int parentPartIndex) = 0;
 
 	/**
 	 * 更新時などに呼び出されるSet系のイベント。
 	 * 親のパーツの情報を伝播させるために必要になります。
 	 * Player内部ではChildPlayerの制御はしないため、このイベントを活用してください。
 	 * @param parentPartIndex	親パーツのindex
-	 * @param parentPartName	親パーツの名前
 	 * @param parentWorldMatrix	親パーツのワールド行列(アタッチするなら、子供のPlayerにセットしてください)
 	 * @param parentAlpha		親パーツのアルファ値[0:1]
 	 * @param frame				インスタンスアニメの設定で指定したframeの計算結果
 	 * @param independent		インスタンスアニメの設定で独立動作を指定していればtrue
 	 */
-	virtual void ChildPlayerSetFrame(
-		int parentPartIndex, const std::string& parentPartName,
-		const Matrix& parentWorldMatrix, float parentAlpha, int frame, bool independent
+	virtual void ChildPlayerUpdate(
+		int parentPartIndex, const Matrix& parentWorldMatrix, float parentAlpha,
+		/*bool isValidFrame, */int frame, bool independent
 	) = 0;
 
 	/** 描画イベント */
-	virtual void ChildPlayerDraw(int parentPartIndex, const std::string& parentPartName) = 0;
+	virtual void ChildPlayerDraw(int parentPartIndex) = 0;
 
 	
 
 	/**
 	 * ユーザーデータがあったときに呼ばれる
-	 * @param player
 	 * @param userData	一時オブジェクトなのでコピーして使ってください
 	 * @param frame		userDataが設定されているフレーム
 	 */
-	virtual void onUserData(Player* player, const UserData& userData, int frameNo) = 0;
+	virtual void onUserData(const UserData& userData, int frameNo) = 0;
 
 	/**
 	 * 再生フレームに制限をかけます
@@ -69,7 +66,7 @@ public:
 	 * @param maxFrame	アニメーションの総フレーム数
 	 * @return 制限をかけた後のフレーム番号
 	 */
-	virtual int limitFrame(Player* player, int frame, int maxFrame){
+	virtual int limitFrame(int frame, int maxFrame){
 		return ss::wrap<int>(frame, 0, maxFrame);		//ループ再生になります
 		
 		//例:
