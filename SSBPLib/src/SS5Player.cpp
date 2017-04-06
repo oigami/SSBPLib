@@ -719,52 +719,47 @@ void Player::draw()
 {
 	if (!_currentAnimeRef) return;
 
-	for (int index = 0; index < _currentAnimeRef->m_numParts; index++)
-	{
+	for (int index = 0; index < _currentAnimeRef->m_numParts; index++){
 		int partIndex = _partIndex[index];
 		//スプライトの表示
 		CustomSprite* sprite = _parts.at(partIndex);
 		State& state = sprite->_state;
+
+		//非表示設定なら無視する
+		if(state.isVisibled == false){
+			continue;
+		}
+
+		//パーツタイプに応じた描画イベントを投げる
 		if (sprite->_haveChildPlayer){
-			if (state.isVisibled == true){
-				_eventListener->ChildPlayerDraw(partIndex);
-			}
+			_eventListener->ChildPlayerDraw(partIndex);	//インスタンスパーツ
+		}
+		else if (sprite->_haveEffect){ 
+			_eventListener->EffectDraw(partIndex);		//エフェクトパーツ
 		}
 		else{
-			if (sprite->_haveEffect){ 
-				if (state.isVisibled == true){
-					//エフェクトパーツ
-					_eventListener->EffectDraw(partIndex);
-				}
-			}
-			else{
-				if (state.isVisibled == true){
+			//SSDrawSpriteから出しました-----------------------------------------------
+			//原点補正
+			Vector3 center(
+				(state.rect.width() * -(state.pivotX)),
+				(state.rect.height() * +(state.pivotY)),	//xと同様、-のような気がする
+				0.0f
+			);
 
-					//SSDrawSpriteから出しました-----------------------------------------------
-					//原点補正
-					Vector3 center(
-						(state.rect.width() * -(state.pivotX)),
-						(state.rect.height() * +(state.pivotY)),	//xと同様、-のような気がする
-						0.0f
-					);
+			//vertexにworldMatrixをかける
+			state.quad.vertexForeach([&](Vector3& vertex){
+				vertex += center;		//原点補正
+				vertex *= state.mat;
+			});
 
-					//vertexにworldMatrixをかける
-					state.quad.vertexForeach([&](Vector3& vertex){
-						vertex += center;		//原点補正
-						vertex *= state.mat;
-					});
-
-					//頂点カラーにアルファを設定
-					state.quad.tl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
-					state.quad.tr.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
-					state.quad.bl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
-					state.quad.br.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+			//頂点カラーにアルファを設定
+			state.quad.tl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+			state.quad.tr.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+			state.quad.bl.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
+			state.quad.br.colors.a = state.quad.bl.colors.a * state.Calc_opacity / 255;
 
 
-
-					_eventListener->SSDrawSprite(state.quad, state.texture.handle, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
-				}
-			}
+			_eventListener->SSDrawSprite(state.quad, state.texture.handle, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
 		}
 	}
 }
