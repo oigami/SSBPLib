@@ -796,15 +796,6 @@ void Player::setFrame(int frameNo, float dt)
 		//エフェクトのアップデート
 		if (sprite->refEffect)
 		{
-			//エフェクトアトリビュート
-			int refStartframe = sprite->_state.effectValue.m_startTime;	//再生開始時間
-
-			if (sprite->effectAttrInitialized == false){
-				sprite->effectAttrInitialized = true;
-				
-				sprite->refEffect->setFrame(refStartframe);
-			}
-
 			//親情報の設定
 			float alpha = sprite->_state.opacity / 255.0f;
 			alpha *= sprite->_state.Calc_opacity / 255.0f;	//todo:Calc_opacity紛らわしいのでやめたい・・・

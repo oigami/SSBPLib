@@ -234,7 +234,7 @@ void SS5Effect::update(float dt)
 
 	if ( !m_infinite )
 	{
-		if (this->isloop()) //自動ループの場合
+		if (this->isLoop()) //自動ループの場合
 		{
 			if (m_nowFrame > getEffectTimeLength())
 			{

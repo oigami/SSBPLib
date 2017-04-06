@@ -55,8 +55,8 @@ public:
 	void play(){ m_isPlay = true; }
 	void stop(){ m_isPlay = false; }
 	void setLoop(bool flag){ m_isLoop = flag; }
-	bool isplay() const{ return m_isPlay; }
-	bool isloop() const{ return m_isLoop; }
+	bool isPlay() const{ return m_isPlay; }
+	bool isLoop() const{ return m_isLoop; }
 
 	void setFrame(float frame){
 		m_nowFrame = frame;
@@ -103,14 +103,20 @@ public:
 		const Matrix& parentMatrix, float parentAlpha,
 		const EffectPartStatus& effectAttribute, int parentSeedOffset, int parentFrame
 	){
+		bool isValid = effectAttribute.isValidFrame(parentFrame);
+		//有効フレーム&&未再生 --> 再生開始のタイミング
+		if(isValid && !isPlay()){
+			setFrame(effectAttribute.m_startTime);	//再生開始時間
+			play();
+		}
+
 		setAlpha(parentAlpha);
 		setRootMatrix(parentMatrix);
 		
-		if(effectAttribute.isValidFrame(parentFrame)){
+		if(isValid){
 			if(effectAttribute.m_independent){
 				//独立動作
 				setLoop(true);
-				play();
 				update(1.0f/60.0f * effectAttribute.m_speed);	//・・・というより独立動作なのだからこの外側でupdateするべき。dtは渡さないので今は適当に値入れとく
 			}
 			else{
@@ -118,7 +124,6 @@ public:
 
 				setSeedOffset(parentSeedOffset);
 				setFrame(nextFrame);
-				play();
 				update(0);
 			}
 		}
