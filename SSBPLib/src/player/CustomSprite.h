@@ -24,9 +24,6 @@ public:
 	//モーションブレンド用ステータス
 	State				_orgState;
 
-	//エフェクト制御用ワーク
-	bool effectAttrInitialized;
-
 public:
 	CustomSprite();
 	virtual ~CustomSprite();

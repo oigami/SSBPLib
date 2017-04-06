@@ -7,7 +7,6 @@ namespace ss{
 CustomSprite::CustomSprite()
 	: _haveChildPlayer(false)
 	, refEffect(0)
-	, effectAttrInitialized(false)
 {
 	_state.init();
 	_isStateChanged = true;
