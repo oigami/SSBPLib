@@ -20,9 +20,6 @@ public:
 	//エフェクト用パラメータ
 	SS5Effect*	refEffect;
 
-	//モーションブレンド用ステータス
-	State				_orgState;
-
 public:
 	CustomSprite();
 	~CustomSprite();

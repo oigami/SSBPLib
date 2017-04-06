@@ -52,9 +52,6 @@ Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
 	, _currentAnimeRef(nullptr)
 	, _currentFrameTime(0.0f)
 	, _isPausing(false)
-	, _motionBlendPlayer(nullptr)
-	, _blendTime(0.0f)
-	, _blendTimeMax(0.0f)
 	, _seedOffset(0)
 {
 	SS_ASSERT_LOG(_eventListener, "eventListener is null");
@@ -82,12 +79,6 @@ Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
 
 Player::~Player()
 {
-	if (_motionBlendPlayer)
-	{
-		delete (_motionBlendPlayer);
-		_motionBlendPlayer = NULL;
-	}
-
 	releaseParts();
 
 	//テクスチャの解放イベントを投げる
@@ -151,42 +142,6 @@ void Player::play(AnimeRef* animeRef, int startFrameNo)
 
 	//play実行時に最初のフレームのユーザーデータを確認する
 	checkUserData(static_cast<int>(_currentFrameTime));
-}
-
-//モーションブレンドしつつ再生
-void Player::motionBlendPlay(const std::string& animeName, /*int loop,*/ int startFrameNo, float blendTime)
-{
-	if (_currentAnimename != "")
-	{
-		//現在のアニメーションをブレンド用プレイヤーで再生
-		if (_motionBlendPlayer == NULL)
-		{
-			_motionBlendPlayer = new Player(_currentRs, _eventListener);	//とりあえず今のイベントリスナーを突っ込んでおく	//todo:後で整理する
-		}
-	#if 0
-		int loopnum = _loop;
-		if (_loop > 0)
-		{
-			loopnum = _loop - _loopCount;
-		}
-		_motionBlendPlayer->play(_currentAnimename, loopnum, getFrameNo());	//今までのアニメーションの状態(ループ含む)を持ち越すらしいが、start,endとかの伝播ができてないようだ
-		if (_loop > 0)
-		{
-			if (_loop == _loopCount)	//アニメは最後まで終了している
-			{
-				_motionBlendPlayer->stop();
-			}
-		}
-	#else
-		//todo:モーションブレンドでのループは別途考える
-		_motionBlendPlayer->play(_currentAnimename, getCurrentFrame());
-	#endif
-		_blendTime = 0;
-		_blendTimeMax = blendTime;
-
-	}
-	play(animeName, startFrameNo);
-
 }
 
 
@@ -254,20 +209,6 @@ void Player::update(float dt)
 		}
 		
 		_currentFrameTime = checkFrame + nextFrameRemainder;
-	}
-
-	//モーションブレンド用アップデート
-	if (_motionBlendPlayer)
-	{
-		_motionBlendPlayer->update(dt);
-		_blendTime = _blendTime + dt;
-		if (_blendTime >= _blendTimeMax)
-		{
-			_blendTime = _blendTimeMax;
-			//プレイヤーを削除する
-			delete (_motionBlendPlayer);
-			_motionBlendPlayer = NULL;
-		}
 	}
 
 	setFrame(getCurrentFrame(), dt);
@@ -602,24 +543,6 @@ void Player::setFrame(int frameNo, float dt)
 			state.pivotY += cpy;
 		}
 
-		//モーションブレンド
-		if (_motionBlendPlayer)
-		{
-			const CustomSprite* blendSprite = _motionBlendPlayer->getSpriteData(partIndex);
-			if (blendSprite)
-			{ 
-				float percent = _blendTime / _blendTimeMax;
-				state.x = lerp(blendSprite->_orgState.x, state.x, percent);
-				state.y = lerp(blendSprite->_orgState.y, state.y, percent);
-				state.scaleX = lerp(blendSprite->_orgState.scaleX, state.scaleX, percent);
-				state.scaleY = lerp(blendSprite->_orgState.scaleY, state.scaleY, percent);
-				state.rotationX = lerpAngle(blendSprite->_orgState.rotationX, state.rotationX, percent);
-				state.rotationY = lerpAngle(blendSprite->_orgState.rotationY, state.rotationY, percent);
-				state.rotationZ = lerpAngle(blendSprite->_orgState.rotationZ, state.rotationZ, percent);
-			}
-
-		}
-
 		CustomSprite* sprite = _parts.at(partIndex);
 
 		if (cellRef){
@@ -718,7 +641,6 @@ void Player::setFrame(int frameNo, float dt)
 
 		//スプライトステータスの保存
 		sprite->_state = state;
-		sprite->_orgState = sprite->_state;
 	}
 
 	// 行列の更新

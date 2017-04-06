@@ -139,33 +139,6 @@ public:
 	 */
 	void play(const std::string& animeName, int startFrameNo = 0);
 
-	/**
-	 * 現在再生しているモーションとブレンドしながら再生します。
-	 * アニメーション名から再生するデータを選択します.
-	 * "ssae名/モーション名で指定してください.
-	 * sample.ssaeのanime_1を指定する場合、sample/anime_1となります.
-	 * ※ver1.1からモーション名のみで指定する事はできなくなりました。
-	 *
-	 * ブレンドするアニメーションの条件は以下になります。
-	 * ・同じssbp内に含まれている事
-	 * ・同じパーツ構成（パーツ順、パーツ数）である事
-	 * SpriteStudioのフレームコントロールに並ぶパーツを上から順にブレンドしていきます。
-	 * パーツ名等のチェックは行なっていませんので遷移元と遷移先アニメのパーツの順番を同じにする必要があります。
-	 * 遷移元と遷移先のパーツ構成があっていない場合、正しくブレンドされませんのでご注意ください。
-	 *
-	 * 合成されるアトリビュートは
-	 * 座標X、座標Y、X回転、Y回転、Z回転、スケールX、スケールYのみです。
-	 * それ以外のアトリビュートは遷移先アニメの値が適用されます。
-	 * インスタンスパーツが参照しているソースアニメはブレンドされません。
-	 * エフェクトパーツから発生したパーティクルはブレンドされません。
-	 * 
-	 *
-	 * @param  animeName     再生するアニメーション名
-	 * @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
-	 * @param  blendTime		モーションブレンドを行う時間、単位は秒　省略時は1秒
-	 */
-	void motionBlendPlay(const std::string& animeName, int startFrameNo = 0, float blendTime = 0.1f);
-
 
 	/** 再生を再開します. */
 	void resume();
@@ -288,11 +261,6 @@ private:
 	std::string			_currentAnimename;
 	AnimeRef*			_currentAnimeRef;
 	std::vector<CustomSprite *>	_parts;
-
-	Player*				_motionBlendPlayer;
-	float				_blendTime;
-	float				_blendTimeMax;
-
 
 	float				_currentFrameTime;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い
 	bool				_isPausing;
