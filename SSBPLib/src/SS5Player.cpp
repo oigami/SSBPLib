@@ -717,22 +717,8 @@ void Player::setFrame(int frameNo, float dt)
 
 
 		//スプライトステータスの保存
-		sprite->setState(state);
+		sprite->_state = state;
 		sprite->_orgState = sprite->_state;
-
-	}
-
-
-	// 親に変更があるときは自分も更新するようフラグを設定する
-	for (int partIndex = 1; partIndex < _currentAnimeRef->m_numParts; partIndex++)
-	{
-		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
-		CustomSprite* sprite = _parts.at(partIndex);
-		CustomSprite* parent = _parts.at(partData->parentIndex);
-		
-		if (parent->_isStateChanged){
-			sprite->_isStateChanged = true;
-		}
 	}
 
 	// 行列の更新
@@ -740,51 +726,46 @@ void Player::setFrame(int frameNo, float dt)
 	{
 		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
 		CustomSprite* sprite = _parts.at(partIndex);
-
-		if (sprite->_isStateChanged){
-			Matrix mat;
+		Matrix mat;
 			
-			if (partIndex > 0){
-				//親のマトリクスを適用
-				CustomSprite* parent = _parts.at(partData->parentIndex);
-				mat = parent->_mat;
-			}
-			else{				
-				//rootパーツはプレイヤーからステータスを引き継ぐ
-				mat = _playerSetting.getWorldMatrix();
-			}
-			// SRzRyRxT mat
-			Matrix localTransformMatrix;
-			localTransformMatrix.setupSRzyxT(
-				Vector3(sprite->_state.scaleX, sprite->_state.scaleY, 1.0f),
-				Vector3(SSDegToRad(sprite->_state.rotationX), SSDegToRad(sprite->_state.rotationY), SSDegToRad(sprite->_state.rotationZ)),
-				Vector3(sprite->_state.x, sprite->_state.y, 0.0f)
-			);
-			mat = localTransformMatrix * mat;
+		if (partIndex > 0){
+			//親のマトリクスを適用
+			CustomSprite* parent = _parts.at(partData->parentIndex);
+			mat = parent->_mat;
+		}
+		else{				
+			//rootパーツはプレイヤーからステータスを引き継ぐ
+			mat = _playerSetting.getWorldMatrix();
+		}
+		// SRzRyRxT mat
+		Matrix localTransformMatrix;
+		localTransformMatrix.setupSRzyxT(
+			Vector3(sprite->_state.scaleX, sprite->_state.scaleY, 1.0f),
+			Vector3(SSDegToRad(sprite->_state.rotationX), SSDegToRad(sprite->_state.rotationY), SSDegToRad(sprite->_state.rotationZ)),
+			Vector3(sprite->_state.x, sprite->_state.y, 0.0f)
+		);
+		mat = localTransformMatrix * mat;
 
-			sprite->_mat = mat;
-			sprite->_state.mat = mat;
+		sprite->_mat = mat;
+		sprite->_state.mat = mat;
 
-			if (partIndex > 0)
-			{
-				CustomSprite* parent = _parts.at(partData->parentIndex);
-				//子供は親のステータスを引き継ぐ
-				//ルートパーツのアルファ値を反映させる
-				sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _playerSetting.m_color.a);
+		if (partIndex > 0)
+		{
+			CustomSprite* parent = _parts.at(partData->parentIndex);
+			//子供は親のステータスを引き継ぐ
+			//ルートパーツのアルファ値を反映させる
+			sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _playerSetting.m_color.a);
 				
-				//インスタンスアニメーションがある場合は親パーツ情報を通知する
-				if(sprite->_haveChildPlayer){
-					float alpha = sprite->_state.opacity / 255.0f;
-					alpha *= sprite->_state.Calc_opacity / 255.0f;	//todo:Calc_opacity紛らわしいのでやめたい・・・
-					InstancePartStatus ips = sprite->_state.instanceValue;
-					_eventListener->ChildPlayerSetFrame(
-						partIndex, getPartName(partIndex),
-						sprite->_mat, alpha, ips.getFrame(frameNo), ips.m_independent
-					);		//todo:再生開始時間があるはずなのでその情報も渡す
-				}
+			//インスタンスアニメーションがある場合は親パーツ情報を通知する
+			if(sprite->_haveChildPlayer){
+				float alpha = sprite->_state.opacity / 255.0f;
+				alpha *= sprite->_state.Calc_opacity / 255.0f;	//todo:Calc_opacity紛らわしいのでやめたい・・・
+				InstancePartStatus ips = sprite->_state.instanceValue;
+				_eventListener->ChildPlayerSetFrame(
+					partIndex, getPartName(partIndex),
+					sprite->_mat, alpha, ips.getFrame(frameNo), ips.m_independent
+				);		//todo:再生開始時間があるはずなのでその情報も渡す
 			}
-			
-			sprite->_isStateChanged = false;
 		}
 	}
 

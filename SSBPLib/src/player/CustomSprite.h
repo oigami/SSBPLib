@@ -13,7 +13,6 @@ class CustomSprite{
 public:
 	Matrix				_mat;
 	State				_state;
-	bool				_isStateChanged;
 	CustomSprite*		_parent;
 	bool				_haveChildPlayer;		//ChildPlayer(インスタンスアニメーション)を持っているならtrue
 
@@ -26,13 +25,7 @@ public:
 
 public:
 	CustomSprite();
-	virtual ~CustomSprite();
-
-
-	void setState(const State& state){
-		_isStateChanged = true;
-		_state = state;
-	}
+	~CustomSprite();
 };
 
 } //namespace ss

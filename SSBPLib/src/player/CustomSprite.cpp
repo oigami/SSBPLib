@@ -9,7 +9,6 @@ CustomSprite::CustomSprite()
 	, refEffect(0)
 {
 	_state.init();
-	_isStateChanged = true;
 }
 
 CustomSprite::~CustomSprite()
