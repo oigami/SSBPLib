@@ -58,6 +58,9 @@ struct State{
 	//現在のStateの情報を元にローカルmatrixを計算する
 	Matrix getLocalMatrix() const;
 	
+	//アルファ値を取得[0:1]
+	float getAlpha() const;
+
 
 	void init();
 

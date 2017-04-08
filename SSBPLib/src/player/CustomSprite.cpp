@@ -27,13 +27,11 @@ void CustomSprite::updateMatrixAndAlpha(const Matrix& rootMatrix, float rootAlph
 	//親から結果を伝播させる。親がない場合はrootから。
 	if(m_parent == nullptr){
 		m_worldMatrix = m_state.getLocalMatrix() * rootMatrix;
-		m_alpha = m_state.m_opacity / 255.0f;
-		m_alpha *= rootAlpha;
+		m_alpha = m_state.getAlpha() * rootAlpha;
 	}
 	else{
 		m_worldMatrix = m_state.getLocalMatrix() * m_parent->m_worldMatrix;
-		m_alpha = m_state.m_opacity / 255.0f;
-		m_alpha *= m_parent->m_alpha;
+		m_alpha = m_state.getAlpha() * m_parent->m_alpha;
 	}
 }
 

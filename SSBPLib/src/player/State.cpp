@@ -183,5 +183,11 @@ Matrix State::getLocalMatrix() const
 	return mat;
 }
 
+//alpha
+float State::getAlpha() const
+{
+	return m_opacity / 255.0f;	//[0:1]に変換
+}
+
 
 } //namespace ss
