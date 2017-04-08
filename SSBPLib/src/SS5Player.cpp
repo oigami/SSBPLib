@@ -551,12 +551,12 @@ void Player::setFrame(int frameNo, float dt)
 
 		if (cellRef){
 			//各パーツのテクスチャ情報を設定
-			state.texture = m_textures[cellRef->m_cellMapIndex]; //cellRef->m_texture;
-			state.rect = cellRef->m_rect;
-			state.blendfunc = static_cast<BlendType>(partData->alphaBlendType);
+			sprite->m_textureID = m_textures[cellRef->m_cellMapIndex].handle; //cellRef->m_texture;
+			sprite->m_rect = cellRef->m_rect;
+			sprite->m_blendfunc = static_cast<BlendType>(partData->alphaBlendType);
 		}
 		else{
-			state.texture.handle = TEXTURE_ID_INVALID;
+			sprite->m_textureID = TEXTURE_ID_INVALID;
 			//セルが無く通常パーツ、ヌルパーツの時は非表示にする
 			if ((partData->type == PARTTYPE_NORMAL) || (partData->type == PARTTYPE_NULL)){
 				state.isVisibled = false;
@@ -633,7 +633,7 @@ void Player::setFrame(int frameNo, float dt)
 		}
 		state.uvCompute(&quad, uv_tl, uv_br);
 
-		state.quad = quad;
+		sprite->m_quad = quad;
 
 
 		//スプライトステータスの保存
@@ -682,19 +682,19 @@ void Player::setFrame(int frameNo, float dt)
 		//SSDrawSpriteから出しました-----------------------------------------------
 		//原点補正
 		Vector3 center(
-			(sprite->_state.rect.width() * -(sprite->_state.pivotX)),
-			(sprite->_state.rect.height() * +(sprite->_state.pivotY)),	//xと同様、-のような気がする
+			(sprite->m_rect.width() * -(sprite->_state.pivotX)),
+			(sprite->m_rect.height() * +(sprite->_state.pivotY)),	//xと同様、-のような気がする
 			0.0f
 		);
 
 		//vertexにworldMatrixをかける
-		sprite->_state.quad.vertexForeach([&](Vector3& vertex){
+		sprite->m_quad.vertexForeach([&](Vector3& vertex){
 			vertex += center;		//原点補正
 			vertex *= sprite->_mat;
 		});
 
 		//頂点カラー補正
-		sprite->_state.quad.colorsForeach([&](SSColor4B& color){
+		sprite->m_quad.colorsForeach([&](SSColor4B& color){
 			color.r *= _playerSetting.m_color.r;
 			color.g *= _playerSetting.m_color.g;
 			color.b *= _playerSetting.m_color.b;
@@ -741,7 +741,7 @@ void Player::draw()
 			_eventListener->EffectDraw(partIndex);		//エフェクトパーツ
 		}
 		else{
-			_eventListener->SSDrawSprite(state.quad, state.texture.handle, state.blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
+			_eventListener->SSDrawSprite(sprite->m_quad, sprite->m_textureID, sprite->m_blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
 		}
 	}
 }

@@ -36,12 +36,6 @@ void State::init()
 
 	colorBlendVertexFunc = BLEND_MIX;
 	colorBlendVertexFlags = 0;
-	memset(&quad, 0, sizeof(quad));
-	texture.handle = 0;
-	texture.size_w = 0;
-	texture.size_h = 0;
-	rect = SSRect(0, 0, 0, 0);
-	blendfunc = BLEND_MIX;
 
 	instanceValue = InstancePartStatus();
 	effectValue = EffectPartStatus();

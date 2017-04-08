@@ -6,6 +6,8 @@ namespace ss{
 
 CustomSprite::CustomSprite()
 	: _alpha(1.0f)
+	, m_textureID(TEXTURE_ID_INVALID)
+	, m_blendfunc(BLEND_MIX)
 	, _haveChildPlayer(false)
 	, _haveEffect(false)
 {
