@@ -236,7 +236,8 @@ private:
 	const AnimeRef*	_animationData;			//アニメーションデータ
 	
 	std::vector<CustomSprite *> _parts;
-
+	std::vector<TextureID> m_textures;		//テクスチャ
+	
 	float				_currentFrameTime;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い
 	bool				_isPausing;
 	bool				_partVisible[PART_VISIBLE_MAX];
@@ -246,7 +247,7 @@ private:
 
 	PlayerSetting		_playerSetting;			//プレイヤー単位での操作設定についてを抱えておく(移動、回転など)
 
-	std::vector<TextuerData> m_textures;		//_textures[cellMapIndex].handle = textureid;
+	
 
 	int getAnimeFPS() const;
 

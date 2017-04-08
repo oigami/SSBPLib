@@ -134,14 +134,6 @@ struct SSV3F_C4B_T2F_Quad {
 	}
 };
 
-//テクスチャデータ
-struct TextuerData
-{
-	TextureID handle;
-	int size_w;
-	int size_h;
-};
-
 
 };	// namespace ss
 

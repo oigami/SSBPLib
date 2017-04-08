@@ -65,9 +65,7 @@ Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, con
 		SsTexWrapMode wrapmode = _resource->m_cellCache->getWrapMode(i);
 		SsTexFilterMode filtermode = _resource->m_cellCache->getFilterMode(i);
 
-		TextuerData& texdata = m_textures[i];
-		texdata.handle = _eventListener->SSTextureLoad(textureName.c_str(), wrapmode, filtermode); // wrapmode, filtermode);//todo:事前にテクスチャ情報取得できるようにする
-		_eventListener->SSGetTextureSize(texdata.handle, &(texdata.size_w), &(texdata.size_h));
+		m_textures[i] = _eventListener->SSTextureLoad(textureName.c_str(), wrapmode, filtermode); // wrapmode, filtermode);//todo:事前にテクスチャ情報取得できるようにする
 	}
 
 	//最初にアニメーションを入れておく
@@ -80,8 +78,8 @@ Player::~Player()
 	releaseParts();
 
 	//テクスチャの解放イベントを投げる
-	for(TextuerData& texdata : m_textures){
-		_eventListener->SSTextureRelease(texdata.handle);
+	for(TextureID textureID : m_textures){
+		_eventListener->SSTextureRelease(textureID);
 	}
 	m_textures.clear();
 }
@@ -472,7 +470,7 @@ void Player::setFrame(int frameNo)
 
 		if (cellRef){
 			//各パーツのテクスチャ情報を設定
-			sprite->m_textureID = m_textures[cellRef->m_cellMapIndex].handle; //cellRef->m_texture;
+			sprite->m_textureID = m_textures[cellRef->m_cellMapIndex];
 			sprite->m_rect = cellRef->m_rect;
 			sprite->m_blendfunc = static_cast<BlendType>(partData->alphaBlendType);
 		}
