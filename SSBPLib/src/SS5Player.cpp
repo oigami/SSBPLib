@@ -666,14 +666,6 @@ void Player::setFrame(int frameNo, float dt)
 			//アルファは親の影響を受ける
 			sprite->m_alpha = sprite->m_state.m_opacity / 255.0f;
 			sprite->m_alpha *= parentSprite->m_alpha;
-				
-			//インスタンスアニメーションがある場合は親パーツ情報を通知する
-			if(sprite->m_haveChildPlayer){
-				_eventListener->ChildPlayerUpdate(
-					partIndex, sprite->m_worldMatrix, sprite->m_alpha,
-					frameNo, sprite->m_state.m_instanceValue	//InstancePartStatus::getFrame(frameNo), m_independent,,,
-				);
-			}
 		}
 
 		//SSDrawSpriteから出しました-----------------------------------------------
@@ -703,6 +695,14 @@ void Player::setFrame(int frameNo, float dt)
 	for (int partIndex = 0; partIndex < _currentAnimeRef->m_numParts; partIndex++)
 	{
 		CustomSprite* sprite = _parts.at(partIndex);
+
+		//インスタンスアニメーションがある場合は親パーツ情報を通知する
+		if(sprite->m_haveChildPlayer){
+			_eventListener->ChildPlayerUpdate(
+				partIndex, sprite->m_worldMatrix, sprite->m_alpha,
+				frameNo, sprite->m_state.m_instanceValue	//InstancePartStatus::getFrame(frameNo), m_independent,,,
+			);
+		}
 
 		//エフェクトのアップデート
 		if (sprite->m_haveEffect){
