@@ -314,7 +314,11 @@ void update(float dt)
 
 	//パーツ名から座標等のステートの取得を行う場合はgetPartStateを使用します。
 	ss::ResluteState result;
-	ssplayer->getPartState(result, "body");
+	int partIndex = ssplayer->indexOfPart("body");
+	if(partIndex < 0){
+		partIndex = 0;
+	}
+	ssplayer->getPartState(result, partIndex);
 
 	//取得座用の表示
 	sprintf_s(str, "body = x:%f y:%f", result.x, result.y);

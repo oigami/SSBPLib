@@ -288,11 +288,11 @@ int Player::getPartsCount()
 }
 
 //indexからパーツ名を取得
-const char* Player::getPartName(int partId) const
+const char* Player::getPartName(int partIndex) const
 {
 	ToPointer ptr(_resource->m_data);
 
-	const PartData* partData = _currentAnimeRef->getPartData(partId);
+	const PartData* partData = _currentAnimeRef->getPartData(partIndex);
 	const char* name = ptr.toString(partData->name);
 	return name;
 }
@@ -309,117 +309,82 @@ int Player::indexOfPart(const char* partName) const
 	return -1;
 }
 
-/*
- パーツ名から指定フレームのパーツステータスを取得します。
- 必要に応じて　ResluteState　を編集しデータを取得してください。
-
- 指定したフレームの状態にすべてのパーツのステータスを更新します。
- 描画を行う前にupdateを呼び出し、パーツステータスを表示に状態に戻してからdrawしてください。
-*/
-bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
+//パーツ情報取得
+void Player::getPartState(ResluteState& result, int partIndex) const
 {
-	bool rc = false;
+	SS_ASSERT(partIndex >= 0 && partIndex < _parts.size());
+
 	if (_currentAnimeRef)
 	{
-		
-		//カレントフレームのパーツステータスを取得する
-		if (frameNo == -1)
-		{
-			//フレームの指定が省略された場合は現在のフレームを使用する
-			frameNo = getCurrentFrame();
-		}
-
-		if (frameNo != getCurrentFrame())
-		{
-			//取得する再生フレームのデータが違う場合プレイヤーを更新する
-			//パーツステータスの更新
-			setFrame(frameNo);
-		}
+		int frameNo = getCurrentFrame();
 
 		ToPointer ptr(_resource->m_data);
+		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
 
-		int partIndex = indexOfPart(name);
-		if(partIndex != -1){
+		//必要に応じて取得するパラメータを追加してください。
+		//当たり判定などのパーツに付属するフラグを取得する場合は　partData　のメンバを参照してください。
+		//親から継承したスケールを反映させる場合はxスケールは_mat.m[0]、yスケールは_mat.m[5]をかけて使用してください。
+		CustomSprite* sprite = _parts.at(partIndex);
+		//パーツアトリビュート
+//					sprite->_state;												//SpriteStudio上のアトリビュートの値は_stateから取得してください
+		result.flags = sprite->m_state.m_flags;						// このフレームで更新が行われるステータスのフラグ
+		result.cellIndex = sprite->m_state.m_cellIndex;				// パーツに割り当てられたセルの番号
+		result.x = sprite->m_state.m_position.x;
+		result.y = sprite->m_state.m_position.y;
+		result.z = sprite->m_state.m_position.z;
+		result.pivotX = sprite->m_state.m_pivot.x;					// 原点Xオフセット＋セルに設定された原点オフセットX
+		result.pivotY = sprite->m_state.m_pivot.y;					// 原点Yオフセット＋セルに設定された原点オフセットY
+		result.rotationX = sprite->m_state.m_rotation.x;			// X回転（親子関係計算済）
+		result.rotationY = sprite->m_state.m_rotation.y;			// Y回転（親子関係計算済）
+		result.rotationZ = sprite->m_state.m_rotation.z;			// Z回転（親子関係計算済）
+		result.scaleX = sprite->m_state.m_scale.x;					// Xスケール（親子関係計算済）
+		result.scaleY = sprite->m_state.m_scale.y;					// Yスケール（親子関係計算済）
+		result.opacity = sprite->m_state.m_opacity;					// 不透明度（0～255）（親子関係計算済）
+		result.size_X = sprite->m_state.m_size.x;					// SS5アトリビュート：Xサイズ
+		result.size_Y = sprite->m_state.m_size.y;					// SS5アトリビュート：Xサイズ
+		result.uv_move_X = sprite->m_state.m_uvMove.x;				// SS5アトリビュート：UV X移動
+		result.uv_move_Y = sprite->m_state.m_uvMove.y;				// SS5アトリビュート：UV Y移動
+		result.uv_rotation = sprite->m_state.m_uvRotation;			// SS5アトリビュート：UV 回転
+		result.uv_scale_X = sprite->m_state.m_uvScale.x;			// SS5アトリビュート：UV Xスケール
+		result.uv_scale_Y = sprite->m_state.m_uvScale.y;			// SS5アトリビュート：UV Yスケール
+		result.boundingRadius = sprite->m_state.m_boundingRadius;	// SS5アトリビュート：当たり半径
+		result.colorBlendVertexFunc = sprite->m_state.m_colorBlendVertexFunc;	// SS5アトリビュート：カラーブレンドのブレンド方法
+		result.colorBlendVertexType = sprite->m_state.m_colorBlendVertexFlags;	// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
+		result.flipX = sprite->m_state.m_flipX;						// 横反転（親子関係計算済）
+		result.flipY = sprite->m_state.m_flipY;						// 縦反転（親子関係計算済）
+		result.isVisibled = sprite->m_state.m_isVisibled;			// 非表示（親子関係計算済）
 
-			const PartData* partData = _currentAnimeRef->getPartData(partIndex);
-
-			//必要に応じて取得するパラメータを追加してください。
-			//当たり判定などのパーツに付属するフラグを取得する場合は　partData　のメンバを参照してください。
-			//親から継承したスケールを反映させる場合はxスケールは_mat.m[0]、yスケールは_mat.m[5]をかけて使用してください。
-			CustomSprite* sprite = _parts.at(partIndex);
-			//パーツアトリビュート
-	//					sprite->_state;												//SpriteStudio上のアトリビュートの値は_stateから取得してください
-			result.flags = sprite->m_state.m_flags;						// このフレームで更新が行われるステータスのフラグ
-			result.cellIndex = sprite->m_state.m_cellIndex;				// パーツに割り当てられたセルの番号
-			result.x = sprite->m_state.m_position.x;
-			result.y = sprite->m_state.m_position.y;
-			result.z = sprite->m_state.m_position.z;
-			result.pivotX = sprite->m_state.m_pivot.x;					// 原点Xオフセット＋セルに設定された原点オフセットX
-			result.pivotY = sprite->m_state.m_pivot.y;					// 原点Yオフセット＋セルに設定された原点オフセットY
-			result.rotationX = sprite->m_state.m_rotation.x;			// X回転（親子関係計算済）
-			result.rotationY = sprite->m_state.m_rotation.y;			// Y回転（親子関係計算済）
-			result.rotationZ = sprite->m_state.m_rotation.z;			// Z回転（親子関係計算済）
-			result.scaleX = sprite->m_state.m_scale.x;					// Xスケール（親子関係計算済）
-			result.scaleY = sprite->m_state.m_scale.y;					// Yスケール（親子関係計算済）
-			result.opacity = sprite->m_state.m_opacity;					// 不透明度（0～255）（親子関係計算済）
-			result.size_X = sprite->m_state.m_size.x;					// SS5アトリビュート：Xサイズ
-			result.size_Y = sprite->m_state.m_size.y;					// SS5アトリビュート：Xサイズ
-			result.uv_move_X = sprite->m_state.m_uvMove.x;				// SS5アトリビュート：UV X移動
-			result.uv_move_Y = sprite->m_state.m_uvMove.y;				// SS5アトリビュート：UV Y移動
-			result.uv_rotation = sprite->m_state.m_uvRotation;			// SS5アトリビュート：UV 回転
-			result.uv_scale_X = sprite->m_state.m_uvScale.x;			// SS5アトリビュート：UV Xスケール
-			result.uv_scale_Y = sprite->m_state.m_uvScale.y;			// SS5アトリビュート：UV Yスケール
-			result.boundingRadius = sprite->m_state.m_boundingRadius;	// SS5アトリビュート：当たり半径
-			result.colorBlendVertexFunc = sprite->m_state.m_colorBlendVertexFunc;	// SS5アトリビュート：カラーブレンドのブレンド方法
-			result.colorBlendVertexType = sprite->m_state.m_colorBlendVertexFlags;	// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
-			result.flipX = sprite->m_state.m_flipX;						// 横反転（親子関係計算済）
-			result.flipY = sprite->m_state.m_flipY;						// 縦反転（親子関係計算済）
-			result.isVisibled = sprite->m_state.m_isVisibled;			// 非表示（親子関係計算済）
-
-			//パーツ設定
-			result.part_type = partData->type;							//パーツ種別
-			result.part_boundsType = partData->boundsType;				//当たり判定種類
-			result.part_alphaBlendType = partData->alphaBlendType;		// BlendType
-			//ラベルカラー
-			std::string colorName = ptr.toString(partData->colorLabel);
-			if(colorName == COLORLABELSTR_NONE){
-				result.part_labelcolor = COLORLABEL_NONE;
-			}
-			if(colorName == COLORLABELSTR_RED){
-				result.part_labelcolor = COLORLABEL_RED;
-			}
-			if(colorName == COLORLABELSTR_ORANGE){
-				result.part_labelcolor = COLORLABEL_ORANGE;
-			}
-			if(colorName == COLORLABELSTR_YELLOW){
-				result.part_labelcolor = COLORLABEL_YELLOW;
-			}
-			if(colorName == COLORLABELSTR_GREEN){
-				result.part_labelcolor = COLORLABEL_GREEN;
-			}
-			if(colorName == COLORLABELSTR_BLUE){
-				result.part_labelcolor = COLORLABEL_BLUE;
-			}
-			if(colorName == COLORLABELSTR_VIOLET){
-				result.part_labelcolor = COLORLABEL_VIOLET;
-			}
-			if(colorName == COLORLABELSTR_GRAY){
-				result.part_labelcolor = COLORLABEL_GRAY;
-			}
-
-			rc = true;
+		//パーツ設定
+		result.part_type = partData->type;							//パーツ種別
+		result.part_boundsType = partData->boundsType;				//当たり判定種類
+		result.part_alphaBlendType = partData->alphaBlendType;		// BlendType
+		//ラベルカラー
+		std::string colorName = ptr.toString(partData->colorLabel);
+		if(colorName == COLORLABELSTR_NONE){
+			result.part_labelcolor = COLORLABEL_NONE;
 		}
-			
-		//パーツステータスを表示するフレームの内容で更新
-		if (frameNo != getCurrentFrame())
-		{
-			//取得する再生フレームのデータが違う場合プレイヤーの状態をもとに戻す
-			//パーツステータスの更新
-			setFrame(getCurrentFrame());
+		if(colorName == COLORLABELSTR_RED){
+			result.part_labelcolor = COLORLABEL_RED;
 		}
-		
+		if(colorName == COLORLABELSTR_ORANGE){
+			result.part_labelcolor = COLORLABEL_ORANGE;
+		}
+		if(colorName == COLORLABELSTR_YELLOW){
+			result.part_labelcolor = COLORLABEL_YELLOW;
+		}
+		if(colorName == COLORLABELSTR_GREEN){
+			result.part_labelcolor = COLORLABEL_GREEN;
+		}
+		if(colorName == COLORLABELSTR_BLUE){
+			result.part_labelcolor = COLORLABEL_BLUE;
+		}
+		if(colorName == COLORLABELSTR_VIOLET){
+			result.part_labelcolor = COLORLABEL_VIOLET;
+		}
+		if(colorName == COLORLABELSTR_GRAY){
+			result.part_labelcolor = COLORLABEL_GRAY;
+		}
 	}
-	return rc;
 }
 
 
@@ -460,25 +425,20 @@ int Player::getLabelToFrame(char* findLabelName)
 //特定パーツの表示、非表示を設定します
 //パーツ番号はスプライトスタジオのフレームコントロールに配置されたパーツが
 //プライオリティでソートされた後、上に配置された順にソートされて決定されます。
-void Player::setPartVisible(std::string partsname, bool flg)
+void Player::setPartVisible(int partIndex, bool visible)
 {
-	int index = indexOfPart(partsname.c_str());
-	if(index >= 0){
-		_partVisible[index] = flg;
-	}
+	SS_ASSERT(partIndex >= 0 && partIndex < _parts.size());
+	_partVisible[partIndex] = visible;
 }
 
 //パーツに割り当たるセルを変更します
-void Player::setPartCell(std::string partsname, std::string sscename, std::string cellname)
+void Player::setPartCell(int partIndex, const std::string& sscename, const std::string& cellname)
 {
 	int changeCellIndex = -1;
 	if ((sscename != "") && (cellname != "")){
 		changeCellIndex = _resource->m_cellCache->indexOfCell(cellname, sscename);
 	}
-
-	int partIndex = indexOfPart(partsname.c_str());
 	_cellChange[partIndex] = changeCellIndex;	//セル番号を設定
-	//memo:元の実装では_partInex[]のインデックスを使っていたので動作がおかしいときはそのあたりを疑ってみる
 }
 
 
@@ -516,8 +476,8 @@ void Player::setFrame(int frameNo)
 		state.readData(reader, init);
 
 		//ユーザーがセルを上書きした
-		if (_cellChange[index] != -1){
-			state.m_cellIndex = _cellChange[index];
+		if (_cellChange[partIndex] != -1){
+			state.m_cellIndex = _cellChange[partIndex];
 		}
 
 		_partIndex[index] = partIndex;
