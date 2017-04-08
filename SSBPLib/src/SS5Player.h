@@ -246,19 +246,18 @@ public:
 
 
 private:
-	void allocParts(int numParts, bool useCustomShaderProgram);
+	void allocParts(int numParts);
 	void releaseParts();
 	void setPartsParentage();
 
 	void play(AnimeRef* animeRef, int startFrameNo);
-	void setFrame(int frameNo, float dt = 0.0f);
+	void setFrame(int frameNo);
 	void checkUserData(int frameNo);
 
 private:
 	SS5EventListener*	_eventListener;
 
 	const ResourceSet*	_currentRs;
-	std::string			_currentAnimename;
 	AnimeRef*			_currentAnimeRef;
 	std::vector<CustomSprite *>	_parts;
 

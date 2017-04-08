@@ -121,8 +121,6 @@ void Player::play(const std::string& animeName, int startFrameNo)
 	AnimeRef* animeRef = _currentRs->m_animeCache->getReference(animeName);
 	SS_ASSERT_LOG(animeRef, "Not found animation > anime=%s", animeName.c_str());
 	
-	_currentAnimename = animeName;
-
 	play(animeRef, startFrameNo);
 }
 
@@ -132,7 +130,7 @@ void Player::play(AnimeRef* animeRef, int startFrameNo)
 	{
 		_currentAnimeRef = animeRef;
 		
-		allocParts(animeRef->m_numParts, false);
+		allocParts(animeRef->m_numParts);
 		setPartsParentage();
 	}
 	_currentFrameTime = startFrameNo;
@@ -211,11 +209,11 @@ void Player::update(float dt)
 		_currentFrameTime = checkFrame + nextFrameRemainder;
 	}
 
-	setFrame(getCurrentFrame(), dt);
+	setFrame(getCurrentFrame());
 }
 
 
-void Player::allocParts(int numParts, bool useCustomShaderProgram)
+void Player::allocParts(int numParts)
 {
 	releaseParts();	//すべてのパーツを消す
 
@@ -498,7 +496,7 @@ const CustomSprite* Player::getSpriteData(int partIndex) const
 }
 
 
-void Player::setFrame(int frameNo, float dt)
+void Player::setFrame(int frameNo)
 {
 	if (!_currentAnimeRef) return;
 	if (!_currentRs->m_data) return;
@@ -522,10 +520,6 @@ void Player::setFrame(int frameNo, float dt)
 		State state;
 		state.readData(reader, init);
 
-		//ユーザーが任意に非表示としたパーツは非表示に設定
-		if (_partVisible[index] == false){
-			state.m_isVisibled = false;					//todo:これは描画のときに見ればいいはず
-		}
 		//ユーザーがセルを上書きした
 		if (_cellChange[index] != -1){
 			state.m_cellIndex = _cellChange[index];
@@ -566,7 +560,6 @@ void Player::setFrame(int frameNo, float dt)
 		//頂点データの設定
 		//quadにはプリミティブの座標（頂点変形を含む）、UV、カラー値が設定されます。
 		SSV3F_C4B_T2F_Quad quad;
-		memset(&quad, 0, sizeof(quad));
 		SSRect cellRect;
 		if (cellRef){
 			cellRect = cellRef->m_rect;
@@ -704,7 +697,7 @@ void Player::draw()
 		const State& state = sprite->m_state;
 
 		//非表示設定なら無視する
-		if(state.m_isVisibled == false){
+		if(state.m_isVisibled == false || _partVisible[index] == false){	//ユーザーが任意に非表示としたパーツも考慮する
 			continue;
 		}
 
