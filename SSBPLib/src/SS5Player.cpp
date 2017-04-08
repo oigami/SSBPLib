@@ -641,34 +641,31 @@ void Player::setFrame(int frameNo, float dt)
 	}
 
 	// 行列の更新
-	for (int partIndex = 0; partIndex < _currentAnimeRef->m_numParts; partIndex++)
-	{
-		const PartData* partData = _currentAnimeRef->getPartData(partIndex);
+	for (int partIndex = 0; partIndex < _currentAnimeRef->m_numParts; partIndex++){
 		CustomSprite* sprite = _parts.at(partIndex);
+		const CustomSprite* parentSprite = sprite->m_parent;
 		Matrix mat;
 			
-		if (partIndex > 0){
-			//親のマトリクスを適用
-			CustomSprite* parent = _parts.at(partData->parentIndex);
-			mat = parent->m_worldMatrix;
-		}
-		else{				
+		if (parentSprite == nullptr){
 			//rootパーツはプレイヤーからステータスを引き継ぐ
 			mat = _playerSetting.getWorldMatrix();
+		}
+		else{
+			//親のマトリクスを適用
+			mat = parentSprite->m_worldMatrix;
 		}
 		mat = sprite->m_state.getLocalMatrix() * mat;
 
 		sprite->m_worldMatrix = mat;
 
-		if(partIndex == 0){	//root.
+		if(parentSprite == nullptr){	//root.
 			sprite->m_alpha = sprite->m_state.m_opacity / 255.0f;
 			sprite->m_alpha *= _playerSetting.m_color.a;
 		}
 		else {
-			CustomSprite* parent = _parts.at(partData->parentIndex);
 			//アルファは親の影響を受ける
 			sprite->m_alpha = sprite->m_state.m_opacity / 255.0f;
-			sprite->m_alpha *= parent->m_alpha;
+			sprite->m_alpha *= parentSprite->m_alpha;
 				
 			//インスタンスアニメーションがある場合は親パーツ情報を通知する
 			if(sprite->m_haveChildPlayer){
