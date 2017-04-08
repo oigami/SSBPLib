@@ -18,38 +18,29 @@ struct AnimationInitialData;
  * パーツの情報を格納します。Stateの内容をもとに描画処理を作成してください。
  */
 struct State{
-	int flags;						/// このフレームで更新が行われるステータスのフラグ
-	int cellIndex;					/// パーツに割り当てられたセルの番号
-	float x;						/// SS5アトリビュート：X座標
-	float y;						/// SS5アトリビュート：Y座標
-	float z;						/// SS5アトリビュート：Z座標
-	float pivotX;					/// 原点Xオフセット＋セルに設定された原点オフセットX
-	float pivotY;					/// 原点Yオフセット＋セルに設定された原点オフセットY
-	float rotationX;				/// X回転
-	float rotationY;				/// Y回転
-	float rotationZ;				/// Z回転
-	float scaleX;					/// Xスケール
-	float scaleY;					/// Yスケール
-	int opacity;					/// 不透明度（0～255）
-	float size_X;					/// SS5アトリビュート：Xサイズ
-	float size_Y;					/// SS5アトリビュート：Xサイズ
-	float uv_move_X;				/// SS5アトリビュート：UV X移動
-	float uv_move_Y;				/// SS5アトリビュート：UV Y移動
-	float uv_rotation;				/// SS5アトリビュート：UV 回転
-	float uv_scale_X;				/// SS5アトリビュート：UV Xスケール
-	float uv_scale_Y;				/// SS5アトリビュート：UV Yスケール
-	float boundingRadius;			/// SS5アトリビュート：当たり半径
+	int m_flags;					/// このフレームで更新が行われるステータスのフラグ
+	int m_cellIndex;				/// パーツに割り当てられたセルの番号
+	Vector3 m_position;				/// SS5アトリビュート：座標(XYZ)
+	Vector2 m_pivot;				/// 原点Xオフセット＋セルに設定された原点オフセットX, 原点Yオフセット＋セルに設定された原点オフセットY
+	Vector3 m_rotation;				/// 回転(XYZ)
+	Vector2 m_scale;				/// スケール(X,Y)
+	int     m_opacity;				/// 不透明度（0～255）
+	Vector2 m_size;					/// SS5アトリビュート：サイズ(X,Y)
+	Vector2 m_uvMove;				/// SS5アトリビュート：UV 移動(X,Y)
+	float   m_uvRotation;			/// SS5アトリビュート：UV 回転
+	Vector2 m_uvScale;				/// SS5アトリビュート：UV スケール(X,Y)
+	float   m_boundingRadius;		/// SS5アトリビュート：当たり半径
 	
-	bool flipX;						/// 横反転
-	bool flipY;						/// 縦反転
-	bool isVisibled;				/// 非表示
+	bool m_flipX;					/// 横反転
+	bool m_flipY;					/// 縦反転
+	bool m_isVisibled;				/// 非表示
 
-	BlendType colorBlendVertexFunc;	/// SS5アトリビュート：カラーブレンドのブレンド方法
-	int colorBlendVertexFlags;		/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
+	BlendType m_colorBlendVertexFunc;	/// SS5アトリビュート：カラーブレンドのブレンド方法
+	int m_colorBlendVertexFlags;		/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
 
 	
-	InstancePartStatus instanceValue;	//インスタンスアトリビュート
-	EffectPartStatus effectValue;		//エフェクトアトリビュート
+	InstancePartStatus m_instanceValue;	//インスタンスアトリビュート
+	EffectPartStatus m_effectValue;		//エフェクトアトリビュート
 
 
 	//readerを介してデータを読み取る

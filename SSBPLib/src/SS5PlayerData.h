@@ -220,29 +220,29 @@ struct AnimationData
 */
 struct AnimationInitialData
 {
-	ss_s16		index;
-	ss_s16		dummy;
-	ss_u32		flags;
-	ss_s16		cellIndex;
-	ss_u16		opacity;
-	float		positionX;
-	float		positionY;
-	float		positionZ;
-	float		pivotX;
-	float		pivotY;
-	float		rotationX;
-	float		rotationY;
-	float		rotationZ;
-	float		scaleX;
-	float		scaleY;
-	float		size_X;
-	float		size_Y;
-	float		uv_move_X;
-	float		uv_move_Y;
-	float		uv_rotation;
-	float		uv_scale_X;
-	float		uv_scale_Y;
-	float		boundingRadius;
+	ss_s16		index;			/// 
+	ss_s16		dummy;			/// 
+	ss_u32		flags;			/// このフレームで更新が行われるステータスのフラグ
+	ss_s16		cellIndex;		/// パーツに割り当てられたセルの番号
+	ss_u16		opacity;		/// 不透明度（0～255）
+	float		positionX;		/// SS5アトリビュート：X座標
+	float		positionY;		/// SS5アトリビュート：Y座標
+	float		positionZ;		/// SS5アトリビュート：Z座標
+	float		pivotX;			/// 原点Xオフセット＋セルに設定された原点オフセットX
+	float		pivotY;			/// 原点Yオフセット＋セルに設定された原点オフセットY
+	float		rotationX;		/// X回転
+	float		rotationY;		/// Y回転
+	float		rotationZ;		/// Z回転
+	float		scaleX;			/// Xスケール
+	float		scaleY;			/// Yスケール
+	float		size_X;			/// SS5アトリビュート：Xサイズ
+	float		size_Y;			/// SS5アトリビュート：Yサイズ
+	float		uv_move_X;		/// SS5アトリビュート：UV X移動
+	float		uv_move_Y;		/// SS5アトリビュート：UV Y移動
+	float		uv_rotation;	/// SS5アトリビュート：UV 回転
+	float		uv_scale_X;		/// SS5アトリビュート：UV Xスケール
+	float		uv_scale_Y;		/// SS5アトリビュート：UV Yスケール
+	float		boundingRadius;	/// SS5アトリビュート：当たり半径
 	//インスタンスアトリビュート
 	int			instanceValue_curKeyframe;
 	int			instanceValue_startFrame;

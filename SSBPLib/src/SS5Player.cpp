@@ -355,32 +355,32 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 			CustomSprite* sprite = _parts.at(partIndex);
 			//パーツアトリビュート
 	//					sprite->_state;												//SpriteStudio上のアトリビュートの値は_stateから取得してください
-			result.flags = sprite->m_state.flags;						// このフレームで更新が行われるステータスのフラグ
-			result.cellIndex = sprite->m_state.cellIndex;				// パーツに割り当てられたセルの番号
-			result.x = sprite->m_state.x;
-			result.y = sprite->m_state.y;
-			result.z = sprite->m_state.z;
-			result.pivotX = sprite->m_state.pivotX;						// 原点Xオフセット＋セルに設定された原点オフセットX
-			result.pivotY = sprite->m_state.pivotY;						// 原点Yオフセット＋セルに設定された原点オフセットY
-			result.rotationX = sprite->m_state.rotationX;				// X回転（親子関係計算済）
-			result.rotationY = sprite->m_state.rotationY;				// Y回転（親子関係計算済）
-			result.rotationZ = sprite->m_state.rotationZ;				// Z回転（親子関係計算済）
-			result.scaleX = sprite->m_state.scaleX;						// Xスケール（親子関係計算済）
-			result.scaleY = sprite->m_state.scaleY;						// Yスケール（親子関係計算済）
-			result.opacity = sprite->m_state.opacity;					// 不透明度（0～255）（親子関係計算済）
-			result.size_X = sprite->m_state.size_X;						// SS5アトリビュート：Xサイズ
-			result.size_Y = sprite->m_state.size_Y;						// SS5アトリビュート：Xサイズ
-			result.uv_move_X = sprite->m_state.uv_move_X;				// SS5アトリビュート：UV X移動
-			result.uv_move_Y = sprite->m_state.uv_move_Y;				// SS5アトリビュート：UV Y移動
-			result.uv_rotation = sprite->m_state.uv_rotation;			// SS5アトリビュート：UV 回転
-			result.uv_scale_X = sprite->m_state.uv_scale_X;				// SS5アトリビュート：UV Xスケール
-			result.uv_scale_Y = sprite->m_state.uv_scale_Y;				// SS5アトリビュート：UV Yスケール
-			result.boundingRadius = sprite->m_state.boundingRadius;		// SS5アトリビュート：当たり半径
-			result.colorBlendVertexFunc = sprite->m_state.colorBlendVertexFunc;	// SS5アトリビュート：カラーブレンドのブレンド方法
-			result.colorBlendVertexType = sprite->m_state.colorBlendVertexFlags;	// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
-			result.flipX = sprite->m_state.flipX;						// 横反転（親子関係計算済）
-			result.flipY = sprite->m_state.flipY;						// 縦反転（親子関係計算済）
-			result.isVisibled = sprite->m_state.isVisibled;				// 非表示（親子関係計算済）
+			result.flags = sprite->m_state.m_flags;						// このフレームで更新が行われるステータスのフラグ
+			result.cellIndex = sprite->m_state.m_cellIndex;				// パーツに割り当てられたセルの番号
+			result.x = sprite->m_state.m_position.x;
+			result.y = sprite->m_state.m_position.y;
+			result.z = sprite->m_state.m_position.z;
+			result.pivotX = sprite->m_state.m_pivot.x;					// 原点Xオフセット＋セルに設定された原点オフセットX
+			result.pivotY = sprite->m_state.m_pivot.y;					// 原点Yオフセット＋セルに設定された原点オフセットY
+			result.rotationX = sprite->m_state.m_rotation.x;			// X回転（親子関係計算済）
+			result.rotationY = sprite->m_state.m_rotation.y;			// Y回転（親子関係計算済）
+			result.rotationZ = sprite->m_state.m_rotation.z;			// Z回転（親子関係計算済）
+			result.scaleX = sprite->m_state.m_scale.x;					// Xスケール（親子関係計算済）
+			result.scaleY = sprite->m_state.m_scale.y;					// Yスケール（親子関係計算済）
+			result.opacity = sprite->m_state.m_opacity;					// 不透明度（0～255）（親子関係計算済）
+			result.size_X = sprite->m_state.m_size.x;					// SS5アトリビュート：Xサイズ
+			result.size_Y = sprite->m_state.m_size.y;					// SS5アトリビュート：Xサイズ
+			result.uv_move_X = sprite->m_state.m_uvMove.x;				// SS5アトリビュート：UV X移動
+			result.uv_move_Y = sprite->m_state.m_uvMove.y;				// SS5アトリビュート：UV Y移動
+			result.uv_rotation = sprite->m_state.m_uvRotation;			// SS5アトリビュート：UV 回転
+			result.uv_scale_X = sprite->m_state.m_uvScale.x;			// SS5アトリビュート：UV Xスケール
+			result.uv_scale_Y = sprite->m_state.m_uvScale.y;			// SS5アトリビュート：UV Yスケール
+			result.boundingRadius = sprite->m_state.m_boundingRadius;	// SS5アトリビュート：当たり半径
+			result.colorBlendVertexFunc = sprite->m_state.m_colorBlendVertexFunc;	// SS5アトリビュート：カラーブレンドのブレンド方法
+			result.colorBlendVertexType = sprite->m_state.m_colorBlendVertexFlags;	// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
+			result.flipX = sprite->m_state.m_flipX;						// 横反転（親子関係計算済）
+			result.flipY = sprite->m_state.m_flipY;						// 縦反転（親子関係計算済）
+			result.isVisibled = sprite->m_state.m_isVisibled;			// 非表示（親子関係計算済）
 
 			//パーツ設定
 			result.part_type = partData->type;							//パーツ種別
@@ -524,27 +524,27 @@ void Player::setFrame(int frameNo, float dt)
 
 		//ユーザーが任意に非表示としたパーツは非表示に設定
 		if (_partVisible[index] == false){
-			state.isVisibled = false;					//todo:これは描画のときに見ればいいはず
+			state.m_isVisibled = false;					//todo:これは描画のときに見ればいいはず
 		}
 		//ユーザーがセルを上書きした
 		if (_cellChange[index] != -1){
-			state.cellIndex = _cellChange[index];
+			state.m_cellIndex = _cellChange[index];
 		}
 
 		_partIndex[index] = partIndex;
 
 
 		//セルの原点設定を反映させる
-		const CellRef* cellRef = state.cellIndex >= 0 ? _currentRs->m_cellCache->getReference(state.cellIndex) : nullptr;
+		const CellRef* cellRef = state.m_cellIndex >= 0 ? _currentRs->m_cellCache->getReference(state.m_cellIndex) : nullptr;
 		if (cellRef){
 			float cpx = cellRef->m_pivot.x;
 			float cpy = cellRef->m_pivot.y;
 
-			if(state.flipX){ cpx = -cpx; }	// 水平フリップによって原点を入れ替える
-			if(state.flipY){ cpy = -cpy; }	// 垂直フリップによって原点を入れ替える
+			if(state.m_flipX){ cpx = -cpx; }	// 水平フリップによって原点を入れ替える
+			if(state.m_flipY){ cpy = -cpy; }	// 垂直フリップによって原点を入れ替える
 
-			state.pivotX += cpx;
-			state.pivotY += cpy;
+			state.m_pivot.x += cpx;
+			state.m_pivot.y += cpy;
 		}
 
 		CustomSprite* sprite = _parts.at(partIndex);
@@ -559,7 +559,7 @@ void Player::setFrame(int frameNo, float dt)
 			sprite->m_textureID = TEXTURE_ID_INVALID;
 			//セルが無く通常パーツ、ヌルパーツの時は非表示にする
 			if ((partData->type == PARTTYPE_NORMAL) || (partData->type == PARTTYPE_NULL)){
-				state.isVisibled = false;
+				state.m_isVisibled = false;
 			}
 		}
 		
@@ -574,7 +574,7 @@ void Player::setFrame(int frameNo, float dt)
 		state.vertexCompute(&quad, cellRect);
 
 		// 頂点変形のオフセット値を反映
-		if (state.flags & PART_FLAG_VERTEX_TRANSFORM){
+		if (state.m_flags & PART_FLAG_VERTEX_TRANSFORM){
 			SSQuad3 positionOffsets;
 			positionOffsets.readVertexTransform(reader);
 			
@@ -589,15 +589,15 @@ void Player::setFrame(int frameNo, float dt)
 		quad.br.colors = color4;
 
 		// カラーブレンドの反映
-		if (state.flags & PART_FLAG_COLOR_BLEND){
+		if (state.m_flags & PART_FLAG_COLOR_BLEND){
 
 			int typeAndFlags = reader.readU16();
 			int funcNo = typeAndFlags & 0xff;
 			int cb_flags = (typeAndFlags >> 8) & 0xff;
 			float blend_rate = 1.0f;
 
-			sprite->m_state.colorBlendVertexFunc = static_cast<BlendType>(funcNo);
-			sprite->m_state.colorBlendVertexFlags = cb_flags;
+			sprite->m_state.m_colorBlendVertexFunc = static_cast<BlendType>(funcNo);
+			sprite->m_state.m_colorBlendVertexFlags = cb_flags;
 
 			//ssbpではカラーブレンドのレート（％）は使用できません。
 			//制限となります。
@@ -661,20 +661,20 @@ void Player::setFrame(int frameNo, float dt)
 		sprite->m_worldMatrix = mat;
 
 		if(partIndex == 0){	//root.
-			sprite->m_alpha = sprite->m_state.opacity / 255.0f;
+			sprite->m_alpha = sprite->m_state.m_opacity / 255.0f;
 			sprite->m_alpha *= _playerSetting.m_color.a;
 		}
 		else {
 			CustomSprite* parent = _parts.at(partData->parentIndex);
 			//アルファは親の影響を受ける
-			sprite->m_alpha = sprite->m_state.opacity / 255.0f;
+			sprite->m_alpha = sprite->m_state.m_opacity / 255.0f;
 			sprite->m_alpha *= parent->m_alpha;
 				
 			//インスタンスアニメーションがある場合は親パーツ情報を通知する
 			if(sprite->m_haveChildPlayer){
 				_eventListener->ChildPlayerUpdate(
 					partIndex, sprite->m_worldMatrix, sprite->m_alpha,
-					frameNo, sprite->m_state.instanceValue	//InstancePartStatus::getFrame(frameNo), m_independent,,,
+					frameNo, sprite->m_state.m_instanceValue	//InstancePartStatus::getFrame(frameNo), m_independent,,,
 				);
 			}
 		}
@@ -682,8 +682,8 @@ void Player::setFrame(int frameNo, float dt)
 		//SSDrawSpriteから出しました-----------------------------------------------
 		//原点補正
 		Vector3 center(
-			(sprite->m_rect.width() * -(sprite->m_state.pivotX)),
-			(sprite->m_rect.height() * +(sprite->m_state.pivotY)),	//xと同様、-のような気がする
+			(sprite->m_rect.width() * -(sprite->m_state.m_pivot.x)),
+			(sprite->m_rect.height() * +(sprite->m_state.m_pivot.y)),	//xと同様、-のような気がする
 			0.0f
 		);
 
@@ -711,7 +711,7 @@ void Player::setFrame(int frameNo, float dt)
 		if (sprite->m_haveEffect){
 			_eventListener->EffectUpdate(
 				partIndex, sprite->m_worldMatrix, sprite->m_alpha,
-				frameNo, _seedOffset, sprite->m_state.effectValue
+				frameNo, _seedOffset, sprite->m_state.m_effectValue
 			);
 		}
 	}
@@ -729,7 +729,7 @@ void Player::draw()
 		const State& state = sprite->m_state;
 
 		//非表示設定なら無視する
-		if(state.isVisibled == false){
+		if(state.m_isVisibled == false){
 			continue;
 		}
 
@@ -741,7 +741,7 @@ void Player::draw()
 			_eventListener->EffectDraw(partIndex);		//エフェクトパーツ
 		}
 		else{
-			_eventListener->SSDrawSprite(sprite->m_quad, sprite->m_textureID, sprite->m_blendfunc, state.colorBlendVertexFunc, state.colorBlendVertexFlags);
+			_eventListener->SSDrawSprite(sprite->m_quad, sprite->m_textureID, sprite->m_blendfunc, state.m_colorBlendVertexFunc, state.m_colorBlendVertexFlags);
 		}
 	}
 }

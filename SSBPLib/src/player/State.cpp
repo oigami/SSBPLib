@@ -9,75 +9,68 @@ namespace ss{
 
 void State::init()
 {
-	flags = 0;
-	cellIndex = 0;
-	x = 0.0f;
-	y = 0.0f;
-	z = 0.0f;
-	pivotX = 0.0f;
-	pivotY = 0.0f;
-	rotationX = 0.0f;
-	rotationY = 0.0f;
-	rotationZ = 0.0f;
-	scaleX = 1.0f;
-	scaleY = 1.0f;
-	opacity = 255;
-	size_X = 1.0f;
-	size_Y = 1.0f;
-	uv_move_X = 0.0f;
-	uv_move_Y = 0.0f;
-	uv_rotation = 0.0f;
-	uv_scale_X = 1.0f;
-	uv_scale_Y = 1.0f;
-	boundingRadius = 0.0f;
-	flipX = false;
-	flipY = false;
-	isVisibled = false;
+	m_flags      = 0;
+	m_cellIndex  = 0;
+	m_position   = Vector3::zero;
+	m_pivot      = Vector2::zero;
+	m_rotation   = Vector3::zero;
+	m_scale      = Vector2::one;
+	m_opacity    = 255;
+	m_size       = Vector2::one;
+	m_uvMove     = Vector2::zero;
+	m_uvRotation = 0.0f;
+	m_uvScale    = Vector2::one;
+	m_boundingRadius = 0.0f;
 
-	colorBlendVertexFunc = BLEND_MIX;
-	colorBlendVertexFlags = 0;
+	m_flipX = false;
+	m_flipY = false;
+	m_isVisibled = false;
 
-	instanceValue = InstancePartStatus();
-	effectValue = EffectPartStatus();
+	m_colorBlendVertexFunc = BLEND_MIX;
+	m_colorBlendVertexFlags = 0;
+
+	m_instanceValue = InstancePartStatus();
+	m_effectValue = EffectPartStatus();
 }
 
 
 void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 {
 	// optional parameters
-	flags     = reader.readU32();
-	cellIndex = flags & PART_FLAG_CELL_INDEX ? reader.readS16() : init->cellIndex;
-	x         = flags & PART_FLAG_POSITION_X ? reader.readFloat() : init->positionX;
-	y         = flags & PART_FLAG_POSITION_Y ? reader.readFloat() : init->positionY;
-	z         = flags & PART_FLAG_POSITION_Z ? reader.readFloat() : init->positionZ;
-	pivotX    = flags & PART_FLAG_PIVOT_X ? reader.readFloat() : init->pivotX;
-	pivotY    = flags & PART_FLAG_PIVOT_Y ? reader.readFloat() : init->pivotY;
-	rotationX = flags & PART_FLAG_ROTATIONX ? reader.readFloat() : init->rotationX;
-	rotationY = flags & PART_FLAG_ROTATIONY ? reader.readFloat() : init->rotationY;
-	rotationZ = flags & PART_FLAG_ROTATIONZ ? reader.readFloat() : init->rotationZ;
-	scaleX    = flags & PART_FLAG_SCALE_X ? reader.readFloat() : init->scaleX;
-	scaleY    = flags & PART_FLAG_SCALE_Y ? reader.readFloat() : init->scaleY;
-	opacity   = flags & PART_FLAG_OPACITY ? reader.readU16() : init->opacity;
-	size_X    = flags & PART_FLAG_SIZE_X ? reader.readFloat() : init->size_X;
-	size_Y    = flags & PART_FLAG_SIZE_Y ? reader.readFloat() : init->size_Y;
-	uv_move_X   = flags & PART_FLAG_U_MOVE ? reader.readFloat() : init->uv_move_X;
-	uv_move_Y   = flags & PART_FLAG_V_MOVE ? reader.readFloat() : init->uv_move_Y;
-	uv_rotation = flags & PART_FLAG_UV_ROTATION ? reader.readFloat() : init->uv_rotation;
-	uv_scale_X  = flags & PART_FLAG_U_SCALE ? reader.readFloat() : init->uv_scale_X;
-	uv_scale_Y  = flags & PART_FLAG_V_SCALE ? reader.readFloat() : init->uv_scale_Y;
-	boundingRadius = flags & PART_FLAG_BOUNDINGRADIUS ? reader.readFloat() : init->boundingRadius;
+	int flags = reader.readU32();
+	m_flags      = flags;
+	m_cellIndex  = flags & PART_FLAG_CELL_INDEX ? reader.readS16() : init->cellIndex;
+	m_position.x = flags & PART_FLAG_POSITION_X ? reader.readFloat() : init->positionX;
+	m_position.y = flags & PART_FLAG_POSITION_Y ? reader.readFloat() : init->positionY;
+	m_position.z = flags & PART_FLAG_POSITION_Z ? reader.readFloat() : init->positionZ;
+	m_pivot.x    = flags & PART_FLAG_PIVOT_X ? reader.readFloat() : init->pivotX;
+	m_pivot.y    = flags & PART_FLAG_PIVOT_Y ? reader.readFloat() : init->pivotY;
+	m_rotation.x = flags & PART_FLAG_ROTATIONX ? reader.readFloat() : init->rotationX;
+	m_rotation.y = flags & PART_FLAG_ROTATIONY ? reader.readFloat() : init->rotationY;
+	m_rotation.z = flags & PART_FLAG_ROTATIONZ ? reader.readFloat() : init->rotationZ;
+	m_scale.x    = flags & PART_FLAG_SCALE_X ? reader.readFloat() : init->scaleX;
+	m_scale.y    = flags & PART_FLAG_SCALE_Y ? reader.readFloat() : init->scaleY;
+	m_opacity    = flags & PART_FLAG_OPACITY ? reader.readU16() : init->opacity;
+	m_size.x     = flags & PART_FLAG_SIZE_X ? reader.readFloat() : init->size_X;
+	m_size.y     = flags & PART_FLAG_SIZE_Y ? reader.readFloat() : init->size_Y;
+	m_uvMove.x   = flags & PART_FLAG_U_MOVE ? reader.readFloat() : init->uv_move_X;
+	m_uvMove.y   = flags & PART_FLAG_V_MOVE ? reader.readFloat() : init->uv_move_Y;
+	m_uvRotation = flags & PART_FLAG_UV_ROTATION ? reader.readFloat() : init->uv_rotation;
+	m_uvScale.x  = flags & PART_FLAG_U_SCALE ? reader.readFloat() : init->uv_scale_X;
+	m_uvScale.y  = flags & PART_FLAG_V_SCALE ? reader.readFloat() : init->uv_scale_Y;
+	m_boundingRadius = flags & PART_FLAG_BOUNDINGRADIUS ? reader.readFloat() : init->boundingRadius;
 
 	//インスタンスアトリビュート
-	instanceValue.readData(flags, reader, init);
+	m_instanceValue.readData(flags, reader, init);
 
 	//エフェクトアトリビュート
-	effectValue.readData(flags, reader, init);
+	m_effectValue.readData(flags, reader, init);
 
 
-	flipX = (flags & PART_FLAG_FLIP_H);
-	flipY = (flags & PART_FLAG_FLIP_V);
+	m_flipX = (flags & PART_FLAG_FLIP_H);
+	m_flipY = (flags & PART_FLAG_FLIP_V);
 
-	isVisibled = !(flags & PART_FLAG_INVISIBLE);
+	m_isVisibled = !(flags & PART_FLAG_INVISIBLE);
 }
 
 
@@ -102,12 +95,11 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 	q->br.texCoords = uv_br;
 
 	//uvスクロール
-	if(flags & (PART_FLAG_U_MOVE | PART_FLAG_V_MOVE)){
-		SSTex2F uvMove(this->uv_move_X, this->uv_move_Y);
-		q->tl.texCoords += uvMove;
-		q->tr.texCoords += uvMove;
-		q->bl.texCoords += uvMove;
-		q->br.texCoords += uvMove;
+	if(m_flags & (PART_FLAG_U_MOVE | PART_FLAG_V_MOVE)){
+		q->tl.texCoords += m_uvMove;
+		q->tr.texCoords += m_uvMove;
+		q->bl.texCoords += m_uvMove;
+		q->br.texCoords += m_uvMove;
 	}
 	
 
@@ -116,9 +108,9 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 	SSTex2F uvCenter = (q->br.texCoords + q->tl.texCoords) / 2.0f;
 	
 	//UV回転
-	if (this->flags & PART_FLAG_UV_ROTATION){
+	if (m_flags & PART_FLAG_UV_ROTATION){
 		//頂点位置を回転させる
-		float rotateRadian = SSDegToRad(this->uv_rotation);
+		float rotateRadian = SSDegToRad(m_uvRotation);
 		q->tl.texCoords.rotate(rotateRadian, uvCenter);
 		q->tr.texCoords.rotate(rotateRadian, uvCenter);
 		q->bl.texCoords.rotate(rotateRadian, uvCenter);
@@ -126,22 +118,22 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 	}
 
 	//UVスケール
-	if(this->flags & (PART_FLAG_U_SCALE | PART_FLAG_V_SCALE)){
+	if(m_flags & (PART_FLAG_U_SCALE | PART_FLAG_V_SCALE)){
 		q->uvForeach([&](SSTex2F &uv){
 			//中心を基準として拡大縮小させる
 			uv -= uvCenter;
-			uv.x/*u*/ *= this->uv_scale_X;
-			uv.y/*v*/ *= this->uv_scale_Y;
+			uv.x/*u*/ *= m_uvScale.x;
+			uv.y/*v*/ *= m_uvScale.y;
 			uv += uvCenter;
 		});
 	}
 
 	//UV反転
-	if (this->flags & PART_FLAG_FLIP_H){	//左右反転を行う場合はlr入れ替え
+	if (m_flags & PART_FLAG_FLIP_H){	//左右反転を行う場合はlr入れ替え
 		std::swap(q->tr.texCoords.x/*u*/, q->tl.texCoords.x/*u*/);
 		std::swap(q->br.texCoords.x/*u*/, q->bl.texCoords.x/*u*/);
 	}
-	if (this->flags & PART_FLAG_FLIP_H){	//上下反転を行う場合はtb入れ替え
+	if (m_flags & PART_FLAG_FLIP_H){	//上下反転を行う場合はtb入れ替え
 		std::swap(q->tr.texCoords.y/*v*/, q->br.texCoords.y/*v*/);
 		std::swap(q->tl.texCoords.y/*v*/, q->bl.texCoords.y/*v*/);
 	}
@@ -161,13 +153,13 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const
 	//サイズ指定があるならそちらに合わせる
 	//詳しくは http://www.webtech.co.jp/help/ja/spritestudio/guide/window/main/attribute/
 	//「アンカー機能を持つ特殊なパーツ」についての項目を参照
-	if(this->flags & PART_FLAG_SIZE_X){
-		q->br.vertices.x = this->size_X;
-		q->tr.vertices.x = this->size_X;
+	if(m_flags & PART_FLAG_SIZE_X){
+		q->br.vertices.x = m_size.x;
+		q->tr.vertices.x = m_size.x;
 	}
-	if(this->flags & PART_FLAG_SIZE_Y){
-		q->tl.vertices.y = this->size_Y;
-		q->tr.vertices.y = this->size_Y;
+	if(m_flags & PART_FLAG_SIZE_Y){
+		q->tl.vertices.y = m_size.y;
+		q->tr.vertices.y = m_size.y;
 	}
 
 	//中心が(0,0)になるようにオフセットを追加
@@ -184,9 +176,9 @@ Matrix State::getLocalMatrix() const
 {
 	Matrix mat;
 	mat.setupSRzyxT(
-		Vector3(scaleX, scaleY, 1.0f),
-		Vector3(SSDegToRad(rotationX), SSDegToRad(rotationY), SSDegToRad(rotationZ)),
-		Vector3(x, y, z)
+		Vector3(m_scale.x, m_scale.y, 1.0f),
+		SSDegToRad(m_rotation),
+		m_position
 	);
 	return mat;
 }
