@@ -43,10 +43,10 @@ public:
 	/** dataを元にAnimeRefを構築 */
 	AnimeCache(const ProjectData* data);
 	~AnimeCache();
-
+#if 0
 	/** packNameとanimeNameを指定してAnimeRefを得る */
 	AnimeRef* getReference(const std::string& packName, const std::string& animeName);
-
+#endif
 	/** animeNameのみ指定してAnimeRefを得る */
 	AnimeRef* getReference(const std::string& animeName);
 

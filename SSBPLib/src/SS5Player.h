@@ -114,26 +114,15 @@ class SS5EventListener;
 class Player{
 public:
 	/** Playerインスタンスを構築します。利用するときはResourceManger::create, destroyを使ってください */
-	Player(const ResourceSet* resource,/* SS5Renderer *renderer,*/ SS5EventListener* eventListener);
-//	Player(const ResourceSet *resource/*, SS5Renderer *renderer, SS5EventListener *eventListener, const std::string& animeName*/);
+	Player(const ResourceSet* resource, SS5EventListener* eventListener);
+//	Player(const ResourceSet *resource/*, SS5EventListener *eventListener, const std::string& animeName*/);
 	~Player();	//memo:なるべくResourceManger.create, destroyを使ってほしい
 
 	/**
 	 * アニメーションの再生を開始します.
-	 *
-	 * @param  ssaeName      パック名(ssae名）
-	 * @param  motionName    再生するモーション名
-	 * @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
-	 */
-	void play(const std::string& ssaeName, const std::string& motionName, int startFrameNo = 0);
-
-	/**
-	 * アニメーションの再生を開始します.
 	 * アニメーション名から再生するデータを選択します.
-	 * "ssae名/モーション名で指定してください.
+	 * "ssae名/モーション名"で指定してください.
 	 * sample.ssaeのanime_1を指定する場合、sample/anime_1となります.
-	 * ※ver1.1からモーション名のみで指定する事はできなくなりました。
-	 *
 	 * @param  animeName     再生するアニメーション名
 	 * @param  startFrameNo  再生を開始するフレームNoの指定. 省略時は0
 	 */

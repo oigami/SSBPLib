@@ -108,12 +108,6 @@ void Player::setCurrentFrame(int frame)
 }
 
 
-void Player::play(const std::string& ssaeName, const std::string& motionName, int startFrameNo)
-{
-	std::string animeName = ssaeName + "/" + motionName;
-	play(animeName, startFrameNo);
-}
-
 void Player::play(const std::string& animeName, int startFrameNo)
 {
 	AnimeRef* animeRef = _resource->m_animeCache->getReference(animeName);

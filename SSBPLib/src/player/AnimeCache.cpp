@@ -15,7 +15,7 @@ AnimeCache::~AnimeCache()
 {
 }
 
-
+#if 0
 //packNameとanimeNameを指定してAnimeRefを得る
 AnimeRef* AnimeCache::getReference(const std::string& packName, const std::string& animeName)
 {
@@ -24,6 +24,7 @@ AnimeRef* AnimeCache::getReference(const std::string& packName, const std::strin
 
 	return &(m_animeRefs.at(key));
 }
+#endif
 
 //animeNameのみ指定してAnimeRefを得る
 AnimeRef* AnimeCache::getReference(const std::string& animeName)
