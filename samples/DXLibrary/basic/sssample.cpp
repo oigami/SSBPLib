@@ -277,11 +277,11 @@ void init( void )
 		"character_template1",					//登録名
 		"Resources/character_template_comipo/"	//画像ファイルの読み込み元ルートパス
 	);
-	//プレイヤーにリソースを割り当て
-	ssplayer = resman->createPlayer(&g_eventListener, "character_template1");       //addDataで指定した登録名
-	//再生するモーションを設定
-	ssplayer->play("character_template_3head/stance");				 // アニメーション名を指定(ssae名/アニメーション名も可能、詳しくは後述)
 
+	//プレイヤーにリソースを割り当てる
+	//addDataで指定した登録名とアニメーション名を指定する
+	ssplayer = resman->createPlayer(&g_eventListener, "character_template1", "character_template_3head/stance");       //
+	
 
 	//表示位置を設定
 	ssplayer->setPosition(800/2, 150);
@@ -384,8 +384,8 @@ void update(float dt)
 	else if(CheckHitKey(KEY_INPUT_X)){
 		if(sstest_push == false){
 			resman->destroyPlayer(ssplayer);
-			ssplayer = resman->createPlayer(&g_eventListener, "character_template1");
-			ssplayer->play("character_template_3head/stance");
+			ssplayer = resman->createPlayer(&g_eventListener, "character_template1", "character_template_3head/stance");
+			//ssplayer->play("character_template_3head/stance");
 
 			ssplayer->setPosition(800 / 2, 150);
 			ssplayer->setScale(0.5f, 0.5f);
@@ -396,8 +396,8 @@ void update(float dt)
 	else if(CheckHitKey(KEY_INPUT_C)){
 		if(sstest_push == false){
 			resman->destroyPlayer(ssplayer);
-			ssplayer = resman->createPlayer(&g_eventListener, "effectsample");
-			ssplayer->play("e001/emission");
+			ssplayer = resman->createPlayer(&g_eventListener, "effectsample", "e001/emission");
+			//ssplayer->play("e001/emission");
 
 			ssplayer->setPosition(800 / 2, 300);
 			ssplayer->setScale(0.5f, 0.5f);

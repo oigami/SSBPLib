@@ -114,8 +114,7 @@ class SS5EventListener;
 class Player{
 public:
 	/** Playerインスタンスを構築します。利用するときはResourceManger::create, destroyを使ってください */
-	Player(const ResourceSet* resource, SS5EventListener* eventListener);
-//	Player(const ResourceSet *resource/*, SS5EventListener *eventListener, const std::string& animeName*/);
+	Player(SS5EventListener* eventListener, const ResourceSet* resource, const std::string& animeName);
 	~Player();	//memo:なるべくResourceManger.create, destroyを使ってほしい
 
 	/**

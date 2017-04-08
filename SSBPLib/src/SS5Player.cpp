@@ -46,7 +46,7 @@ unsigned int getRandomSeed()
 
 static const std::string s_nullString;
 
-Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
+Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, const std::string& animeName)
 	: _eventListener(eventListener)
 	, _resource(resource)
 	, _currentAnimeRef(nullptr)
@@ -74,7 +74,11 @@ Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
 		TextuerData& texdata = m_textures[i];
 		texdata.handle = _eventListener->SSTextureLoad(textureName.c_str(), wrapmode, filtermode); // wrapmode, filtermode);//todo:事前にテクスチャ情報取得できるようにする
 		_eventListener->SSGetTextureSize(texdata.handle, &(texdata.size_w), &(texdata.size_h));
-	}	
+	}
+
+	//最初にアニメーションを入れておく
+	play(animeName, 0);
+	SS_ASSERT_LOG(_currentAnimeRef, "currentAnimeRef is null");
 }
 
 Player::~Player()
