@@ -40,12 +40,6 @@ unsigned int getRandomSeed()
 
 
 
-/**
- * Player
- */
-
-static const std::string s_nullString;
-
 Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, const std::string& animeName)
 	: _eventListener(eventListener)
 	, _resource(resource)
@@ -94,7 +88,7 @@ Player::~Player()
 
 
 int Player::getMaxFrame() const{
-	return(_animationData->m_animationData->numFrames);
+	return _animationData->m_animationData->numFrames;
 }
 
 int Player::getCurrentFrame() const{
@@ -116,13 +110,11 @@ void Player::play(const std::string& animeName, int startFrameNo)
 
 void Player::play(const AnimeRef* animeRef, int startFrameNo)
 {
-	if (_animationData != animeRef)
-	{
-		_animationData = animeRef;
+	_animationData = animeRef;
 		
-		allocParts(animeRef->m_numParts);
-		setPartsParentage();
-	}
+	allocParts(animeRef->m_numParts);
+	setPartsParentage();
+	
 	_currentFrameTime = startFrameNo;
 	_isPausing = false;
 	
