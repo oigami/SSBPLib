@@ -147,10 +147,10 @@ public:
 	void stop();
 
 	/** 再生しているアニメーションのパック名(ssae)を返します. */
-	const std::string& getPlayPackName() const;
+	std::string getPlayPackName() const;
 
 	/** 再生しているアニメーション名を返します. */
-	const std::string& getPlayAnimeName() const;
+	std::string getPlayAnimeName() const;
 	
 	/** アニメーションの総フレームを取得します. */
 	int getMaxFrame() const;
@@ -163,16 +163,16 @@ public:
 
 
 	/** ラベル名からフレーム位置を取得します. */
-	int getLabelToFrame(char* findLabelName);
+	int getLabelToFrame(const std::string& labelName) const;
 
 	/** 再生しているアニメーションに含まれるパーツ数を取得します. */
-	int getPartsCount(void);
+	int getPartsCount() const;
 
 	/** indexからパーツ名を取得します */
-	const char* getPartName(int partIndex) const;
+	std::string getPartName(int partIndex) const;
 
 	/** パーツ名からindexを取得します */
-	int indexOfPart(const char* partName) const;
+	int indexOfPart(const std::string& partName) const;
 
 	/**
 	 * パーツ情報を取得します.

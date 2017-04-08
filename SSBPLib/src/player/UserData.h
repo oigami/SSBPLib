@@ -32,16 +32,4 @@ private:
 };
 
 
-/**
- * LabelData
- */
-struct LabelData
-{
-	std::string	str;			/// String (zero terminated)
-	int			strSize;		/// String size (byte count)
-	int			frameNo;		/// Frame no
-};
-
-
-
 } //namespace ss

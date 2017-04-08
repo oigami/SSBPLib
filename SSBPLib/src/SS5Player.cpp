@@ -152,12 +152,12 @@ void Player::stop()
 	_isPausing = true;
 }
 
-const std::string& Player::getPlayPackName() const
+std::string Player::getPlayPackName() const
 {
 	return _currentAnimeRef != NULL ? _currentAnimeRef->m_packName : s_nullString;
 }
 
-const std::string& Player::getPlayAnimeName() const
+std::string Player::getPlayAnimeName() const
 {
 	return _currentAnimeRef != NULL ? _currentAnimeRef->m_animeName : s_nullString;
 }
@@ -282,13 +282,13 @@ void Player::setPartsParentage()
 }
 
 //再生しているアニメーションに含まれるパーツ数を取得
-int Player::getPartsCount()
+int Player::getPartsCount() const
 {
 	return _currentAnimeRef->m_numParts;
 }
 
 //indexからパーツ名を取得
-const char* Player::getPartName(int partIndex) const
+std::string Player::getPartName(int partIndex) const
 {
 	ToPointer ptr(_resource->m_data);
 
@@ -298,11 +298,15 @@ const char* Player::getPartName(int partIndex) const
 }
 
 //パーツ名からindexを取得
-int Player::indexOfPart(const char* partName) const
+int Player::indexOfPart(const std::string& partName) const
 {
+	ToPointer ptr(_resource->m_data);
+
 	for (int i = 0; i < _currentAnimeRef->m_numParts; i++){
-		const char* name = getPartName(i);
-		if (strcmp(partName, name) == 0){
+		const PartData* partData = _currentAnimeRef->getPartData(i);
+		const char* name = ptr.toString(partData->name);
+	
+		if(partName == name){	//if(partName == getPartName(i)) と同じ
 			return i;
 		}
 	}
@@ -391,7 +395,7 @@ void Player::getPartState(ResluteState& result, int partIndex) const
 //ラベル名からラベルの設定されているフレームを取得
 //ラベルが存在しない場合は戻り値が-1となります。
 //ラベル名が全角でついていると取得に失敗します。
-int Player::getLabelToFrame(char* findLabelName)
+int Player::getLabelToFrame(const std::string& labelName) const
 {
 	ToPointer ptr(_resource->m_data);
 	const AnimationData* animeData = _currentAnimeRef->m_animationData;
@@ -400,22 +404,19 @@ int Player::getLabelToFrame(char* findLabelName)
 	const ss_offset* labelDataIndex = static_cast<const ss_offset*>(ptr(animeData->labelData));
 
 
-	for (int idx = 0; idx < animeData->labelNum; idx++ ){
+	for (int i = 0; i < animeData->labelNum; i++ ){
 
-		if (!labelDataIndex[idx]) return -1;
-		const ss_u16* labelDataArray = static_cast<const ss_u16*>(ptr(labelDataIndex[idx]));
+		if (!labelDataIndex[i]) return -1;
+		const ss_u16* labelDataArray = static_cast<const ss_u16*>(ptr(labelDataIndex[i]));
 
 		DataArrayReader reader(labelDataArray);
 
-		LabelData ldata;
 		ss_offset offset = reader.readOffset();
 		const char* str = ptr.toString(offset);
 		int labelFrame = reader.readU16();
-		ldata.str = str;
-		ldata.frameNo = labelFrame;
 
-		if (ldata.str.compare(findLabelName) == 0 ){
-			return ldata.frameNo;		//同じ名前のラベルが見つかった
+		if(labelName == str){
+			return labelFrame;		//同じ名前のラベルが見つかった
 		}
 	}
 
