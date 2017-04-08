@@ -11,9 +11,10 @@ class SS5Effect;
  */
 class CustomSprite{
 public:
-	Matrix				_mat;
-	State				_state;
+	Matrix				_mat;		//ワールド行列
+	State				_state;		//親子関係の計算が関係ないデータ（・・・に、したい。）
 	CustomSprite*		_parent;
+	float				_alpha;		//[0:1]
 
 	bool				_haveChildPlayer;	//ChildPlayer(インスタンスアニメーション)を持っているならtrue
 	bool				_haveEffect;		//エフェクトを持っているならtrue

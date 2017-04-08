@@ -5,7 +5,8 @@
 namespace ss{
 
 CustomSprite::CustomSprite()
-	: _haveChildPlayer(false)
+	: _alpha(1.0f)
+	, _haveChildPlayer(false)
 	, _haveEffect(false)
 {
 	_state.init();

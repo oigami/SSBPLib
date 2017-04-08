@@ -40,9 +40,9 @@ struct State{
 	float uv_scale_Y;				/// SS5アトリビュート：UV Yスケール
 	float boundingRadius;			/// SS5アトリビュート：当たり半径
 	
-	bool flipX;						/// 横反転（親子関係計算済）
-	bool flipY;						/// 縦反転（親子関係計算済）
-	bool isVisibled;				/// 非表示（親子関係計算済）
+	bool flipX;						/// 横反転
+	bool flipY;						/// 縦反転
+	bool isVisibled;				/// 非表示
 
 
 	BlendType colorBlendVertexFunc;	/// SS5アトリビュート：カラーブレンドのブレンド方法
@@ -53,8 +53,6 @@ struct State{
 	BlendType blendfunc;			/// パーツに設定されたブレンド方法
 	Matrix mat;						/// パーツの位置を算出するためのマトリクス（親子関係計算済）
 																
-	//再生用パラメータ
-	int Calc_opacity;				/// 不透明度（0～255）（親子関係計算済）
 	
 	InstancePartStatus instanceValue;	//インスタンスアトリビュート
 	EffectPartStatus effectValue;		//エフェクトアトリビュート

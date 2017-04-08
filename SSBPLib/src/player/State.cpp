@@ -46,9 +46,6 @@ void State::init()
 
 	instanceValue = InstancePartStatus();
 	effectValue = EffectPartStatus();
-
-	Calc_opacity = 255;
-
 }
 
 

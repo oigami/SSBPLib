@@ -623,13 +623,6 @@ void Player::setFrame(int frameNo, float dt)
 				}
 			}
 		}
-		quad.colorsForeach([&](SSColor4B& color){
-			color.r *= _playerSetting.m_color.r;
-			color.g *= _playerSetting.m_color.g;
-			color.b *= _playerSetting.m_color.b;
-			color.a *= (state.opacity / 255.0);
-		});
-
 
 		//UVを設定する
 		SSTex2F uv_tl, uv_br;
@@ -674,20 +667,20 @@ void Player::setFrame(int frameNo, float dt)
 		sprite->_mat = mat;
 		sprite->_state.mat = mat;
 
-		if (partIndex > 0)
-		{
+		if(partIndex == 0){	//root.
+			sprite->_alpha = sprite->_state.opacity / 255.0f;
+			sprite->_alpha *= _playerSetting.m_color.a;
+		}
+		else {
 			CustomSprite* parent = _parts.at(partData->parentIndex);
-			//子供は親のステータスを引き継ぐ
-			//ルートパーツのアルファ値を反映させる
-			sprite->_state.Calc_opacity = (sprite->_state.Calc_opacity * _playerSetting.m_color.a);
+			//アルファは親の影響を受ける
+			sprite->_alpha = sprite->_state.opacity / 255.0f;
+			sprite->_alpha *= parent->_alpha;
 				
 			//インスタンスアニメーションがある場合は親パーツ情報を通知する
 			if(sprite->_haveChildPlayer){
-				float alpha = sprite->_state.opacity / 255.0f;
-				alpha *= sprite->_state.Calc_opacity / 255.0f;	//todo:Calc_opacity紛らわしいのでやめたい・・・
-
 				_eventListener->ChildPlayerUpdate(
-					partIndex, sprite->_mat, alpha,
+					partIndex, sprite->_mat, sprite->_alpha,
 					frameNo, sprite->_state.instanceValue	//InstancePartStatus::getFrame(frameNo), m_independent,,,
 				);
 			}
@@ -707,11 +700,13 @@ void Player::setFrame(int frameNo, float dt)
 			vertex *= sprite->_state.mat;
 		});
 
-		//頂点カラーにアルファを設定
-		sprite->_state.quad.tl.colors.a = sprite->_state.quad.bl.colors.a * sprite->_state.Calc_opacity / 255;
-		sprite->_state.quad.tr.colors.a = sprite->_state.quad.bl.colors.a * sprite->_state.Calc_opacity / 255;
-		sprite->_state.quad.bl.colors.a = sprite->_state.quad.bl.colors.a * sprite->_state.Calc_opacity / 255;
-		sprite->_state.quad.br.colors.a = sprite->_state.quad.bl.colors.a * sprite->_state.Calc_opacity / 255;
+		//頂点カラー補正
+		sprite->_state.quad.colorsForeach([&](SSColor4B& color){
+			color.r *= _playerSetting.m_color.r;
+			color.g *= _playerSetting.m_color.g;
+			color.b *= _playerSetting.m_color.b;
+			color.a *= sprite->_alpha;	//color.aはrootから伝播済み
+		});
 	}
 
 	// 特殊パーツのアップデート
@@ -720,14 +715,9 @@ void Player::setFrame(int frameNo, float dt)
 		CustomSprite* sprite = _parts.at(partIndex);
 
 		//エフェクトのアップデート
-		if (sprite->_haveEffect)
-		{
-			//親情報の設定
-			float alpha = sprite->_state.opacity / 255.0f;
-			alpha *= sprite->_state.Calc_opacity / 255.0f;	//todo:Calc_opacity紛らわしいのでやめたい・・・
-			
+		if (sprite->_haveEffect){
 			_eventListener->EffectUpdate(
-				partIndex, sprite->_mat, alpha,
+				partIndex, sprite->_mat, sprite->_alpha,
 				frameNo, _seedOffset, sprite->_state.effectValue
 			);
 		}
