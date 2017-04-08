@@ -17,7 +17,7 @@ AnimeCache::~AnimeCache()
 
 #if 0
 //packNameとanimeNameを指定してAnimeRefを得る
-AnimeRef* AnimeCache::getReference(const std::string& packName, const std::string& animeName)
+const AnimeRef* AnimeCache::getReference(const std::string& packName, const std::string& animeName) const
 {
 	std::string key = toPackAnimeKey(packName, animeName);	//todo:animeNameだけに統一したい
 	SS_ASSERT_LOG(m_animeRefs.find(key) != m_animeRefs.end(), "Not found animation");
@@ -27,7 +27,7 @@ AnimeRef* AnimeCache::getReference(const std::string& packName, const std::strin
 #endif
 
 //animeNameのみ指定してAnimeRefを得る
-AnimeRef* AnimeCache::getReference(const std::string& animeName)
+const AnimeRef* AnimeCache::getReference(const std::string& animeName) const
 {
 	SS_ASSERT_LOG(m_animeRefs.find(animeName) != m_animeRefs.end(), "Not found animation");
 	return &(m_animeRefs.at(animeName));

@@ -233,7 +233,8 @@ private:
 private:
 	SS5EventListener* _eventListener;
 	const ResourceSet* _resource;			//ssbp
-	const AnimeRef*	_currentAnimeRef;		//アニメーションデータ
+	const AnimeRef*	_animationData;			//アニメーションデータ
+	
 	std::vector<CustomSprite *> _parts;
 
 	float				_currentFrameTime;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い

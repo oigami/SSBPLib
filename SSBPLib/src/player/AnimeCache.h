@@ -45,10 +45,10 @@ public:
 	~AnimeCache();
 #if 0
 	/** packNameとanimeNameを指定してAnimeRefを得る */
-	AnimeRef* getReference(const std::string& packName, const std::string& animeName);
+	const AnimeRef* getReference(const std::string& packName, const std::string& animeName) const;
 #endif
 	/** animeNameのみ指定してAnimeRefを得る */
-	AnimeRef* getReference(const std::string& animeName);
+	const AnimeRef* getReference(const std::string& animeName) const;
 
 	/** デバッグ用 */
 	void dump() const;
