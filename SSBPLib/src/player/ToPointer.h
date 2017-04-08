@@ -10,7 +10,9 @@ namespace ss{
 class ToPointer{
 public:
 	explicit ToPointer(const ProjectData* data)
-		: m_base(static_cast<const uint8_t*>(static_cast<const void*>(data))) {}
+		: m_base(static_cast<const uint8_t*>(static_cast<const void*>(data))) {
+		SS_ASSERT(data);
+	}
 	
 
 	const Cell* toCells(const ProjectData* adr) const{

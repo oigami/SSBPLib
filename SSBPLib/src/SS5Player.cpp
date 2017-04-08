@@ -48,14 +48,14 @@ static const std::string s_nullString;
 
 Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
 	: _eventListener(eventListener)
-	, _currentRs(resource)
+	, _resource(resource)
 	, _currentAnimeRef(nullptr)
 	, _currentFrameTime(0.0f)
 	, _isPausing(false)
 	, _seedOffset(0)
 {
 	SS_ASSERT_LOG(_eventListener, "eventListener is null");
-	SS_ASSERT_LOG(_currentRs, "resource is null");
+	SS_ASSERT_LOG(_resource, "resource is null");
 
 	for (int i = 0; i < PART_VISIBLE_MAX; i++){
 		_partVisible[i] = true;
@@ -64,12 +64,12 @@ Player::Player(const ResourceSet* resource, SS5EventListener* eventListener)
 	}
 
 	//ロードイベントを投げてcellMapのテクスチャを取得する
-	int cellMapNum = _currentRs->m_cellCache->getCellMapNum();
+	int cellMapNum = _resource->m_cellCache->getCellMapNum();
 	m_textures.resize(cellMapNum);
 	for(int i = 0; i < cellMapNum; ++i){
-		std::string textureName = _currentRs->m_cellCache->getTexturePath(i);	
-		SsTexWrapMode wrapmode = _currentRs->m_cellCache->getWrapMode(i);
-		SsTexFilterMode filtermode = _currentRs->m_cellCache->getFilterMode(i);
+		std::string textureName = _resource->m_cellCache->getTexturePath(i);	
+		SsTexWrapMode wrapmode = _resource->m_cellCache->getWrapMode(i);
+		SsTexFilterMode filtermode = _resource->m_cellCache->getFilterMode(i);
 
 		TextuerData& texdata = m_textures[i];
 		texdata.handle = _eventListener->SSTextureLoad(textureName.c_str(), wrapmode, filtermode); // wrapmode, filtermode);//todo:事前にテクスチャ情報取得できるようにする
@@ -116,15 +116,13 @@ void Player::play(const std::string& ssaeName, const std::string& motionName, in
 
 void Player::play(const std::string& animeName, int startFrameNo)
 {
-	SS_ASSERT_LOG(_currentRs != NULL, "Not select data");
-
-	AnimeRef* animeRef = _currentRs->m_animeCache->getReference(animeName);
+	AnimeRef* animeRef = _resource->m_animeCache->getReference(animeName);
 	SS_ASSERT_LOG(animeRef, "Not found animation > anime=%s", animeName.c_str());
 	
 	play(animeRef, startFrameNo);
 }
 
-void Player::play(AnimeRef* animeRef, int startFrameNo)
+void Player::play(const AnimeRef* animeRef, int startFrameNo)
 {
 	if (_currentAnimeRef != animeRef)
 	{
@@ -168,7 +166,6 @@ const std::string& Player::getPlayAnimeName() const
 void Player::update(float dt)
 {
 	if (!_currentAnimeRef) return;
-	if (!_currentRs->m_data) return;
 
 	if(_isPausing){
 		//アニメを手動で更新する場合
@@ -226,7 +223,6 @@ void Player::allocParts(int numParts)
 
 void Player::releaseParts()
 {
-	SS_ASSERT(_currentRs);
 	SS_ASSERT(_currentAnimeRef);
 
 	// パーツの子CustomSpriteを全て削除
@@ -251,7 +247,7 @@ void Player::setPartsParentage()
 {
 	if (!_currentAnimeRef) return;
 
-	ToPointer ptr(_currentRs->m_data);
+	ToPointer ptr(_resource->m_data);
 	int numParts = _currentAnimeRef->m_numParts;
 	
 	//親子関係を設定
@@ -280,7 +276,7 @@ void Player::setPartsParentage()
 			sprite->m_haveEffect = true;
 
 			std::string refeffectName = ptr.toString(partData->effectfilename);
-			_eventListener->EffectLoad(partIndex, refeffectName);	//sprite->refEffect = new SS5Effect(_currentRs, _eventListener, refeffectName, getRandomSeed());	//ひとまず今セットされているイベントリスナーを渡す
+			_eventListener->EffectLoad(partIndex, refeffectName);
 		}
 	}
 }
@@ -294,7 +290,7 @@ int Player::getPartsCount()
 //indexからパーツ名を取得
 const char* Player::getPartName(int partId) const
 {
-	ToPointer ptr(_currentRs->m_data);
+	ToPointer ptr(_resource->m_data);
 
 	const PartData* partData = _currentAnimeRef->getPartData(partId);
 	const char* name = ptr.toString(partData->name);
@@ -340,7 +336,7 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 			setFrame(frameNo);
 		}
 
-		ToPointer ptr(_currentRs->m_data);
+		ToPointer ptr(_resource->m_data);
 
 		int partIndex = indexOfPart(name);
 		if(partIndex != -1){
@@ -432,7 +428,7 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 //ラベル名が全角でついていると取得に失敗します。
 int Player::getLabelToFrame(char* findLabelName)
 {
-	ToPointer ptr(_currentRs->m_data);
+	ToPointer ptr(_resource->m_data);
 	const AnimationData* animeData = _currentAnimeRef->m_animationData;
 
 	if (!animeData->labelData) return -1;
@@ -477,7 +473,7 @@ void Player::setPartCell(std::string partsname, std::string sscename, std::strin
 {
 	int changeCellIndex = -1;
 	if ((sscename != "") && (cellname != "")){
-		changeCellIndex = _currentRs->m_cellCache->indexOfCell(cellname, sscename);
+		changeCellIndex = _resource->m_cellCache->indexOfCell(cellname, sscename);
 	}
 
 	int partIndex = indexOfPart(partsname.c_str());
@@ -499,9 +495,8 @@ const CustomSprite* Player::getSpriteData(int partIndex) const
 void Player::setFrame(int frameNo)
 {
 	if (!_currentAnimeRef) return;
-	if (!_currentRs->m_data) return;
 
-	ToPointer ptr(_currentRs->m_data);
+	ToPointer ptr(_resource->m_data);
 	const AnimationData* animeData = _currentAnimeRef->m_animationData;
 	const ss_offset* frameDataIndex = static_cast<const ss_offset*>(ptr(animeData->frameData));
 	
@@ -529,7 +524,7 @@ void Player::setFrame(int frameNo)
 
 
 		//セルの原点設定を反映させる
-		const CellRef* cellRef = state.m_cellIndex >= 0 ? _currentRs->m_cellCache->getReference(state.m_cellIndex) : nullptr;
+		const CellRef* cellRef = state.m_cellIndex >= 0 ? _resource->m_cellCache->getReference(state.m_cellIndex) : nullptr;
 		if (cellRef){
 			float cpx = cellRef->m_pivot.x;
 			float cpy = cellRef->m_pivot.y;
@@ -716,7 +711,7 @@ void Player::draw()
 
 void Player::checkUserData(int frameNo)
 {
-	ToPointer ptr(_currentRs->m_data);
+	ToPointer ptr(_resource->m_data);
 
 	const AnimationData* animeData = _currentAnimeRef->m_animationData;
 

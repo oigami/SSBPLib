@@ -250,16 +250,15 @@ private:
 	void releaseParts();
 	void setPartsParentage();
 
-	void play(AnimeRef* animeRef, int startFrameNo);
+	void play(const AnimeRef* animeRef, int startFrameNo);
 	void setFrame(int frameNo);
 	void checkUserData(int frameNo);
 
 private:
-	SS5EventListener*	_eventListener;
-
-	const ResourceSet*	_currentRs;
-	AnimeRef*			_currentAnimeRef;
-	std::vector<CustomSprite *>	_parts;
+	SS5EventListener* _eventListener;
+	const ResourceSet* _resource;			//ssbp
+	const AnimeRef*	_currentAnimeRef;		//アニメーションデータ
+	std::vector<CustomSprite *> _parts;
 
 	float				_currentFrameTime;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い
 	bool				_isPausing;
