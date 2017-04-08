@@ -414,15 +414,6 @@ void Player::setPartCell(int partIndex, const std::string& sscename, const std::
 }
 
 
-//スプライト情報の取得
-const CustomSprite* Player::getSpriteData(int partIndex) const
-{
-	if(_parts.size() < partIndex){
-		return nullptr;		//todo:assertでいいような気がする
-	}
-	return _parts.at(partIndex);
-}
-
 
 void Player::setFrame(int frameNo)
 {

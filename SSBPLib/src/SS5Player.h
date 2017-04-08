@@ -207,13 +207,6 @@ public:
 	void setColor(float r, float g, float b);
 
 
-	/*
-	 * パーツ番号に対応したスプライト情報を取得します。
-	 * @param  partIndex			パーツ番号
-	 */
-	const CustomSprite* getSpriteData(int partIndex) const;
-
-
 	/** プレイヤーの更新を行います。ゲームの更新タイミングで呼び出してください。*/
 	void update(float dt);
 
@@ -247,17 +240,8 @@ private:
 
 	PlayerSetting		_playerSetting;			//プレイヤー単位での操作設定についてを抱えておく(移動、回転など)
 
-	
 
 	int getAnimeFPS() const;
-
-
-	/**
-	 * todo:
-	 * ループ、ループカウント、範囲指定のループ の機能を削ったので、代替手段を用意する事
-	 *     フレームを進めるタイミングで、次のフレームを指定できるようにできれば十分なはず
-	 *     モーションブレンドでのループは別途考える
-	 */
 };
 
 
