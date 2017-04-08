@@ -51,7 +51,6 @@ struct State{
 	TextuerData texture;			/// セルに対応したテクスチャ番号（ゲーム側で管理している番号を設定する）
 	SSRect rect;					/// セルに対応したテクスチャ内の表示領域（開始座標、幅高さ）
 	BlendType blendfunc;			/// パーツに設定されたブレンド方法
-	Matrix mat;						/// パーツの位置を算出するためのマトリクス（親子関係計算済）
 																
 	
 	InstancePartStatus instanceValue;	//インスタンスアトリビュート
@@ -69,6 +68,10 @@ struct State{
 	void vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const SSQuad3& vertexTransform*/) const;
 	////現在のStateの情報を元にmatrixを計算する。setIdentityから始めます
 	//void matrixCompute(Matrix *matrix) const;
+
+	//現在のStateの情報を元にローカルmatrixを計算する
+	Matrix getLocalMatrix() const;
+	
 
 	void init();
 

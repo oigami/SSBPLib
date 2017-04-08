@@ -42,7 +42,6 @@ void State::init()
 	texture.size_h = 0;
 	rect = SSRect(0, 0, 0, 0);
 	blendfunc = BLEND_MIX;
-	mat.setupIdentity();
 
 	instanceValue = InstancePartStatus();
 	effectValue = EffectPartStatus();
@@ -52,21 +51,21 @@ void State::init()
 void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 {
 	// optional parameters
-	flags      = reader.readU32();
-	cellIndex  = flags & PART_FLAG_CELL_INDEX ? reader.readS16() : init->cellIndex;
-	x        = flags & PART_FLAG_POSITION_X ? reader.readFloat() : init->positionX;
-	y        = flags & PART_FLAG_POSITION_Y ? reader.readFloat() : init->positionY;
-	z        = flags & PART_FLAG_POSITION_Z ? reader.readFloat() : init->positionZ;
-	pivotX   = flags & PART_FLAG_PIVOT_X ? reader.readFloat() : init->pivotX;
-	pivotY   = flags & PART_FLAG_PIVOT_Y ? reader.readFloat() : init->pivotY;
+	flags     = reader.readU32();
+	cellIndex = flags & PART_FLAG_CELL_INDEX ? reader.readS16() : init->cellIndex;
+	x         = flags & PART_FLAG_POSITION_X ? reader.readFloat() : init->positionX;
+	y         = flags & PART_FLAG_POSITION_Y ? reader.readFloat() : init->positionY;
+	z         = flags & PART_FLAG_POSITION_Z ? reader.readFloat() : init->positionZ;
+	pivotX    = flags & PART_FLAG_PIVOT_X ? reader.readFloat() : init->pivotX;
+	pivotY    = flags & PART_FLAG_PIVOT_Y ? reader.readFloat() : init->pivotY;
 	rotationX = flags & PART_FLAG_ROTATIONX ? reader.readFloat() : init->rotationX;
 	rotationY = flags & PART_FLAG_ROTATIONY ? reader.readFloat() : init->rotationY;
 	rotationZ = flags & PART_FLAG_ROTATIONZ ? reader.readFloat() : init->rotationZ;
-	scaleX = flags & PART_FLAG_SCALE_X ? reader.readFloat() : init->scaleX;
-	scaleY   = flags & PART_FLAG_SCALE_Y ? reader.readFloat() : init->scaleY;
-	opacity    = flags & PART_FLAG_OPACITY ? reader.readU16() : init->opacity;
-	size_X   = flags & PART_FLAG_SIZE_X ? reader.readFloat() : init->size_X;
-	size_Y   = flags & PART_FLAG_SIZE_Y ? reader.readFloat() : init->size_Y;
+	scaleX    = flags & PART_FLAG_SCALE_X ? reader.readFloat() : init->scaleX;
+	scaleY    = flags & PART_FLAG_SCALE_Y ? reader.readFloat() : init->scaleY;
+	opacity   = flags & PART_FLAG_OPACITY ? reader.readU16() : init->opacity;
+	size_X    = flags & PART_FLAG_SIZE_X ? reader.readFloat() : init->size_X;
+	size_Y    = flags & PART_FLAG_SIZE_Y ? reader.readFloat() : init->size_Y;
 	uv_move_X   = flags & PART_FLAG_U_MOVE ? reader.readFloat() : init->uv_move_X;
 	uv_move_Y   = flags & PART_FLAG_V_MOVE ? reader.readFloat() : init->uv_move_Y;
 	uv_rotation = flags & PART_FLAG_UV_ROTATION ? reader.readFloat() : init->uv_rotation;
@@ -185,6 +184,18 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const
 	q->tr.vertices -= center;
 }
 
+
+// SRzRyRxT mat
+Matrix State::getLocalMatrix() const
+{
+	Matrix mat;
+	mat.setupSRzyxT(
+		Vector3(scaleX, scaleY, 1.0f),
+		Vector3(SSDegToRad(rotationX), SSDegToRad(rotationY), SSDegToRad(rotationZ)),
+		Vector3(x, y, z)
+	);
+	return mat;
+}
 
 
 } //namespace ss

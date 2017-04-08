@@ -357,8 +357,9 @@ bool Player::getPartState(ResluteState& result, const char* name, int frameNo)
 	//					sprite->_state;												//SpriteStudio上のアトリビュートの値は_stateから取得してください
 			result.flags = sprite->_state.flags;						// このフレームで更新が行われるステータスのフラグ
 			result.cellIndex = sprite->_state.cellIndex;				// パーツに割り当てられたセルの番号
-			sprite->_state.mat.getTranslation(&result.x, &result.y);
-			result.z = sprite->_state.z;				//todo:意味合いとしてはgetTranslationで取得すればいいはず
+			result.x = sprite->_state.x;
+			result.y = sprite->_state.y;
+			result.z = sprite->_state.z;
 			result.pivotX = sprite->_state.pivotX;						// 原点Xオフセット＋セルに設定された原点オフセットX
 			result.pivotY = sprite->_state.pivotY;						// 原点Yオフセット＋セルに設定された原点オフセットY
 			result.rotationX = sprite->_state.rotationX;				// X回転（親子関係計算済）
@@ -655,17 +656,9 @@ void Player::setFrame(int frameNo, float dt)
 			//rootパーツはプレイヤーからステータスを引き継ぐ
 			mat = _playerSetting.getWorldMatrix();
 		}
-		// SRzRyRxT mat
-		Matrix localTransformMatrix;
-		localTransformMatrix.setupSRzyxT(
-			Vector3(sprite->_state.scaleX, sprite->_state.scaleY, 1.0f),
-			Vector3(SSDegToRad(sprite->_state.rotationX), SSDegToRad(sprite->_state.rotationY), SSDegToRad(sprite->_state.rotationZ)),
-			Vector3(sprite->_state.x, sprite->_state.y, 0.0f)
-		);
-		mat = localTransformMatrix * mat;
+		mat = sprite->_state.getLocalMatrix() * mat;
 
 		sprite->_mat = mat;
-		sprite->_state.mat = mat;
 
 		if(partIndex == 0){	//root.
 			sprite->_alpha = sprite->_state.opacity / 255.0f;
@@ -697,7 +690,7 @@ void Player::setFrame(int frameNo, float dt)
 		//vertexにworldMatrixをかける
 		sprite->_state.quad.vertexForeach([&](Vector3& vertex){
 			vertex += center;		//原点補正
-			vertex *= sprite->_state.mat;
+			vertex *= sprite->_mat;
 		});
 
 		//頂点カラー補正
