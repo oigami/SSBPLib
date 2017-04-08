@@ -22,5 +22,33 @@ CustomSprite::~CustomSprite()
 }
 
 
+void CustomSprite::updateMatrixAndAlpha(const Matrix& rootMatrix, float rootAlpha)
+{
+	Matrix mat;
+
+	if(m_parent == nullptr){
+		//rootパーツはプレイヤーからステータスを引き継ぐ
+		mat = rootMatrix;
+	}
+	else{
+		//親のマトリクスを適用
+		mat = m_parent->m_worldMatrix;
+	}
+	mat = m_state.getLocalMatrix() * mat;
+
+	m_worldMatrix = mat;
+
+	if(m_parent == nullptr){	//root.
+		m_alpha = m_state.m_opacity / 255.0f;
+		m_alpha *= rootAlpha;
+	}
+	else {
+		//アルファは親の影響を受ける
+		m_alpha = m_state.m_opacity / 255.0f;
+		m_alpha *= m_parent->m_alpha;
+	}
+
+}
+
 
 } //namespace ss

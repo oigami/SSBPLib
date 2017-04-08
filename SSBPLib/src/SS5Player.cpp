@@ -641,33 +641,11 @@ void Player::setFrame(int frameNo, float dt)
 	}
 
 	// 行列の更新
+	Matrix rootMatrix = _playerSetting.getWorldMatrix();
 	for (int partIndex = 0; partIndex < _currentAnimeRef->m_numParts; partIndex++){
 		CustomSprite* sprite = _parts.at(partIndex);
-		const CustomSprite* parentSprite = sprite->m_parent;
-		Matrix mat;
-			
-		if (parentSprite == nullptr){
-			//rootパーツはプレイヤーからステータスを引き継ぐ
-			mat = _playerSetting.getWorldMatrix();
-		}
-		else{
-			//親のマトリクスを適用
-			mat = parentSprite->m_worldMatrix;
-		}
-		mat = sprite->m_state.getLocalMatrix() * mat;
-
-		sprite->m_worldMatrix = mat;
-
-		if(parentSprite == nullptr){	//root.
-			sprite->m_alpha = sprite->m_state.m_opacity / 255.0f;
-			sprite->m_alpha *= _playerSetting.m_color.a;
-		}
-		else {
-			//アルファは親の影響を受ける
-			sprite->m_alpha = sprite->m_state.m_opacity / 255.0f;
-			sprite->m_alpha *= parentSprite->m_alpha;
-		}
-
+		sprite->updateMatrixAndAlpha(rootMatrix, _playerSetting.m_color.a);
+	
 		//SSDrawSpriteから出しました-----------------------------------------------
 		//原点補正
 		Vector3 center(
