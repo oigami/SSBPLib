@@ -1,6 +1,8 @@
 ﻿#pragma once
+#include <string>
 #include "SS5PlayerTypes.h"
 #include "player/PlayerDef.h"
+#include "effect/sstypes.h"
 
 namespace ss{
 class Player;
@@ -19,10 +21,10 @@ public:
 	//テクスチャのロード・リリースのイベント。内部ではPlayer単位で管理されます
 	virtual TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode wrapmode, SsTexFilterMode filtermode) = 0;
 	virtual void SSTextureRelease(TextureID handle) = 0;
-
+#if 0
 	//テクスチャサイズの取得
 	virtual void SSGetTextureSize(TextureID handle, int* width, int* height) = 0;
-
+#endif
 	//描画
 	virtual void SSDrawSprite(const SSV3F_C4B_T2F_Quad& quad, TextureID textureId, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags) = 0;
 
@@ -47,7 +49,7 @@ public:
 	 * @param userData	一時オブジェクトなのでコピーして使ってください
 	 * @param frame		userDataが設定されているフレーム
 	 */
-	virtual void onUserData(const UserData& userData, int frameNo) = 0;
+	virtual void onUserData(const UserData& userData, int frameNo){}
 
 	
 	
@@ -57,8 +59,8 @@ public:
 	 * @param parentPartIndex	親になるパーツのindex
 	 * @param animName			再生アニメーション名
 	 */
-	virtual void ChildPlayerLoad(int parentPartIndex, const std::string& animName) = 0;
-	virtual void ChildPlayerRelease(int parentPartIndex) = 0;
+	virtual void ChildPlayerLoad(int parentPartIndex, const std::string& animName){}
+	virtual void ChildPlayerRelease(int parentPartIndex){}
 
 	/**
 	 * 更新時に呼び出されるイベント。
@@ -73,10 +75,10 @@ public:
 	virtual void ChildPlayerUpdate(
 		int parentPartIndex, const Matrix& parentWorldMatrix, float parentAlpha,
 		int parentFrame, const InstancePartStatus& instanceAttribute
-	) = 0;
+	){}
 
 	/** 描画イベント */
-	virtual void ChildPlayerDraw(int parentPartIndex) = 0;
+	virtual void ChildPlayerDraw(int parentPartIndex){}
 
 	
 	//Effect ----------------------------------------------
@@ -85,8 +87,8 @@ public:
 	 * @param parentPartIndex	親になるパーツのindex
 	 * @param effectName		エフェクト名
 	 */
-	virtual void EffectLoad(int parentPartIndex, const std::string& effectName) = 0;
-	virtual void EffectRelease(int parentPartIndex) = 0;
+	virtual void EffectLoad(int parentPartIndex, const std::string& effectName){}
+	virtual void EffectRelease(int parentPartIndex){}
 	
 	/**
 	 * 更新時に呼び出されるイベント。
@@ -102,10 +104,10 @@ public:
 	virtual void EffectUpdate(
 		int parentPartIndex, const Matrix& parentWorldMatrix, float parentAlpha,
 		int parentFrame, int parentSeedOffset, const EffectPartStatus& effectAttribute
-	) = 0;
+	){}
 
 	/** 描画イベント */
-	virtual void EffectDraw(int parentPartIndex) = 0;
+	virtual void EffectDraw(int parentPartIndex){}
 	
 };
 

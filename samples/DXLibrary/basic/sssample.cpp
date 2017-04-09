@@ -60,10 +60,12 @@ public:
 		DeleteGraph(handle);
 	}
 
+#if 0
 	//テクスチャサイズの取得
 	void SSGetTextureSize(ss::TextureID handle, int* width, int* height) override{
 		GetGraphSize(handle, width, height);
 	}
+#endif
 
 	//描画 //ひとまずSS5PlayerPlatform.cppの中身をそのまま持ってきた
 	void SSDrawSprite(const ss::SSV3F_C4B_T2F_Quad& quad, ss::TextureID textureId, ss::BlendType blendType, ss::BlendType colorBlendVertexType, int colorBlendVertexFlags) override{
