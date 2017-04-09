@@ -337,12 +337,10 @@ void update(float dt)
 		if (sstest_push == false ){
 			if (sstest_pause == false ){
 				sstest_pause = true;
-				sstest_count = ssplayer->getCurrentFrame();;
-				ssplayer->stop();
+				sstest_count = ssplayer->getCurrentFrame();
 			}
 			else{
 				sstest_pause = false;
-				ssplayer->resume();
 			}
 		}
 		sstest_push = true;
@@ -413,6 +411,7 @@ void update(float dt)
 
 	if (sstest_pause == true){
 		ssplayer->setCurrentFrame(sstest_count % animax);
+		dt = 0;
 	}
 	else{
 		sstest_count = ssplayer->getCurrentFrame();

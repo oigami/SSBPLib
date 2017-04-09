@@ -45,7 +45,6 @@ Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, con
 	, _resource(resource)
 	, _animationData(nullptr)
 	, _currentFrameTime(0.0f)
-	, _isPausing(false)
 	, _seedOffset(0)
 {
 	SS_ASSERT_LOG(_eventListener, "eventListener is null");
@@ -114,7 +113,6 @@ void Player::play(const AnimeRef* animeRef, int startFrameNo)
 	setPartsParentage();
 	
 	_currentFrameTime = startFrameNo;
-	_isPausing = false;
 	
 	setFrame(static_cast<int>(_currentFrameTime));
 
@@ -123,68 +121,40 @@ void Player::play(const AnimeRef* animeRef, int startFrameNo)
 }
 
 
-
-void Player::resume()
-{
-	_isPausing = false;
-}
-
-void Player::stop()
-{
-	_isPausing = true;
-}
-
-std::string Player::getPlayPackName() const
-{
-	return _animationData->m_packName;
-}
-
-std::string Player::getPlayAnimeName() const
-{
-	return _animationData->m_animeName;
-}
-
-
 void Player::update(float dt)
 {
-	if(_isPausing){
-		//アニメを手動で更新する場合
-		checkUserData(getCurrentFrame());
-	}
-	else{
-		// フレームを進める.
-		float nextFrameTime = _currentFrameTime + (dt * getAnimeFPS());
-		float nextFrameRemainder = nextFrameTime - static_cast<int>(nextFrameTime);
+	// フレームを進める.
+	float nextFrameTime = _currentFrameTime + (dt * getAnimeFPS());
+	float nextFrameRemainder = nextFrameTime - static_cast<int>(nextFrameTime);
 		
-		int checkFrame = getCurrentFrame();
-		int seekCount = nextFrameTime - getCurrentFrame();
-		// 順再生時.
-		for(int i = 0; i < seekCount; ++i){
-			checkFrame = _eventListener->limitFrame(checkFrame + 1, getMaxFrame());	//範囲制限
-			SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
+	int checkFrame = getCurrentFrame();
+	int seekCount = nextFrameTime - getCurrentFrame();
+	// 順再生時.
+	for(int i = 0; i < seekCount; ++i){
+		checkFrame = _eventListener->limitFrame(checkFrame + 1, getMaxFrame());	//範囲制限
+		SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
 			
-			// このフレームのユーザーデータをチェック
-			checkUserData(checkFrame);
+		// このフレームのユーザーデータをチェック
+		checkUserData(checkFrame);
 
-			if(checkFrame == 0){	//一巡した
-				_seedOffset++;	//シードオフセットを加算
-			}
+		if(checkFrame == 0){	//一巡した
+			_seedOffset++;	//シードオフセットを加算
 		}
-		// 逆再生時.
-		for(int i = 0; i > seekCount; --i){
-			checkFrame = _eventListener->limitFrame(checkFrame - 1, getMaxFrame());	//範囲制限
-			SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
-
-			// このフレームのユーザーデータをチェック
-			checkUserData(checkFrame);
-
-			if(checkFrame == getMaxFrame()-1){	//一巡した
-				_seedOffset++;	//シードオフセットを加算
-			}
-		}
-		
-		_currentFrameTime = checkFrame + nextFrameRemainder;
 	}
+	// 逆再生時.
+	for(int i = 0; i > seekCount; --i){
+		checkFrame = _eventListener->limitFrame(checkFrame - 1, getMaxFrame());	//範囲制限
+		SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
+
+		// このフレームのユーザーデータをチェック
+		checkUserData(checkFrame);
+
+		if(checkFrame == getMaxFrame()-1){	//一巡した
+			_seedOffset++;	//シードオフセットを加算
+		}
+	}
+		
+	_currentFrameTime = checkFrame + nextFrameRemainder;
 
 	setFrame(getCurrentFrame());
 }

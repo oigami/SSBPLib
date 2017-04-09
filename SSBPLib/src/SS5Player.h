@@ -128,18 +128,6 @@ public:
 	 */
 	void play(const std::string& animeName, int startFrameNo = 0);
 
-
-	/** 再生を再開します. */
-	void resume();
-
-	/** 再生を停止します. */
-	void stop();
-
-	/** 再生しているアニメーションのパック名(ssae)を返します. */
-	std::string getPlayPackName() const;
-
-	/** 再生しているアニメーション名を返します. */
-	std::string getPlayAnimeName() const;
 	
 	/** アニメーションの総フレームを取得します. */
 	int getMaxFrame() const;
@@ -238,7 +226,6 @@ private:
 	std::vector<TextureID> m_textures;		//テクスチャ
 	
 	float				_currentFrameTime;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い
-	bool				_isPausing;
 	bool				_partVisible[PART_VISIBLE_MAX];
 	int					_cellChange[PART_VISIBLE_MAX];
 	int					_partIndex[PART_VISIBLE_MAX];
