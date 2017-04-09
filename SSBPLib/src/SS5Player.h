@@ -244,5 +244,6 @@ private:
 	int getAnimeFPS() const;
 };
 
+using SS5Player = Player;
 
 } // namespace ss

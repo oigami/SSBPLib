@@ -89,4 +89,6 @@ private: //non copyable
 	ResourceManager& operator=(const ResourceManager &o) = delete;
 };
 
+using SS5ResourceManager = ResourceManager;
+
 } //namespace ss
