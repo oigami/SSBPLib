@@ -75,6 +75,7 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
 #include <map>
 #include <vector>
 #include <string>
+#include <list>
 #include <stdarg.h>
 #include <assert.h>
 #include <time.h>
@@ -213,6 +214,8 @@ public:
 	/** プレイヤーの表示を行います。ゲームの表示タイミングで呼び出してください。*/
 	void draw();
 
+	/** 再生可能なアニメーションのリストを返す */
+	void getAnimationList(std::list<std::string> *animlist) const;
 
 private:
 	void allocParts(int numParts);

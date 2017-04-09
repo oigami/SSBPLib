@@ -1,8 +1,10 @@
 ﻿#include "AnimeCache.h"
 #include <string>
+#include <list>
 #include "SS5PlayerData.h"
 #include "player/Util.h"
 #include "player/ToPointer.h"
+using namespace std;
 
 namespace ss{
 
@@ -17,9 +19,9 @@ AnimeCache::~AnimeCache()
 
 #if 0
 //packNameとanimeNameを指定してAnimeRefを得る
-const AnimeRef* AnimeCache::getReference(const std::string& packName, const std::string& animeName) const
+const AnimeRef* AnimeCache::getReference(const string& packName, const string& animeName) const
 {
-	std::string key = toPackAnimeKey(packName, animeName);	//todo:animeNameだけに統一したい
+	string key = toPackAnimeKey(packName, animeName);	//todo:animeNameだけに統一したい
 	SS_ASSERT_LOG(m_animeRefs.find(key) != m_animeRefs.end(), "Not found animation");
 
 	return &(m_animeRefs.at(key));
@@ -27,18 +29,21 @@ const AnimeRef* AnimeCache::getReference(const std::string& packName, const std:
 #endif
 
 //animeNameのみ指定してAnimeRefを得る
-const AnimeRef* AnimeCache::getReference(const std::string& animeName) const
+const AnimeRef* AnimeCache::getReference(const string& animeName) const
 {
 	SS_ASSERT_LOG(m_animeRefs.find(animeName) != m_animeRefs.end(), "Not found animation");
 	return &(m_animeRefs.at(animeName));
 }
 
-void AnimeCache::dump() const
+//アニメーションのリストを作る
+void AnimeCache::getAnimationList(list<string> *animlist) const
 {
-	for(auto &str_aref : m_animeRefs){
-		SS_LOG("%s", str_aref.first);
+	animlist->clear();
+	for(auto &key_ref : m_animeRefs){
+		animlist->push_back(key_ref.first);
 	}
 }
+
 
 
 void AnimeCache::init(const ProjectData* data)
@@ -71,17 +76,17 @@ void AnimeCache::addAnimationData(ToPointer ptr, const AnimePackData* pack)
 		};
 
 		// packName + animeNameでの登録
-		std::string key = toPackAnimeKey(packName, animeName);
+		string key = toPackAnimeKey(packName, animeName);
 		SS_LOG("anime key: %s", key.c_str());
-		m_animeRefs.insert(std::make_pair(key, ref));
+		m_animeRefs.insert(make_pair(key, ref));
 
 		// animeNameのみでの登録
-		m_animeRefs.insert(std::make_pair(animeName, ref));
+		m_animeRefs.insert(make_pair(animeName, ref));
 	}
 	
 }
 
-std::string AnimeCache::toPackAnimeKey(const std::string& packName, const std::string& animeName)
+string AnimeCache::toPackAnimeKey(const string& packName, const string& animeName)
 {
 	return packName + "/" + animeName;		//return Format("%s/%s", packName.c_str(), animeName.c_str());
 }

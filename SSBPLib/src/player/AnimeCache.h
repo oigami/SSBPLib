@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <string>
+#include <list>
 #include <map>
 #include "SS5PlayerData.h"
 #include "Util.h"
@@ -50,8 +51,9 @@ public:
 	/** animeNameのみ指定してAnimeRefを得る */
 	const AnimeRef* getReference(const std::string& animeName) const;
 
-	/** デバッグ用 */
-	void dump() const;
+	
+	/** アニメーションの登録名のリストを取得する。主にデバッグ用 */
+	void getAnimationList(std::list<std::string> *animlist) const;
 
 private:
 	/** dataを元にAnimeRefを構築 */
