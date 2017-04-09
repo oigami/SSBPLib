@@ -51,6 +51,9 @@ public:
 	/** animeNameのみ指定してAnimeRefを得る */
 	const AnimeRef* getReference(const std::string& animeName) const;
 
+
+	/** 先頭のアニメーション名を返す */	//memo:SS5Playerの初期化で必要
+	std::string getFirstAnimationName() const;
 	
 	/** アニメーションの登録名のリストを取得する。主にデバッグ用 */
 	void getAnimationList(std::list<std::string> *animlist) const;

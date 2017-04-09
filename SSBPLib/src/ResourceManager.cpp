@@ -95,6 +95,10 @@ void ResourceManager::getTextureList(std::vector<std::string> *textureList, cons
 Player* ResourceManager::createPlayer(SS5EventListener* eventListener, const std::string& dataKey, const std::string& animeName) const
 {
 	const ResourceSet* rs = getData(dataKey);
+	//アニメーションの指定が無い場合は、最初のものを入れておく
+	if(animeName == s_null){
+		return new Player(eventListener, rs, rs->m_animeCache->getFirstAnimationName());
+	}
 	return new Player(eventListener, rs, animeName);
 }
 void ResourceManager::destroyPlayer(Player *&player) const
