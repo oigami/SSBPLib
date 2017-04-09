@@ -663,15 +663,30 @@ void Player::setRootMatrix(const Matrix& matrix){
 void Player::setPosition(float x, float y){
 	_playerSetting.m_position = Vector3(x, y, 0.0f);
 }
+void Player::getPosition(float* x, float* y) const{
+	*x = _playerSetting.m_position.x;
+	*y = _playerSetting.m_position.y;
+}
 void Player::setRotation(float x, float y, float z){
 	_playerSetting.m_rotation = Vector3(x, y, z);
+}
+void Player::getRotation(float* x, float* y, float* z) const{
+	*x = _playerSetting.m_rotation.x;
+	*y = _playerSetting.m_rotation.y;
+	*z = _playerSetting.m_rotation.z;
 }
 void Player::setScale(float x, float y){
 	_playerSetting.m_scale = Vector3(x, y, 1.0f);
 }
-
+void Player::getScale(float* x, float* y) const{
+	*x = _playerSetting.m_scale.x;
+	*y = _playerSetting.m_scale.y;
+}
 void Player::setAlpha(float a){
 	_playerSetting.m_color.a = clamp(a, 0.0f, 1.0f);
+}
+float Player::getAlpha() const{
+	return _playerSetting.m_color.a;
 }
 
 //アニメーションの色成分を変更します

@@ -189,15 +189,19 @@ public:
 	void setRootMatrix(const Matrix& matrix);
 
 	/** プレイヤー本体の位置を設定します */
-	void  setPosition(float x, float y);
+	void setPosition(float x, float y);
+	void getPosition(float* x, float* y) const;				//rootMatrix無視
 
 	/** プレイヤー本体の回転角度を設定します。2Dの回転はZに値を設定してください。 */
-	void  setRotation(float x, float y, float z);
+	void setRotation(float x, float y, float z);
+	void getRotation(float* x, float* y, float* z) const;	//rootMatrix無視
 	/** プレイヤー本体のスケールを設定します。*/
-	void  setScale(float x, float y);
+	void setScale(float x, float y);						//rootMatrix無視
+	void getScale(float* x, float* y) const;
 
 	/** プレイヤー本体の透明度を設定します[0:1]*/
-	void  setAlpha(float a);
+	void setAlpha(float a);
+	float getAlpha() const;
 
 	/**
 	 * アニメの色設定
