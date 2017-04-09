@@ -179,10 +179,9 @@ public:
 	 * この関数で設定したパーツは参照セルアトリビュートの影響をうけません。
 	 * アニメに設定されたセルに戻す場合は、セル名に""を指定してください。
 	 * @param partIndex	パーツ名
-	 * @param sscename	セルマップ名
-	 * @param cellname	表示させたいセル名
+	 * @param cellname	表示させたいセル名("セルマップ名/セル名"の形式)
 	 */
-	void setPartCell(int partIndex, const std::string& sscename, const std::string& cellname);
+	void setPartCell(int partIndex, const std::string& cellname);
 
 
 	/** プレイヤー本体に最初に掛ける行列を設定します */

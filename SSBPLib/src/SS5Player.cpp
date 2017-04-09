@@ -404,11 +404,11 @@ void Player::setPartVisible(int partIndex, bool visible)
 }
 
 //パーツに割り当たるセルを変更します
-void Player::setPartCell(int partIndex, const std::string& sscename, const std::string& cellname)
+void Player::setPartCell(int partIndex, const std::string& cellname)
 {
 	int changeCellIndex = -1;
-	if ((sscename != "") && (cellname != "")){
-		changeCellIndex = _resource->m_cellCache->indexOfCell(cellname, sscename);
+	if (cellname != ""){
+		changeCellIndex = _resource->m_cellCache->indexOfCell(cellname);
 	}
 	_cellChange[partIndex] = changeCellIndex;	//セル番号を設定
 }

@@ -26,12 +26,12 @@ const CellRef* CellCache::getReference(int index) const
 	return &(m_cellRefs[index]);
 }
 
-int CellCache::indexOfCell(const std::string& cellName, const std::string& cellMapName) const
+int CellCache::indexOfCell(const std::string& cellName) const
 {
 	//cellnameは同名も存在できるようだが、ひとまず最初に見つかったものを返すことにする
 	for(int i = 0; i < m_cellRefs.size(); ++i){
-		const CellRef *ref = getReference(i);
-		if(cellName == ref->m_cellName && cellMapName == ref->m_cellMapName){
+		const CellRef* ref = getReference(i);
+		if(cellName == ref->m_cellPath){
 			return i;		//名前一致したので返す
 		}
 	}
@@ -43,9 +43,8 @@ int CellCache::indexOfCell(const std::string& cellName, const std::string& cellM
 //データを見てcellrefとimagepathを構築
 void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 {
-	SS_ASSERT_LOG(data != NULL, "Invalid data");
+	SS_ASSERT_LOG(data != nullptr, "Invalid data");
 	
-	m_imageBaseDir = imageBaseDir;
 	m_cellRefs.resize(data->numCells);	//cell数だけ領域確保しておく
 	std::map<int, CellMapTextureInfo> textureInfoMap;	//数がわからないのでひとまず<index,info>のmapにしておく
 
@@ -61,7 +60,7 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 		//セルは同じセルマップを参照するため、既に入れたかどうかをチェックする
 		if(textureInfoMap.find(cellMap->index) == textureInfoMap.end()){
 			CellMapTextureInfo info = {
-				ptr.toString(cellMap->imagePath),
+				imageBaseDir + ptr.toString(cellMap->imagePath),
 				static_cast<SsTexWrapMode>(cellMap->wrapmode),
 				static_cast<SsTexFilterMode>(cellMap->filtermode)
 			};
@@ -69,9 +68,10 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 		}
 
 		const char* cellname = ptr.toString(cell->name);			//セル名
-		const char* cellmapname = ptr.toString(cellMap->name);		//セルマップ名
-		CellRef ref = {	/*cell,*/ 
-			cellname, cellMap->index, cellmapname,
+		std::string cellmapname = ptr.toString(cellMap->name);		//セルマップ名
+		CellRef ref = {	/*cell,*/
+			cellmapname + "/" + cellname,
+			cellMap->index,
 			SSRect(cell->x, cell->y, cell->width, cell->height),
 			Vector2(cell->pivot_X, cell->pivot_Y),
 			Vector2(cell->u1, cell->v1),
@@ -102,8 +102,7 @@ std::string CellCache::getTexturePath(int cellMapIndex) const
 		return m_imagePaths[cellMapIndex];	//絶対パスのときはそのまま扱う
 	}
 #endif
-	std::string texturePath = m_imageBaseDir + m_textureInfos[cellMapIndex].m_imagePaths;
-	return texturePath;
+	return m_textureInfos[cellMapIndex].m_imagePaths;
 }
 
 SsTexWrapMode CellCache::getWrapMode(int cellMapIndex) const{
