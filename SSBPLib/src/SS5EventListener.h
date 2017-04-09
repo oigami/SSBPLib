@@ -3,6 +3,10 @@
 #include "SS5PlayerTypes.h"
 #include "player/PlayerDef.h"
 #include "effect/sstypes.h"
+#include "player/InstancePartStatus.h"
+#include "player/EffectPartStatus.h"
+#include "math/Matrix.h"
+#include "player/UserData.h"
 
 namespace ss{
 class Player;
