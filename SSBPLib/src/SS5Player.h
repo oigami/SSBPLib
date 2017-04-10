@@ -218,7 +218,7 @@ private:
 	const ResourceSet* _resource;			//ssbp
 	const AnimeRef*	_animationData;			//アニメーションデータ
 	
-	std::vector<CustomSprite *> _parts;
+	std::vector<CustomSprite> _parts;
 	std::vector<TextureID> m_textures;		//テクスチャ
 	
 	float				_currentFrameTime;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い

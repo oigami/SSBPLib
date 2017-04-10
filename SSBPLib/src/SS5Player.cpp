@@ -162,19 +162,16 @@ void Player::update(float dt)
 void Player::allocParts(int numParts)
 {
 	releaseParts();	//すべてのパーツを消す
-
-	// パーツ数だけCustomSpriteを作成する
-	for (int i = 0; i < numParts; i++){
-		CustomSprite* sprite =  new CustomSprite();		
-		_parts.push_back(sprite);
-	}
+	
+	//パーツ数だけ用意する
+	_parts.resize(numParts);
 }
 
 void Player::releaseParts()
 {
 	// パーツの子CustomSpriteを全て削除
 	for(int i = 0; i < _parts.size(); ++i){
-		CustomSprite* sprite = _parts[i];
+		CustomSprite* sprite = &_parts[i];
 	
 		//ChildPlayerがあるなら、spriteを破棄する前にリリースイベントを飛ばす
 		if(sprite->m_haveChildPlayer){
@@ -185,7 +182,6 @@ void Player::releaseParts()
 			sprite->m_haveEffect = false;
 			_eventListener->EffectRelease(i);
 		}
-		SS_SAFE_DELETE(sprite);
 	}
 	_parts.clear();
 }
@@ -193,19 +189,17 @@ void Player::releaseParts()
 void Player::setPartsParentage()
 {
 	ToPointer ptr(_resource->m_data);
-	int numParts = _animationData->m_numParts;
 	
 	//親子関係を設定
-	for (int partIndex = 0; partIndex < numParts; partIndex++)
-	{
+	for (int partIndex = 0; partIndex < _parts.size(); partIndex++){
 		const PartData* partData = _animationData->getPartData(partIndex);
-		CustomSprite* sprite = _parts.at(partIndex);
+		CustomSprite* sprite = &_parts.at(partIndex);
 		
-		if (partIndex > 0){
-			sprite->m_parent = _parts.at(partData->parentIndex);
+		if(partData->parentIndex < 0){
+			sprite->m_parent = nullptr;
 		}
 		else{
-			sprite->m_parent = nullptr;
+			sprite->m_parent = &_parts.at(partData->parentIndex);
 		}
 
 		//インスタンスパーツならChildPlayerの生成イベントを飛ばす
@@ -229,7 +223,7 @@ void Player::setPartsParentage()
 //再生しているアニメーションに含まれるパーツ数を取得
 int Player::getPartsNum() const
 {
-	return _animationData->m_numParts;
+	return _parts.size();		//return _animationData->m_numParts;
 }
 
 //indexからパーツ名を取得
@@ -269,7 +263,7 @@ void Player::getPartState(ResluteState& result, int partIndex) const
 	//必要に応じて取得するパラメータを追加してください。
 	//当たり判定などのパーツに付属するフラグを取得する場合は　partData　のメンバを参照してください。
 	//親から継承したスケールを反映させる場合はxスケールは_mat.m[0]、yスケールは_mat.m[5]をかけて使用してください。
-	CustomSprite* sprite = _parts.at(partIndex);
+	const CustomSprite* sprite = &_parts[partIndex];
 	//パーツアトリビュート
 //					sprite->_state;												//SpriteStudio上のアトリビュートの値は_stateから取得してください
 	result.flags = sprite->m_state.m_flags;						// このフレームで更新が行われるステータスのフラグ
@@ -396,7 +390,7 @@ void Player::setFrame(int frameNo)
 	const AnimationInitialData* initialDataList = ptr.toAnimationInitialDatas(animeData);
 
 
-	for (int index = 0; index < _animationData->m_numParts; index++){
+	for (int index = 0; index < _parts.size(); index++){
 
 		int partIndex = reader.readS16();
 		const PartData* partData = _animationData->getPartData(partIndex);
@@ -426,7 +420,7 @@ void Player::setFrame(int frameNo)
 			state.m_pivot.y += cpy;
 		}
 
-		CustomSprite* sprite = _parts.at(partIndex);
+		CustomSprite* sprite = &_parts.at(partIndex);
 
 		if (cellRef){
 			//各パーツのテクスチャ情報を設定
@@ -520,37 +514,35 @@ void Player::setFrame(int frameNo)
 
 	// 行列の更新
 	Matrix rootMatrix = _playerSetting.getWorldMatrix();
-	for (int partIndex = 0; partIndex < _animationData->m_numParts; partIndex++){
-		CustomSprite* sprite = _parts.at(partIndex);
-		sprite->updateMatrixAndAlpha(rootMatrix, _playerSetting.m_color.a);
+	for(CustomSprite& sprite : _parts){
+		sprite.updateMatrixAndAlpha(rootMatrix, _playerSetting.m_color.a);
 	
 		//SSDrawSpriteから出しました-----------------------------------------------
 		//原点補正
 		Vector3 center(
-			(sprite->m_rect.width() * -(sprite->m_state.m_pivot.x)),
-			(sprite->m_rect.height() * +(sprite->m_state.m_pivot.y)),	//xと同様、-のような気がする
+			(sprite.m_rect.width() * -(sprite.m_state.m_pivot.x)),
+			(sprite.m_rect.height() * +(sprite.m_state.m_pivot.y)),	//xと同様、-のような気がする
 			0.0f
 		);
 
 		//vertexにworldMatrixをかける
-		sprite->m_quad.vertexForeach([&](Vector3& vertex){
+		sprite.m_quad.vertexForeach([&](Vector3& vertex){
 			vertex += center;		//原点補正
-			vertex *= sprite->m_worldMatrix;
+			vertex *= sprite.m_worldMatrix;
 		});
 
 		//頂点カラー補正
-		sprite->m_quad.colorsForeach([&](SSColor4B& color){
+		sprite.m_quad.colorsForeach([&](SSColor4B& color){
 			color.r *= _playerSetting.m_color.r;
 			color.g *= _playerSetting.m_color.g;
 			color.b *= _playerSetting.m_color.b;
-			color.a *= sprite->m_alpha;	//color.aはrootから伝播済み
+			color.a *= sprite.m_alpha;	//color.aはrootから伝播済み
 		});
 	}
 
 	// 特殊パーツのアップデート
-	for (int partIndex = 0; partIndex < _animationData->m_numParts; partIndex++)
-	{
-		CustomSprite* sprite = _parts.at(partIndex);
+	for (int partIndex = 0; partIndex < _parts.size(); partIndex++){
+		CustomSprite* sprite = &_parts[partIndex];
 
 		//インスタンスアニメーションがある場合は親パーツ情報を通知する
 		if(sprite->m_haveChildPlayer){
@@ -573,10 +565,10 @@ void Player::setFrame(int frameNo)
 //プレイヤーの描画
 void Player::draw()
 {
-	for (int index = 0; index < _animationData->m_numParts; index++){
+	for (int index = 0; index < _parts.size(); index++){
 		int partIndex = _partIndex[index];
 		//スプライトの表示
-		const CustomSprite* sprite = _parts.at(partIndex);
+		const CustomSprite* sprite = &_parts[partIndex];
 		const State& state = sprite->m_state;
 
 		//非表示設定なら無視する
