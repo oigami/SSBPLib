@@ -129,21 +129,17 @@ public:
 	void play(const std::string& animeName, int startFrameNo = 0);
 
 	
-	/** アニメーションの総フレームを取得します. */
-	int getMaxFrame() const;
-
-	/** 再生フレームNoを取得します. */
-	int getCurrentFrame() const;
-
-	/** 再生フレームNoを設定します. */
-	void setCurrentFrame(int frame);
+	/* 再生フレーム */
+	int getMaxFrame() const;			//アニメーションの総フレームを取得
+	int getCurrentFrame() const;		//再生フレームを取得
+	void setCurrentFrame(int frame);	//再生フレームの設定。update呼ぶまで反映されません
 
 
 	/** ラベル名からフレーム位置を取得します. */
 	int getLabelToFrame(const std::string& labelName) const;
 
 	/** 再生しているアニメーションに含まれるパーツ数を取得します. */
-	int getPartsCount() const;
+	int getPartsNum() const;
 
 	/** indexからパーツ名を取得します */
 	std::string getPartName(int partIndex) const;

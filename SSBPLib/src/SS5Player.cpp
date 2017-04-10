@@ -112,12 +112,11 @@ void Player::play(const AnimeRef* animeRef, int startFrameNo)
 	allocParts(animeRef->m_numParts);
 	setPartsParentage();
 	
-	_currentFrameTime = startFrameNo;
-	
-	setFrame(static_cast<int>(_currentFrameTime));
+	setCurrentFrame(startFrameNo);
+	setFrame(getCurrentFrame());
 
 	//play実行時に最初のフレームのユーザーデータを確認する
-	checkUserData(static_cast<int>(_currentFrameTime));
+	checkUserData(getCurrentFrame());
 }
 
 
@@ -228,7 +227,7 @@ void Player::setPartsParentage()
 }
 
 //再生しているアニメーションに含まれるパーツ数を取得
-int Player::getPartsCount() const
+int Player::getPartsNum() const
 {
 	return _animationData->m_numParts;
 }
