@@ -74,6 +74,7 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
 #include "SS5PlayerTypes.h"
 #include <map>
 #include <vector>
+#include <deque>
 #include <string>
 #include <list>
 #include <stdarg.h>
@@ -84,8 +85,7 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
 #include "player/InstancePartStatus.h"
 #include "player/PlayerSetting.h"
 
-namespace ss
-{
+namespace ss{
 class CustomSprite;
 struct AnimeRef;
 class ResourceSet;
@@ -94,19 +94,6 @@ class Player;
 class ResourceManager;
 struct ResluteState;
 class SS5EventListener;
-
-//------------------------------------------------------------------------------
-//プレイヤーの設定定義
-//使用するアニメーションに合わせて設定してください。
-
-
-//プレイヤーで扱えるアニメに含まれるパーツの最大数
-#define PART_VISIBLE_MAX (512)
-
-//座標系の設定：上方向がマイナスの場合はscaleYを-1にしてください
-
-//------------------------------------------------------------------------------
-
 
 
 /**
@@ -217,15 +204,18 @@ private:
 	SS5EventListener* _eventListener;
 	const ResourceSet* _resource;			//ssbp
 	const AnimeRef*	_animationData;			//アニメーションデータ
-	
-	std::vector<CustomSprite> _parts;
 	std::vector<TextureID> m_textures;		//テクスチャ
+
+	std::vector<CustomSprite> _parts;
+	std::vector<int>	_drawOrderIndex;	//描画優先順でpartIndexを保存しておく  priority: [0] > [max]
+
+	//書き換え用。アニメーションが切り替わっても設定は維持されます
+	std::deque<bool>	_partVisible;		//visibleの上書き。デフォルトはtrue。vector<bool>は特殊化されるのでdequeで代用する
+	std::vector<int>	_changeCellIndex;	//cellの差し替わり番号 未使用時は-1
+	
 	
 	float				_currentFrameTime;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い
-	bool				_partVisible[PART_VISIBLE_MAX];
-	int					_cellChange[PART_VISIBLE_MAX];
-	int					_partIndex[PART_VISIBLE_MAX];
-	int					_seedOffset;					//エフェクトシードオフセット
+	int					_seedOffset;			//エフェクトシードオフセット
 
 	PlayerSetting		_playerSetting;			//プレイヤー単位での操作設定についてを抱えておく(移動、回転など)
 

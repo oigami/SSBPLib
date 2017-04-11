@@ -50,12 +50,6 @@ Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, con
 	SS_ASSERT_LOG(_eventListener, "eventListener is null");
 	SS_ASSERT_LOG(_resource, "resource is null");
 
-	for (int i = 0; i < PART_VISIBLE_MAX; i++){
-		_partVisible[i] = true;
-		_partIndex[i] = -1;
-		_cellChange[i] = -1;
-	}
-
 	//ロードイベントを投げてcellMapのテクスチャを取得する
 	int cellMapNum = _resource->m_cellCache->getCellMapNum();
 	m_textures.resize(cellMapNum);
@@ -165,6 +159,10 @@ void Player::allocParts(int numParts)
 	
 	//パーツ数だけ用意する
 	_parts.resize(numParts);
+	_drawOrderIndex.resize(numParts, 0);
+
+	_partVisible.resize(numParts, true);
+	_changeCellIndex.resize(numParts, -1);
 }
 
 void Player::releaseParts()
@@ -373,7 +371,7 @@ void Player::setPartCell(int partIndex, const std::string& cellname)
 	if (cellname != ""){
 		changeCellIndex = _resource->m_cellCache->indexOfCell(cellname);
 	}
-	_cellChange[partIndex] = changeCellIndex;	//セル番号を設定
+	_changeCellIndex[partIndex] = changeCellIndex;	//セル番号を設定
 }
 
 
@@ -400,11 +398,11 @@ void Player::setFrame(int frameNo)
 		state.readData(reader, init);
 
 		//ユーザーがセルを上書きした
-		if (_cellChange[partIndex] != -1){
-			state.m_cellIndex = _cellChange[partIndex];
+		if (_changeCellIndex[partIndex] != -1){
+			state.m_cellIndex = _changeCellIndex[partIndex];
 		}
 
-		_partIndex[index] = partIndex;
+		_drawOrderIndex[index] = partIndex;
 
 
 		//セルの原点設定を反映させる
@@ -566,7 +564,7 @@ void Player::setFrame(int frameNo)
 void Player::draw()
 {
 	for (int index = 0; index < _parts.size(); index++){
-		int partIndex = _partIndex[index];
+		int partIndex = _drawOrderIndex[index];
 		//スプライトの表示
 		const CustomSprite* sprite = &_parts[partIndex];
 		const State& state = sprite->m_state;
