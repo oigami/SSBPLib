@@ -115,31 +115,23 @@ public:
 	 */
 	void play(const std::string& animeName, int startFrameNo = 0);
 
-	
+
+	/* 毎フレーム呼ぶもの */
+	void update(float dt);		//更新
+	void draw();				//描画
+
+
 	/* 再生フレーム */
 	int getMaxFrame() const;			//アニメーションの総フレームを取得
 	int getCurrentFrame() const;		//再生フレームを取得
 	void setCurrentFrame(int frame);	//再生フレームの設定。update呼ぶまで反映されません
 
-
-	/** ラベル名からフレーム位置を取得します. */
-	int getLabelToFrame(const std::string& labelName) const;
-
-	/** 再生しているアニメーションに含まれるパーツ数を取得します. */
-	int getPartsNum() const;
-
-	/** indexからパーツ名を取得します */
-	std::string getPartName(int partIndex) const;
-
-	/** パーツ名からindexを取得します */
-	int indexOfPart(const std::string& partName) const;
-
-	/**
-	 * パーツ情報を取得します.
-	 * @param result	パーツ情報を受け取るバッファ
-	 * @param name		取得するパーツのインデックス
-	 */
-	void getPartState(ResluteState& result, int partIndex) const;
+	/* パーツへのアクセサ */
+	int getPartsNum() const;										//再生しているアニメーションに含まれるパーツ数を取得
+	std::string getPartName(int partIndex) const;					//indexからパーツ名を取得
+	int indexOfPart(const std::string& partName) const;				//パーツ名からindexを取得
+	void getPartState(ResluteState& result, int partIndex) const;	//パーツ情報を取得
+	int getLabelToFrame(const std::string& labelName) const;		//ラベル名からフレーム位置を取得
 
 	
 	/** 指定したパーツを表示、非表示を設定します */
@@ -182,11 +174,7 @@ public:
 	void setColor(float r, float g, float b);
 
 
-	/** プレイヤーの更新を行います。ゲームの更新タイミングで呼び出してください。*/
-	void update(float dt);
 
-	/** プレイヤーの表示を行います。ゲームの表示タイミングで呼び出してください。*/
-	void draw();
 
 	/** 再生可能なアニメーションのリストを返す */
 	void getAnimationList(std::list<std::string> *animlist) const;
@@ -200,6 +188,8 @@ private:
 	void setFrame(int frameNo);
 	void checkUserData(int frameNo);
 
+	int getAnimeFPS() const;
+	
 private:
 	SS5EventListener* _eventListener;
 	const ResourceSet* _resource;			//ssbp
@@ -220,7 +210,9 @@ private:
 	PlayerSetting		_playerSetting;			//プレイヤー単位での操作設定についてを抱えておく(移動、回転など)
 
 
-	int getAnimeFPS() const;
+private: //non copyable
+	Player(const Player &o) = delete;
+	Player& operator=(const Player &o) = delete;
 };
 
 using SS5Player = Player;

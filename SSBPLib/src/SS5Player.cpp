@@ -78,19 +78,6 @@ Player::~Player()
 }
 
 
-int Player::getMaxFrame() const{
-	return _animationData->m_animationData->numFrames;
-}
-
-int Player::getCurrentFrame() const{
-	return static_cast<int>(_currentFrameTime);
-}
-
-void Player::setCurrentFrame(int frame){
-	_currentFrameTime = frame;
-}
-
-
 void Player::play(const std::string& animeName, int startFrameNo)
 {
 	const AnimeRef* animeRef = _resource->m_animeCache->getReference(animeName);
@@ -103,8 +90,8 @@ void Player::play(const AnimeRef* animeRef, int startFrameNo)
 {
 	_animationData = animeRef;
 		
-	allocParts(animeRef->m_numParts);
-	setPartsParentage();
+	allocParts(animeRef->m_numParts);	//割り当て
+	setPartsParentage();				//親子関係構築
 	
 	setCurrentFrame(startFrameNo);
 	setFrame(getCurrentFrame());
@@ -114,49 +101,10 @@ void Player::play(const AnimeRef* animeRef, int startFrameNo)
 }
 
 
-void Player::update(float dt)
-{
-	// フレームを進める.
-	float nextFrameTime = _currentFrameTime + (dt * getAnimeFPS());
-	float nextFrameRemainder = nextFrameTime - static_cast<int>(nextFrameTime);
-		
-	int checkFrame = getCurrentFrame();
-	int seekCount = nextFrameTime - getCurrentFrame();
-	// 順再生時.
-	for(int i = 0; i < seekCount; ++i){
-		checkFrame = _eventListener->limitFrame(checkFrame + 1, getMaxFrame());	//範囲制限
-		SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
-			
-		// このフレームのユーザーデータをチェック
-		checkUserData(checkFrame);
-
-		if(checkFrame == 0){	//一巡した
-			_seedOffset++;	//シードオフセットを加算
-		}
-	}
-	// 逆再生時.
-	for(int i = 0; i > seekCount; --i){
-		checkFrame = _eventListener->limitFrame(checkFrame - 1, getMaxFrame());	//範囲制限
-		SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
-
-		// このフレームのユーザーデータをチェック
-		checkUserData(checkFrame);
-
-		if(checkFrame == getMaxFrame()-1){	//一巡した
-			_seedOffset++;	//シードオフセットを加算
-		}
-	}
-		
-	_currentFrameTime = checkFrame + nextFrameRemainder;
-
-	setFrame(getCurrentFrame());
-}
-
-
 void Player::allocParts(int numParts)
 {
 	releaseParts();	//すべてのパーツを消す
-	
+
 	//パーツ数だけ用意する
 	_parts.resize(numParts);
 	_drawOrderIndex.resize(numParts, 0);
@@ -170,7 +118,7 @@ void Player::releaseParts()
 	// パーツの子CustomSpriteを全て削除
 	for(int i = 0; i < _parts.size(); ++i){
 		CustomSprite* sprite = &_parts[i];
-	
+
 		//ChildPlayerがあるなら、spriteを破棄する前にリリースイベントを飛ばす
 		if(sprite->m_haveChildPlayer){
 			sprite->m_haveChildPlayer = false;
@@ -187,12 +135,12 @@ void Player::releaseParts()
 void Player::setPartsParentage()
 {
 	ToPointer ptr(_resource->m_data);
-	
+
 	//親子関係を設定
-	for (int partIndex = 0; partIndex < _parts.size(); partIndex++){
+	for(int partIndex = 0; partIndex < _parts.size(); partIndex++){
 		const PartData* partData = _animationData->getPartData(partIndex);
 		CustomSprite* sprite = &_parts.at(partIndex);
-		
+
 		if(partData->parentIndex < 0){
 			sprite->m_parent = nullptr;
 		}
@@ -217,6 +165,62 @@ void Player::setPartsParentage()
 		}
 	}
 }
+
+
+int Player::getMaxFrame() const{
+	return _animationData->m_animationData->numFrames;
+}
+
+int Player::getCurrentFrame() const{
+	return static_cast<int>(_currentFrameTime);
+}
+
+void Player::setCurrentFrame(int frame){
+	_currentFrameTime = frame;
+}
+
+
+void Player::update(float dt)
+{
+	// フレームを進める.
+	float nextFrameTime = _currentFrameTime + (dt * getAnimeFPS());
+	float nextFrameRemainder = nextFrameTime - static_cast<int>(nextFrameTime);
+		
+	int checkFrame = getCurrentFrame();
+	int seekCount = nextFrameTime - getCurrentFrame();
+	// 順再生時.
+	for(int i = 0; i < seekCount; ++i){
+		checkFrame = _eventListener->limitFrame(checkFrame + 1, getMaxFrame());	//範囲制限
+		SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
+			
+		// このフレームのユーザーデータをチェック
+		checkUserData(checkFrame);
+
+		if(checkFrame == 0){	//一巡した
+			_seedOffset++;		//シードオフセットを加算
+		}
+	}
+	// 逆再生時.
+	for(int i = 0; i > seekCount; --i){
+		checkFrame = _eventListener->limitFrame(checkFrame - 1, getMaxFrame());	//範囲制限
+		SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
+
+		// このフレームのユーザーデータをチェック
+		checkUserData(checkFrame);
+
+		if(checkFrame == getMaxFrame()-1){	//一巡した
+			_seedOffset++;		//シードオフセットを加算
+		}
+	}
+		
+	_currentFrameTime = checkFrame + nextFrameRemainder;
+
+	setFrame(getCurrentFrame());
+}
+
+
+
+
 
 //再生しているアニメーションに含まれるパーツ数を取得
 int Player::getPartsNum() const
