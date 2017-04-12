@@ -42,6 +42,8 @@ struct State{
 	InstancePartStatus m_instanceValue;	//インスタンスアトリビュート
 	EffectPartStatus m_effectValue;		//エフェクトアトリビュート
 
+	SSQuad3 m_vertexTransform;	//頂点変形のオフセット
+
 
 	//readerを介してデータを読み取る
 	void readData(DataArrayReader& reader, const AnimationInitialData* init);

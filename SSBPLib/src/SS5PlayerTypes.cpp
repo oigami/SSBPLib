@@ -91,8 +91,13 @@ SSColor4B SSColorF::toSSColor4B() const{
 
 
 //頂点オフセットの読み取り
-void SSQuad3::readVertexTransform(DataArrayReader &reader)
+void SSQuad3::readData(DataArrayReader &reader)
 {
+	tl = Vector3::zero;
+	tr = Vector3::zero;
+	bl = Vector3::zero;
+	br = Vector3::zero;
+
 	int vt_flags = reader.readU16();
 	if (vt_flags & VERTEX_FLAG_LT){
 		tl.x = reader.readS16();

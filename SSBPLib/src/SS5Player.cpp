@@ -447,13 +447,6 @@ void Player::setFrame(int frameNo)
 		}
 		state.vertexCompute(&quad, cellRect);
 
-		// 頂点変形のオフセット値を反映
-		if (state.m_flags & PART_FLAG_VERTEX_TRANSFORM){
-			SSQuad3 positionOffsets;
-			positionOffsets.readVertexTransform(reader);
-			
-			quad.add(positionOffsets);
-		}
 		
 		//頂点情報の取得
 		SSColor4B color4 = { 0xff, 0xff, 0xff, 0xff };

@@ -31,6 +31,8 @@ void State::init()
 
 	m_instanceValue = InstancePartStatus();
 	m_effectValue = EffectPartStatus();
+
+	m_vertexTransform = SSQuad3();
 }
 
 
@@ -60,17 +62,18 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 	m_uvScale.y  = flags & PART_FLAG_V_SCALE ? reader.readFloat() : init->uv_scale_Y;
 	m_boundingRadius = flags & PART_FLAG_BOUNDINGRADIUS ? reader.readFloat() : init->boundingRadius;
 
-	//インスタンスアトリビュート
-	m_instanceValue.readData(flags, reader, init);
+	m_instanceValue.readData(flags, reader, init);	//インスタンスアトリビュート
+	m_effectValue.readData(flags, reader, init);	//エフェクトアトリビュート
 
-	//エフェクトアトリビュート
-	m_effectValue.readData(flags, reader, init);
-
-
+	//フラグを抽出
 	m_flipX = (flags & PART_FLAG_FLIP_H);
 	m_flipY = (flags & PART_FLAG_FLIP_V);
-
 	m_isVisibled = !(flags & PART_FLAG_INVISIBLE);
+
+	//頂点変形のオフセット
+	if(flags & PART_FLAG_VERTEX_TRANSFORM){
+		m_vertexTransform.readData(reader);
+	}
 }
 
 
@@ -168,6 +171,12 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const
 	q->br.vertices -= center;
 	q->tl.vertices -= center;
 	q->tr.vertices -= center;
+
+
+	// 頂点変形のオフセット値を反映
+	if(m_flags & PART_FLAG_VERTEX_TRANSFORM){
+		q->add(m_vertexTransform);
+	}
 }
 
 

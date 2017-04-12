@@ -76,7 +76,7 @@ struct SSQuad3 {
 	Vector3 tr;
 
 	//頂点オフセットの読み取り
-	void readVertexTransform(DataArrayReader& reader);
+	void readData(DataArrayReader& reader);
 };
 
 
