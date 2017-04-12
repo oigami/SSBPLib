@@ -461,7 +461,6 @@ void Player::setFrame(int frameNo)
 			int typeAndFlags = reader.readU16();
 			int funcNo = typeAndFlags & 0xff;
 			int cb_flags = (typeAndFlags >> 8) & 0xff;
-			float blend_rate = 1.0f;
 
 			sprite->m_state.m_colorBlendVertexFunc = static_cast<BlendType>(funcNo);
 			sprite->m_state.m_colorBlendVertexFlags = cb_flags;
