@@ -26,13 +26,17 @@ void State::init()
 	m_flipY = false;
 	m_isVisibled = false;
 
-	m_colorBlendVertexFunc = BLEND_MIX;
-	m_colorBlendVertexFlags = 0;
-
 	m_instanceValue = InstancePartStatus();
 	m_effectValue = EffectPartStatus();
 
 	m_vertexTransform = SSQuad3();
+
+	m_colorBlendVertexFunc = BLEND_MIX;
+	m_colorBlendVertexFlags = 0;
+	m_colorTL = SSColor4B(0xff, 0xff, 0xff, 0xff);
+	m_colorTR = SSColor4B(0xff, 0xff, 0xff, 0xff);
+	m_colorBL = SSColor4B(0xff, 0xff, 0xff, 0xff);
+	m_colorBR = SSColor4B(0xff, 0xff, 0xff, 0xff);
 }
 
 
@@ -73,6 +77,43 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 	//頂点変形のオフセット
 	if(flags & PART_FLAG_VERTEX_TRANSFORM){
 		m_vertexTransform.readData(reader);
+	}
+
+	//カラーブレンド
+	m_colorTL = SSColor4B(0xff, 0xff, 0xff, 0xff);
+	m_colorTR = SSColor4B(0xff, 0xff, 0xff, 0xff);
+	m_colorBL = SSColor4B(0xff, 0xff, 0xff, 0xff);
+	m_colorBR = SSColor4B(0xff, 0xff, 0xff, 0xff);
+	if(flags & PART_FLAG_COLOR_BLEND){
+		int typeAndFlags = reader.readU16();
+		int funcNo = typeAndFlags & 0xff;
+		int cb_flags = (typeAndFlags >> 8) & 0xff;
+
+		m_colorBlendVertexFunc = static_cast<BlendType>(funcNo);
+		m_colorBlendVertexFlags = cb_flags;
+
+		//ssbpではカラーブレンドのレート（％）は使用できません。
+		//制限となります。
+		if(cb_flags & VERTEX_FLAG_ONE){
+			SSColor4B color;
+			color.readColorWithRate(reader);
+			
+			m_colorTL = m_colorTR = m_colorBL = m_colorBR = color;
+		}
+		else{
+			if(cb_flags & VERTEX_FLAG_LT){
+				m_colorTL.readColorWithRate(reader);
+			}
+			if(cb_flags & VERTEX_FLAG_RT){
+				m_colorTR.readColorWithRate(reader);
+			}
+			if(cb_flags & VERTEX_FLAG_LB){
+				m_colorBL.readColorWithRate(reader);
+			}
+			if(cb_flags & VERTEX_FLAG_RB){
+				m_colorBR.readColorWithRate(reader);
+			}
+		}
 	}
 }
 
@@ -178,6 +219,23 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const
 		q->add(m_vertexTransform);
 	}
 }
+
+void State::colorCompute(SSV3F_C4B_T2F_Quad* q) const
+{
+	if(m_flags & PART_FLAG_COLOR_BLEND){
+		q->tl.colors = m_colorTL;
+		q->tr.colors = m_colorTR;
+		q->bl.colors = m_colorBL;
+		q->br.colors = m_colorBR;
+	}
+	else{
+		q->tl.colors = SSColor4B(0xff, 0xff, 0xff, 0xff);
+		q->tr.colors = SSColor4B(0xff, 0xff, 0xff, 0xff);
+		q->bl.colors = SSColor4B(0xff, 0xff, 0xff, 0xff);
+		q->br.colors = SSColor4B(0xff, 0xff, 0xff, 0xff);
+	}
+}
+
 
 
 // SRzRyRxT mat

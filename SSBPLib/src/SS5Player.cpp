@@ -447,49 +447,9 @@ void Player::setFrame(int frameNo)
 		}
 		state.vertexCompute(&quad, cellRect);
 
-		
-		//頂点情報の取得
-		SSColor4B color4 = { 0xff, 0xff, 0xff, 0xff };
-		quad.tl.colors =
-		quad.tr.colors =
-		quad.bl.colors =
-		quad.br.colors = color4;
+		//カラーの設定
+		state.colorCompute(&quad);
 
-		// カラーブレンドの反映
-		if (state.m_flags & PART_FLAG_COLOR_BLEND){
-
-			int typeAndFlags = reader.readU16();
-			int funcNo = typeAndFlags & 0xff;
-			int cb_flags = (typeAndFlags >> 8) & 0xff;
-
-			sprite->m_state.m_colorBlendVertexFunc = static_cast<BlendType>(funcNo);
-			sprite->m_state.m_colorBlendVertexFlags = cb_flags;
-
-			//ssbpではカラーブレンドのレート（％）は使用できません。
-			//制限となります。
-			if (cb_flags & VERTEX_FLAG_ONE){
-
-				color4.readColorWithRate(reader);
-				quad.tl.colors =
-				quad.tr.colors =
-				quad.bl.colors =
-				quad.br.colors = color4;
-			}
-			else{
-				if (cb_flags & VERTEX_FLAG_LT){
-					quad.tl.colors.readColorWithRate(reader);
-				}
-				if (cb_flags & VERTEX_FLAG_RT){
-					quad.tr.colors.readColorWithRate(reader);
-				}
-				if (cb_flags & VERTEX_FLAG_LB){
-					quad.bl.colors.readColorWithRate(reader);
-				}
-				if (cb_flags & VERTEX_FLAG_RB){
-					quad.br.colors.readColorWithRate(reader);
-				}
-			}
-		}
 
 		//UVを設定する
 		SSTex2F uv_tl, uv_br;

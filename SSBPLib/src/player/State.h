@@ -34,17 +34,21 @@ struct State{
 	bool m_flipX;					/// 横反転
 	bool m_flipY;					/// 縦反転
 	bool m_isVisibled;				/// 非表示
-
-	BlendType m_colorBlendVertexFunc;	/// SS5アトリビュート：カラーブレンドのブレンド方法
-	int m_colorBlendVertexFlags;		/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
-
 	
 	InstancePartStatus m_instanceValue;	//インスタンスアトリビュート
 	EffectPartStatus m_effectValue;		//エフェクトアトリビュート
 
 	SSQuad3 m_vertexTransform;	//頂点変形のオフセット
 
+	//カラーブレンド
+	BlendType m_colorBlendVertexFunc;	/// SS5アトリビュート：カラーブレンドのブレンド方法
+	int       m_colorBlendVertexFlags;	/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか
+	SSColor4B m_colorTL;
+	SSColor4B m_colorTR;
+	SSColor4B m_colorBL;
+	SSColor4B m_colorBR;
 
+	
 	//readerを介してデータを読み取る
 	void readData(DataArrayReader& reader, const AnimationInitialData* init);
 
@@ -53,7 +57,10 @@ struct State{
 	//現在のStateの情報を元にuvを計算する
 	void uvCompute(SSV3F_C4B_T2F_Quad* q, SSTex2F uv_tl/*top,left*/, SSTex2F uv_br/*bottom,right*/) const;
 	//現在のStateの情報を元にverexを計算する
-	void vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const SSQuad3& vertexTransform*/) const;
+	void vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect) const;
+	//現在のStateの情報を元にcolorを計算する
+	void colorCompute(SSV3F_C4B_T2F_Quad* q) const;
+
 
 	//現在のStateの情報を元にローカルmatrixを計算する
 	Matrix getLocalMatrix() const;
