@@ -447,6 +447,18 @@ void Player::setFrame(int frameNo)
 		}
 		state.vertexCompute(&quad, cellRect);
 
+		//原点補正
+		Vector3 center(
+			(sprite->m_rect.width() * -(state.m_pivot.x)),
+			(sprite->m_rect.height() * +(state.m_pivot.y)),	//xと同様、-のような気がする
+			0.0f
+		);
+		quad.vertexForeach([&](Vector3& vertex){
+			vertex += center;		//原点補正
+		});
+		
+
+
 		//カラーの設定
 		state.colorCompute(&quad);
 
@@ -471,17 +483,9 @@ void Player::setFrame(int frameNo)
 	for(CustomSprite& sprite : _parts){
 		sprite.updateMatrixAndAlpha(rootMatrix, _playerSetting.m_color.a);
 	
-		//SSDrawSpriteから出しました-----------------------------------------------
-		//原点補正
-		Vector3 center(
-			(sprite.m_rect.width() * -(sprite.m_state.m_pivot.x)),
-			(sprite.m_rect.height() * +(sprite.m_state.m_pivot.y)),	//xと同様、-のような気がする
-			0.0f
-		);
-
+		
 		//vertexにworldMatrixをかける
 		sprite.m_quad.vertexForeach([&](Vector3& vertex){
-			vertex += center;		//原点補正
 			vertex *= sprite.m_worldMatrix;
 		});
 
