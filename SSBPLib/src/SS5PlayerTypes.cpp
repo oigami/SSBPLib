@@ -118,4 +118,32 @@ void SSQuad3::readData(DataArrayReader &reader)
 }
 
 
+//カラーブレンドの読み取り
+void SSQuadColor::readData(int vertexFlags, DataArrayReader& reader)
+{
+	if(vertexFlags & VERTEX_FLAG_ONE){
+		SSColor4B color;
+		color.readColorWithRate(reader);
+
+		tl = tr = bl = br = color;
+	}
+	else{
+		tl = tr = bl = br = SSColor4B(0xff, 0xff, 0xff, 0xff);
+
+		if(vertexFlags & VERTEX_FLAG_LT){
+			tl.readColorWithRate(reader);
+		}
+		if(vertexFlags & VERTEX_FLAG_RT){
+			tr.readColorWithRate(reader);
+		}
+		if(vertexFlags & VERTEX_FLAG_LB){
+			bl.readColorWithRate(reader);
+		}
+		if(vertexFlags & VERTEX_FLAG_RB){
+			br.readColorWithRate(reader);
+		}
+	}
+}
+
+
 } //namespace ss

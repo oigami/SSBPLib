@@ -43,10 +43,7 @@ struct State{
 	//カラーブレンド
 	BlendType m_colorBlendVertexFunc;	/// SS5アトリビュート：カラーブレンドのブレンド方法
 	int       m_colorBlendVertexFlags;	/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか
-	SSColor4B m_colorTL;
-	SSColor4B m_colorTR;
-	SSColor4B m_colorBL;
-	SSColor4B m_colorBR;
+	SSQuadColor m_colorBlend;
 
 	
 	//readerを介してデータを読み取る

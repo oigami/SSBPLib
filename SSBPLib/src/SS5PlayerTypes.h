@@ -66,17 +66,26 @@ struct SSColorF {
 };
 
 
-/**
- * ４頂点座標構造体
- */
+/** 頂点変形のオフセット用 */
 struct SSQuad3 {
-	Vector3 bl;
-	Vector3 br;
 	Vector3 tl;
 	Vector3 tr;
+	Vector3 bl;
+	Vector3 br;
 
 	//頂点オフセットの読み取り
 	void readData(DataArrayReader& reader);
+};
+
+/** カラーブレンド用 */
+struct SSQuadColor {
+	SSColor4B tl;
+	SSColor4B tr;
+	SSColor4B bl;
+	SSColor4B br;
+
+	//カラーブレンドの読み取り
+	void readData(int vertexFlags, DataArrayReader& reader);
 };
 
 
@@ -94,15 +103,15 @@ struct SSV3F_C4B_T2F {
  */
 struct SSV3F_C4B_T2F_Quad {
 	SSV3F_C4B_T2F tl;
-	SSV3F_C4B_T2F bl;
 	SSV3F_C4B_T2F tr;
+	SSV3F_C4B_T2F bl;
 	SSV3F_C4B_T2F br;
 
 	//4頂点座標の加算
 	void add(const SSQuad3& positions){
 		tl.vertices += positions.tl;
-		bl.vertices += positions.bl;
 		tr.vertices += positions.tr;
+		bl.vertices += positions.bl;
 		br.vertices += positions.br;
 	}
 
