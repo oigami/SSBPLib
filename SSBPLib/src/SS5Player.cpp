@@ -437,11 +437,10 @@ void Player::setFrame(int frameNo)
 				state.m_isVisibled = false;
 			}
 		}
-	
-		sprite->update(cellRef, state);
 
 		//スプライトステータスの保存
 		sprite->m_state = state;
+		sprite->update(cellRef);
 	}
 
 	// 行列の更新

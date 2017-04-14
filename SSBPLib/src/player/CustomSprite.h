@@ -18,7 +18,7 @@ public:
 	~CustomSprite();
 
 	/* 情報更新。先にState.readDataしておく必要がある */
-	void update(const CellRef* cellRef, const State& state);
+	void update(const CellRef* cellRef);
 
 	/**
 	 * 行列とアルファの更新を行う。
