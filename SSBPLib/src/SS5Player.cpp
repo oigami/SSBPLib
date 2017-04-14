@@ -437,42 +437,8 @@ void Player::setFrame(int frameNo)
 				state.m_isVisibled = false;
 			}
 		}
-		
-		//頂点データの設定
-		//quadにはプリミティブの座標（頂点変形を含む）、UV、カラー値が設定されます。
-		SSV3F_C4B_T2F_Quad quad;
-		SSRect cellRect;
-		if (cellRef){
-			cellRect = cellRef->m_rect;
-		}
-		state.vertexCompute(&quad, cellRect);
-
-		//原点補正
-		Vector3 center(
-			(sprite->m_rect.width() * -(state.m_pivot.x)),
-			(sprite->m_rect.height() * +(state.m_pivot.y)),	//xと同様、-のような気がする
-			0.0f
-		);
-		quad.vertexForeach([&](Vector3& vertex){
-			vertex += center;		//原点補正
-		});
-		
-
-
-		//カラーの設定
-		state.colorCompute(&quad);
-
-
-		//UVを設定する
-		SSTex2F uv_tl, uv_br;
-		if(cellRef){
-			uv_tl = cellRef->m_uv1;
-			uv_br = cellRef->m_uv2;
-		}
-		state.uvCompute(&quad, uv_tl, uv_br);
-
-		sprite->m_quad = quad;
-
+	
+		sprite->update(cellRef, state);
 
 		//スプライトステータスの保存
 		sprite->m_state = state;

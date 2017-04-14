@@ -6,6 +6,8 @@
 
 namespace ss{
 class SS5Effect;
+struct CellRef;
+class State;
 
 /**
  * CustomSprite
@@ -14,6 +16,9 @@ class CustomSprite{
 public:
 	CustomSprite();
 	~CustomSprite();
+
+	/* 情報更新。先にState.readDataしておく必要がある */
+	void update(const CellRef* cellRef, const State& state);
 
 	/**
 	 * 行列とアルファの更新を行う。

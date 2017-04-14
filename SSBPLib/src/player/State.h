@@ -17,7 +17,8 @@ struct AnimationInitialData;
  * State
  * パーツの情報を格納します。Stateの内容をもとに描画処理を作成してください。
  */
-struct State{
+class State{
+public:
 	int m_flags;					/// このフレームで更新が行われるステータスのフラグ
 	int m_cellIndex;				/// パーツに割り当てられたセルの番号
 	Vector3 m_position;				/// SS5アトリビュート：座標(XYZ)
