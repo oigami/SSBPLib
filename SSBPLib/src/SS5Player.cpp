@@ -393,23 +393,18 @@ void Player::setFrame(int frameNo)
 	for (int index = 0; index < _parts.size(); index++){
 
 		int partIndex = reader.readS16();
-		const AnimationInitialData* init = &initialDataList[partIndex];
+		_drawOrderIndex[index] = partIndex;
 
-		State state;
-		state.readData(reader, init);
+		const AnimationInitialData* init = &initialDataList[partIndex];
+		CustomSprite* sprite = &_parts.at(partIndex);
+
+		sprite->m_state.readData(reader, init);
 
 		//ユーザーがセルを上書きした
 		if (_changeCellIndex[partIndex] != -1){
-			state.m_cellIndex = _changeCellIndex[partIndex];
+			sprite->m_state.m_cellIndex = _changeCellIndex[partIndex];
 		}
-
-		_drawOrderIndex[index] = partIndex;
-
-
-		
-		const CellRef* cellRef = state.m_cellIndex >= 0 ? _resource->m_cellCache->getReference(state.m_cellIndex) : nullptr;
-
-		CustomSprite* sprite = &_parts.at(partIndex);
+		const CellRef* cellRef = sprite->m_state.m_cellIndex >= 0 ? _resource->m_cellCache->getReference(sprite->m_state.m_cellIndex) : nullptr;
 
 		//各パーツのテクスチャ情報を設定
 		if (cellRef){
@@ -419,8 +414,7 @@ void Player::setFrame(int frameNo)
 			sprite->m_textureID = TEXTURE_ID_INVALID;
 		}
 
-		//スプライトステータスの保存
-		sprite->m_state = state;
+		//quad更新
 		sprite->update(cellRef);
 	}
 

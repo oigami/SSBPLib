@@ -67,12 +67,10 @@ public:
 	float getAlpha() const;
 
 
-	void init();
-
 	//bool operator==(const State &s) const;
 	//bool operator!=(const State &s) const;
 
-	State() { init(); }
+	State();
 };
 
 } //namespace ss

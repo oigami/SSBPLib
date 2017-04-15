@@ -7,33 +7,29 @@
 
 namespace ss{
 
-void State::init()
+State::State()
+	: m_flags(0)
+	, m_cellIndex(0)
+	, m_position(0.0f, 0.0f, 0.0f)
+	, m_pivot(0.0f, 0.0f)
+	, m_rotation(0.0f, 0.0f, 0.0f)
+	, m_scale(1.0f, 1.0f)
+	, m_opacity(255)
+	, m_size(1.0f, 1.0f)
+	, m_uvMove(0.0f, 0.0f)
+	, m_uvRotation(0.0f)
+	, m_uvScale(1.0f, 1.0f)
+	, m_boundingRadius(0.0f)
+	, m_flipX(false)
+	, m_flipY(false)
+	, m_isVisibled(false)
+	, m_instanceValue()
+	, m_effectValue()
+	, m_vertexTransform()
+	, m_colorBlendVertexFunc(BLEND_MIX)
+	, m_colorBlendVertexFlags(0)
+	, m_colorBlend()
 {
-	m_flags      = 0;
-	m_cellIndex  = 0;
-	m_position   = Vector3::zero;
-	m_pivot      = Vector2::zero;
-	m_rotation   = Vector3::zero;
-	m_scale      = Vector2::one;
-	m_opacity    = 255;
-	m_size       = Vector2::one;
-	m_uvMove     = Vector2::zero;
-	m_uvRotation = 0.0f;
-	m_uvScale    = Vector2::one;
-	m_boundingRadius = 0.0f;
-
-	m_flipX = false;
-	m_flipY = false;
-	m_isVisibled = false;
-
-	m_instanceValue = InstancePartStatus();
-	m_effectValue = EffectPartStatus();
-
-	m_vertexTransform = SSQuad3();
-
-	m_colorBlendVertexFunc = BLEND_MIX;
-	m_colorBlendVertexFlags = 0;
-	m_colorBlend = SSQuadColor();
 }
 
 
@@ -71,13 +67,14 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 	m_flipY = (flags & PART_FLAG_FLIP_V);
 	m_isVisibled = !(flags & PART_FLAG_INVISIBLE);
 
+	
 	//頂点変形のオフセット
-	if(flags & PART_FLAG_VERTEX_TRANSFORM){
+	if(flags & PART_FLAG_VERTEX_TRANSFORM){		//0クリアしないので利用側はフラグを見て処理してください
 		m_vertexTransform.readData(reader);
 	}
 
 	//カラーブレンド
-	if(flags & PART_FLAG_COLOR_BLEND){
+	if(flags & PART_FLAG_COLOR_BLEND){			//0クリアしないので利用側はフラグを見て処理してください
 		int typeAndFlags = reader.readU16();
 		int funcNo = typeAndFlags & 0xff;
 		int cb_flags = (typeAndFlags >> 8) & 0xff;
@@ -86,6 +83,10 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 		m_colorBlendVertexFlags = cb_flags;
 
 		m_colorBlend.readData(cb_flags, reader);
+	}
+	else{
+		m_colorBlendVertexFunc = BLEND_MIX;	//MUL?
+		m_colorBlendVertexFlags = 0;
 	}
 }
 
