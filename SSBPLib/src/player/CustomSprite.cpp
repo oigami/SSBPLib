@@ -22,6 +22,7 @@ CustomSprite::~CustomSprite()
 void CustomSprite::update(const CellRef* cellRef)
 {
 	//セルの原点設定を反映させる
+	Vector2 pivot = m_state.m_pivot;
 	if(cellRef){
 		float cpx = cellRef->m_pivot.x;
 		float cpy = cellRef->m_pivot.y;
@@ -29,8 +30,8 @@ void CustomSprite::update(const CellRef* cellRef)
 		if(m_state.m_flipX){ cpx = -cpx; }	// 水平フリップによって原点を入れ替える
 		if(m_state.m_flipY){ cpy = -cpy; }	// 垂直フリップによって原点を入れ替える
 
-		m_state.m_pivot.x += cpx;
-		m_state.m_pivot.y += cpy;
+		pivot.x += cpx;
+		pivot.y += cpy;
 	}
 
 
@@ -46,8 +47,8 @@ void CustomSprite::update(const CellRef* cellRef)
 
 	//原点補正
 	Vector3 center(
-		(cellRect.width() * -(m_state.m_pivot.x)),
-		(cellRect.height() * +(m_state.m_pivot.y)),	//xと同様、-のような気がする
+		(cellRect.width() * -(pivot.x)),
+		(cellRect.height() * +(pivot.y)),
 		0.0f
 	);
 	quad.vertexForeach([&](Vector3& vertex){
