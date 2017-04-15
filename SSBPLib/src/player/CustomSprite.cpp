@@ -21,29 +21,31 @@ CustomSprite::~CustomSprite()
 //Stateの内容を元に情報更新する
 void CustomSprite::update(const CellRef* cellRef)
 {
-	//セルの原点設定を反映させる
-	Vector2 pivot = m_state.m_pivot;
-	if(cellRef){
-		float cpx = cellRef->m_pivot.x;
-		float cpy = cellRef->m_pivot.y;
-
-		if(m_state.m_flipX){ cpx = -cpx; }	// 水平フリップによって原点を入れ替える
-		if(m_state.m_flipY){ cpy = -cpy; }	// 垂直フリップによって原点を入れ替える
-
-		pivot.x += cpx;
-		pivot.y += cpy;
+	if(!cellRef){
+		//セルがないとき
+		m_state.vertexCompute(&m_quad, SSRect(0.0f, 0.0f, 0.0f, 0.0f));	//頂点
+		m_state.colorCompute(&m_quad);									//カラー
+		m_state.uvCompute(&m_quad, SSTex2F::zero, SSTex2F::zero);		//UV
+		return;
 	}
 
+
+	//セルの原点設定を反映させる
+	Vector2 pivot = m_state.m_pivot;
+	{
+		Vector2 cellPivot = cellRef->m_pivot;
+
+		if(m_state.m_flipX){ cellPivot.x = -cellPivot.x; }	// 水平フリップによって原点を入れ替える
+		if(m_state.m_flipY){ cellPivot.y = -cellPivot.y; }	// 垂直フリップによって原点を入れ替える
+
+		pivot = cellPivot;
+	}
 
 
 	//頂点データの設定
 	//quadにはプリミティブの座標（頂点変形を含む）、UV、カラー値が設定されます。
-	SSV3F_C4B_T2F_Quad quad;
-	SSRect cellRect;
-	if(cellRef){
-		cellRect = cellRef->m_rect;
-	}
-	m_state.vertexCompute(&quad, cellRect);
+	const SSRect& cellRect = cellRef->m_rect;
+	m_state.vertexCompute(&m_quad, cellRect);
 
 	//原点補正
 	Vector3 center(
@@ -51,24 +53,17 @@ void CustomSprite::update(const CellRef* cellRef)
 		(cellRect.height() * +(pivot.y)),
 		0.0f
 	);
-	quad.vertexForeach([&](Vector3& vertex){
+	m_quad.vertexForeach([&](Vector3& vertex){
 		vertex += center;		//原点補正
 	});
 
 
 	//カラーの設定
-	m_state.colorCompute(&quad);
+	m_state.colorCompute(&m_quad);
 
 
 	//UVを設定する
-	SSTex2F uv_tl, uv_br;
-	if(cellRef){
-		uv_tl = cellRef->m_uv1;
-		uv_br = cellRef->m_uv2;
-	}
-	m_state.uvCompute(&quad, uv_tl, uv_br);
-
-	m_quad = quad;
+	m_state.uvCompute(&m_quad, cellRef->m_uv1/*tl*/, cellRef->m_uv2/*br*/);
 }
 
 
