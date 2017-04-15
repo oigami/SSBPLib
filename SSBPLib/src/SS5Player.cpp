@@ -393,7 +393,6 @@ void Player::setFrame(int frameNo)
 	for (int index = 0; index < _parts.size(); index++){
 
 		int partIndex = reader.readS16();
-		const PartData* partData = _animationData->getPartData(partIndex);
 		const AnimationInitialData* init = &initialDataList[partIndex];
 
 		State state;
@@ -407,18 +406,8 @@ void Player::setFrame(int frameNo)
 		_drawOrderIndex[index] = partIndex;
 
 
-		//セルの原点設定を反映させる
+		
 		const CellRef* cellRef = state.m_cellIndex >= 0 ? _resource->m_cellCache->getReference(state.m_cellIndex) : nullptr;
-		if (cellRef){
-			float cpx = cellRef->m_pivot.x;
-			float cpy = cellRef->m_pivot.y;
-
-			if(state.m_flipX){ cpx = -cpx; }	// 水平フリップによって原点を入れ替える
-			if(state.m_flipY){ cpy = -cpy; }	// 垂直フリップによって原点を入れ替える
-
-			state.m_pivot.x += cpx;
-			state.m_pivot.y += cpy;
-		}
 
 		CustomSprite* sprite = &_parts.at(partIndex);
 

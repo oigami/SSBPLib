@@ -21,6 +21,20 @@ CustomSprite::~CustomSprite()
 //Stateの内容を元に情報更新する
 void CustomSprite::update(const CellRef* cellRef)
 {
+	//セルの原点設定を反映させる
+	if(cellRef){
+		float cpx = cellRef->m_pivot.x;
+		float cpy = cellRef->m_pivot.y;
+
+		if(m_state.m_flipX){ cpx = -cpx; }	// 水平フリップによって原点を入れ替える
+		if(m_state.m_flipY){ cpy = -cpy; }	// 垂直フリップによって原点を入れ替える
+
+		m_state.m_pivot.x += cpx;
+		m_state.m_pivot.y += cpy;
+	}
+
+
+
 	//頂点データの設定
 	//quadにはプリミティブの座標（頂点変形を含む）、UV、カラー値が設定されます。
 	SSV3F_C4B_T2F_Quad quad;
