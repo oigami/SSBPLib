@@ -71,6 +71,18 @@ void CustomSprite::updateMatrixAndAlpha(const Matrix& rootMatrix, float rootAlph
 }
 
 
+//draw呼ぶか?
+bool CustomSprite::isVisibled() const{
+	if(m_textureID == TEXTURE_ID_INVALID){
+		//セルが無く通常パーツ、ヌルパーツの時は非表示にする
+		if((m_partType == PARTTYPE_NORMAL) || (m_partType == PARTTYPE_NULL)){
+			return false;
+		}
+	}
+	return m_state.m_isVisibled;
+}
+
+
 bool CustomSprite::isInstancePart() const{
 	return (m_partType == PARTTYPE_INSTANCE);
 }

@@ -27,6 +27,8 @@ public:
 	 */
 	void updateMatrixAndAlpha(const Matrix& rootMatrix, float rootAlpha);
 
+	bool isVisibled() const;		//drawが必要か?
+
 	bool isInstancePart() const;	//ChildPlayer(インスタンスアニメーション)を持っているならtrue
 	bool isEffectPart() const;		//エフェクトを持っているならtrue
 

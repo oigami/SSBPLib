@@ -422,16 +422,12 @@ void Player::setFrame(int frameNo)
 
 		CustomSprite* sprite = &_parts.at(partIndex);
 
+		//各パーツのテクスチャ情報を設定
 		if (cellRef){
-			//各パーツのテクスチャ情報を設定
 			sprite->m_textureID = m_textures[cellRef->m_cellMapIndex];
 		}
 		else{
 			sprite->m_textureID = TEXTURE_ID_INVALID;
-			//セルが無く通常パーツ、ヌルパーツの時は非表示にする
-			if ((partData->type == PARTTYPE_NORMAL) || (partData->type == PARTTYPE_NULL)){
-				state.m_isVisibled = false;
-			}
 		}
 
 		//スプライトステータスの保存
@@ -488,10 +484,9 @@ void Player::draw()
 		int partIndex = _drawOrderIndex[index];
 		//スプライトの表示
 		const CustomSprite* sprite = &_parts[partIndex];
-		const State& state = sprite->m_state;
 
 		//非表示設定なら無視する
-		if(state.m_isVisibled == false || _partVisible[index] == false){	//ユーザーが任意に非表示としたパーツも考慮する
+		if(sprite->isVisibled() == false || _partVisible[index] == false){	//ユーザーが任意に非表示としたパーツも考慮する
 			continue;
 		}
 
@@ -503,6 +498,7 @@ void Player::draw()
 			_eventListener->EffectDraw(partIndex);		//エフェクトパーツ
 		}
 		else{
+			const State& state = sprite->m_state;
 			_eventListener->SSDrawSprite(sprite->m_quad, sprite->m_textureID, sprite->m_blendfunc, state.m_colorBlendVertexFunc, state.m_colorBlendVertexFlags);
 		}
 	}
