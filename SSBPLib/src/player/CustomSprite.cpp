@@ -29,6 +29,12 @@ void CustomSprite::update(const CellRef* cellRef)
 		return;
 	}
 
+	//quadにはローカル座標系での、頂点座標(頂点変形を含む)、UV、カラー値が設定されます
+	const SSRect& cellRect = cellRef->m_rect;
+	m_state.vertexCompute(&m_quad, cellRect);								//頂点
+	m_state.colorCompute(&m_quad);											//カラー
+	m_state.uvCompute(&m_quad, cellRef->m_uv1/*tl*/, cellRef->m_uv2/*br*/);	//UV
+
 
 	//セルの原点設定を反映させる
 	Vector2 pivot = m_state.m_pivot;
@@ -37,33 +43,19 @@ void CustomSprite::update(const CellRef* cellRef)
 
 		if(m_state.m_flipX){ cellPivot.x = -cellPivot.x; }	// 水平フリップによって原点を入れ替える
 		if(m_state.m_flipY){ cellPivot.y = -cellPivot.y; }	// 垂直フリップによって原点を入れ替える
-
-		pivot = cellPivot;
+		
+		pivot += cellPivot;
 	}
 
-
-	//頂点データの設定
-	//quadにはプリミティブの座標（頂点変形を含む）、UV、カラー値が設定されます。
-	const SSRect& cellRect = cellRef->m_rect;
-	m_state.vertexCompute(&m_quad, cellRect);
-
 	//原点補正
-	Vector3 center(
+	Vector2 center(
 		(cellRect.width() * -(pivot.x)),
-		(cellRect.height() * +(pivot.y)),
-		0.0f
+		(cellRect.height() * +(pivot.y))
 	);
 	m_quad.vertexForeach([&](Vector3& vertex){
-		vertex += center;		//原点補正
+		vertex.x += center.x;		//原点補正
+		vertex.y += center.y;
 	});
-
-
-	//カラーの設定
-	m_state.colorCompute(&m_quad);
-
-
-	//UVを設定する
-	m_state.uvCompute(&m_quad, cellRef->m_uv1/*tl*/, cellRef->m_uv2/*br*/);
 }
 
 
