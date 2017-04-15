@@ -72,7 +72,7 @@ enum {
 /**
  * Animation Part Type
  */
-enum
+enum AnimationPartType
 {
 	PARTTYPE_INVALID = -1,
 	PARTTYPE_NULL,			/// null。領域を持たずSRT情報のみ。ただし円形の当たり判定は設定可能。

@@ -120,12 +120,10 @@ void Player::releaseParts()
 		CustomSprite* sprite = &_parts[i];
 
 		//ChildPlayerがあるなら、spriteを破棄する前にリリースイベントを飛ばす
-		if(sprite->m_haveChildPlayer){
-			sprite->m_haveChildPlayer = false;
+		if(sprite->isInstancePart()){
 			_eventListener->ChildPlayerRelease(i);
 		}
-		if(sprite->m_haveEffect){
-			sprite->m_haveEffect = false;
+		if(sprite->isEffectPart()){
 			_eventListener->EffectRelease(i);
 		}
 	}
@@ -148,18 +146,18 @@ void Player::setPartsParentage()
 			sprite->m_parent = &_parts.at(partData->parentIndex);
 		}
 
+		//変化しない値はここでセットします
+		sprite->m_partType = static_cast<AnimationPartType>(partData->type);
+		sprite->m_blendfunc = static_cast<BlendType>(partData->alphaBlendType);
+		
 		//インスタンスパーツならChildPlayerの生成イベントを飛ばす
-		if(partData->type == PARTTYPE_INSTANCE){
-			sprite->m_haveChildPlayer = true;
-
+		if(sprite->isInstancePart()){
 			std::string refanimeName = ptr.toString(partData->refname);
 			_eventListener->ChildPlayerLoad(partIndex, refanimeName);
 		}
 
 		//エフェクトパーツならパラメータを設定する
-		if(partData->type == PARTTYPE_EFFECT){
-			sprite->m_haveEffect = true;
-
+		if(sprite->isEffectPart()){
 			std::string refeffectName = ptr.toString(partData->effectfilename);
 			_eventListener->EffectLoad(partIndex, refeffectName);
 		}
@@ -427,8 +425,6 @@ void Player::setFrame(int frameNo)
 		if (cellRef){
 			//各パーツのテクスチャ情報を設定
 			sprite->m_textureID = m_textures[cellRef->m_cellMapIndex];
-			sprite->m_rect = cellRef->m_rect;
-			sprite->m_blendfunc = static_cast<BlendType>(partData->alphaBlendType);
 		}
 		else{
 			sprite->m_textureID = TEXTURE_ID_INVALID;
@@ -468,7 +464,7 @@ void Player::setFrame(int frameNo)
 		CustomSprite* sprite = &_parts[partIndex];
 
 		//インスタンスアニメーションがある場合は親パーツ情報を通知する
-		if(sprite->m_haveChildPlayer){
+		if(sprite->isInstancePart()){
 			_eventListener->ChildPlayerUpdate(
 				partIndex, sprite->m_worldMatrix, sprite->m_alpha,
 				frameNo, sprite->m_state.m_instanceValue	//InstancePartStatus::getFrame(frameNo), m_independent,,,
@@ -476,7 +472,7 @@ void Player::setFrame(int frameNo)
 		}
 
 		//エフェクトのアップデート
-		if (sprite->m_haveEffect){
+		if (sprite->isEffectPart()){
 			_eventListener->EffectUpdate(
 				partIndex, sprite->m_worldMatrix, sprite->m_alpha,
 				frameNo, _seedOffset, sprite->m_state.m_effectValue
@@ -500,10 +496,10 @@ void Player::draw()
 		}
 
 		//パーツタイプに応じた描画イベントを投げる
-		if (sprite->m_haveChildPlayer){
+		if (sprite->isInstancePart()){
 			_eventListener->ChildPlayerDraw(partIndex);	//インスタンスパーツ
 		}
-		else if (sprite->m_haveEffect){
+		else if (sprite->isEffectPart()){
 			_eventListener->EffectDraw(partIndex);		//エフェクトパーツ
 		}
 		else{

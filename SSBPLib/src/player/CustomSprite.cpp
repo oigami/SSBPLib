@@ -9,16 +9,12 @@ CustomSprite::CustomSprite()
 	, m_alpha(1.0f)
 	, m_textureID(TEXTURE_ID_INVALID)
 	, m_blendfunc(BLEND_MIX)
-	, m_haveChildPlayer(false)
-	, m_haveEffect(false)
+	, m_partType(PARTTYPE_INVALID)
 {
 }
 
 CustomSprite::~CustomSprite()
 {
-	//Load,Releaseのイベントは外でやるため、それに対応してtrue,falseを書き換えるようにしてください
-	SS_ASSERT(m_haveChildPlayer == false);
-	SS_ASSERT(m_haveEffect == false);
 }
 
 
@@ -36,8 +32,8 @@ void CustomSprite::update(const CellRef* cellRef)
 
 	//原点補正
 	Vector3 center(
-		(m_rect.width() * -(m_state.m_pivot.x)),
-		(m_rect.height() * +(m_state.m_pivot.y)),	//xと同様、-のような気がする
+		(cellRect.width() * -(m_state.m_pivot.x)),
+		(cellRect.height() * +(m_state.m_pivot.y)),	//xと同様、-のような気がする
 		0.0f
 	);
 	quad.vertexForeach([&](Vector3& vertex){
@@ -72,6 +68,14 @@ void CustomSprite::updateMatrixAndAlpha(const Matrix& rootMatrix, float rootAlph
 		m_worldMatrix = m_state.getLocalMatrix() * m_parent->m_worldMatrix;
 		m_alpha = m_state.getAlpha() * m_parent->m_alpha;
 	}
+}
+
+
+bool CustomSprite::isInstancePart() const{
+	return (m_partType == PARTTYPE_INSTANCE);
+}
+bool CustomSprite::isEffectPart() const{
+	return (m_partType == PARTTYPE_EFFECT);
 }
 
 
