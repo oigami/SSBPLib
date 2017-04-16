@@ -85,7 +85,7 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 		m_colorBlend.readData(cb_flags, reader);
 	}
 	else{
-		m_colorBlendVertexFunc = BLEND_MIX;	//MUL?
+		m_colorBlendVertexFunc = BLEND_MUL;
 		m_colorBlendVertexFlags = 0;
 	}
 }

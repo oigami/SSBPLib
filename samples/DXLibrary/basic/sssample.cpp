@@ -92,29 +92,22 @@ public:
 			break;
 		}
 
-		if(colorBlendVertexFlags != 0){
-			//RGBのカラーブレンドを設定
-			//厳密に再現するには専用のシェーダーを使い、テクスチャにカラー値を合成する必要がある
-			//作成する場合はssShader_frag.h、CustomSpriteのコメントとなってるシェーダー処理を参考にしてください。
-			if(colorBlendVertexFlags == ss::VERTEX_FLAG_ONE){
-				//単色カラーブレンド
-			}
-			else{
-				//頂点カラーブレンド
-			}
-			switch(colorBlendVertexType){
-			case ss::BLEND_MIX:
-				break;
-			case ss::BLEND_MUL:		///< 1 乗算
-				// ブレンド方法は乗算以外未対応
-				// とりあえず左上の色を反映させる
-				SetDrawBright(quad.tl.colors.r, quad.tl.colors.g, quad.tl.colors.b);
-				break;
-			case ss::BLEND_ADD:		///< 2 加算
-				break;
-			case ss::BLEND_SUB:		///< 3 減算
-				break;
-			}
+	
+		//頂点カラーブレンド
+		//厳密に再現するには専用のシェーダーを使い、テクスチャにカラー値を合成する必要がある
+		//作成する場合はssShader_frag.h、CustomSpriteのコメントとなってるシェーダー処理を参考にしてください。
+		switch(colorBlendVertexType){
+		case ss::BLEND_MIX:		///< 0 これは、頂点カラーの色にするのが正しいらしい
+			break;
+		case ss::BLEND_MUL:		///< 1 乗算
+			// ブレンド方法は乗算以外未対応
+			// とりあえず左上の色を反映させる
+			SetDrawBright(quad.tl.colors.r, quad.tl.colors.g, quad.tl.colors.b);
+			break;
+		case ss::BLEND_ADD:		///< 2 加算
+			break;
+		case ss::BLEND_SUB:		///< 3 減算
+			break;
 		}
 
 		//DXライブラリ用の頂点バッファを作成する
