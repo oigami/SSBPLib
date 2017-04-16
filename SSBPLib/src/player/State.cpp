@@ -157,7 +157,7 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 }
 
 
-void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const SSQuad3& vertexTransform*/) const
+void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect, Vector2 cellPivot) const
 {
 	//ひとまずrectをベースに矩形をセットする
 	float width = cellRect.width();
@@ -185,12 +185,34 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect/*, const
 	q->br.vertices -= center;
 	q->tl.vertices -= center;
 	q->tr.vertices -= center;
+	/* 基本の矩形作りはここまで -------------------------*/
 
 
 	// 頂点変形のオフセット値を反映
 	if(m_flags & PART_FLAG_VERTEX_TRANSFORM){
 		q->add(m_vertexTransform);
 	}
+
+
+	/* セルの原点補正 -----------------------------------*/
+	//セルの原点設定を反映させる
+	Vector2 pivot = m_pivot;
+	{
+		if(m_flipX){ cellPivot.x = -cellPivot.x; }	// 水平フリップによって原点を入れ替える
+		if(m_flipY){ cellPivot.y = -cellPivot.y; }	// 垂直フリップによって原点を入れ替える
+
+		pivot += cellPivot;
+	}
+
+	//原点補正
+	Vector2 cellCenter(
+		(cellRect.width() * -(pivot.x)),
+		(cellRect.height() * +(pivot.y))
+	);
+	q->vertexForeach([&](Vector3& vertex){
+		vertex.x += cellCenter.x;		//原点補正
+		vertex.y += cellCenter.y;
+	});
 }
 
 void State::colorCompute(SSV3F_C4B_T2F_Quad* q) const

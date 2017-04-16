@@ -55,7 +55,7 @@ public:
 	//現在のStateの情報を元にuvを計算する
 	void uvCompute(SSV3F_C4B_T2F_Quad* q, SSTex2F uv_tl/*top,left*/, SSTex2F uv_br/*bottom,right*/) const;
 	//現在のStateの情報を元にverexを計算する
-	void vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect) const;
+	void vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect, Vector2 cellPivot) const;
 	//現在のStateの情報を元にcolorを計算する
 	void colorCompute(SSV3F_C4B_T2F_Quad* q) const;
 
