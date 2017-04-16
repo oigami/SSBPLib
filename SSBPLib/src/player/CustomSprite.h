@@ -17,15 +17,15 @@ public:
 	CustomSprite();
 	~CustomSprite();
 
-	/* 情報更新。先にState.readDataしておく必要がある */
-	void update(const CellRef* cellRef);
+	/* ワールド変換前のquadを構築する。先にState.readDataしておく必要がある */
+	void constructQuad(const CellRef* cellRef);
 
 	/**
-	 * 行列とアルファの更新を行う。
+	 * 行列とアルファの更新を行い、quadをワールド変換する。
 	 * 親の情報は更新済みにしておく必要がある。
 	 * 親がいない場合はrootの情報を使います。
 	 */
-	void updateMatrixAndAlpha(const Matrix& rootMatrix, float rootAlpha);
+	void updateToWorld(const Matrix& rootMatrix, float rootAlpha);
 
 	bool isVisibled() const;		//drawが必要か?
 

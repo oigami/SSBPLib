@@ -19,7 +19,7 @@ CustomSprite::~CustomSprite()
 
 
 //Stateの内容を元に情報更新する
-void CustomSprite::update(const CellRef* cellRef)
+void CustomSprite::constructQuad(const CellRef* cellRef)
 {
 	if(!cellRef){
 		//セルがないとき
@@ -37,9 +37,9 @@ void CustomSprite::update(const CellRef* cellRef)
 }
 
 
-void CustomSprite::updateMatrixAndAlpha(const Matrix& rootMatrix, float rootAlpha)
+void CustomSprite::updateToWorld(const Matrix& rootMatrix, float rootAlpha)
 {
-	//親から結果を伝播させる。親がない場合はrootから。
+	//行列とアルファの更新。親から結果を伝播させる。親がない場合はrootから。
 	if(m_parent == nullptr){
 		m_worldMatrix = m_state.getLocalMatrix() * rootMatrix;
 		m_alpha = m_state.getAlpha() * rootAlpha;
@@ -48,6 +48,12 @@ void CustomSprite::updateMatrixAndAlpha(const Matrix& rootMatrix, float rootAlph
 		m_worldMatrix = m_state.getLocalMatrix() * m_parent->m_worldMatrix;
 		m_alpha = m_state.getAlpha() * m_parent->m_alpha;
 	}
+
+	
+	//vertexにworldMatrixをかける
+	m_quad.vertexForeach([&](Vector3& vertex){
+		vertex *= m_worldMatrix;
+	});
 }
 
 

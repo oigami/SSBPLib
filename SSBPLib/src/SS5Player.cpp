@@ -414,19 +414,14 @@ void Player::setFrame(int frameNo)
 		}
 
 		//quad更新
-		sprite->update(cellRef);
+		sprite->constructQuad(cellRef);
 	}
 
-	// 行列の更新
+	// 行列更新してワールド変換する
 	Matrix rootMatrix = _playerSetting.getWorldMatrix();
 	for(CustomSprite& sprite : _parts){
-		sprite.updateMatrixAndAlpha(rootMatrix, _playerSetting.m_color.a);
-	
+		sprite.updateToWorld(rootMatrix, _playerSetting.m_color.a);
 		
-		//vertexにworldMatrixをかける
-		sprite.m_quad.vertexForeach([&](Vector3& vertex){
-			vertex *= sprite.m_worldMatrix;
-		});
 
 		//頂点カラー補正
 		sprite.m_quad.colorsForeach([&](SSColor4B& color){
