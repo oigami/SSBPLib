@@ -160,7 +160,7 @@ void ResourceManager::texturePreload(const ResourceSet* resource, PreloadCallbac
 {
 	int cellMapNum = resource->m_cellCache->getCellMapNum();
 	for(int i = 0; i < cellMapNum; ++i){
-		std::string textureName = resource->m_cellCache->getTexturePath(i);
+		const std::string& textureName = resource->m_cellCache->getTexturePath(i);
 		SsTexWrapMode wrapmode = resource->m_cellCache->getWrapMode(i);
 		SsTexFilterMode filtermode = resource->m_cellCache->getFilterMode(i);
 

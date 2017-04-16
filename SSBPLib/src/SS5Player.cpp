@@ -54,7 +54,7 @@ Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, con
 	int cellMapNum = _resource->m_cellCache->getCellMapNum();
 	m_textures.resize(cellMapNum);
 	for(int i = 0; i < cellMapNum; ++i){
-		std::string textureName = _resource->m_cellCache->getTexturePath(i);	
+		const std::string& textureName = _resource->m_cellCache->getTexturePath(i);	
 		SsTexWrapMode wrapmode = _resource->m_cellCache->getWrapMode(i);
 		SsTexFilterMode filtermode = _resource->m_cellCache->getFilterMode(i);
 

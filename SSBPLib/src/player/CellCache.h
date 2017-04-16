@@ -59,7 +59,7 @@ public:
 	int indexOfCell(const std::string& cellName) const;
 
 	//指定したCellMapのテクスチャ名を取得する
-	std::string getTexturePath(int cellMapIndex) const;
+	const std::string& getTexturePath(int cellMapIndex) const;
 	SsTexWrapMode getWrapMode(int cellMapIndex) const;
 	SsTexFilterMode getFilterMode(int cellMapIndex) const;
 

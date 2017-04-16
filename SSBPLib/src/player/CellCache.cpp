@@ -94,7 +94,7 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 }
 
 
-std::string CellCache::getTexturePath(int cellMapIndex) const
+const std::string& CellCache::getTexturePath(int cellMapIndex) const
 {
 	SS_ASSERT(cellMapIndex >= 0 && cellMapIndex < m_textureInfos.size());	//indexのassertチェックはする
 #if 0

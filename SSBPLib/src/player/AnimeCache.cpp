@@ -37,7 +37,7 @@ const AnimeRef* AnimeCache::getReference(const string& animeName) const
 
 
 //最初のアニメーション名を得る
-std::string AnimeCache::getFirstAnimationName() const
+const std::string& AnimeCache::getFirstAnimationName() const
 {
 	SS_ASSERT_LOG(m_animeRefs.begin() != m_animeRefs.end(), "No Animation");
 
