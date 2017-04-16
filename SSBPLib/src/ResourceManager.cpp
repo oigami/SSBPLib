@@ -28,14 +28,21 @@ ResourceManager::~ResourceManager()
 
 
 
-int ResourceManager::regist(const void *data, size_t dataSize, const std::string &dataKey, const std::string &imageBaseDir)
-{
+int ResourceManager::regist(
+	const void* data,
+	size_t dataSize,
+	const std::string& dataKey,
+	const std::string& imageBaseDir,
+	PreloadCallback texturePreloadCallbackFunc
+){
 	SS_ASSERT_LOG(data, "Invalid data");
 	SS_ASSERT_LOG(dataSize > 0, "dataSize is zero");
 	//登録済みかどうかの判定
 	if(_dataDic.find(dataKey) != _dataDic.end()){
 		RefcountResourceSet* ref = _dataDic.at(dataKey);
 		ref->incCount();	//登録済みの場合はカウントアップするだけ。dataの内容は無視(最初に登録されてたもの優先)
+
+		texturePreload(ref->getResourceSet(), texturePreloadCallbackFunc);	//テクスチャ事前読み込みのコールバック
 		return ref->getCount();
 	}
 
@@ -46,13 +53,14 @@ int ResourceManager::regist(const void *data, size_t dataSize, const std::string
 
 	//データを作って登録
 	RefcountResourceSet* rs = new RefcountResourceSet(static_cast<const char*>(data), dataSize, baseDir);
-	
 	_dataDic.insert(std::make_pair(dataKey, rs));
+
+	texturePreload(rs->getResourceSet(), texturePreloadCallbackFunc);	//テクスチャ事前読み込みのコールバック
 	return rs->getCount();
 }
 
 
-void ResourceManager::unregist(const std::string& dataKey)
+int ResourceManager::unregist(const std::string& dataKey)
 {
 	auto it = _dataDic.find(dataKey);
 	SS_ASSERT(it != _dataDic.end());
@@ -65,12 +73,15 @@ void ResourceManager::unregist(const std::string& dataKey)
 		//消してOKなので消す	
 		SS_SAFE_DELETE(ref);
 		_dataDic.erase(it);
+		return 0;				//deleteしたので参照カウンタは0
 	}
+	
+	return ref->getCount();		//参照カウンタが残っているとき
 }
 
 void ResourceManager::unregistAll()
 {
-	for(auto &str_rs : _dataDic){
+	for(auto& str_rs : _dataDic){
 		SS_SAFE_DELETE(str_rs.second);
 	}
 	_dataDic.clear();
@@ -78,10 +89,10 @@ void ResourceManager::unregistAll()
 
 
 
-void ResourceManager::getTextureList(std::vector<std::string> *textureList, const std::string &dataKey) const
+void ResourceManager::getTextureList(std::vector<std::string>* textureList, const std::string& dataKey) const
 {
-	const ResourceSet *rs = getData(dataKey);
-	const CellCache *cellCache = rs->m_cellCache.get();
+	const ResourceSet* rs = getData(dataKey);
+	const CellCache* cellCache = rs->m_cellCache.get();
 
 	//todo:ss5playerにも似たコードがある・・・resourcesetあたりに一覧取得機能持たせた方がいいかもしれない
 	int cellMapNum = cellCache->getCellMapNum();
@@ -101,7 +112,7 @@ Player* ResourceManager::createPlayer(SS5EventListener* eventListener, const std
 	}
 	return new Player(eventListener, rs, animeName);
 }
-void ResourceManager::destroyPlayer(Player *&player) const
+void ResourceManager::destroyPlayer(Player*& player) const
 {
 	delete player;
 	player = nullptr;
@@ -121,7 +132,7 @@ void ResourceManager::destroyEffect(SS5Effect*& effect) const
 
 
 
-std::string ResourceManager::getImageBaseDir(const std::string &imageBaseDir, const ProjectData *data) const
+std::string ResourceManager::getImageBaseDir(const std::string& imageBaseDir, const ProjectData* data) const
 {
 	if(imageBaseDir == s_null){	// imageBaseDirの指定がないときはパスを作る
 
@@ -142,5 +153,20 @@ const ResourceSet* ResourceManager::getData(const std::string& dataKey) const
 	RefcountResourceSet* rrs = it->second;
 	return rrs->getResourceSet();
 }
+
+
+//事前読み込みさせる
+void ResourceManager::texturePreload(const ResourceSet* resource, PreloadCallback texturePreloadCallbackFunc) const
+{
+	int cellMapNum = resource->m_cellCache->getCellMapNum();
+	for(int i = 0; i < cellMapNum; ++i){
+		std::string textureName = resource->m_cellCache->getTexturePath(i);
+		SsTexWrapMode wrapmode = resource->m_cellCache->getWrapMode(i);
+		SsTexFilterMode filtermode = resource->m_cellCache->getFilterMode(i);
+
+		texturePreloadCallbackFunc(textureName, wrapmode, filtermode);
+	}
+}
+
 
 } //namespace ss

@@ -58,7 +58,7 @@ Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, con
 		SsTexWrapMode wrapmode = _resource->m_cellCache->getWrapMode(i);
 		SsTexFilterMode filtermode = _resource->m_cellCache->getFilterMode(i);
 
-		m_textures[i] = _eventListener->SSTextureLoad(textureName.c_str(), wrapmode, filtermode); // wrapmode, filtermode);//todo:事前にテクスチャ情報取得できるようにする
+		m_textures[i] = _eventListener->SSTextureLoad(textureName.c_str(), wrapmode, filtermode);
 	}
 
 	//最初にアニメーションを入れておく
@@ -389,7 +389,7 @@ void Player::setFrame(int frameNo)
 	
 	const AnimationInitialData* initialDataList = ptr.toAnimationInitialDatas(animeData);
 
-
+	//各パーツの読み取り
 	for (int index = 0; index < _parts.size(); index++){
 
 		int partIndex = reader.readS16();
