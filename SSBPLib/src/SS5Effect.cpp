@@ -117,9 +117,8 @@ void SS5Effect::drawSprite(
 		blendfunc = BLEND_MIX;	//ブレンドタイプを設定
 	}
 	BlendType colorBlendVertexFunc = BLEND_MUL;		//カラーブレンドフラグ乗算
-	int colorBlendVertexFlags = VERTEX_FLAG_ONE;	//カラーブレンドフラグを設定 //memo:意味合いから考えてこれで合ってるはず(todo:Color機能ONのときだけの設定にする必要はあるかも)。色味が変(そもそも元から変だが)なときはここを疑う
-
-	m_eventListener->SSDrawSprite(quad, textureId, blendfunc, colorBlendVertexFunc, colorBlendVertexFlags);	//描画
+	
+	m_eventListener->SSDrawSprite(quad, textureId, blendfunc, colorBlendVertexFunc);	//描画
 }
 
 

@@ -68,7 +68,7 @@ public:
 #endif
 
 	//描画 //ひとまずSS5PlayerPlatform.cppの中身をそのまま持ってきた
-	void SSDrawSprite(const ss::SSV3F_C4B_T2F_Quad& quad, ss::TextureID textureId, ss::BlendType blendType, ss::BlendType colorBlendVertexType, int colorBlendVertexFlags) override{
+	void SSDrawSprite(const ss::SSV3F_C4B_T2F_Quad& quad, ss::TextureID textureId, ss::BlendType blendType, ss::BlendType colorBlendVertexType) override{
 		m_drawSpriteCount++;	//デバッグ用
 
 		//描画ファンクション

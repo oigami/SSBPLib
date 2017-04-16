@@ -27,7 +27,6 @@ State::State()
 	, m_effectValue()
 	, m_vertexTransform()
 	, m_colorBlendVertexFunc(BLEND_MIX)
-	, m_colorBlendVertexFlags(0)
 	, m_colorBlend()
 {
 }
@@ -80,13 +79,10 @@ void State::readData(DataArrayReader& reader, const AnimationInitialData* init)
 		int cb_flags = (typeAndFlags >> 8) & 0xff;
 
 		m_colorBlendVertexFunc = static_cast<BlendType>(funcNo);
-		m_colorBlendVertexFlags = cb_flags;
-
 		m_colorBlend.readData(cb_flags, reader);
 	}
 	else{
 		m_colorBlendVertexFunc = BLEND_MUL;
-		m_colorBlendVertexFlags = 0;
 	}
 }
 

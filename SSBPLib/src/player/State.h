@@ -43,7 +43,6 @@ public:
 
 	//カラーブレンド
 	BlendType m_colorBlendVertexFunc;	/// SS5アトリビュート：カラーブレンドのブレンド方法
-	int       m_colorBlendVertexFlags;	/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか
 	SSQuadColor m_colorBlend;
 
 	

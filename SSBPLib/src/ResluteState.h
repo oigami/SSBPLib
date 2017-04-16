@@ -31,7 +31,6 @@ struct ResluteState
 	float uv_scale_Y;				/// SS5アトリビュート：UV Yスケール
 	float boundingRadius;			/// SS5アトリビュート：当たり半径
 	BlendType colorBlendVertexFunc;	/// SS5アトリビュート：カラーブレンドのブレンド方法
-	int colorBlendVertexType;		/// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
 	bool flipX;						/// 横反転
 	bool flipY;						/// 縦反転
 	bool isVisibled;				/// 非表示

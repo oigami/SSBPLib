@@ -29,7 +29,7 @@ public:
 	virtual void SSGetTextureSize(TextureID handle, int* width, int* height) = 0;
 #endif
 	//描画
-	virtual void SSDrawSprite(const SSV3F_C4B_T2F_Quad& quad, TextureID textureId, BlendType blendType, BlendType colorBlendVertexType, int colorBlendVertexFlags) = 0;
+	virtual void SSDrawSprite(const SSV3F_C4B_T2F_Quad& quad, TextureID textureId, BlendType blendType, BlendType colorBlendVertexType) = 0;
 
 	
 	/**

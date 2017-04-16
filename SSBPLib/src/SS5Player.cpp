@@ -288,7 +288,6 @@ void Player::getPartState(ResluteState& result, int partIndex) const
 	result.uv_scale_Y = sprite->m_state.m_uvScale.y;			// SS5アトリビュート：UV Yスケール
 	result.boundingRadius = sprite->m_state.m_boundingRadius;	// SS5アトリビュート：当たり半径
 	result.colorBlendVertexFunc = sprite->m_state.m_colorBlendVertexFunc;	// SS5アトリビュート：カラーブレンドのブレンド方法
-	result.colorBlendVertexType = sprite->m_state.m_colorBlendVertexFlags;	// SS5アトリビュート：カラーブレンドの単色か頂点カラーか。
 	result.flipX = sprite->m_state.m_flipX;						// 横反転（親子関係計算済）
 	result.flipY = sprite->m_state.m_flipY;						// 縦反転（親子関係計算済）
 	result.isVisibled = sprite->m_state.m_isVisibled;			// 非表示（親子関係計算済）
@@ -481,7 +480,7 @@ void Player::draw()
 		}
 		else{
 			const State& state = sprite->m_state;
-			_eventListener->SSDrawSprite(sprite->m_quad, sprite->m_textureID, sprite->m_blendfunc, state.m_colorBlendVertexFunc, state.m_colorBlendVertexFlags);
+			_eventListener->SSDrawSprite(sprite->m_quad, sprite->m_textureID, sprite->m_blendfunc, state.m_colorBlendVertexFunc);
 		}
 	}
 }
