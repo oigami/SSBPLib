@@ -400,18 +400,17 @@ void Player::setFrame(int frameNo)
 
 		sprite->m_state.readData(reader, init);
 
-		//ユーザーがセルを上書きした
-		if (_changeCellIndex[partIndex] != -1){
-			sprite->m_state.m_cellIndex = _changeCellIndex[partIndex];
+		//セルを取得する
+		int cellIndex = sprite->m_state.m_cellIndex;
+		if (_changeCellIndex[partIndex] != -1){	//ユーザーがセルを上書きした場合はそちらを使う
+			cellIndex = _changeCellIndex[partIndex];
 		}
-		const CellRef* cellRef = sprite->m_state.m_cellIndex >= 0 ? _resource->m_cellCache->getReference(sprite->m_state.m_cellIndex) : nullptr;
+		const CellRef* cellRef = cellIndex >= 0 ? _resource->m_cellCache->getReference(cellIndex) : nullptr;
 
 		//各パーツのテクスチャ情報を設定
+		sprite->m_textureID = TEXTURE_ID_INVALID;
 		if (cellRef){
 			sprite->m_textureID = m_textures[cellRef->m_cellMapIndex];
-		}
-		else{
-			sprite->m_textureID = TEXTURE_ID_INVALID;
 		}
 
 		//quad更新
