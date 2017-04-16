@@ -420,16 +420,7 @@ void Player::setFrame(int frameNo)
 	// 行列更新してワールド変換する
 	Matrix rootMatrix = _playerSetting.getWorldMatrix();
 	for(CustomSprite& sprite : _parts){
-		sprite.updateToWorld(rootMatrix, _playerSetting.m_color.a);
-		
-
-		//頂点カラー補正
-		sprite.m_quad.colorsForeach([&](SSColor4B& color){
-			color.r *= _playerSetting.m_color.r;
-			color.g *= _playerSetting.m_color.g;
-			color.b *= _playerSetting.m_color.b;
-			color.a *= sprite.m_alpha;	//color.aはrootから伝播済み
-		});
+		sprite.updateToWorld(rootMatrix, _playerSetting.m_color);
 	}
 
 	// 特殊パーツのアップデート

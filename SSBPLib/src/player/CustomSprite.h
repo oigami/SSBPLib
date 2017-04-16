@@ -21,11 +21,12 @@ public:
 	void constructQuad(const CellRef* cellRef);
 
 	/**
-	 * 行列とアルファの更新を行い、quadをワールド変換する。
+	 * 行列とカラーの更新を行い、quadをワールド変換する。
+	 * アルファは親から伝播していくが、カラーは単に乗算される。
 	 * 親の情報は更新済みにしておく必要がある。
 	 * 親がいない場合はrootの情報を使います。
 	 */
-	void updateToWorld(const Matrix& rootMatrix, float rootAlpha);
+	void updateToWorld(const Matrix& rootMatrix, const SSColorF& rootColor);
 
 	bool isVisibled() const;		//drawが必要か?
 
