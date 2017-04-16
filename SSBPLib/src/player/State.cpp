@@ -146,11 +146,11 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 	}
 
 	//UV反転
-	if (m_flags & PART_FLAG_FLIP_H){	//左右反転を行う場合はlr入れ替え
+	if (m_flipX){	//左右反転を行う場合はlr入れ替え
 		std::swap(q->tr.texCoords.x/*u*/, q->tl.texCoords.x/*u*/);
 		std::swap(q->br.texCoords.x/*u*/, q->bl.texCoords.x/*u*/);
 	}
-	if (m_flags & PART_FLAG_FLIP_H){	//上下反転を行う場合はtb入れ替え
+	if (m_flipY){	//上下反転を行う場合はtb入れ替え
 		std::swap(q->tr.texCoords.y/*v*/, q->br.texCoords.y/*v*/);
 		std::swap(q->tl.texCoords.y/*v*/, q->bl.texCoords.y/*v*/);
 	}
@@ -159,32 +159,31 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 
 void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect, Vector2 cellPivot) const
 {
-	//ひとまずrectをベースに矩形をセットする
-	float width = cellRect.width();
-	float height = cellRect.height();
-	q->bl.vertices = Vector3(0, 0, 0);
-	q->br.vertices = Vector3(width, 0, 0);
-	q->tl.vertices = Vector3(0, height, 0);
-	q->tr.vertices = Vector3(width, height, 0);  //yが上方向+なので、左下基準(0,0)の矩形になる
+	//ひとまずcellRectに従って矩形をセットする(yは上方向+。中央(0,0)の矩形になる)
+	float halfWidth = cellRect.width() * 0.5f;
+	float halfHeight = cellRect.height() * 0.5f;
+	q->bl.vertices = Vector3(-halfWidth, -halfHeight, 0.0f);
+	q->br.vertices = Vector3( halfWidth, -halfHeight, 0.0f);
+	q->tl.vertices = Vector3(-halfWidth,  halfHeight, 0.0f);
+	q->tr.vertices = Vector3( halfWidth,  halfHeight, 0.0f);
 
 	//サイズ指定があるならそちらに合わせる
 	//詳しくは http://www.webtech.co.jp/help/ja/spritestudio/guide/window/main/attribute/
 	//「アンカー機能を持つ特殊なパーツ」についての項目を参照
 	if(m_flags & PART_FLAG_SIZE_X){
-		q->br.vertices.x = m_size.x;
-		q->tr.vertices.x = m_size.x;
+		float halfSize = m_size.x * 0.5f;
+		q->bl.vertices.x = -halfSize;
+		q->br.vertices.x =  halfSize;
+		q->tl.vertices.x = -halfSize;
+		q->tr.vertices.x =  halfSize;
 	}
 	if(m_flags & PART_FLAG_SIZE_Y){
-		q->tl.vertices.y = m_size.y;
-		q->tr.vertices.y = m_size.y;
+		float halfSize = m_size.y * 0.5f;
+		q->bl.vertices.y = -halfSize;
+		q->br.vertices.y = -halfSize;
+		q->tl.vertices.y =  halfSize;
+		q->tr.vertices.y =  halfSize;
 	}
-
-	//中心が(0,0)になるようにオフセットを追加
-	Vector3 center = (q->bl.vertices + q->tr.vertices) / 2;
-	q->bl.vertices -= center;
-	q->br.vertices -= center;
-	q->tl.vertices -= center;
-	q->tr.vertices -= center;
 	/* 基本の矩形作りはここまで -------------------------*/
 
 
@@ -196,18 +195,14 @@ void State::vertexCompute(SSV3F_C4B_T2F_Quad* q, const SSRect& cellRect, Vector2
 
 	/* セルの原点補正 -----------------------------------*/
 	//セルの原点設定を反映させる
-	Vector2 pivot = m_pivot;
-	{
-		if(m_flipX){ cellPivot.x = -cellPivot.x; }	// 水平フリップによって原点を入れ替える
-		if(m_flipY){ cellPivot.y = -cellPivot.y; }	// 垂直フリップによって原点を入れ替える
-
-		pivot += cellPivot;
-	}
+	if(m_flipX){ cellPivot.x = -cellPivot.x; }	// 水平フリップによって原点を入れ替える
+	if(m_flipY){ cellPivot.y = -cellPivot.y; }	// 垂直フリップによって原点を入れ替える
+	Vector2 pivot = m_pivot + cellPivot;
 
 	//原点補正
 	Vector2 cellCenter(
-		(cellRect.width() * -(pivot.x)),
-		(cellRect.height() * +(pivot.y))
+		(cellRect.width()  * -pivot.x),
+		(cellRect.height() * +pivot.y)
 	);
 	q->vertexForeach([&](Vector3& vertex){
 		vertex.x += cellCenter.x;		//原点補正
