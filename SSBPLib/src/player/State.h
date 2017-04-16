@@ -18,7 +18,7 @@ struct AnimationInitialData;
  * パーツの情報を格納します。Stateの内容をもとに描画処理を作成してください。
  */
 class State{
-public:
+private:
 	int m_flags;					/// このフレームで更新が行われるステータスのフラグ
 	int m_cellIndex;				/// パーツに割り当てられたセルの番号
 	Vector3 m_position;				/// SS5アトリビュート：座標(XYZ)
@@ -45,10 +45,11 @@ public:
 	BlendType m_colorBlendVertexFunc;	/// SS5アトリビュート：カラーブレンドのブレンド方法
 	SSQuadColor m_colorBlend;
 
-	
+public:
+	State();
+
 	//readerを介してデータを読み取る
 	void readData(DataArrayReader& reader, const AnimationInitialData* init);
-
 
 
 	//現在のStateの情報を元にuvを計算する
@@ -65,11 +66,12 @@ public:
 	//アルファ値を取得[0:1]
 	float getAlpha() const;
 
-
-	//bool operator==(const State &s) const;
-	//bool operator!=(const State &s) const;
-
-	State();
+	//getter
+	int getCellIndex() const{ return m_cellIndex; }
+	bool isVisibled() const{ return m_isVisibled; }
+	const InstancePartStatus& getInstanceValue() const{ return m_instanceValue; }
+	const EffectPartStatus& getEffectValue() const{ return m_effectValue; }
+	BlendType getColorBlendVertexFunc() const{ return m_colorBlendVertexFunc; }
 };
 
 } //namespace ss

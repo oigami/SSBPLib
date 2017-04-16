@@ -59,7 +59,7 @@ bool CustomSprite::isVisibled() const{
 			return false;
 		}
 	}
-	return m_state.m_isVisibled;
+	return m_state.isVisibled();
 }
 
 

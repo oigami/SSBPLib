@@ -264,6 +264,7 @@ void Player::getPartState(ResluteState& result, int partIndex) const
 	//当たり判定などのパーツに付属するフラグを取得する場合は　partData　のメンバを参照してください。
 	//親から継承したスケールを反映させる場合はxスケールは_mat.m[0]、yスケールは_mat.m[5]をかけて使用してください。
 	const CustomSprite* sprite = &_parts[partIndex];
+#if 0
 	//パーツアトリビュート
 //					sprite->_state;												//SpriteStudio上のアトリビュートの値は_stateから取得してください
 	result.flags = sprite->m_state.m_flags;						// このフレームで更新が行われるステータスのフラグ
@@ -291,7 +292,7 @@ void Player::getPartState(ResluteState& result, int partIndex) const
 	result.flipX = sprite->m_state.m_flipX;						// 横反転（親子関係計算済）
 	result.flipY = sprite->m_state.m_flipY;						// 縦反転（親子関係計算済）
 	result.isVisibled = sprite->m_state.m_isVisibled;			// 非表示（親子関係計算済）
-
+#endif
 	//パーツ設定
 	result.part_type = partData->type;							//パーツ種別
 	result.part_boundsType = partData->boundsType;				//当たり判定種類
@@ -400,7 +401,7 @@ void Player::setFrame(int frameNo)
 		sprite->m_state.readData(reader, init);
 
 		//セルを取得する
-		int cellIndex = sprite->m_state.m_cellIndex;
+		int cellIndex = sprite->m_state.getCellIndex();
 		if (_changeCellIndex[partIndex] != -1){	//ユーザーがセルを上書きした場合はそちらを使う
 			cellIndex = _changeCellIndex[partIndex];
 		}
@@ -444,7 +445,7 @@ void Player::setFrame(int frameNo)
 		if(sprite->isInstancePart()){
 			_eventListener->ChildPlayerUpdate(
 				partIndex, sprite->m_worldMatrix, sprite->m_alpha,
-				frameNo, sprite->m_state.m_instanceValue	//InstancePartStatus::getFrame(frameNo), m_independent,,,
+				frameNo, sprite->m_state.getInstanceValue()		//InstancePartStatus::getFrame(frameNo), m_independent,,,
 			);
 		}
 
@@ -452,7 +453,7 @@ void Player::setFrame(int frameNo)
 		if (sprite->isEffectPart()){
 			_eventListener->EffectUpdate(
 				partIndex, sprite->m_worldMatrix, sprite->m_alpha,
-				frameNo, _seedOffset, sprite->m_state.m_effectValue
+				frameNo, _seedOffset, sprite->m_state.getEffectValue()
 			);
 		}
 	}
@@ -480,7 +481,7 @@ void Player::draw()
 		}
 		else{
 			const State& state = sprite->m_state;
-			_eventListener->SSDrawSprite(sprite->m_quad, sprite->m_textureID, sprite->m_blendfunc, state.m_colorBlendVertexFunc);
+			_eventListener->SSDrawSprite(sprite->m_quad, sprite->m_textureID, sprite->m_blendfunc, state.getColorBlendVertexFunc());
 		}
 	}
 }
