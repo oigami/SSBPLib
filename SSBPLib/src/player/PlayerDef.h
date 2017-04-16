@@ -111,6 +111,26 @@ enum BlendType
 
 
 
+/// テクスチャラップモード
+enum class SsTexWrapMode{
+	invalid = -1,	/// なし
+	clamp,			/// クランプする
+	repeat,			/// リピート
+	mirror,			/// ミラー
+//		num
+};
+
+
+/// テクスチャフィルターモード 画素補間方法
+enum class SsTexFilterMode{
+	invalid = -1,
+	nearlest,	///< ニアレストネイバー
+	linear,		///< リニア、バイリニア
+//	num
+};
+
+
+
 //カラーラベル定数
 #define COLORLABELSTR_NONE		""
 #define COLORLABELSTR_RED		"Red"

@@ -2,7 +2,7 @@
 #include <vector>
 #include <string>
 #include "SS5PlayerTypes.h"
-#include "effect/sstypes.h"
+#include "PlayerDef.h"
 #include "math/SSRect.h"
 
 namespace ss{

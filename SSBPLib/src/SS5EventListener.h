@@ -1,11 +1,10 @@
 ﻿#pragma once
 #include <string>
 #include "SS5PlayerTypes.h"
+#include "math/Matrix.h"
 #include "player/PlayerDef.h"
-#include "effect/sstypes.h"
 #include "player/InstancePartStatus.h"
 #include "player/EffectPartStatus.h"
-#include "math/Matrix.h"
 #include "player/UserData.h"
 
 namespace ss{

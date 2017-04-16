@@ -7,28 +7,7 @@
 #include "math/Vector2.h"
 #include "player/Util.h"
 
-namespace ss
-{
-
-
-/// テクスチャラップモード
-enum class SsTexWrapMode{
-	invalid = -1,	/// なし
-	clamp,			/// クランプする
-	repeat,			/// リピート
-	mirror,			/// ミラー
-//		num
-};
-
-
-/// テクスチャフィルターモード 画素補間方法
-enum class SsTexFilterMode{
-	invalid = -1,
-	nearlest,	///< ニアレストネイバー
-	linear,		///< リニア、バイリニア
-//	num
-};
-
+namespace ss{
 
 
 //エフェクト関連の定義
