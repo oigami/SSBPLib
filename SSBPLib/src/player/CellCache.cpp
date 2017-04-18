@@ -94,23 +94,14 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 }
 
 
-const std::string& CellCache::getTexturePath(int cellMapIndex) const
+
+//CellMap・・・というかテクスチャの情報取得
+const CellMapTextureInfo& CellCache::getTextureInfo(int cellMapIndex) const
 {
-	SS_ASSERT(cellMapIndex >= 0 && cellMapIndex < m_textureInfos.size());	//indexのassertチェックはする
-#if 0
-	if(isAbsolutePath(m_imagePaths[cellMapIndex])){
-		return m_imagePaths[cellMapIndex];	//絶対パスのときはそのまま扱う
-	}
-#endif
-	return m_textureInfos[cellMapIndex].m_imagePaths;
+	SS_ASSERT(cellMapIndex >= 0 && cellMapIndex < m_textureInfos.size());
+	return m_textureInfos[cellMapIndex];
 }
 
-SsTexWrapMode CellCache::getWrapMode(int cellMapIndex) const{
-	return m_textureInfos.at(cellMapIndex).m_wrapMode;
-}
-SsTexFilterMode CellCache::getFilterMode(int cellMapIndex) const{
-	return m_textureInfos.at(cellMapIndex).m_filterMode;
-}
 
 int CellCache::getCellMapNum() const{
 	return m_textureInfos.size();

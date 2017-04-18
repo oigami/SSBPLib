@@ -28,11 +28,11 @@ SS5Effect::SS5Effect(SS5EventListener* eventListener, const ResourceSet* resourc
 	int cellMapNum = m_resource->m_cellCache->getCellMapNum();
 	m_textures.resize(cellMapNum);
 	for(int i = 0; i < cellMapNum; ++i){
-		const std::string& textureName = m_resource->m_cellCache->getTexturePath(i);
-		SsTexWrapMode wrapmode = m_resource->m_cellCache->getWrapMode(i);
-		SsTexFilterMode filtermode = m_resource->m_cellCache->getFilterMode(i);
+		const CellMapTextureInfo& texInfo = m_resource->m_cellCache->getTextureInfo(i);
 
-		m_textures[i] = m_eventListener->SSTextureLoad(textureName.c_str(), wrapmode, filtermode);
+		m_textures[i] = m_eventListener->SSTextureLoad(
+			texInfo.m_imagePaths.c_str(), texInfo.m_wrapMode, texInfo.m_filterMode
+		);
 	}
 
 	//利用するエフェクトデータをセットして初期化する

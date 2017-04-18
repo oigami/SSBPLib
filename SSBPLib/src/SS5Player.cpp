@@ -54,11 +54,11 @@ Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, con
 	int cellMapNum = _resource->m_cellCache->getCellMapNum();
 	m_textures.resize(cellMapNum);
 	for(int i = 0; i < cellMapNum; ++i){
-		const std::string& textureName = _resource->m_cellCache->getTexturePath(i);	
-		SsTexWrapMode wrapmode = _resource->m_cellCache->getWrapMode(i);
-		SsTexFilterMode filtermode = _resource->m_cellCache->getFilterMode(i);
+		const CellMapTextureInfo& texInfo = _resource->m_cellCache->getTextureInfo(i);
 
-		m_textures[i] = _eventListener->SSTextureLoad(textureName.c_str(), wrapmode, filtermode);
+		m_textures[i] = _eventListener->SSTextureLoad(
+			texInfo.m_imagePaths.c_str(), texInfo.m_wrapMode, texInfo.m_filterMode
+		);
 	}
 
 	//最初にアニメーションを入れておく
