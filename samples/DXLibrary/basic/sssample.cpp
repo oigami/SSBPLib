@@ -41,6 +41,20 @@ static VERTEX_3D vertex3Dfrom(const ss::SSV3F_C4B_T2F &vct)
 /// SS5プレイヤー
 ss::Player *ssplayer;
 ss::ResourceManager *resman;
+std::map<std::string, int> g_textures;	//<ファイル名, テクスチャID>
+
+//テクスチャの事前読み
+void texturePreloadCallback(const std::string& filename, ss::SsTexWrapMode wrapmode, ss::SsTexFilterMode filtermode){
+	int textureId = LoadGraph(filename.c_str());
+	g_textures.insert(std::make_pair(filename, textureId));
+}
+void textureRelease(){
+	for(auto& name_id : g_textures){
+		DeleteGraph(name_id.second);
+	}
+	g_textures.clear();
+}
+
 
 /*イベントリスナーの実装*/
 class SampleSS5EventListener: public ss::SS5EventListener{
@@ -54,18 +68,20 @@ public:
 
 	//テクスチャのロード・リリースのイベント。内部ではPlayer単位で管理されます
 	ss::TextureID SSTextureLoad(const char* pszFileName, ss::SsTexWrapMode wrapmode, ss::SsTexFilterMode filtermode) override{
-		return LoadGraph(pszFileName);
+		int textureId = g_textures.at(pszFileName);	//テクスチャは事前に読み込みしておくため、ここではreturnするだけ
+		SS_LOG("【EVENT】(SSTextureLoad) name:%s, id:%d", pszFileName, textureId);
+		return textureId;
+		//return LoadGraph(pszFileName);
 	}
 	void SSTextureRelease(ss::TextureID handle) override{
-		DeleteGraph(handle);
+		auto it = std::find_if(
+			g_textures.begin(), g_textures.end(),
+			[&](const std::pair<std::string, int>& v){ return v.second == static_cast<int>(handle); }
+		);
+		SS_LOG("【EVENT】(SSTextureRelease) name:%s, id%d", it->first.c_str(), static_cast<int>(handle));
+		//DeleteGraph(handle);						//テクスチャの破棄は事前読みと対になる位置でやるため、ここではなにもしない
 	}
 
-#if 0
-	//テクスチャサイズの取得
-	void SSGetTextureSize(ss::TextureID handle, int* width, int* height) override{
-		GetGraphSize(handle, width, height);
-	}
-#endif
 
 	//描画 //ひとまずSS5PlayerPlatform.cppの中身をそのまま持ってきた
 	void SSDrawSprite(const ss::SSV3F_C4B_T2F_Quad& quad, ss::TextureID textureId, ss::BlendType blendType, ss::BlendType colorBlendVertexType) override{
@@ -270,7 +286,8 @@ void init( void )
 	resman->regist(
 		buf.data(), buf.size(),
 		"character_template1",					//登録名
-		"Resources/character_template_comipo/"	//画像ファイルの読み込み元ルートパス
+		"Resources/character_template_comipo/",	//画像ファイルの読み込み元ルートパス
+		texturePreloadCallback
 	);
 
 	//プレイヤーにリソースを割り当てる
@@ -293,7 +310,8 @@ void init( void )
 	resman->regist(
 		buf.data(), buf.size(),
 		"effectsample",
-		"Resources/ParticleEffectSample/"
+		"Resources/ParticleEffectSample/",
+		texturePreloadCallback
 	);
 }
 
@@ -433,10 +451,11 @@ void draw(void)
 */
 void relese( void )
 {
-
 	//SS5Playerの削除
 	delete (ssplayer);	
 	delete (resman);
+	
+	textureRelease();
 }
 
 
