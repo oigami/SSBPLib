@@ -44,7 +44,7 @@ ss::ResourceManager *resman;
 std::map<std::string, int> g_textures;	//<ファイル名, テクスチャID>
 
 //テクスチャの事前読み
-void texturePreloadCallback(const std::string& filename, ss::SsTexWrapMode wrapmode, ss::SsTexFilterMode filtermode){
+void texturePreloadCallback(int cellMapIndex, const std::string& filename, ss::SsTexWrapMode wrapmode, ss::SsTexFilterMode filtermode){
 	int textureId = LoadGraph(filename.c_str());
 	g_textures.insert(std::make_pair(filename, textureId));
 }

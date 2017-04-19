@@ -23,7 +23,7 @@ public:
 	static const std::string s_null;
 
 	//テクスチャ事前読み込みのコールバック定義
-	using PreloadCallback = std::function<void(const std::string& filename, SsTexWrapMode wrapmode, SsTexFilterMode filtermode)>;
+	using PreloadCallback = std::function<void(int cellMapIndex, const std::string& texturePath, SsTexWrapMode wrapmode, SsTexFilterMode filtermode)>;
 
 
 	/**
@@ -41,7 +41,7 @@ public:
 		size_t dataSize,
 		const std::string& dataKey,
 		const std::string& imageBaseDir = s_null,
-		PreloadCallback texturePreloadCallbackFunc = [](const std::string&, SsTexWrapMode, SsTexFilterMode){}
+		PreloadCallback texturePreloadCallbackFunc = [](int, const std::string&, SsTexWrapMode, SsTexFilterMode){}
 	);
 
 	/**

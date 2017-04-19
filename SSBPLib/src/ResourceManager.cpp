@@ -162,7 +162,7 @@ void ResourceManager::texturePreload(const ResourceSet* resource, PreloadCallbac
 	for(int i = 0; i < cellMapNum; ++i){
 		const CellMapTextureInfo& texInfo = resource->m_cellCache->getTextureInfo(i);
 
-		texturePreloadCallbackFunc(texInfo.m_imagePaths, texInfo.m_wrapMode, texInfo.m_filterMode);
+		texturePreloadCallbackFunc(i, texInfo.m_imagePaths, texInfo.m_wrapMode, texInfo.m_filterMode);
 	}
 }
 
