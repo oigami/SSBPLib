@@ -10,11 +10,11 @@ namespace ss{
 class DataArrayReader{
 public:
 	DataArrayReader(const ss_u16* dataPtr)
-		: _dataPtr(dataPtr)
+		: m_dataPtr(dataPtr)
 	{}
 
-	ss_u16 readU16() { return *_dataPtr++; }
-	ss_s16 readS16() { return static_cast<ss_s16>(*_dataPtr++); }
+	ss_u16 readU16() { return *m_dataPtr++; }
+	ss_s16 readS16() { return static_cast<ss_s16>(*m_dataPtr++); }
 
 	unsigned int readU32(){
 		unsigned int l = readU16();
@@ -40,7 +40,7 @@ public:
 	}
 
 private:
-	const ss_u16*	_dataPtr;
+	const ss_u16* m_dataPtr;
 };
 
 } //namespace ss

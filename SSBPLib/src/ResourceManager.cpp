@@ -38,8 +38,8 @@ int ResourceManager::regist(
 	SS_ASSERT_LOG(data, "Invalid data");
 	SS_ASSERT_LOG(dataSize > 0, "dataSize is zero");
 	//登録済みかどうかの判定
-	if(_dataDic.find(dataKey) != _dataDic.end()){
-		RefcountResourceSet* ref = _dataDic.at(dataKey);
+	if(m_dataDic.find(dataKey) != m_dataDic.end()){
+		RefcountResourceSet* ref = m_dataDic.at(dataKey);
 		ref->incCount();	//登録済みの場合はカウントアップするだけ。dataの内容は無視(最初に登録されてたもの優先)
 
 		texturePreload(ref->getResourceSet(), texturePreloadCallbackFunc);	//テクスチャ事前読み込みのコールバック
@@ -53,7 +53,7 @@ int ResourceManager::regist(
 
 	//データを作って登録
 	RefcountResourceSet* rs = new RefcountResourceSet(static_cast<const char*>(data), dataSize, baseDir);
-	_dataDic.insert(std::make_pair(dataKey, rs));
+	m_dataDic.insert(std::make_pair(dataKey, rs));
 
 	texturePreload(rs->getResourceSet(), texturePreloadCallbackFunc);	//テクスチャ事前読み込みのコールバック
 	return rs->getCount();
@@ -62,8 +62,8 @@ int ResourceManager::regist(
 
 int ResourceManager::unregist(const std::string& dataKey)
 {
-	auto it = _dataDic.find(dataKey);
-	SS_ASSERT(it != _dataDic.end());
+	auto it = m_dataDic.find(dataKey);
+	SS_ASSERT(it != m_dataDic.end());
 
 	RefcountResourceSet* ref = it->second;
 	ref->decCount();
@@ -72,7 +72,7 @@ int ResourceManager::unregist(const std::string& dataKey)
 	if(ref->getCount() == 0){
 		//消してOKなので消す	
 		SS_SAFE_DELETE(ref);
-		_dataDic.erase(it);
+		m_dataDic.erase(it);
 		return 0;				//deleteしたので参照カウンタは0
 	}
 	
@@ -81,10 +81,10 @@ int ResourceManager::unregist(const std::string& dataKey)
 
 void ResourceManager::unregistAll()
 {
-	for(auto& str_rs : _dataDic){
+	for(auto& str_rs : m_dataDic){
 		SS_SAFE_DELETE(str_rs.second);
 	}
-	_dataDic.clear();
+	m_dataDic.clear();
 }
 
 
@@ -147,8 +147,8 @@ std::string ResourceManager::getImageBaseDir(const std::string& imageBaseDir, co
 
 const ResourceSet* ResourceManager::getData(const std::string& dataKey) const
 {
-	auto it = _dataDic.find(dataKey);
-	SS_ASSERT(it != _dataDic.end());
+	auto it = m_dataDic.find(dataKey);
+	SS_ASSERT(it != m_dataDic.end());
 
 	RefcountResourceSet* rrs = it->second;
 	return rrs->getResourceSet();

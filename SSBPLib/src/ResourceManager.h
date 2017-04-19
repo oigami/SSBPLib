@@ -100,7 +100,7 @@ private:
 	};
 
 
-	std::map<std::string, RefcountResourceSet*>	_dataDic;	//ここにデータを登録する
+	std::map<std::string, RefcountResourceSet*>	m_dataDic;	//ここにデータを登録する
 
 
 private: //non copyable
