@@ -16,10 +16,10 @@ EffectCache::EffectCache(const ProjectData* data, const CellCache* cellCache)
 }
 EffectCache::~EffectCache()
 {
-	for(auto str_model : _dic){
+	for(auto str_model : m_dic){
 		SS_SAFE_DELETE(str_model.second);
 	}
-	_dic.clear();
+	m_dic.clear();
 }
 
 
@@ -28,7 +28,7 @@ EffectCache::~EffectCache()
 */
 const SsEffectModel* EffectCache::getReference(const std::string& name) const
 {
-	const SsEffectModel* ref = _dic.at(name);
+	const SsEffectModel* ref = m_dic.at(name);
 	return ref;
 }
 
@@ -95,8 +95,8 @@ void EffectCache::init(const ProjectData* data, const CellCache* cellCache)
 			effectmodel->addNode(node);
 		}
 
-		SS_LOG("effect key: %s", effectFileName.c_str());
-		_dic.insert(std::map<std::string, SsEffectModel*>::value_type(effectFileName, effectmodel));
+		//SS_LOG("effect key: %s", effectFileName.c_str());
+		m_dic.insert(std::make_pair(effectFileName, effectmodel));
 	}
 }
 

@@ -24,7 +24,7 @@ private:
 	void init(const ProjectData* data, const CellCache* cellCache);
 
 	
-	std::map<std::string, const SsEffectModel*>		_dic;
+	std::map<std::string, const SsEffectModel*> m_dic;
 };
 
 } //namespace ss
