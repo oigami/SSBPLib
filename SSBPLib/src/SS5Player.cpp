@@ -56,8 +56,8 @@ Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, con
 	for(int i = 0; i < cellMapNum; ++i){
 		const CellMapTextureInfo& texInfo = _resource->m_cellCache->getTextureInfo(i);
 
-		m_textures[i] = _eventListener->SSTextureLoad(
-			texInfo.m_imagePaths.c_str(), texInfo.m_wrapMode, texInfo.m_filterMode
+		m_textures[i] = _eventListener->TextureLoad(
+			i, texInfo.m_imagePaths.c_str(), texInfo.m_wrapMode, texInfo.m_filterMode
 		);
 	}
 
@@ -72,7 +72,7 @@ Player::~Player()
 
 	//テクスチャの解放イベントを投げる
 	for(TextureID textureID : m_textures){
-		_eventListener->SSTextureRelease(textureID);
+		_eventListener->TextureRelease(textureID);
 	}
 	m_textures.clear();
 }
@@ -188,7 +188,7 @@ void Player::update(float dt)
 	int seekCount = nextFrameTime - getCurrentFrame();
 	// 順再生時.
 	for(int i = 0; i < seekCount; ++i){
-		checkFrame = _eventListener->limitFrame(checkFrame + 1, getMaxFrame());	//範囲制限
+		checkFrame = _eventListener->LimitFrame(checkFrame + 1, getMaxFrame());	//範囲制限
 		SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
 			
 		// このフレームのユーザーデータをチェック
@@ -200,7 +200,7 @@ void Player::update(float dt)
 	}
 	// 逆再生時.
 	for(int i = 0; i > seekCount; --i){
-		checkFrame = _eventListener->limitFrame(checkFrame - 1, getMaxFrame());	//範囲制限
+		checkFrame = _eventListener->LimitFrame(checkFrame - 1, getMaxFrame());	//範囲制限
 		SS_ASSERT_LOG(0 <= checkFrame && checkFrame < getMaxFrame(), "checkFrame is out of range. checkFrame=%d", checkFrame);
 
 		// このフレームのユーザーデータをチェック
@@ -467,7 +467,7 @@ void Player::draw()
 		}
 		else{
 			const State& state = sprite->m_state;
-			_eventListener->SSDrawSprite(sprite->m_quad, sprite->m_textureID, sprite->m_blendfunc, state.getColorBlendVertexFunc());
+			_eventListener->DrawSprite(sprite->m_quad, sprite->m_textureID, sprite->m_blendfunc, state.getColorBlendVertexFunc());
 		}
 	}
 }
@@ -490,7 +490,7 @@ void Player::checkUserData(int frameNo)
 	for (int i = 0; i < numUserData; i++){
 		UserData userData;
 		userData.readData(reader, ptr);
-		_eventListener->onUserData(userData, frameNo);
+		_eventListener->OnUserData(userData, frameNo);
 	}
 
 }

@@ -22,14 +22,11 @@ public:
 
 
 	//テクスチャのロード・リリースのイベント。内部ではPlayer単位で管理されます
-	virtual TextureID SSTextureLoad(const char* pszFileName, SsTexWrapMode wrapmode, SsTexFilterMode filtermode) = 0;
-	virtual void SSTextureRelease(TextureID handle) = 0;
-#if 0
-	//テクスチャサイズの取得
-	virtual void SSGetTextureSize(TextureID handle, int* width, int* height) = 0;
-#endif
+	virtual TextureID TextureLoad(int cellMapIndex, const std::string& texturePath, SsTexWrapMode wrapmode, SsTexFilterMode filtermode) = 0;
+	virtual void TextureRelease(TextureID handle) = 0;
+
 	//描画
-	virtual void SSDrawSprite(const SSV3F_C4B_T2F_Quad& quad, TextureID textureId, BlendType blendType, BlendType colorBlendVertexType) = 0;
+	virtual void DrawSprite(const SSV3F_C4B_T2F_Quad& quad, TextureID textureId, BlendType blendType, BlendType colorBlendVertexType) = 0;
 
 	
 	/**
@@ -38,7 +35,7 @@ public:
 	 * @param maxFrame	アニメーションの総フレーム数
 	 * @return 制限をかけた後のフレーム番号
 	 */
-	virtual int limitFrame(int frame, int maxFrame){
+	virtual int LimitFrame(int frame, int maxFrame){
 		return ss::wrap<int>(frame, 0, maxFrame);		//ループ再生になります
 		
 		//例:
@@ -52,7 +49,7 @@ public:
 	 * @param userData	一時オブジェクトなのでコピーして使ってください
 	 * @param frame		userDataが設定されているフレーム
 	 */
-	virtual void onUserData(const UserData& userData, int frameNo){}
+	virtual void OnUserData(const UserData& userData, int frame){}
 
 	
 	
@@ -78,7 +75,9 @@ public:
 	virtual void ChildPlayerUpdate(
 		int parentPartIndex, const Matrix& parentWorldMatrix, float parentAlpha,
 		int parentFrame, const InstancePartStatus& instanceAttribute
-	){}
+	){
+		/* int frame = instanceAttribute.getFrame(parentFrame); */
+	}
 
 	/** 描画イベント */
 	virtual void ChildPlayerDraw(int parentPartIndex){}
@@ -107,7 +106,9 @@ public:
 	virtual void EffectUpdate(
 		int parentPartIndex, const Matrix& parentWorldMatrix, float parentAlpha,
 		int parentFrame, int parentSeedOffset, const EffectPartStatus& effectAttribute
-	){}
+	){
+		/* float frame = effectAttribute.getFrame(parentFrame); */
+	}
 
 	/** 描画イベント */
 	virtual void EffectDraw(int parentPartIndex){}

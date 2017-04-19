@@ -30,8 +30,8 @@ SS5Effect::SS5Effect(SS5EventListener* eventListener, const ResourceSet* resourc
 	for(int i = 0; i < cellMapNum; ++i){
 		const CellMapTextureInfo& texInfo = m_resource->m_cellCache->getTextureInfo(i);
 
-		m_textures[i] = m_eventListener->SSTextureLoad(
-			texInfo.m_imagePaths.c_str(), texInfo.m_wrapMode, texInfo.m_filterMode
+		m_textures[i] = m_eventListener->TextureLoad(
+			i, texInfo.m_imagePaths, texInfo.m_wrapMode, texInfo.m_filterMode
 		);
 	}
 
@@ -53,7 +53,7 @@ SS5Effect::~SS5Effect()
 
 	//テクスチャの解放イベントを投げる
 	for(TextureID textureID : m_textures){
-		m_eventListener->SSTextureRelease(textureID);
+		m_eventListener->TextureRelease(textureID);
 	}
 	m_textures.clear();
 }
@@ -118,7 +118,7 @@ void SS5Effect::drawSprite(
 	}
 	BlendType colorBlendVertexFunc = BLEND_MUL;		//カラーブレンドフラグ乗算
 	
-	m_eventListener->SSDrawSprite(quad, textureId, blendfunc, colorBlendVertexFunc);	//描画
+	m_eventListener->DrawSprite(quad, textureId, blendfunc, colorBlendVertexFunc);	//描画
 }
 
 

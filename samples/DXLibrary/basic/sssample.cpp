@@ -61,19 +61,15 @@ class SampleSS5EventListener: public ss::SS5EventListener{
 public:
 	int m_drawSpriteCount;	//【デバッグ用】スプライト表示数
 
-	void onUserData(const ss::UserData& userData, int frameNo) override{}	//ユーザーデータは特に何も処理しない
-	int limitFrame(int frame, int maxFrame) override{
-		return ss::SS5EventListener::limitFrame(frame, maxFrame);	//フレーム制限はデフォルト実装に任せる
-	}
 
 	//テクスチャのロード・リリースのイベント。内部ではPlayer単位で管理されます
-	ss::TextureID SSTextureLoad(const char* pszFileName, ss::SsTexWrapMode wrapmode, ss::SsTexFilterMode filtermode) override{
-		int textureId = g_textures.at(pszFileName);	//テクスチャは事前に読み込みしておくため、ここではreturnするだけ
-		SS_LOG("【EVENT】(SSTextureLoad) name:%s, id:%d", pszFileName, textureId);
+	ss::TextureID TextureLoad(int cellMapIndex, const std::string& texturePath, ss::SsTexWrapMode wrapmode, ss::SsTexFilterMode filtermode) override{
+		int textureId = g_textures.at(texturePath);	//テクスチャは事前に読み込みしておくため、ここではreturnするだけ
+		SS_LOG("【EVENT】(SSTextureLoad) name:%s, id:%d", texturePath.c_str(), textureId);
 		return textureId;
 		//return LoadGraph(pszFileName);
 	}
-	void SSTextureRelease(ss::TextureID handle) override{
+	void TextureRelease(ss::TextureID handle) override{
 		auto it = std::find_if(
 			g_textures.begin(), g_textures.end(),
 			[&](const std::pair<std::string, int>& v){ return v.second == static_cast<int>(handle); }
@@ -84,7 +80,7 @@ public:
 
 
 	//描画 //ひとまずSS5PlayerPlatform.cppの中身をそのまま持ってきた
-	void SSDrawSprite(const ss::SSV3F_C4B_T2F_Quad& quad, ss::TextureID textureId, ss::BlendType blendType, ss::BlendType colorBlendVertexType) override{
+	void DrawSprite(const ss::SSV3F_C4B_T2F_Quad& quad, ss::TextureID textureId, ss::BlendType blendType, ss::BlendType colorBlendVertexType) override{
 		m_drawSpriteCount++;	//デバッグ用
 
 		//描画ファンクション
@@ -138,6 +134,12 @@ public:
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);	//ブレンドステートを通常へ戻す
 		SetDrawBright(255, 255, 255);
 	}
+
+
+	int LimitFrame(int frame, int maxFrame) override{
+		return ss::SS5EventListener::LimitFrame(frame, maxFrame);	//フレーム制限はデフォルト実装に任せる
+	}
+	void OnUserData(const ss::UserData& userData, int frameNo) override{}	//ユーザーデータは特に何も処理しない
 
 
 	//インスタンスアニメーションのイベント
