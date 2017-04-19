@@ -57,7 +57,7 @@ Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, con
 		const CellMapTextureInfo& texInfo = _resource->m_cellCache->getTextureInfo(i);
 
 		m_textures[i] = _eventListener->TextureLoad(
-			i, texInfo.m_imagePaths.c_str(), texInfo.m_wrapMode, texInfo.m_filterMode
+			i, texInfo.m_imagePaths, texInfo.m_wrapMode, texInfo.m_filterMode
 		);
 	}
 
