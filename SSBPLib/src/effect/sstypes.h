@@ -1,11 +1,5 @@
 ﻿#pragma once
-#include <stdlib.h>
-#include <string>
-#include <vector>
-#include <math.h>
-#include <algorithm>
-#include "math/Vector2.h"
-#include "player/Util.h"
+
 
 namespace ss{
 
@@ -34,4 +28,3 @@ enum class SsRenderBlendType{
 
 
 } //namespace ss
-

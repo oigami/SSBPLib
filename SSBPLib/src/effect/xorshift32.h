@@ -1,21 +1,11 @@
-﻿
-#ifndef __XORSHIFT32__
-#define __XORSHIFT32__
+﻿#pragma once
+#include <stdint.h>
 
+namespace ss{
 
-#ifndef uint32_t	
-	typedef unsigned int _uint32_t;
-#else
-	typedef  uint32_t	_uint32_t;
-#endif
-
-class xorshift32
-{
-protected:
-
-
-	_uint32_t	y;
-
+class xorshift32{
+private:
+	uint32_t	y;
 
 public:
 	xorshift32(){}
@@ -23,7 +13,7 @@ public:
 
 	void	init_genrand(unsigned long seed) {y=seed;}
 
-	_uint32_t genrand_uint32(){
+	uint32_t genrand_uint32(){
 		y = y ^ ( y << 13 );
 		y = y ^ ( y >> 17 );
 		y = y ^ ( y << 15 );
@@ -32,16 +22,13 @@ public:
 	}
 
 	float genrand_float32() {
-		_uint32_t v = genrand_uint32();
-		_uint32_t res = (v >> 9) | 0x3f800000;
+		uint32_t v = genrand_uint32();
+		uint32_t res = (v >> 9) | 0x3f800000;
 		float	r = (*(float*)&res) - 1.0f;
 
 		return r;
 	}
 
-} ;
+};
 
-
-
-
-#endif
+} //namespace ss
