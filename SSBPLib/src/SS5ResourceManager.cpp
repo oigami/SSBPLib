@@ -1,4 +1,4 @@
-﻿#include "ResourceManager.h"
+﻿#include "SS5ResourceManager.h"
 #include <string>
 #include "SS5Player.h"
 #include "SS5Effect.h"

@@ -2,7 +2,7 @@
 #include <fstream>
 #include "SS5Player.h"
 #include "SS5Effect.h"
-#include "ResourceManager.h"
+#include "SS5ResourceManager.h"
 #include "ResluteState.h"
 #include "SS5EventListener.h"
 
