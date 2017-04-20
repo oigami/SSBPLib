@@ -106,16 +106,16 @@ vector<string> ResourceManager::getTextureList(const string& dataKey) const
 }
 
 //player
-Player* ResourceManager::createPlayer(SS5EventListener* eventListener, const string& dataKey, const string& animeName) const
+SS5Player* ResourceManager::createPlayer(SS5EventListener* eventListener, const string& dataKey, const string& animeName) const
 {
 	const ResourceSet* rs = getData(dataKey);
 	//アニメーションの指定が無い場合は、最初のものを入れておく
 	if(animeName == s_null){
-		return new Player(eventListener, rs, rs->m_animeCache->getFirstAnimationName());
+		return new SS5Player(eventListener, rs, rs->m_animeCache->getFirstAnimationName());
 	}
-	return new Player(eventListener, rs, animeName);
+	return new SS5Player(eventListener, rs, animeName);
 }
-void ResourceManager::destroyPlayer(Player*& player) const
+void ResourceManager::destroyPlayer(SS5Player*& player) const
 {
 	delete player;
 	player = nullptr;

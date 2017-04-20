@@ -1,4 +1,5 @@
 ﻿#include "SS5Player.h"
+#include <time.h>
 #include "SS5PlayerData.h"
 #include "SS5PlayerTypes.h"
 #include "player/ToPointer.h"
@@ -25,20 +26,20 @@ namespace ss{
 
 //乱数シードに利用するユニークIDを作成します。
 //この値は全てのSS5プレイヤー共通で使用します
-int seedMakeID = 123456;
+static int s_seedMakeID = 123456;
 //エフェクトに与えるシードを取得する関数
-unsigned int getRandomSeed()
+static unsigned int getRandomSeed()
 {
-	seedMakeID++;	//ユニークIDを更新します。
+	s_seedMakeID++;	//ユニークIDを更新します。
 	//時間＋ユニークIDにする事で毎回シードが変わるようにします。
-	unsigned int rc = (unsigned int)time(0) + (seedMakeID);
+	unsigned int rc = (unsigned int)time(0) + (s_seedMakeID);
 
-	return(rc);
+	return rc;
 }
 
 
 
-Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, const string& animeName)
+SS5Player::SS5Player(SS5EventListener* eventListener, const ResourceSet* resource, const string& animeName)
 	: m_eventListener(eventListener)
 	, m_resource(resource)
 	, m_animationData(nullptr)
@@ -70,7 +71,7 @@ Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, con
 	SS_ASSERT_LOG(m_animationData, "animationData is null");
 }
 
-Player::~Player()
+SS5Player::~SS5Player()
 {
 	releaseParts();
 
@@ -82,7 +83,7 @@ Player::~Player()
 }
 
 
-void Player::play(const string& animeName, int startFrameNo)
+void SS5Player::play(const string& animeName, int startFrameNo)
 {
 	const AnimeRef* animeRef = m_resource->m_animeCache->getReference(animeName);
 	SS_ASSERT_LOG(animeRef, "Not found animation > anime=%s", animeName.c_str());
@@ -90,7 +91,7 @@ void Player::play(const string& animeName, int startFrameNo)
 	play(animeRef, startFrameNo);
 }
 
-void Player::play(const AnimeRef* animeRef, int startFrameNo)
+void SS5Player::play(const AnimeRef* animeRef, int startFrameNo)
 {
 	m_animationData = animeRef;
 		
@@ -105,7 +106,7 @@ void Player::play(const AnimeRef* animeRef, int startFrameNo)
 }
 
 
-void Player::allocParts(int numParts)
+void SS5Player::allocParts(int numParts)
 {
 	releaseParts();	//すべてのパーツを消す
 
@@ -117,7 +118,7 @@ void Player::allocParts(int numParts)
 	m_changeCellIndex.resize(numParts, -1);
 }
 
-void Player::releaseParts()
+void SS5Player::releaseParts()
 {
 	// パーツの子CustomSpriteを全て削除
 	for(int i = 0; i < m_parts.size(); ++i){
@@ -134,7 +135,7 @@ void Player::releaseParts()
 	m_parts.clear();
 }
 
-void Player::setPartsParentage()
+void SS5Player::setPartsParentage()
 {
 	ToPointer ptr(m_resource->m_data);
 
@@ -169,20 +170,20 @@ void Player::setPartsParentage()
 }
 
 
-int Player::getMaxFrame() const{
+int SS5Player::getMaxFrame() const{
 	return m_animationData->m_animationData->numFrames;
 }
 
-int Player::getCurrentFrame() const{
+int SS5Player::getCurrentFrame() const{
 	return static_cast<int>(m_currentFrameTime);
 }
 
-void Player::setCurrentFrame(int frame){
+void SS5Player::setCurrentFrame(int frame){
 	m_currentFrameTime = frame;
 }
 
 
-void Player::update(float dt)
+void SS5Player::update(float dt)
 {
 	// フレームを進める.
 	float nextFrameTime = m_currentFrameTime + (dt * getAnimeFPS());
@@ -225,13 +226,13 @@ void Player::update(float dt)
 
 
 //再生しているアニメーションに含まれるパーツ数を取得
-int Player::getPartsNum() const
+int SS5Player::getPartsNum() const
 {
 	return m_parts.size();		//return _animationData->m_numParts;
 }
 
 //indexからパーツ名を取得
-string Player::getPartName(int partIndex) const
+string SS5Player::getPartName(int partIndex) const
 {
 	ToPointer ptr(m_resource->m_data);
 
@@ -241,7 +242,7 @@ string Player::getPartName(int partIndex) const
 }
 
 //パーツ名からindexを取得
-int Player::indexOfPart(const string& partName) const
+int SS5Player::indexOfPart(const string& partName) const
 {
 	ToPointer ptr(m_resource->m_data);
 
@@ -257,7 +258,7 @@ int Player::indexOfPart(const string& partName) const
 }
 
 //パーツ情報取得
-void Player::getPartState(ResluteState& result, int partIndex) const
+void SS5Player::getPartState(ResluteState& result, int partIndex) const
 {
 	SS_ASSERT(partIndex >= 0 && partIndex < m_parts.size());
 
@@ -333,7 +334,7 @@ void Player::getPartState(ResluteState& result, int partIndex) const
 //ラベル名からラベルの設定されているフレームを取得
 //ラベルが存在しない場合は戻り値が-1となります。
 //ラベル名が全角でついていると取得に失敗します。
-int Player::getLabelToFrame(const string& labelName) const
+int SS5Player::getLabelToFrame(const string& labelName) const
 {
 	ToPointer ptr(m_resource->m_data);
 	const AnimationData* animeData = m_animationData->m_animationData;
@@ -364,14 +365,14 @@ int Player::getLabelToFrame(const string& labelName) const
 //特定パーツの表示、非表示を設定します
 //パーツ番号はスプライトスタジオのフレームコントロールに配置されたパーツが
 //プライオリティでソートされた後、上に配置された順にソートされて決定されます。
-void Player::setPartVisible(int partIndex, bool visible)
+void SS5Player::setPartVisible(int partIndex, bool visible)
 {
 	SS_ASSERT(partIndex >= 0 && partIndex < m_parts.size());
 	m_partVisible[partIndex] = visible;
 }
 
 //パーツに割り当たるセルを変更します
-void Player::setPartCell(int partIndex, const string& cellname)
+void SS5Player::setPartCell(int partIndex, const string& cellname)
 {
 	int changeCellIndex = -1;
 	if (cellname != ""){
@@ -382,7 +383,7 @@ void Player::setPartCell(int partIndex, const string& cellname)
 
 
 
-void Player::setFrame(int frameNo)
+void SS5Player::setFrame(int frameNo)
 {
 	ToPointer ptr(m_resource->m_data);
 	const AnimationData* animeData = m_animationData->m_animationData;
@@ -450,7 +451,7 @@ void Player::setFrame(int frameNo)
 }
 
 //プレイヤーの描画
-void Player::draw()
+void SS5Player::draw()
 {
 	for (int index = 0; index < m_parts.size(); index++){
 		int partIndex = m_drawOrderIndex[index];
@@ -476,7 +477,7 @@ void Player::draw()
 	}
 }
 
-void Player::checkUserData(int frameNo)
+void SS5Player::checkUserData(int frameNo)
 {
 	ToPointer ptr(m_resource->m_data);
 
@@ -500,45 +501,45 @@ void Player::checkUserData(int frameNo)
 }
 
 
-int Player::getAnimeFPS() const{
+int SS5Player::getAnimeFPS() const{
 	return m_animationData->m_animationData->fps;
 }
 
 /** プレイヤーへの各種設定 ------------------------------*/
-void Player::setRootMatrix(const Matrix& matrix){
+void SS5Player::setRootMatrix(const Matrix& matrix){
 	m_playerSetting.m_rootMatrix = matrix;
 }
-void Player::setPosition(float x, float y){
+void SS5Player::setPosition(float x, float y){
 	m_playerSetting.m_position = Vector3(x, y, 0.0f);
 }
-void Player::getPosition(float* x, float* y) const{
+void SS5Player::getPosition(float* x, float* y) const{
 	*x = m_playerSetting.m_position.x;
 	*y = m_playerSetting.m_position.y;
 }
-void Player::setRotation(float x, float y, float z){
+void SS5Player::setRotation(float x, float y, float z){
 	m_playerSetting.m_rotation = Vector3(x, y, z);
 }
-void Player::getRotation(float* x, float* y, float* z) const{
+void SS5Player::getRotation(float* x, float* y, float* z) const{
 	*x = m_playerSetting.m_rotation.x;
 	*y = m_playerSetting.m_rotation.y;
 	*z = m_playerSetting.m_rotation.z;
 }
-void Player::setScale(float x, float y){
+void SS5Player::setScale(float x, float y){
 	m_playerSetting.m_scale = Vector3(x, y, 1.0f);
 }
-void Player::getScale(float* x, float* y) const{
+void SS5Player::getScale(float* x, float* y) const{
 	*x = m_playerSetting.m_scale.x;
 	*y = m_playerSetting.m_scale.y;
 }
-void Player::setAlpha(float a){
+void SS5Player::setAlpha(float a){
 	m_playerSetting.m_color.a = clamp(a, 0.0f, 1.0f);
 }
-float Player::getAlpha() const{
+float SS5Player::getAlpha() const{
 	return m_playerSetting.m_color.a;
 }
 
 //アニメーションの色成分を変更します
-void Player::setColor(float r, float g, float b)
+void SS5Player::setColor(float r, float g, float b)
 {
 	m_playerSetting.m_color.r = clamp(r, 0.0f, 1.0f);
 	m_playerSetting.m_color.g = clamp(g, 0.0f, 1.0f);

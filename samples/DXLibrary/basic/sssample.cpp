@@ -39,7 +39,7 @@ static VERTEX_3D vertex3Dfrom(const ss::SSV3F_C4B_T2F &vct)
 
 
 /// SS5プレイヤー
-ss::Player *ssplayer;
+ss::SS5Player *ssplayer;
 ss::ResourceManager *resman;
 std::map<std::string, int> g_textures;	//<ファイル名, テクスチャID>
 

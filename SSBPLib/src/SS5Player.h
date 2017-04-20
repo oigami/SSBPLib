@@ -70,40 +70,31 @@ https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%
 
 *************************************************************/
 
-#include "SS5PlayerData.h"
 #include "SS5PlayerTypes.h"
 #include <map>
 #include <vector>
 #include <deque>
 #include <string>
 #include <list>
-#include <stdarg.h>
-#include <assert.h>
-#include <time.h>
-#include "player/UserData.h"
+#include "player/CustomSprite.h"
 #include "player/State.h"
-#include "player/InstancePartStatus.h"
 #include "player/PlayerSetting.h"
 
 namespace ss{
-class CustomSprite;
 struct AnimeRef;
 class ResourceSet;
-struct ProjectData;
-class Player;
-class ResourceManager;
 struct ResluteState;
 class SS5EventListener;
 
 
 /**
- * Player
+ * SS5Player
  */
-class Player{
+class SS5Player{
 public:
-	/** Playerインスタンスを構築します。利用するときはResourceManger::create, destroyを使ってください */
-	Player(SS5EventListener* eventListener, const ResourceSet* resource, const std::string& animeName);
-	~Player();	//memo:なるべくResourceManger.create, destroyを使ってほしい
+	/** SS5Playerインスタンスを構築します。利用するときはResourceManger::create, destroyを使ってください */
+	SS5Player(SS5EventListener* eventListener, const ResourceSet* resource, const std::string& animeName);
+	~SS5Player();	//memo:なるべくResourceManger.create, destroyを使ってほしい
 
 	/**
 	 * アニメーションの再生を開始します.
@@ -210,10 +201,9 @@ private:
 
 
 private: //non copyable
-	Player(const Player &o) = delete;
-	Player& operator=(const Player &o) = delete;
+	SS5Player(const SS5Player &o) = delete;
+	SS5Player& operator=(const SS5Player &o) = delete;
 };
 
-using SS5Player = Player;
 
 } // namespace ss

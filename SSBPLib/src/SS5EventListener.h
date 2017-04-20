@@ -8,7 +8,6 @@
 #include "player/UserData.h"
 
 namespace ss{
-class Player;
 struct UserData;
 class InstancePartStatus;
 class EffectPartStatus;

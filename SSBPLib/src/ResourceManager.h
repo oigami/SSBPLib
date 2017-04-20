@@ -9,7 +9,7 @@
 namespace ss{
 class ResourceSet;
 struct ProjectData;
-class Player;
+class SS5Player;
 class SS5Effect;
 class SS5EventListener;
 
@@ -60,8 +60,8 @@ public:
 	std::vector<std::string> getTextureList(const std::string& dataKey) const;
 
 	/** SS5Playerの生成 */
-	Player* createPlayer(SS5EventListener* eventListener, const std::string& dataKey, const std::string& animeName = s_null) const;
-	void destroyPlayer(Player*& player) const;
+	SS5Player* createPlayer(SS5EventListener* eventListener, const std::string& dataKey, const std::string& animeName = s_null) const;
+	void destroyPlayer(SS5Player*& player) const;
 
 	/** SS5Effectの生成 */
 	SS5Effect* createEffect(SS5EventListener* eventListener, const std::string& dataKey, const std::string& effectName, int seed) const;

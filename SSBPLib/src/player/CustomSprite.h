@@ -1,13 +1,10 @@
 ﻿#pragma once
 #include "State.h"
-#include "SS5Player.h"
 #include "SS5PlayerTypes.h"
 #include "math/Matrix.h"
 
 namespace ss{
-class SS5Effect;
 struct CellRef;
-class State;
 
 /**
  * CustomSprite
