@@ -17,16 +17,6 @@ AnimeCache::~AnimeCache()
 {
 }
 
-#if 0
-//packNameとanimeNameを指定してAnimeRefを得る
-const AnimeRef* AnimeCache::getReference(const string& packName, const string& animeName) const
-{
-	string key = toPackAnimeKey(packName, animeName);	//todo:animeNameだけに統一したい
-	SS_ASSERT_LOG(m_animeRefs.find(key) != m_animeRefs.end(), "Not found animation");
-
-	return &(m_animeRefs.at(key));
-}
-#endif
 
 //animeNameのみ指定してAnimeRefを得る
 const AnimeRef* AnimeCache::getReference(const string& animeName) const
@@ -37,7 +27,7 @@ const AnimeRef* AnimeCache::getReference(const string& animeName) const
 
 
 //最初のアニメーション名を得る
-const std::string& AnimeCache::getFirstAnimationName() const
+const string& AnimeCache::getFirstAnimationName() const
 {
 	SS_ASSERT_LOG(m_animeRefs.begin() != m_animeRefs.end(), "No Animation");
 
@@ -46,12 +36,13 @@ const std::string& AnimeCache::getFirstAnimationName() const
 }
 
 //アニメーションのリストを作る
-void AnimeCache::getAnimationList(list<string> *animlist) const
+list<string> AnimeCache::getAnimationList() const
 {
-	animlist->clear();
+	list<string> animlist;
 	for(auto &key_ref : m_animeRefs){
-		animlist->push_back(key_ref.first);
+		animlist.push_back(key_ref.first);
 	}
+	return animlist;
 }
 
 

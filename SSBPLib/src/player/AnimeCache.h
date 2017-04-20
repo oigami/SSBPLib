@@ -42,11 +42,9 @@ public:
 	/** dataを元にAnimeRefを構築 */
 	AnimeCache(const ProjectData* data);
 	~AnimeCache();
-#if 0
-	/** packNameとanimeNameを指定してAnimeRefを得る */
-	const AnimeRef* getReference(const std::string& packName, const std::string& animeName) const;
-#endif
-	/** animeNameのみ指定してAnimeRefを得る */
+
+	
+	/** "packname/animename"で指定してAnimeRefを得る */
 	const AnimeRef* getReference(const std::string& animeName) const;
 
 
@@ -54,7 +52,7 @@ public:
 	const std::string& getFirstAnimationName() const;
 	
 	/** アニメーションの登録名のリストを取得する。主にデバッグ用 */
-	void getAnimationList(std::list<std::string> *animlist) const;
+	std::list<std::string> getAnimationList() const;
 
 private:
 	/** dataを元にAnimeRefを構築 */
@@ -66,7 +64,7 @@ private:
 
 
 private:
-	std::map<std::string, AnimeRef> m_animeRefs;
+	std::map<std::string, AnimeRef> m_animeRefs;	// <"packname/animename", AnimeRef>
 };
 
 

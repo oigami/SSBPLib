@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <string>
+#include <vector>
 #include <map>
 #include <memory>
 #include <functional>
@@ -56,7 +57,7 @@ public:
 
 
 	/** 指定したデータが必要とするテクスチャ名のリストを取得 */
-	void getTextureList(std::vector<std::string>* textureList, const std::string& dataKey) const;
+	std::vector<std::string> getTextureList(const std::string& dataKey) const;
 
 	/** SS5Playerの生成 */
 	Player* createPlayer(SS5EventListener* eventListener, const std::string& dataKey, const std::string& animeName = s_null) const;

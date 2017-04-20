@@ -175,9 +175,8 @@ public:
 
 
 
-
 	/** 再生可能なアニメーションのリストを返す */
-	void getAnimationList(std::list<std::string> *animlist) const;
+	std::list<std::string> getAnimationList() const;
 
 private:
 	void allocParts(int numParts);

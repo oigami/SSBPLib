@@ -1,7 +1,4 @@
-﻿// 
-//  SS5Player.cpp
-//
-#include "SS5Player.h"
+﻿#include "SS5Player.h"
 #include "SS5PlayerData.h"
 #include "SS5PlayerTypes.h"
 #include "player/ToPointer.h"
@@ -20,6 +17,7 @@
 #include "SS5EventListener.h"
 #include "effect/ssplayer_effect2.h"
 #include "SS5Effect.h"
+using namespace std;
 
 
 namespace ss{
@@ -40,7 +38,7 @@ unsigned int getRandomSeed()
 
 
 
-Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, const std::string& animeName)
+Player::Player(SS5EventListener* eventListener, const ResourceSet* resource, const string& animeName)
 	: m_eventListener(eventListener)
 	, m_resource(resource)
 	, m_animationData(nullptr)
@@ -84,7 +82,7 @@ Player::~Player()
 }
 
 
-void Player::play(const std::string& animeName, int startFrameNo)
+void Player::play(const string& animeName, int startFrameNo)
 {
 	const AnimeRef* animeRef = m_resource->m_animeCache->getReference(animeName);
 	SS_ASSERT_LOG(animeRef, "Not found animation > anime=%s", animeName.c_str());
@@ -158,13 +156,13 @@ void Player::setPartsParentage()
 		
 		//インスタンスパーツならChildPlayerの生成イベントを飛ばす
 		if(sprite->isInstancePart()){
-			std::string refanimeName = ptr.toString(partData->refname);
+			string refanimeName = ptr.toString(partData->refname);
 			m_eventListener->ChildPlayerLoad(partIndex, refanimeName);
 		}
 
 		//エフェクトパーツならパラメータを設定する
 		if(sprite->isEffectPart()){
-			std::string refeffectName = ptr.toString(partData->effectfilename);
+			string refeffectName = ptr.toString(partData->effectfilename);
 			m_eventListener->EffectLoad(partIndex, refeffectName);
 		}
 	}
@@ -233,7 +231,7 @@ int Player::getPartsNum() const
 }
 
 //indexからパーツ名を取得
-std::string Player::getPartName(int partIndex) const
+string Player::getPartName(int partIndex) const
 {
 	ToPointer ptr(m_resource->m_data);
 
@@ -243,7 +241,7 @@ std::string Player::getPartName(int partIndex) const
 }
 
 //パーツ名からindexを取得
-int Player::indexOfPart(const std::string& partName) const
+int Player::indexOfPart(const string& partName) const
 {
 	ToPointer ptr(m_resource->m_data);
 
@@ -304,7 +302,7 @@ void Player::getPartState(ResluteState& result, int partIndex) const
 	result.part_boundsType = partData->boundsType;				//当たり判定種類
 	result.part_alphaBlendType = partData->alphaBlendType;		// BlendType
 	//ラベルカラー
-	std::string colorName = ptr.toString(partData->colorLabel);
+	string colorName = ptr.toString(partData->colorLabel);
 	if(colorName == COLORLABELSTR_NONE){
 		result.part_labelcolor = COLORLABEL_NONE;
 	}
@@ -335,7 +333,7 @@ void Player::getPartState(ResluteState& result, int partIndex) const
 //ラベル名からラベルの設定されているフレームを取得
 //ラベルが存在しない場合は戻り値が-1となります。
 //ラベル名が全角でついていると取得に失敗します。
-int Player::getLabelToFrame(const std::string& labelName) const
+int Player::getLabelToFrame(const string& labelName) const
 {
 	ToPointer ptr(m_resource->m_data);
 	const AnimationData* animeData = m_animationData->m_animationData;
@@ -373,7 +371,7 @@ void Player::setPartVisible(int partIndex, bool visible)
 }
 
 //パーツに割り当たるセルを変更します
-void Player::setPartCell(int partIndex, const std::string& cellname)
+void Player::setPartCell(int partIndex, const string& cellname)
 {
 	int changeCellIndex = -1;
 	if (cellname != ""){
@@ -548,8 +546,8 @@ void Player::setColor(float r, float g, float b)
 }
 /*-------------------------------------------------------*/
 
-void SS5Player::getAnimationList(std::list<std::string> *animlist) const{
-	m_resource->m_animeCache->getAnimationList(animlist);
+list<string> SS5Player::getAnimationList() const{
+	return m_resource->m_animeCache->getAnimationList();
 }
 
 

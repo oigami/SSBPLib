@@ -9,11 +9,12 @@
 #include "player/AnimeCache.h"
 #include "player/EffectCache.h"
 #include "player/ResourceSet.h"
+using namespace std;
 
 
 namespace ss{
 
-const std::string ResourceManager::s_null;
+const string ResourceManager::s_null;
 
 
 
@@ -31,8 +32,8 @@ ResourceManager::~ResourceManager()
 int ResourceManager::regist(
 	const void* data,
 	size_t dataSize,
-	const std::string& dataKey,
-	const std::string& imageBaseDir,
+	const string& dataKey,
+	const string& imageBaseDir,
 	PreloadCallback texturePreloadCallbackFunc
 ){
 	SS_ASSERT_LOG(data, "Invalid data");
@@ -49,18 +50,18 @@ int ResourceManager::regist(
 	/***** 新規登録 *****/
 
 	//画像ファイルのディレクトリパスを作る
-	std::string baseDir = getImageBaseDir(imageBaseDir, static_cast<const ProjectData*>(data));
+	string baseDir = getImageBaseDir(imageBaseDir, static_cast<const ProjectData*>(data));
 
 	//データを作って登録
 	RefcountResourceSet* rs = new RefcountResourceSet(static_cast<const char*>(data), dataSize, baseDir);
-	m_dataDic.insert(std::make_pair(dataKey, rs));
+	m_dataDic.insert(make_pair(dataKey, rs));
 
 	texturePreload(rs->getResourceSet(), texturePreloadCallbackFunc);	//テクスチャ事前読み込みのコールバック
 	return rs->getCount();
 }
 
 
-int ResourceManager::unregist(const std::string& dataKey)
+int ResourceManager::unregist(const string& dataKey)
 {
 	auto it = m_dataDic.find(dataKey);
 	SS_ASSERT(it != m_dataDic.end());
@@ -89,21 +90,23 @@ void ResourceManager::unregistAll()
 
 
 
-void ResourceManager::getTextureList(std::vector<std::string>* textureList, const std::string& dataKey) const
+vector<string> ResourceManager::getTextureList(const string& dataKey) const
 {
 	const ResourceSet* rs = getData(dataKey);
 	const CellCache* cellCache = rs->m_cellCache.get();
 
 	//todo:ss5playerにも似たコードがある・・・resourcesetあたりに一覧取得機能持たせた方がいいかもしれない
 	int cellMapNum = cellCache->getCellMapNum();
-	textureList->resize(cellMapNum);
+
+	vector<string> textureList(cellMapNum);
 	for (int i = 0; i < cellMapNum; ++i){
-		(*textureList)[i] = cellCache->getTextureInfo(i).m_imagePaths;
+		textureList[i] = cellCache->getTextureInfo(i).m_imagePaths;
 	}
+	return textureList;
 }
 
 //player
-Player* ResourceManager::createPlayer(SS5EventListener* eventListener, const std::string& dataKey, const std::string& animeName) const
+Player* ResourceManager::createPlayer(SS5EventListener* eventListener, const string& dataKey, const string& animeName) const
 {
 	const ResourceSet* rs = getData(dataKey);
 	//アニメーションの指定が無い場合は、最初のものを入れておく
@@ -119,7 +122,7 @@ void ResourceManager::destroyPlayer(Player*& player) const
 }
 
 //effect
-SS5Effect* ResourceManager::createEffect(SS5EventListener* eventListener, const std::string& dataKey, const std::string& effectName, int seed) const
+SS5Effect* ResourceManager::createEffect(SS5EventListener* eventListener, const string& dataKey, const string& effectName, int seed) const
 {
 	const ResourceSet* rs = getData(dataKey);
 	return new SS5Effect(eventListener, rs, effectName, seed);
@@ -132,7 +135,7 @@ void ResourceManager::destroyEffect(SS5Effect*& effect) const
 
 
 
-std::string ResourceManager::getImageBaseDir(const std::string& imageBaseDir, const ProjectData* data) const
+string ResourceManager::getImageBaseDir(const string& imageBaseDir, const ProjectData* data) const
 {
 	if(imageBaseDir == s_null){	// imageBaseDirの指定がないときはパスを作る
 
@@ -145,7 +148,7 @@ std::string ResourceManager::getImageBaseDir(const std::string& imageBaseDir, co
 	return imageBaseDir;
 }
 
-const ResourceSet* ResourceManager::getData(const std::string& dataKey) const
+const ResourceSet* ResourceManager::getData(const string& dataKey) const
 {
 	auto it = m_dataDic.find(dataKey);
 	SS_ASSERT(it != m_dataDic.end());
