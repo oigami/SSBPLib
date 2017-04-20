@@ -1,10 +1,10 @@
 ﻿#include "DxLib.h"
 #include <fstream>
-#include "SS5Player.h"
-#include "SS5Effect.h"
-#include "SS5ResourceManager.h"
-#include "ResluteState.h"
-#include "SS5EventListener.h"
+#include "ss/SS5Player.h"
+#include "ss/SS5Effect.h"
+#include "ss/SS5ResourceManager.h"
+#include "ss/ResluteState.h"
+#include "ss/SS5EventListener.h"
 
 //メモリリークチェック用---------------------------------------------------------
 #ifdef _DEBUG

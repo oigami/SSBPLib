@@ -74,7 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ss\;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -89,7 +89,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ss\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -106,7 +106,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ss\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -127,7 +127,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)src\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ss\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>NOMINMAX;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -140,25 +140,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\effect\SsEffectElement.cpp" />
-    <ClCompile Include="src\effect\ssplayer_effect2.cpp" />
-    <ClCompile Include="src\math\Matrix.cpp" />
-    <ClCompile Include="src\math\Vector2.cpp" />
-    <ClCompile Include="src\math\Vector3.cpp" />
-    <ClCompile Include="src\player\AnimeCache.cpp" />
-    <ClCompile Include="src\player\CellCache.cpp" />
-    <ClCompile Include="src\player\CustomSprite.cpp" />
-    <ClCompile Include="src\player\EffectCache.cpp" />
-    <ClCompile Include="src\player\EffectPartStatus.cpp" />
-    <ClCompile Include="src\player\InstancePartStatus.cpp" />
-    <ClCompile Include="src\player\State.cpp" />
-    <ClCompile Include="src\player\UserData.cpp" />
-    <ClCompile Include="src\player\Util.cpp" />
-    <ClCompile Include="src\SS5Effect.cpp" />
-    <ClCompile Include="src\SS5Player.cpp" />
-    <ClCompile Include="src\SS5PlayerTypes.cpp" />
-    <ClCompile Include="src\SS5ResourceManager.cpp" />
-    <ClCompile Include="src\stdafx.cpp">
+    <ClCompile Include="ss\effect\SsEffectElement.cpp" />
+    <ClCompile Include="ss\effect\ssplayer_effect2.cpp" />
+    <ClCompile Include="ss\math\Matrix.cpp" />
+    <ClCompile Include="ss\math\Vector2.cpp" />
+    <ClCompile Include="ss\math\Vector3.cpp" />
+    <ClCompile Include="ss\player\AnimeCache.cpp" />
+    <ClCompile Include="ss\player\CellCache.cpp" />
+    <ClCompile Include="ss\player\CustomSprite.cpp" />
+    <ClCompile Include="ss\player\EffectCache.cpp" />
+    <ClCompile Include="ss\player\EffectPartStatus.cpp" />
+    <ClCompile Include="ss\player\InstancePartStatus.cpp" />
+    <ClCompile Include="ss\player\State.cpp" />
+    <ClCompile Include="ss\player\UserData.cpp" />
+    <ClCompile Include="ss\player\Util.cpp" />
+    <ClCompile Include="ss\SS5Effect.cpp" />
+    <ClCompile Include="ss\SS5Player.cpp" />
+    <ClCompile Include="ss\SS5PlayerTypes.cpp" />
+    <ClCompile Include="ss\SS5ResourceManager.cpp" />
+    <ClCompile Include="ss\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -166,38 +166,38 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\effect\SsEffectElement.h" />
-    <ClInclude Include="src\effect\ssloader_ssee.h" />
-    <ClInclude Include="src\effect\ssplayer_effect2.h" />
-    <ClInclude Include="src\effect\sstypes.h" />
-    <ClInclude Include="src\effect\xorshift32.h" />
-    <ClInclude Include="src\math\Matrix.h" />
-    <ClInclude Include="src\math\SSRect.h" />
-    <ClInclude Include="src\math\Vector2.h" />
-    <ClInclude Include="src\math\Vector3.h" />
-    <ClInclude Include="src\player\AnimeCache.h" />
-    <ClInclude Include="src\player\CellCache.h" />
-    <ClInclude Include="src\player\CustomSprite.h" />
-    <ClInclude Include="src\player\DataArrayReader.h" />
-    <ClInclude Include="src\player\EffectCache.h" />
-    <ClInclude Include="src\player\EffectPartStatus.h" />
-    <ClInclude Include="src\player\InstancePartStatus.h" />
-    <ClInclude Include="src\player\PlayerDef.h" />
-    <ClInclude Include="src\player\PlayerSetting.h" />
-    <ClInclude Include="src\player\ResourceSet.h" />
-    <ClInclude Include="src\player\State.h" />
-    <ClInclude Include="src\player\ToPointer.h" />
-    <ClInclude Include="src\player\UserData.h" />
-    <ClInclude Include="src\player\Util.h" />
-    <ClInclude Include="src\ResluteState.h" />
-    <ClInclude Include="src\SS5Effect.h" />
-    <ClInclude Include="src\SS5EventListener.h" />
-    <ClInclude Include="src\SS5Player.h" />
-    <ClInclude Include="src\SS5PlayerData.h" />
-    <ClInclude Include="src\SS5PlayerTypes.h" />
-    <ClInclude Include="src\SS5ResourceManager.h" />
-    <ClInclude Include="src\ssShader_frag.h" />
-    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="ss\effect\SsEffectElement.h" />
+    <ClInclude Include="ss\effect\ssloader_ssee.h" />
+    <ClInclude Include="ss\effect\ssplayer_effect2.h" />
+    <ClInclude Include="ss\effect\sstypes.h" />
+    <ClInclude Include="ss\effect\xorshift32.h" />
+    <ClInclude Include="ss\math\Matrix.h" />
+    <ClInclude Include="ss\math\SSRect.h" />
+    <ClInclude Include="ss\math\Vector2.h" />
+    <ClInclude Include="ss\math\Vector3.h" />
+    <ClInclude Include="ss\player\AnimeCache.h" />
+    <ClInclude Include="ss\player\CellCache.h" />
+    <ClInclude Include="ss\player\CustomSprite.h" />
+    <ClInclude Include="ss\player\DataArrayReader.h" />
+    <ClInclude Include="ss\player\EffectCache.h" />
+    <ClInclude Include="ss\player\EffectPartStatus.h" />
+    <ClInclude Include="ss\player\InstancePartStatus.h" />
+    <ClInclude Include="ss\player\PlayerDef.h" />
+    <ClInclude Include="ss\player\PlayerSetting.h" />
+    <ClInclude Include="ss\player\ResourceSet.h" />
+    <ClInclude Include="ss\player\State.h" />
+    <ClInclude Include="ss\player\ToPointer.h" />
+    <ClInclude Include="ss\player\UserData.h" />
+    <ClInclude Include="ss\player\Util.h" />
+    <ClInclude Include="ss\ResluteState.h" />
+    <ClInclude Include="ss\SS5Effect.h" />
+    <ClInclude Include="ss\SS5EventListener.h" />
+    <ClInclude Include="ss\SS5Player.h" />
+    <ClInclude Include="ss\SS5PlayerData.h" />
+    <ClInclude Include="ss\SS5PlayerTypes.h" />
+    <ClInclude Include="ss\SS5ResourceManager.h" />
+    <ClInclude Include="ss\ssShader_frag.h" />
+    <ClInclude Include="ss\stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
