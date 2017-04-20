@@ -191,23 +191,23 @@ private:
 	int getAnimeFPS() const;
 	
 private:
-	SS5EventListener* _eventListener;
-	const ResourceSet* _resource;			//ssbp
-	const AnimeRef*	_animationData;			//アニメーションデータ
+	SS5EventListener*  m_eventListener;
+	const ResourceSet* m_resource;			//ssbp
+	const AnimeRef*	   m_animationData;		//アニメーションデータ
 	std::vector<TextureID> m_textures;		//テクスチャ
 
-	std::vector<CustomSprite> _parts;
-	std::vector<int>	_drawOrderIndex;	//描画優先順でpartIndexを保存しておく  priority: [0] > [max]
+	std::vector<CustomSprite> m_parts;
+	std::vector<int> m_drawOrderIndex;	//描画優先順でpartIndexを保存しておく  priority: [0] > [max]
 
 	//書き換え用。アニメーションが切り替わっても設定は維持されます
-	std::deque<bool>	_partVisible;		//visibleの上書き。デフォルトはtrue。vector<bool>は特殊化されるのでdequeで代用する
-	std::vector<int>	_changeCellIndex;	//cellの差し替わり番号 未使用時は-1
+	std::deque<bool> m_partVisible;		//visibleの上書き。デフォルトはtrue。vector<bool>は特殊化されるのでdequeで代用する
+	std::vector<int> m_changeCellIndex;	//cellの差し替わり番号 未使用時は-1
 	
 	
-	float				_currentFrameTime;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い
-	int					_seedOffset;			//エフェクトシードオフセット
+	float m_currentFrameTime;		//現在のフレーム。小数点を考慮するが、フレームに直すには単にintにすれば良い
+	int m_seedOffset;				//エフェクトシードオフセット
 
-	PlayerSetting		_playerSetting;			//プレイヤー単位での操作設定についてを抱えておく(移動、回転など)
+	PlayerSetting m_playerSetting;	//プレイヤー単位での操作設定についてを抱えておく(移動、回転など)
 
 
 private: //non copyable
