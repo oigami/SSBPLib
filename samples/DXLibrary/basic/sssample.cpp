@@ -153,11 +153,11 @@ public:
 
 
 	//エフェクトのイベント ----------------------------------------------------
-	void EffectLoad(int parentPartIndex, const std::string& effectName) override{
+	void EffectLoad(int parentPartIndex, const std::string& effectName, int seed) override{
 		assert(m_effects.find(parentPartIndex) == m_effects.end());
 		//エフェクトとイベントリスナーを生成する
 		ss::SS5EventListener* listener = new SampleSS5EventListener();
-		ss::SS5Effect* effect = resman->createEffect(listener, "effectsample", effectName, 0);
+		ss::SS5Effect* effect = resman->createEffect(listener, "effectsample", effectName, seed);
 		m_effects.insert(std::make_pair(parentPartIndex, effect));
 		m_effectEventListeners.insert(std::make_pair(parentPartIndex, listener));
 	}

@@ -87,8 +87,9 @@ public:
 	 * エフェクトのロード・リリースのイベント
 	 * @param parentPartIndex	親になるパーツのindex
 	 * @param effectName		エフェクト名
+	 * @param seed				エフェクトのseed値
 	 */
-	virtual void EffectLoad(int parentPartIndex, const std::string& effectName){}
+	virtual void EffectLoad(int parentPartIndex, const std::string& effectName, int seed){}
 	virtual void EffectRelease(int parentPartIndex){}
 	
 	/**

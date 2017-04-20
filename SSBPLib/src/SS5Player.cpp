@@ -164,7 +164,7 @@ void SS5Player::setPartsParentage()
 		//エフェクトパーツならパラメータを設定する
 		if(sprite->isEffectPart()){
 			string refeffectName = ptr.toString(partData->effectfilename);
-			m_eventListener->EffectLoad(partIndex, refeffectName);
+			m_eventListener->EffectLoad(partIndex, refeffectName, getRandomSeed());
 		}
 	}
 }
