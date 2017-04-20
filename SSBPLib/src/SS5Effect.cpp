@@ -3,11 +3,12 @@
 #include "effect/ssplayer_effect2.h"
 #include "player/ResourceSet.h"
 #include "player/EffectCache.h"
+using namespace std;
 
 namespace ss{
 
 
-SS5Effect::SS5Effect(SS5EventListener* eventListener, const ResourceSet* resource, const std::string& effectName, int seed)
+SS5Effect::SS5Effect(SS5EventListener* eventListener, const ResourceSet* resource, const string& effectName, int seed)
 	: m_eventListener(eventListener)
 	, m_resource(resource)
 	, m_effectData(nullptr)
@@ -304,9 +305,9 @@ bool compare_priority( SsEffectEmitter* left,  SsEffectEmitter* right)
 
 void SS5Effect::initialize()
 {
-	const std::vector<const SsEffectNode*>& list = m_effectData->getNodeList();
+	const vector<const SsEffectNode*>& list = m_effectData->getNodeList();
 
-	std::vector<int> cnum(list.size(), 0);
+	vector<int> cnum(list.size(), 0);
 
 	//パラメータを取得
 	//以前のデータ形式から変換
@@ -396,7 +397,7 @@ void SS5Effect::initialize()
 		}
 	}
 	//プライオリティソート
-	std::sort(m_updateList.begin(), m_updateList.end(), compare_priority);
+	sort(m_updateList.begin(), m_updateList.end(), compare_priority);
 }
 
 

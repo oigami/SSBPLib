@@ -6,6 +6,7 @@
 #include "player/ToPointer.h"
 #include "player/CellCache.h"
 #include "effect/ssloader_ssee.h"
+using namespace std;
 
 namespace ss{
 
@@ -26,7 +27,7 @@ EffectCache::~EffectCache()
 /**
 * エフェクトファイル名を指定してEffectRefを得る
 */
-const SsEffectModel* EffectCache::getReference(const std::string& name) const
+const SsEffectModel* EffectCache::getReference(const string& name) const
 {
 	const SsEffectModel* ref = m_dic.at(name);
 	return ref;
@@ -46,7 +47,7 @@ void EffectCache::init(const ProjectData* data, const CellCache* cellCache)
 	{
 		//エフェクトファイル配列からエフェクトファイルを取得
 		const EffectFile* effectFile = &effectFileArray[listindex];
-		std::string effectFileName = ptr.toString(effectFile->name);
+		string effectFileName = ptr.toString(effectFile->name);
 
 		//保持用のエフェクトファイル情報を作成
 		SsEffectModel *effectmodel = new SsEffectModel(
@@ -96,7 +97,7 @@ void EffectCache::init(const ProjectData* data, const CellCache* cellCache)
 		}
 
 		//SS_LOG("effect key: %s", effectFileName.c_str());
-		m_dic.insert(std::make_pair(effectFileName, effectmodel));
+		m_dic.insert(make_pair(effectFileName, effectmodel));
 	}
 }
 

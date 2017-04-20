@@ -4,6 +4,7 @@
 #include "math/Matrix.h"
 #include "InstancePartStatus.h"
 #include "EffectPartStatus.h"
+using namespace std;
 
 namespace ss{
 
@@ -143,12 +144,12 @@ void State::uvCompute(SSV3F_C4B_T2F_Quad *q, SSTex2F uv_tl, SSTex2F uv_br) const
 
 	//UV反転
 	if (m_flipX){	//左右反転を行う場合はlr入れ替え
-		std::swap(q->tr.texCoords.x/*u*/, q->tl.texCoords.x/*u*/);
-		std::swap(q->br.texCoords.x/*u*/, q->bl.texCoords.x/*u*/);
+		swap(q->tr.texCoords.x/*u*/, q->tl.texCoords.x/*u*/);
+		swap(q->br.texCoords.x/*u*/, q->bl.texCoords.x/*u*/);
 	}
 	if (m_flipY){	//上下反転を行う場合はtb入れ替え
-		std::swap(q->tr.texCoords.y/*v*/, q->br.texCoords.y/*v*/);
-		std::swap(q->tl.texCoords.y/*v*/, q->bl.texCoords.y/*v*/);
+		swap(q->tr.texCoords.y/*v*/, q->br.texCoords.y/*v*/);
+		swap(q->tl.texCoords.y/*v*/, q->bl.texCoords.y/*v*/);
 	}
 }
 

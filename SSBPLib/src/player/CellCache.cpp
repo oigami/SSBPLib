@@ -6,12 +6,12 @@
 #include "SS5PlayerData.h"
 #include "player/Util.h"
 #include "player/ToPointer.h"
-
+using namespace std;
 
 namespace ss{
 
 
-CellCache::CellCache(const ProjectData* data, const std::string& imageBaseDir)
+CellCache::CellCache(const ProjectData* data, const string& imageBaseDir)
 {
 	init(data, imageBaseDir);
 }
@@ -26,7 +26,7 @@ const CellRef* CellCache::getReference(int index) const
 	return &(m_cellRefs[index]);
 }
 
-int CellCache::indexOfCell(const std::string& cellName) const
+int CellCache::indexOfCell(const string& cellName) const
 {
 	//cellnameは同名も存在できるようだが、ひとまず最初に見つかったものを返すことにする
 	for(int i = 0; i < m_cellRefs.size(); ++i){
@@ -41,12 +41,12 @@ int CellCache::indexOfCell(const std::string& cellName) const
 
 
 //データを見てcellrefとimagepathを構築
-void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
+void CellCache::init(const ProjectData* data, const string& imageBaseDir)
 {
 	SS_ASSERT_LOG(data != nullptr, "Invalid data");
 	
 	m_cellRefs.resize(data->numCells);	//cell数だけ領域確保しておく
-	std::map<int, CellMapTextureInfo> textureInfoMap;	//数がわからないのでひとまず<index,info>のmapにしておく
+	map<int, CellMapTextureInfo> textureInfoMap;	//数がわからないのでひとまず<index,info>のmapにしておく
 
 	
 	ToPointer ptr(data);
@@ -64,11 +64,11 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 				static_cast<SsTexWrapMode>(cellMap->wrapmode),
 				static_cast<SsTexFilterMode>(cellMap->filtermode)
 			};
-			textureInfoMap.insert(std::make_pair(cellMap->index, info));
+			textureInfoMap.insert(make_pair(cellMap->index, info));
 		}
 
 		const char* cellname = ptr.toString(cell->name);			//セル名
-		std::string cellmapname = ptr.toString(cellMap->name);		//セルマップ名
+		string cellmapname = ptr.toString(cellMap->name);		//セルマップ名
 		CellRef ref = {	/*cell,*/
 			cellmapname + "/" + cellname,
 			cellMap->index,
@@ -81,7 +81,7 @@ void CellCache::init(const ProjectData* data, const std::string& imageBaseDir)
 	}
 
 	//map --> vector に詰め直す -----------------
-	auto it = std::max_element(textureInfoMap.begin(), textureInfoMap.end());
+	auto it = max_element(textureInfoMap.begin(), textureInfoMap.end());
 	if(it == textureInfoMap.end()){			//画像無し
 		return;
 	}
