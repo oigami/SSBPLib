@@ -72,7 +72,7 @@ void AnimeCache::init(const ProjectData* data)
 //ssaeからAnimationDataを登録する
 void AnimeCache::addAnimationData(ToPointer ptr, const AnimePackData* pack)
 {
-	const char* packName = ptr.toString(pack->name);
+	string packName = ptr.toString(pack->name);
 
 	const PartData* partDatas = ptr.toPartDatas(pack);				//array
 	const AnimationData* animations = ptr.toAnimationDatas(pack);	//array
@@ -82,23 +82,21 @@ void AnimeCache::addAnimationData(ToPointer ptr, const AnimePackData* pack)
 		const char* animeName = ptr.toString(anime->name);
 
 		AnimeRef ref = {
-			packName, animeName, anime, partDatas, pack->numParts
+			anime, partDatas, pack->numParts
 		};
 
 		// packName + animeNameでの登録
 		string key = toPackAnimeKey(packName, animeName);
-		SS_LOG("anime key: %s", key.c_str());
 		m_animeRefs.insert(make_pair(key, ref));
 
-		// animeNameのみでの登録
-		m_animeRefs.insert(make_pair(animeName, ref));
+		//SS_LOG("anime key: %s", key.c_str());
 	}
 	
 }
 
 string AnimeCache::toPackAnimeKey(const string& packName, const string& animeName)
 {
-	return packName + "/" + animeName;		//return Format("%s/%s", packName.c_str(), animeName.c_str());
+	return packName + "/" + animeName;
 }
 
 
