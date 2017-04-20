@@ -40,7 +40,7 @@ static VERTEX_3D vertex3Dfrom(const ss::SSV3F_C4B_T2F &vct)
 
 /// SS5プレイヤー
 ss::SS5Player *ssplayer;
-ss::ResourceManager *resman;
+ss::SS5ResourceManager *resman;
 std::map<std::string, int> g_textures;	//<ファイル名, テクスチャID>
 
 //テクスチャの事前読み
@@ -278,7 +278,7 @@ void init( void )
 
 	**********************************************************************************/
 	//リソースマネージャの作成
-	resman =  new ss::ResourceManager();
+	resman =  new ss::SS5ResourceManager();
 	
 
 	//ssbpファイルの読み込み

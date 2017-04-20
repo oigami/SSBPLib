@@ -14,12 +14,12 @@ class SS5Effect;
 class SS5EventListener;
 
 /**
- * ResourceManager
+ * SS5ResourceManager
  */
-class ResourceManager{
+class SS5ResourceManager{
 public:
-	ResourceManager();
-	~ResourceManager();
+	SS5ResourceManager();
+	~SS5ResourceManager();
 
 	static const std::string s_null;
 
@@ -105,10 +105,9 @@ private:
 
 
 private: //non copyable
-	ResourceManager(const ResourceManager& o) = delete;
-	ResourceManager& operator=(const ResourceManager& o) = delete;
+	SS5ResourceManager(const SS5ResourceManager& o) = delete;
+	SS5ResourceManager& operator=(const SS5ResourceManager& o) = delete;
 };
 
-using SS5ResourceManager = ResourceManager;
 
 } //namespace ss

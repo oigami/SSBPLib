@@ -14,22 +14,22 @@ using namespace std;
 
 namespace ss{
 
-const string ResourceManager::s_null;
+const string SS5ResourceManager::s_null;
 
 
 
-ResourceManager::ResourceManager()
+SS5ResourceManager::SS5ResourceManager()
 {
 }
 
-ResourceManager::~ResourceManager()
+SS5ResourceManager::~SS5ResourceManager()
 {
 	unregistAll();
 }
 
 
 
-int ResourceManager::regist(
+int SS5ResourceManager::regist(
 	const void* data,
 	size_t dataSize,
 	const string& dataKey,
@@ -61,7 +61,7 @@ int ResourceManager::regist(
 }
 
 
-int ResourceManager::unregist(const string& dataKey)
+int SS5ResourceManager::unregist(const string& dataKey)
 {
 	auto it = m_dataDic.find(dataKey);
 	SS_ASSERT(it != m_dataDic.end());
@@ -80,7 +80,7 @@ int ResourceManager::unregist(const string& dataKey)
 	return ref->getCount();		//参照カウンタが残っているとき
 }
 
-void ResourceManager::unregistAll()
+void SS5ResourceManager::unregistAll()
 {
 	for(auto& str_rs : m_dataDic){
 		SS_SAFE_DELETE(str_rs.second);
@@ -90,7 +90,7 @@ void ResourceManager::unregistAll()
 
 
 
-vector<string> ResourceManager::getTextureList(const string& dataKey) const
+vector<string> SS5ResourceManager::getTextureList(const string& dataKey) const
 {
 	const ResourceSet* rs = getData(dataKey);
 	const CellCache* cellCache = rs->m_cellCache.get();
@@ -106,7 +106,7 @@ vector<string> ResourceManager::getTextureList(const string& dataKey) const
 }
 
 //player
-SS5Player* ResourceManager::createPlayer(SS5EventListener* eventListener, const string& dataKey, const string& animeName) const
+SS5Player* SS5ResourceManager::createPlayer(SS5EventListener* eventListener, const string& dataKey, const string& animeName) const
 {
 	const ResourceSet* rs = getData(dataKey);
 	//アニメーションの指定が無い場合は、最初のものを入れておく
@@ -115,19 +115,19 @@ SS5Player* ResourceManager::createPlayer(SS5EventListener* eventListener, const 
 	}
 	return new SS5Player(eventListener, rs, animeName);
 }
-void ResourceManager::destroyPlayer(SS5Player*& player) const
+void SS5ResourceManager::destroyPlayer(SS5Player*& player) const
 {
 	delete player;
 	player = nullptr;
 }
 
 //effect
-SS5Effect* ResourceManager::createEffect(SS5EventListener* eventListener, const string& dataKey, const string& effectName, int seed) const
+SS5Effect* SS5ResourceManager::createEffect(SS5EventListener* eventListener, const string& dataKey, const string& effectName, int seed) const
 {
 	const ResourceSet* rs = getData(dataKey);
 	return new SS5Effect(eventListener, rs, effectName, seed);
 }
-void ResourceManager::destroyEffect(SS5Effect*& effect) const
+void SS5ResourceManager::destroyEffect(SS5Effect*& effect) const
 {
 	delete effect;
 	effect = nullptr;
@@ -135,7 +135,7 @@ void ResourceManager::destroyEffect(SS5Effect*& effect) const
 
 
 
-string ResourceManager::getImageBaseDir(const string& imageBaseDir, const ProjectData* data) const
+string SS5ResourceManager::getImageBaseDir(const string& imageBaseDir, const ProjectData* data) const
 {
 	if(imageBaseDir == s_null){	// imageBaseDirの指定がないときはパスを作る
 
@@ -148,7 +148,7 @@ string ResourceManager::getImageBaseDir(const string& imageBaseDir, const Projec
 	return imageBaseDir;
 }
 
-const ResourceSet* ResourceManager::getData(const string& dataKey) const
+const ResourceSet* SS5ResourceManager::getData(const string& dataKey) const
 {
 	auto it = m_dataDic.find(dataKey);
 	SS_ASSERT(it != m_dataDic.end());
@@ -159,7 +159,7 @@ const ResourceSet* ResourceManager::getData(const string& dataKey) const
 
 
 //事前読み込みさせる
-void ResourceManager::texturePreload(const ResourceSet* resource, PreloadCallback texturePreloadCallbackFunc) const
+void SS5ResourceManager::texturePreload(const ResourceSet* resource, PreloadCallback texturePreloadCallbackFunc) const
 {
 	int cellMapNum = resource->m_cellCache->getCellMapNum();
 	for(int i = 0; i < cellMapNum; ++i){
