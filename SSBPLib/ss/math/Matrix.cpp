@@ -127,23 +127,22 @@ void Matrix::addTranslation(float x, float y, float z){			//平行移動させ�
 	_m[12] += x;	_m[13] += y;	_m[14] += z;	//_m[15] = 1.0f;
 }
 
-void Matrix::getTranslation(float* x, float* y, float* z) const{	//平行移動成分を取り出す
-	*x = _m[12];	*y = _m[13];	*z = _m[14];
-}
-void Matrix::getTranslation(float* x, float* y) const{			//平行移動成分を取り出す
-	*x = _m[12];	*y = _m[13];
+Vector3 Matrix::getTranslation() const{							//平行移動成分を取り出す
+	return Vector3(_m[12], _m[13], _m[14]);
 }
 
 /* スケール ------------------------------------------------------*/
-void Matrix::getScale(float* x, float* y, float* z) const
+Vector3 Matrix::getScale() const
 {
-	*x = sqrt( _m[0]*_m[0] + _m[1]*_m[1] + _m[2]*_m[2] );
-	*y = sqrt( _m[4]*_m[4] + _m[5]*_m[5] + _m[6]*_m[6] );
-	*z = sqrt( _m[8]*_m[8] + _m[9]*_m[9] + _m[10]*_m[10] );
+	return Vector3(
+		sqrt( _m[0]*_m[0] + _m[1]*_m[1] + _m[2]*_m[2] ),
+		sqrt( _m[4]*_m[4] + _m[5]*_m[5] + _m[6]*_m[6] ),
+		sqrt( _m[8]*_m[8] + _m[9]*_m[9] + _m[10]*_m[10] )
+	);
 }
 
 /* 回転 ----------------------------------------------------------*/
-void Matrix::getRotation(float* x, float* y, float* z) const
+Vector3 Matrix::getRotation() const
 {
 	static const float THRESHOLD = 0.001;
 	//ZYXの順の回転行列のをオイラー角に戻す
@@ -152,21 +151,23 @@ void Matrix::getRotation(float* x, float* y, float* z) const
 	Matrix rotMat = getRotationMatrix();
 	float sin_y = rotMat._m[8];
 	
+	float x, y, z;
 	if(abs(sin_y - 1) < THRESHOLD){			//sin_y == 1
-		*x = 0;
-		*y = SS_PI / 2;
-		*z = atan2(rotMat._m[1], rotMat._m[5]);
+		x = 0;
+		y = SS_PI / 2;
+		z = atan2(rotMat._m[1], rotMat._m[5]);
 	}
 	else if(abs(sin_y + 1) < THRESHOLD){	//sin_y == -1
-		*x = 0;
-		*y = -SS_PI / 2;
-		*z = atan2(rotMat._m[1], rotMat._m[5]);
+		x = 0;
+		y = -SS_PI / 2;
+		z = atan2(rotMat._m[1], rotMat._m[5]);
 	}
 	else{
-		*x = atan2(-rotMat._m[9], rotMat._m[10]);
-		*y = asin(sin_y);
-		*z = atan2(-rotMat._m[4], rotMat._m[0]);
+		x = atan2(-rotMat._m[9], rotMat._m[10]);
+		y = asin(sin_y);
+		z = atan2(-rotMat._m[4], rotMat._m[0]);
 	}
+	return Vector3(x, y, z);
 }
 
 Matrix Matrix::getRotationMatrix() const
@@ -184,14 +185,13 @@ Matrix Matrix::getRotationMatrix() const
 	Matrix rotMat = *this;
 	rotMat.setTranslation(0, 0, 0);
 	
-	float sx, sy, sz;
-	rotMat.getScale(&sx, &sy, &sz);
-	sx = (sx==0)? sx : 1.0f/sx;		//0除算回避。スケール0なら行が0,0,0になってるはず
-	sy = (sy==0)? sy : 1.0f/sy;
-	sz = (sz==0)? sz : 1.0f/sz;
-	rotMat._m[0] *= sx;		rotMat._m[1] *= sx; 	rotMat._m[2] *= sx;
-	rotMat._m[4] *= sy;		rotMat._m[5] *= sy; 	rotMat._m[6] *= sy;
-	rotMat._m[8] *= sz;		rotMat._m[9] *= sz; 	rotMat._m[10] *= sz;
+	Vector3 s = rotMat.getScale();
+	s.x = (s.x==0)? s.x : 1.0f/s.x;		//0除算回避。スケール0なら行が0,0,0になってるはず
+	s.y = (s.y==0)? s.y : 1.0f/s.y;
+	s.z = (s.z==0)? s.z : 1.0f/s.z;
+	rotMat._m[0] *= s.x;	rotMat._m[1] *= s.x; 	rotMat._m[2] *= s.x;
+	rotMat._m[4] *= s.y;	rotMat._m[5] *= s.y; 	rotMat._m[6] *= s.y;
+	rotMat._m[8] *= s.z;	rotMat._m[9] *= s.z; 	rotMat._m[10] *= s.z;
 
 	return rotMat;
 }
