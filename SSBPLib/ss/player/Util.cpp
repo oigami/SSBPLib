@@ -8,11 +8,11 @@ using namespace std;
 namespace ss{
 
 
-double SSRadToDeg(double rad){
-	return rad * (180.0 / SS_PI);
+float SSRadToDeg(float rad){
+	return rad * (180.0f / SS_PI);
 }
-double SSDegToRad(double deg){
-	return deg * (SS_PI / 180.0);
+float SSDegToRad(float deg){
+	return deg * (SS_PI / 180.0f);
 }
 
 

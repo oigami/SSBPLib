@@ -84,7 +84,12 @@ unsigned long SSColorF::packBGRA() const{
 
 //型変換
 SSColor4B SSColorF::toSSColor4B() const{
-	return SSColor4B(r*255.0f, g*255.0f, b*255.0f, a*255.0f);
+	return SSColor4B(
+		static_cast<unsigned char>(r*255.0f),
+		static_cast<unsigned char>(g*255.0f),
+		static_cast<unsigned char>(b*255.0f),
+		static_cast<unsigned char>(a*255.0f)
+	);
 }
 
 

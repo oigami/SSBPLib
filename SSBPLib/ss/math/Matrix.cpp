@@ -144,7 +144,7 @@ Vector3 Matrix::getScale() const
 /* 回転 ----------------------------------------------------------*/
 Vector3 Matrix::getRotation() const
 {
-	static const float THRESHOLD = 0.001;
+	static const float THRESHOLD = 0.001f;
 	//ZYXの順の回転行列のをオイラー角に戻す
 	
 	//回転行列だけにして考える

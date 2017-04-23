@@ -7,10 +7,10 @@ namespace ss{
  * 定数
  */
 
-static const double SS_PI = 3.14159265358979323846;
-static const double SS_2PI = SS_PI * 2;
-double SSRadToDeg(double rad);
-double SSDegToRad(double deg);
+static const float SS_PI = 3.14159265358979323846f;
+static const float SS_2PI = SS_PI * 2;
+float SSRadToDeg(float rad);
+float SSDegToRad(float deg);
 
 void DebugPrintToConsole(const char *filename, int line, const char *format, ...);
 
