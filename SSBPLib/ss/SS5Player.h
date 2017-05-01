@@ -139,17 +139,17 @@ public:
 
 
 	/** プレイヤー本体に最初に掛ける行列を設定します */
-	void setRootMatrix(const Matrix& matrix);
+	void setParentMatrix(const Matrix& matrix);
 
 	/** プレイヤー本体の位置を設定します */
 	void setPosition(float x, float y);
-	void getPosition(float* x, float* y) const;				//rootMatrix無視
+	void getPosition(float* x, float* y) const;				//parentMatrix無視
 
 	/** プレイヤー本体の回転角度を設定します。2Dの回転はZに値を設定してください。 */
 	void setRotation(float x, float y, float z);
-	void getRotation(float* x, float* y, float* z) const;	//rootMatrix無視
+	void getRotation(float* x, float* y, float* z) const;	//parentMatrix無視
 	/** プレイヤー本体のスケールを設定します。*/
-	void setScale(float x, float y);						//rootMatrix無視
+	void setScale(float x, float y);						//parentMatrix無視
 	void getScale(float* x, float* y) const;
 
 	/** プレイヤー本体の透明度を設定します[0:1]*/

@@ -506,8 +506,8 @@ int SS5Player::getAnimeFPS() const{
 }
 
 /** プレイヤーへの各種設定 ------------------------------*/
-void SS5Player::setRootMatrix(const Matrix& matrix){
-	m_playerSetting.m_rootMatrix = matrix;
+void SS5Player::setParentMatrix(const Matrix& matrix){
+	m_playerSetting.m_parentMatrix = matrix;
 }
 void SS5Player::setPosition(float x, float y){
 	m_playerSetting.m_position = Vector3(x, y, 0.0f);

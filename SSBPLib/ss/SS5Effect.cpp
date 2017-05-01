@@ -427,8 +427,8 @@ void SS5Effect::setSeedOffset(int offset)
 
 
 //各種設定
-void SS5Effect::setRootMatrix(const Matrix& matrix){
-	m_playerSetting.m_rootMatrix = matrix;
+void SS5Effect::setParentMatrix(const Matrix& matrix){
+	m_playerSetting.m_parentMatrix = matrix;
 }
 void SS5Effect::setPosition(float x, float y){
 	m_playerSetting.m_position = Vector3(x, y, 0.0f);

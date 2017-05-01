@@ -90,7 +90,7 @@ public:
 
 public:
 	//各種設定
-	void setRootMatrix(const Matrix& matrix);
+	void setParentMatrix(const Matrix& matrix);
 	void setPosition(float x, float y);
 	void setRotation(float x, float y, float z);
 	void setScale(float x, float y);
@@ -113,7 +113,7 @@ public:
 		}
 
 		setAlpha(parentAlpha);
-		setRootMatrix(parentWorldMatrix);
+		setParentMatrix(parentWorldMatrix);
 		
 		if(isValid){
 			if(effectAttribute.m_independent){
