@@ -1,75 +1,4 @@
 ﻿#pragma once
-//-----------------------------------------------------------
-// ssbpLib v1.3.5
-//
-// Copyright(C) Web Technology Corp.
-// http://www.webtech.co.jp/
-//-----------------------------------------------------------
-//
-// SS5Player.h
-//
-
-
-/************************************************************
-対応するssbpフォーマットはバージョン4です。
-Ss5ConverterのフォーマットバージョンはSpriteStudioSDKを参照してください。
-https://github.com/SpriteStudio/SpriteStudio5-SDK/wiki/%E3%82%B3%E3%83%B3%E3%83%90%E3%83%BC%E3%82%BF%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9
-
-- Quick start
- 
-  #include "SS5Player.h"
-
-  
-  // SS5プレイヤーの宣言
-  ss::Player *ssplayer;
-  ss::ResourceManager *resman;
-
-
-  //リソースマネージャの作成
-  resman = ss::ResourceManager::getInstance();
-  //プレイヤーの作成
-  ssplayer = ss::Player::create();
-
-  //アニメデータをリソースに追加
-  //それぞれのプラットフォームに合わせたパスへ変更してください。
-  resman->addData("character_template_comipo\\character_template1.ssbp");
-  //プレイヤーにリソースを割り当て
-  ssplayer->setData("character_template1");					// ssbpファイル名（拡張子不要）
-  //再生するモーションを設定
-  ssplayer->play("character_template_3head/stance");		// アニメーション名を指定(ssae名/アニメーション名)
-
-
-  //表示位置を設定
-  ssplayer->setPosition(1280/2, 720);
-  //スケール設定
-  ssplayer->setScale(0.5f, 0.5f);
-  //回転を設定
-  ssplayer->setRotation(0.0f, 0.0f, 0.0f);
-  //透明度を設定
-  ssplayer->setAlpha(1.0f);
-  //反転を設定
-  ssplayer->setFlip(false, false);
-
-
-  //メインループで呼び出してください。
-  ssplayer->update(dt);					//プレイヤーの更新
-  ssplayer->draw();						//プレイヤーの描画
-
-
-  終了処理で resman、player を delete してください。
-  //SS5Playerの削除
-  delete (ssplayer);
-  delete (resman);
-
-  使用するアニメーションに合わせて Playerクラス定義部分にある設定用定数を変更してください。
-
-  ssbpLibの制限についてはこちらのページを参照してください。
-  https://github.com/SpriteStudio/ssbpLib/wiki
-
-  使用方法についてはPlayerクラスのコメントを参照してください。
-
-*************************************************************/
-
 #include "SS5PlayerTypes.h"
 #include <map>
 #include <vector>
@@ -125,7 +54,7 @@ public:
 	int getLabelToFrame(const std::string& labelName) const;		//ラベル名からフレーム位置を取得
 
 	
-	/** 指定したパーツを表示、非表示を設定します */
+	/** 指定したパーツの表示、非表示を設定します */
 	void setPartVisible(int partIndex, bool visible);
 
 	/**
