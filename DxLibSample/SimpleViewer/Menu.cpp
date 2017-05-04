@@ -12,7 +12,7 @@ MenuRoot::MenuRoot(ss::SS5Player* p) : Base(p)
 	m_childMenu.push_back(new AnimeChanger(p));
 	m_childMenu.push_back(new FrameChanger(p));
 	m_childMenu.push_back(new PositionChanger(p, PositionChanger::XYZ::X, 400));
-	m_childMenu.push_back(new PositionChanger(p, PositionChanger::XYZ::Y, 200));
+	m_childMenu.push_back(new PositionChanger(p, PositionChanger::XYZ::Y, 150));
 	m_childMenu.push_back(new RotationChanger(p, RotationChanger::XYZ::X));
 	m_childMenu.push_back(new RotationChanger(p, RotationChanger::XYZ::Y));
 	m_childMenu.push_back(new RotationChanger(p, RotationChanger::XYZ::Z));
