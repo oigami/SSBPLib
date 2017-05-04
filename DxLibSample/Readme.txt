@@ -30,7 +30,7 @@ DXライブラリは
 
 
 サンプルで使用しているデータは、下記URLからのサンプルデータを利用しています。
-	http://www.webtech.co.jp/help/ja/spritestudio/download/tool_sample_download/
+	http://www.webtech.co.jp/help/ja/spritestudio/download/sample/
 	
 	サンプルプログラムの動作については、ssbpファイルと、pngがあれば動くようになっています。
 
