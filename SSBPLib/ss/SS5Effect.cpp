@@ -430,17 +430,32 @@ void SS5Effect::setSeedOffset(int offset)
 void SS5Effect::setParentMatrix(const Matrix& matrix){
 	m_playerSetting.m_parentMatrix = matrix;
 }
-void SS5Effect::setPosition(float x, float y){
-	m_playerSetting.m_position = Vector3(x, y, 0.0f);
+const Matrix& SS5Effect::getParentMatrix() const{
+	return m_playerSetting.m_parentMatrix;
+}
+void SS5Effect::setPosition(float x, float y, float z){
+	m_playerSetting.m_position = Vector3(x, y, z);
+}
+const Vector3& SS5Effect::getPosition() const{
+	return m_playerSetting.m_position;
 }
 void SS5Effect::setRotation(float x, float y, float z){
 	m_playerSetting.m_rotation = Vector3(x, y, z);
 }
-void SS5Effect::setScale(float x, float y){
-	m_playerSetting.m_scale = Vector3(x, y, 1.0f);
+const Vector3& SS5Effect::getRotation() const{
+	return m_playerSetting.m_rotation;
+}
+void SS5Effect::setScale(float x, float y, float z){
+	m_playerSetting.m_scale = Vector3(x, y, z);
+}
+const Vector3& SS5Effect::getScale() const{
+	return m_playerSetting.m_scale;
 }
 void SS5Effect::setAlpha(float a){						 /*[0:1]*/
 	m_playerSetting.m_color.a = clamp(a, 0.0f, 1.0f);
+}
+float SS5Effect::getAlpha() const{						 /*[0:1]*/
+	return m_playerSetting.m_color.a;
 }
 void SS5Effect::setColor(float r, float g, float b){	 /*[0:1]*/
 	m_playerSetting.m_color.r = clamp(r, 0.0f, 1.0f);

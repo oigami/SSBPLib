@@ -509,27 +509,26 @@ int SS5Player::getAnimeFPS() const{
 void SS5Player::setParentMatrix(const Matrix& matrix){
 	m_playerSetting.m_parentMatrix = matrix;
 }
-void SS5Player::setPosition(float x, float y){
-	m_playerSetting.m_position = Vector3(x, y, 0.0f);
+const Matrix& SS5Player::getParentMatrix() const{
+	return m_playerSetting.m_parentMatrix;
 }
-void SS5Player::getPosition(float* x, float* y) const{
-	*x = m_playerSetting.m_position.x;
-	*y = m_playerSetting.m_position.y;
+void SS5Player::setPosition(float x, float y, float z){
+	m_playerSetting.m_position = Vector3(x, y, z);
+}
+const Vector3& SS5Player::getPosition() const{
+	return m_playerSetting.m_position;
 }
 void SS5Player::setRotation(float x, float y, float z){
 	m_playerSetting.m_rotation = Vector3(x, y, z);
 }
-void SS5Player::getRotation(float* x, float* y, float* z) const{
-	*x = m_playerSetting.m_rotation.x;
-	*y = m_playerSetting.m_rotation.y;
-	*z = m_playerSetting.m_rotation.z;
+const Vector3& SS5Player::getRotation() const{
+	return m_playerSetting.m_rotation;
 }
-void SS5Player::setScale(float x, float y){
-	m_playerSetting.m_scale = Vector3(x, y, 1.0f);
+void SS5Player::setScale(float x, float y, float z){
+	m_playerSetting.m_scale = Vector3(x, y, z);
 }
-void SS5Player::getScale(float* x, float* y) const{
-	*x = m_playerSetting.m_scale.x;
-	*y = m_playerSetting.m_scale.y;
+const Vector3& SS5Player::getScale() const{
+	return m_playerSetting.m_scale;
 }
 void SS5Player::setAlpha(float a){
 	m_playerSetting.m_color.a = clamp(a, 0.0f, 1.0f);

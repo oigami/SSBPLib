@@ -91,11 +91,16 @@ public:
 public:
 	//各種設定
 	void setParentMatrix(const Matrix& matrix);
-	void setPosition(float x, float y);
+	const Matrix& getParentMatrix() const;
+	void setPosition(float x, float y, float z = 0.0);
+	const Vector3& getPosition() const;				//parentMatrix無視
 	void setRotation(float x, float y, float z);
-	void setScale(float x, float y);
-	void setAlpha(float a);						 /*[0:1]*/
-	void setColor(float r, float g, float b);	 /*[0:1]*/
+	const Vector3& getRotation() const;				//parentMatrix無視
+	void setScale(float x, float y, float z = 1.0);
+	const Vector3& getScale() const;				//parentMatrix無視
+	void setAlpha(float a);							/*[0:1]*/
+	float getAlpha() const;							/*[0:1]*/
+	void setColor(float r, float g, float b);		/*[0:1]*/
 private:
 	PlayerSetting m_playerSetting;
 
