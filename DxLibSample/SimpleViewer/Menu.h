@@ -51,11 +51,12 @@ private:
 
 //--
 struct AnimeChanger : public Base{
-	AnimeChanger(ss::SS5Player* p) : Base(p), m_select(0){}
+	AnimeChanger(ss::SS5Player* p);
 	void action(int up, int down, int left, int right, int enter, int cancel) override;
 	void draw(std::ostream &oss) override;
 	
-	std::string m_animeName;
+	std::vector<std::string> m_animationList;
+	std::string m_currentAnimeName;
 	int m_select;
 };
 

@@ -61,26 +61,26 @@ void MenuRoot::draw(std::ostream &oss)
 
 
 //--
+AnimeChanger::AnimeChanger(SS5Player* p) : Base(p), m_currentAnimeName(""), m_select(0){
+	m_animationList = p->getAnimationList();
+}
+
 void AnimeChanger::action(int up, int down, int left, int right, int enter, int cancel){
 	//再生するモーションを設定
-	auto &animlist = get()->getAnimationList();
-	int animNum = animlist.size();
-#if 0
+	int animNum = m_animationList.size();
+
 	if(left){  m_select--; }
 	if(right){ m_select++; }
 	m_select = wrap<int>(m_select, 0, animNum);
-	m_animeName = animlist[m_select];
 
 	if(enter){
-		get()->play(m_animeName);
+		m_currentAnimeName = m_animationList[m_select];
+		get()->play(m_currentAnimeName);
 	}
-#endif
 }
 void AnimeChanger::draw(std::ostream &oss){
-#if 0
 	auto ssp = get();
-	oss << "animation: current " << ssp->getPlayAnimeName() << " --> " << m_animeName << endl;
-#endif
+	oss << "animation: " << m_currentAnimeName << " --> " << m_animationList[m_select] << endl;
 }
 //--
 void FrameChanger::action(int up, int down, int left, int right, int enter, int cancel){
