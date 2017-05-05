@@ -2,6 +2,7 @@
 #include <sstream>
 #include <algorithm>
 #include "ss/SS5Player.h"
+#include "ss/math/Vector3.h"
 using namespace std;
 using namespace ss;
 
@@ -107,26 +108,23 @@ void PositionChanger::action(int up, int down, int left, int right, int enter, i
 	if(cancel){m_position = INIT_POS;}
 
 	if(enter){
-		float x, y;
-		ssp->getPosition(&x, &y);
+		Vector3 pos = ssp->getPosition();
 
 		switch(m_xyz){
-		case XYZ::X:	x = m_position;	break;
-		case XYZ::Y:	y = m_position;	break;
+		case XYZ::X:	pos.x = m_position;	break;
+		case XYZ::Y:	pos.y = m_position;	break;
 		}
-		ssp->setPosition(x, y);
+		ssp->setPosition(pos.x, pos.y);
 	}
 }
 void PositionChanger::draw(std::ostream &oss){
 	SS5Player* ssp = get();
-	float x, y;
-	ssp->getPosition(&x, &y);
 	switch(m_xyz){
 	case XYZ::X:
-		oss << "position X: current=" << x << " --> " << m_position << endl;
+		oss << "position X: current=" << ssp->getPosition().x << " --> " << m_position << endl;
 		break;
 	case XYZ::Y:
-		oss << "position Y: current=" << y << " --> " << m_position << endl;
+		oss << "position Y: current=" << ssp->getPosition().y << " --> " << m_position << endl;
 		break;
 	}
 }
@@ -139,28 +137,26 @@ void RotationChanger::action(int up, int down, int left, int right, int enter, i
 	if(cancel){m_rotation = 0;}
 
 	if(enter){
-		float x,y,z;
-		ssp->getRotation(&x, &y, &z);
+		Vector3 rot = ssp->getRotation();
 
 		switch(m_xyz){
-		case XYZ::X:	x = m_rotation; break;
-		case XYZ::Y:	y = m_rotation; break;
-		case XYZ::Z:	z = m_rotation; break;
+		case XYZ::X:	rot.x = m_rotation; break;
+		case XYZ::Y:	rot.y = m_rotation; break;
+		case XYZ::Z:	rot.z = m_rotation; break;
 		}
-		ssp->setRotation(x, y, z);
+		ssp->setRotation(rot.x, rot.y, rot.z);
 	}
 }
 void RotationChanger::draw(std::ostream &oss){
 	SS5Player* ssp = get();
-	float x,y,z;
-	ssp->getRotation(&x, &y, &z);
+	Vector3 rot = ssp->getRotation();
 	
 	std::string text;
 	float current;
 	switch(m_xyz){
-	case XYZ::X:	text = "rotation X"; current=x; break;
-	case XYZ::Y:	text = "rotation Y"; current=y; break;
-	case XYZ::Z:	text = "rotation Z"; current=z; break;
+	case XYZ::X:	text = "rotation X"; current=rot.x; break;
+	case XYZ::Y:	text = "rotation Y"; current=rot.y; break;
+	case XYZ::Z:	text = "rotation Z"; current=rot.z; break;
 	}
 	oss << text << ": current=" << current << " --> " << m_rotation << endl;
 }
@@ -173,26 +169,24 @@ void ScaleChanger::action(int up, int down, int left, int right, int enter, int 
 	if(cancel){m_scale = 0.5;}
 
 	if(enter){
-		float x, y;
-		ssp->getScale(&x, &y);
+		Vector3 scale = ssp->getScale();
 
 		switch(m_xyz){
-		case XYZ::X:	x = m_scale; break;
-		case XYZ::Y:	y = m_scale; break;
+		case XYZ::X:	scale.x = m_scale; break;
+		case XYZ::Y:	scale.y = m_scale; break;
 		}
-		ssp->setScale(x, y);
+		ssp->setScale(scale.x, scale.y);
 	}
 }
 void ScaleChanger::draw(std::ostream &oss){
 	SS5Player* ssp = get();
-	float x, y;
-	ssp->getScale(&x, &y);
+	Vector3 scale = ssp->getScale();
 	
 	std::string text;
 	float current;
 	switch(m_xyz){
-	case XYZ::X:	text = "scale X"; current=x; break;
-	case XYZ::Y:	text = "scale Y"; current=y; break;
+	case XYZ::X:	text = "scale X"; current=scale.x; break;
+	case XYZ::Y:	text = "scale Y"; current=scale.y; break;
 	}
 	oss << text << ": current=" << current << " --> " << m_scale << endl;
 }
