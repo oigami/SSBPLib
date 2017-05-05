@@ -546,7 +546,7 @@ void SS5Player::setColor(float r, float g, float b)
 }
 /*-------------------------------------------------------*/
 
-list<string> SS5Player::getAnimationList() const{
+vector<string> SS5Player::getAnimationList() const{
 	return m_resource->m_animeCache->getAnimationList();
 }
 

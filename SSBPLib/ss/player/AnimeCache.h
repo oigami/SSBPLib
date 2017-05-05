@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <string>
-#include <list>
+#include <vector>
 #include <map>
 #include "SS5PlayerData.h"
 #include "Util.h"
@@ -52,7 +52,7 @@ public:
 	const std::string& getFirstAnimationName() const;
 	
 	/** アニメーションの登録名のリストを取得する。主にデバッグ用 */
-	std::list<std::string> getAnimationList() const;
+	std::vector<std::string> getAnimationList() const;
 
 private:
 	/** dataを元にAnimeRefを構築 */

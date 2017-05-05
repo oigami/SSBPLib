@@ -1,6 +1,6 @@
 ﻿#include "AnimeCache.h"
 #include <string>
-#include <list>
+#include <vector>
 #include "SS5PlayerData.h"
 #include "player/Util.h"
 #include "player/ToPointer.h"
@@ -36,9 +36,11 @@ const string& AnimeCache::getFirstAnimationName() const
 }
 
 //アニメーションのリストを作る
-list<string> AnimeCache::getAnimationList() const
+vector<string> AnimeCache::getAnimationList() const
 {
-	list<string> animlist;
+	vector<string> animlist;
+	animlist.reserve( m_animeRefs.size() );
+	
 	for(auto &key_ref : m_animeRefs){
 		animlist.push_back(key_ref.first);
 	}
