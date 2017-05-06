@@ -267,7 +267,7 @@ void SS5Player::getPartState(ResultState& result, int partIndex) const
 	const CustomSprite* sprite = &m_parts[partIndex];
 
 	result.m_worldMatrix = &(sprite->m_worldMatrix);
-	result.m_boundsType = partData->boundsType;
+	result.m_boundsType = static_cast<BoundsType>(partData->boundsType);
 	result.boundingRadius = sprite->m_state.getBoundingRadius();
 	result.m_colorLabel = ptr.toString(partData->colorLabel);	
 }

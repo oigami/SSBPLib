@@ -15,13 +15,13 @@ namespace ss{
 struct ResultState{
 	ResultState() :
 		m_worldMatrix(nullptr),
-		m_boundsType(0),
+		m_boundsType(BoundsType::NONE),
 		boundingRadius(0.0),
 		m_colorLabel(nullptr){}
 
 
 	const Matrix* m_worldMatrix;	/// パーツのワールド行列
-	int m_boundsType;				/// 当たり判定種類
+	BoundsType m_boundsType;		/// 当たり判定種類
 	float boundingRadius;			/// SS5アトリビュート：当たり半径
 	const char* m_colorLabel;		/// カラーラベル
 
