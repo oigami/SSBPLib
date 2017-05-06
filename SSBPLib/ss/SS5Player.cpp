@@ -13,7 +13,7 @@
 #include "player/ResourceSet.h"
 #include "player/PlayerDef.h"
 #include "player/InstancePartStatus.h"
-#include "ResluteState.h"
+#include "ResultState.h"
 #include "SS5ResourceManager.h"
 #include "SS5EventListener.h"
 #include "effect/ssplayer_effect2.h"

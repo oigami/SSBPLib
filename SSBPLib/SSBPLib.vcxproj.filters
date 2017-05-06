@@ -112,9 +112,6 @@
     <ClInclude Include="ss\player\State.h">
       <Filter>ソース ファイル\player</Filter>
     </ClInclude>
-    <ClInclude Include="ss\ResluteState.h">
-      <Filter>ソース ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="ss\player\UserData.h">
       <Filter>ソース ファイル\player</Filter>
     </ClInclude>
@@ -173,6 +170,9 @@
       <Filter>ソース ファイル\player</Filter>
     </ClInclude>
     <ClInclude Include="ss\SS5ResourceManager.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ss\ResultState.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>

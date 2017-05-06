@@ -189,7 +189,7 @@
     <ClInclude Include="ss\player\ToPointer.h" />
     <ClInclude Include="ss\player\UserData.h" />
     <ClInclude Include="ss\player\Util.h" />
-    <ClInclude Include="ss\ResluteState.h" />
+    <ClInclude Include="ss\ResultState.h" />
     <ClInclude Include="ss\SS5Effect.h" />
     <ClInclude Include="ss\SS5EventListener.h" />
     <ClInclude Include="ss\SS5Player.h" />
