@@ -12,7 +12,7 @@
 namespace ss{
 struct AnimeRef;
 class ResourceSet;
-struct ResluteState;
+struct ResultState;
 class SS5EventListener;
 
 
@@ -50,7 +50,7 @@ public:
 	int getPartsNum() const;										//再生しているアニメーションに含まれるパーツ数を取得
 	std::string getPartName(int partIndex) const;					//indexからパーツ名を取得
 	int indexOfPart(const std::string& partName) const;				//パーツ名からindexを取得
-	void getPartState(ResluteState& result, int partIndex) const;	//パーツ情報を取得
+	void getPartState(ResultState& result, int partIndex) const;	//パーツ情報を取得
 	int getLabelToFrame(const std::string& labelName) const;		//ラベル名からフレーム位置を取得
 
 	

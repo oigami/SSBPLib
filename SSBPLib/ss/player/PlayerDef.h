@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <string>
 
 namespace ss{
 
@@ -86,7 +87,7 @@ enum AnimationPartType
 /*
  * 当たり判定の種類
  */
-enum
+enum class BoundsType
 {
 	INVALID = -1,
 	NONE,			///< 当たり判定として使わない。
@@ -95,7 +96,7 @@ enum
 	CIRCLE,			///< 真円の半径で距離により判定する
 	CIRCLE_SMIN,	///< 真円の半径で距離により判定する (スケールはx,yの最小値をとる）
 	CIRCLE_SMAX,	///< 真円の半径で距離により判定する (スケールはx,yの最大値をとる）
-	num
+//	num
 };
 
 /**
@@ -117,7 +118,7 @@ enum class SsTexWrapMode{
 	clamp,			/// クランプする
 	repeat,			/// リピート
 	mirror,			/// ミラー
-//		num
+//	num
 };
 
 
@@ -132,24 +133,27 @@ enum class SsTexFilterMode{
 
 
 //カラーラベル定数
-#define COLORLABELSTR_NONE		""
-#define COLORLABELSTR_RED		"Red"
-#define COLORLABELSTR_ORANGE	"Orange"
-#define COLORLABELSTR_YELLOW	"Yellow"
-#define COLORLABELSTR_GREEN		"Green"
-#define COLORLABELSTR_BLUE		"Blue"
-#define COLORLABELSTR_VIOLET	"Violet"
-#define COLORLABELSTR_GRAY		"Gray"
-enum
-{
-	COLORLABEL_NONE,		///< 0 なし
-	COLORLABEL_RED,			///< 1 赤
-	COLORLABEL_ORANGE,		///< 2 オレンジ
-	COLORLABEL_YELLOW,		///< 3 黄色
-	COLORLABEL_GREEN,		///< 4 緑
-	COLORLABEL_BLUE,		///< 5 青
-	COLORLABEL_VIOLET,		///< 6 紫
-	COLORLABEL_GRAY,		///< 7 灰色
+enum class ColorLabel{
+	None,		///< 0 なし
+	Red,		///< 1 赤
+	Orange,		///< 2 オレンジ
+	Yellow,		///< 3 黄色
+	Green,		///< 4 緑
+	Blue,		///< 5 青
+	Violet,		///< 6 紫
+	Gray,		///< 7 灰色
 };
+
+namespace ColorLabelString{
+	static const std::string None("");
+	static const std::string Red("Red");
+	static const std::string Orange("Orange");
+	static const std::string Yellow("Yellow");
+	static const std::string Green("Green");
+	static const std::string Blue("Blue");
+	static const std::string Violet("Violet");
+	static const std::string Gray("Gray");
+} //namespace ColorLabelString
+
 
 } //namespace ss

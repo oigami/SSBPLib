@@ -15,7 +15,7 @@ struct AnimationInitialData;
 
 /**
  * State
- * パーツの情報を格納します。Stateの内容をもとに描画処理を作成してください。
+ * パーツの情報を格納します。データから読み取っただけの生の値を保持します。
  */
 class State{
 private:
@@ -68,6 +68,7 @@ public:
 
 	//getter
 	int getCellIndex() const{ return m_cellIndex; }
+	float getBoundingRadius() const{ return m_boundingRadius; }
 	bool isVisibled() const{ return m_isVisibled; }
 	const InstancePartStatus& getInstanceValue() const{ return m_instanceValue; }
 	const EffectPartStatus& getEffectValue() const{ return m_effectValue; }
