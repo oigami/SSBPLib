@@ -18,7 +18,7 @@ AnimeCache::~AnimeCache()
 }
 
 
-//animeNameのみ指定してAnimeRefを得る
+//"packname/animename"で指定してAnimeRefを得る
 const AnimeRef* AnimeCache::getReference(const string& animeName) const
 {
 	SS_ASSERT_LOG(m_animeRefs.find(animeName) != m_animeRefs.end(), "Not found animation");
@@ -74,13 +74,13 @@ void AnimeCache::addAnimationData(ToPointer ptr, const AnimePackData* pack)
 		const AnimationData* anime = &animations[animeIndex];
 		const char* animeName = ptr.toString(anime->name);
 
-		AnimeRef ref = {
-			anime, partDatas, pack->numParts
-		};
-
 		// packName + animeNameでの登録
-		string key = toPackAnimeKey(packName, animeName);
-		m_animeRefs.insert(make_pair(key, ref));
+		string animePath = toPackAnimeKey(packName, animeName);
+		
+		AnimeRef ref = {
+			animePath, anime, partDatas, pack->numParts
+		};
+		m_animeRefs.insert(make_pair(animePath, ref));
 
 		//SS_LOG("anime key: %s", key.c_str());
 	}

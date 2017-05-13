@@ -40,6 +40,9 @@ public:
 	void update(float dt);		//更新
 	void draw();				//描画
 
+	
+	/** 再生しているアニメーション名を返します. */
+	std::string getPlayAnimeName() const;
 
 	/* 再生フレーム */
 	int getMaxFrame() const;			//アニメーションの総フレームを取得

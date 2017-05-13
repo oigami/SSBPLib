@@ -170,6 +170,10 @@ void SS5Player::setPartsParentage()
 }
 
 
+std::string SS5Player::getPlayAnimeName() const{
+	return m_animationData->m_animePath;
+}
+
 int SS5Player::getMaxFrame() const{
 	return m_animationData->m_animationData->numFrames;
 }

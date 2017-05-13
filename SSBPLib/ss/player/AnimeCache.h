@@ -19,6 +19,7 @@ class ToPointer;
  *  パーツデータはssae単位で共通のものだが、利便性のためここで抱えておく
  */
 struct AnimeRef{
+	std::string				m_animePath;		//"packname/animename"
 	const AnimationData*	m_animationData;	//アニメーション
 
 	//const AnimePackData*	m_animePackData;	//属するパッケージ
