@@ -22,7 +22,7 @@ public:
 
 	//テクスチャのロード・リリースのイベント。内部ではPlayer単位で管理されます
 	virtual TextureID TextureLoad(int cellMapIndex, const std::string& texturePath, SsTexWrapMode wrapmode, SsTexFilterMode filtermode) = 0;
-	virtual void TextureRelease(TextureID handle) = 0;
+	virtual void TextureRelease(TextureID textureId) = 0;
 
 	//描画
 	virtual void DrawSprite(const SSV3F_C4B_T2F_Quad& quad, TextureID textureId, BlendType blendType, BlendType colorBlendVertexType) = 0;
