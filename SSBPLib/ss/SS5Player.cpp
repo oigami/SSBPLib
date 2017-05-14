@@ -262,18 +262,20 @@ int SS5Player::indexOfPart(const string& partName) const
 }
 
 //パーツ情報取得
-void SS5Player::getPartState(ResultState& result, int partIndex) const
+void SS5Player::getPartState(ResultState* result, int partIndex) const
 {
+	SS_ASSERT(result);
 	SS_ASSERT(partIndex >= 0 && partIndex < m_parts.size());
 
 	ToPointer ptr(m_resource->m_data);
 	const PartData* partData = m_animationData->getPartData(partIndex);
 	const CustomSprite* sprite = &m_parts[partIndex];
 
-	result.m_worldMatrix = &(sprite->m_worldMatrix);
-	result.m_boundsType = static_cast<BoundsType>(partData->boundsType);
-	result.boundingRadius = sprite->m_state.getBoundingRadius();
-	result.m_colorLabel = ptr.toString(partData->colorLabel);	
+	result->m_worldMatrix = &(sprite->m_worldMatrix);
+	result->m_alpha = sprite->m_alpha;
+	result->m_boundsType = static_cast<BoundsType>(partData->boundsType);
+	result->boundingRadius = sprite->m_state.getBoundingRadius();
+	result->m_colorLabel = ptr.toString(partData->colorLabel);
 }
 
 
