@@ -478,6 +478,19 @@ void SS5Player::setScale(float x, float y, float z){
 const Vector3& SS5Player::getScale() const{
 	return m_playerSetting.m_scale;
 }
+void SS5Player::setFlipLR(bool flip){
+	m_playerSetting.m_flipLR = flip;
+}
+void SS5Player::setFlipTB(bool flip){
+	m_playerSetting.m_flipTB = flip;
+}
+bool SS5Player::getFlipLR() const{
+	return m_playerSetting.m_flipLR;
+}
+bool SS5Player::getFlipTB() const{
+	return m_playerSetting.m_flipTB;
+}
+
 void SS5Player::setAlpha(float a){
 	m_playerSetting.m_color.a = clamp(a, 0.0f, 1.0f);
 }

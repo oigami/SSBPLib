@@ -84,6 +84,12 @@ public:
 	/** プレイヤー本体のスケールを設定します。*/
 	void setScale(float x, float y, float z=1.0);
 	const Vector3& getScale() const;				//parentMatrix無視
+	/** フリップ */
+	void setFlipLR(bool flip);	//左右反転
+	void setFlipTB(bool flip);	//上下反転
+	bool getFlipLR() const;
+	bool getFlipTB() const;
+
 
 	/** プレイヤー本体の透明度を設定します[0:1]*/
 	void setAlpha(float a);
