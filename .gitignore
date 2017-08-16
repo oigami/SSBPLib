@@ -1,0 +1,7 @@
+OpenSiv3DSample/x64/
+OpenSiv3DSample/OpenSiv3DSample/x64/
+BuildObject/
+*/.vs/
+*.tlog
+*.idb
+OpenSiv3DSample/OpenSiv3DSample/OpenSiv3DSample_log.html
