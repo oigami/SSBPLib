@@ -16,7 +16,7 @@ namespace SpriteStudio
 			ss::SS5Player *m_ss5Player;						//ssbpファイルの再生単位
 			CEventListener m_eventListener;					//SS5Player向けのイベント処理の実装
 
-			std::string m_registertName;
+			std::string m_registerName;
 
 			HashMap<String, std::string> m_animationNameMaps;
 			Array<String> m_animationList;

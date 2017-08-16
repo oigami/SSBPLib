@@ -28,7 +28,7 @@ namespace SpriteStudio
 
 			const ByteArray file = reader.readAll();
 
-			m_registertName = CharacterSet::Narrow(filename);
+			m_registerName = CharacterSet::Narrow(filename);
 
 			// TODO [ssbplib] 間違ったファイルを入れたときのエラー処理がない
 
@@ -36,14 +36,14 @@ namespace SpriteStudio
 			m_ss5ResourceManager->regist(
 				file.data(),		//ssbpデータ
 				file.size(),		//ssbpデータサイズ
-				m_registertName,	//登録名
+				m_registerName,	//登録名
 				m_texturePath		//テクスチャのあるフォルダを指定
 			);
 
 			//生成
 			m_ss5Player = m_ss5ResourceManager->createPlayer(
 				&m_eventListener,					//イベント処理の指定
-				m_registertName.c_str()					//登録名
+				m_registerName.c_str()					//登録名
 			);
 
 			// アニメーションリストを予め変換しておく
@@ -89,14 +89,14 @@ namespace SpriteStudio
 			m_ss5ResourceManager->regist(
 				&x,		//ssbpデータ
 				1,		//ssbpデータサイズ
-				m_registertName,	//登録名
+				m_registerName,	//登録名
 				m_texturePath		//テクスチャのあるフォルダを指定
 			);
 
 			//生成
 			auto ss5Player = m_ss5ResourceManager->createPlayer(
 				&cplayer->m_eventListener,					//イベント処理の指定
-				m_registertName.c_str()					//登録名
+				m_registerName.c_str()					//登録名
 			);
 			cplayer->m_ss5Player = ss5Player;
 			return cplayer;
@@ -210,7 +210,7 @@ namespace SpriteStudio
 			}
 
 			m_ss5ResourceManager->destroyPlayer(m_ss5Player);
-			m_ss5ResourceManager->unregist(m_registertName);
+			m_ss5ResourceManager->unregist(m_registerName);
 			m_ss5Player = nullptr;
 		}
 
