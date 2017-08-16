@@ -30,15 +30,18 @@ namespace SpriteStudio
 
 			m_registerName = CharacterSet::Narrow(filename);
 
-			// TODO [ssbplib] 間違ったファイルを入れたときのエラー処理がない
-
 			m_texturePath = CharacterSet::Narrow(FileSystem::ParentPath(filename));
-			m_ss5ResourceManager->regist(
+			auto res = m_ss5ResourceManager->regist(
 				file.data(),		//ssbpデータ
 				file.size(),		//ssbpデータサイズ
 				m_registerName,	//登録名
 				m_texturePath		//テクスチャのあるフォルダを指定
 			);
+
+			if ( !res.second )
+			{
+				return;
+			}
 
 			//生成
 			m_ss5Player = m_ss5ResourceManager->createPlayer(
@@ -85,6 +88,7 @@ namespace SpriteStudio
 				return cplayer;
 			}
 
+			// 必ず存在するので適当に呼び出す
 			char x;
 			m_ss5ResourceManager->regist(
 				&x,		//ssbpデータ
@@ -92,6 +96,9 @@ namespace SpriteStudio
 				m_registerName,	//登録名
 				m_texturePath		//テクスチャのあるフォルダを指定
 			);
+
+			// Texture は再度読み込むため、一旦クリアする
+			cplayer->m_eventListener = CEventListener();
 
 			//生成
 			auto ss5Player = m_ss5ResourceManager->createPlayer(

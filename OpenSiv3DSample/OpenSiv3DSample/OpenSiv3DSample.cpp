@@ -71,7 +71,7 @@ void UserDataTest(SpriteStudio::Player player)
 {
 	player.play(0);
 
-	while ( System::Update() )
+	while ( System::Update() && !MouseM.down() )
 	{
 		auto userData = player.update();
 		for ( auto& i : userData )
@@ -138,6 +138,55 @@ void CloneTest(SpriteStudio::Player player)
 	}
 }
 
+void EmptyTest(SpriteStudio::Player player)
+{
+	SpriteStudio::Player emptyPlayer;
+	emptyPlayer.play(0);
+
+	auto clonePlayer = emptyPlayer.clone();
+	clonePlayer.play(0);
+
+
+	while ( System::Update() && !MouseM.down() )
+	{
+		emptyPlayer.update();
+
+		if ( MouseL.pressed() )
+		{
+			clonePlayer.update();
+		}
+		emptyPlayer.draw(Window::Width() / 3);
+
+		clonePlayer.draw(Window::Width() * 2 / 3);
+	}
+
+
+}
+
+void InvalidFileTest(SpriteStudio::Player player)
+{
+	SpriteStudio::Player notExistFilePlayer(L"not_exsit_file_path");
+	notExistFilePlayer.play(0);
+
+	SpriteStudio::Player invalidFilePlayer(L"character_template_comipo/character_2head.png");
+	invalidFilePlayer.play(0);
+
+	while ( System::Update() && !MouseM.down() )
+	{
+		notExistFilePlayer.update();
+
+		if ( MouseL.pressed() )
+		{
+			invalidFilePlayer.update();
+		}
+		notExistFilePlayer.draw(Window::Width() / 3);
+		notExistFilePlayer.rotate(0).rotate(0, 0, 0).rotate(Vec3{ 0,0,0 }).scale(1).scale(1, 1, 1).scale({ 1,1,1 }).flip().mirror().draw();
+
+		invalidFilePlayer.draw(Window::Width() * 2 / 3);
+	}
+}
+
+
 void Main()
 {
 	SpriteStudio::Player player(L"character_template_comipo/character_template1.ssbp");
@@ -164,6 +213,8 @@ void Main()
 	func.push_back({ L"VisiblePartTest", VisiblePartTest });
 	func.push_back({ L"DrawRectTest", DrawRectTest });
 	func.push_back({ L"CloneTest", CloneTest });
+	func.push_back({ L"EmptyTest", EmptyTest });
+	func.push_back({ L"InvalidFileTest", InvalidFileTest });
 
 	while ( System::Update() )
 	{
