@@ -89,11 +89,37 @@ void VisiblePartTest(SpriteStudio::Player player)
 	{
 		Print << i;
 	}
-	player.setVisible(8, false);
+
+	// 境界チェック
+	for ( auto& i : step(-100, 100) )
+	{
+		player.setPartsVisible(i, false);
+	}
+	for ( auto& i : step(-100, 100) )
+	{
+		player.setPartsVisible(i, true);
+	}
+
 	player.play(0);
+
+	Font font(30);
 
 	while ( System::Update() && !MouseM.down() )
 	{
+		auto partsNameList = player.partsNameList();
+		for ( auto& i : step<int>(partsNameList.size()) )
+		{
+			const RectF rect = font(partsNameList[i]).draw(0, i * 40);
+			if ( rect.intersects(Cursor::Pos()) )
+			{
+				rect.drawFrame(5, Palette::Red);
+				if ( MouseL.down() )
+				{
+					player.flipPartsVisible(i);
+				}
+			}
+		}
+
 		player.update();
 		player.draw();
 	}
@@ -134,7 +160,7 @@ void CloneTest(SpriteStudio::Player player)
 		}
 		player.draw(Window::Width() / 3);
 
-		clonePlayer.draw(Window::Width() * 2 / 3);
+		clonePlayer.draw(Window::Width() * 2 / 3).drawFrame(2);
 	}
 }
 
@@ -197,7 +223,7 @@ void CurrentFrameTest(SpriteStudio::Player player)
 		player.play(0, i);
 	}
 
-	while ( System::Update() )
+	while ( System::Update() && !MouseM.down() )
 	{
 		if ( MouseL.pressed() )
 		{

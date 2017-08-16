@@ -58,7 +58,11 @@ namespace SpriteStudio
 
 			const Array<UserData>& update(double deltaTime);
 
-			void setVisible(int partIndex, bool isVisible);
+			void setPartsVisible(int partIndex, bool isVisible);
+
+			bool setFlipPartsVisible(int partIndex);
+
+			bool partsVisible(int partIndex) const;
 
 			void setRotate(const Vec3& rotation);
 

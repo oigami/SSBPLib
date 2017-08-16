@@ -48,9 +48,19 @@ namespace SpriteStudio
 	}
 
 
-	void Player::setVisible(const int partIndex, const bool isVisible)
+	bool Player::partsVisible(int partIndex) const
 	{
-		m_handle->setVisible(partIndex, isVisible);
+		return m_handle->partsVisible(partIndex);
+	}
+
+	void Player::setPartsVisible(const int partIndex, const bool isVisible)
+	{
+		m_handle->setPartsVisible(partIndex, isVisible);
+	}
+
+	void Player::flipPartsVisible(int partIndex)
+	{
+		m_handle->setFlipPartsVisible(partIndex);
 	}
 
 	int Player::totalFrame() const

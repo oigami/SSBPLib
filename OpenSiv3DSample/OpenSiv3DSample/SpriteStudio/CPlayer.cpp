@@ -302,7 +302,7 @@ namespace SpriteStudio
 
 		}
 
-		void CPlayer::setVisible(const int partIndex, const bool isVisible)
+		void CPlayer::setPartsVisible(const int partIndex, const bool isVisible)
 		{
 			if ( isEmpty() )
 			{
@@ -313,6 +313,22 @@ namespace SpriteStudio
 			{
 				m_ss5Player->setPartVisible(partIndex, isVisible);
 			}
+		}
+
+		bool CPlayer::setFlipPartsVisible(const int partIndex)
+		{
+			setPartsVisible(partIndex, !partsVisible(partIndex));
+			return partsVisible(partIndex);
+		}
+
+		bool CPlayer::partsVisible(const int partIndex) const
+		{
+			if ( isEmpty() )
+			{
+				return false;
+			}
+
+			return m_ss5Player->getPartVisible(partIndex);
 		}
 	}
 

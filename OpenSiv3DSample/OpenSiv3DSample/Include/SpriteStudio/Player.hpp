@@ -37,18 +37,23 @@ namespace SpriteStudio
 
 		Player clone();
 
-		const Array<String>& animationNameList() const;
-
-		// TODO [ssbplib] パーツの名前として返ってくるリストの順番と setVisible の index に関連性がない
-		const Array<String>& partsNameList() const;
-
 		bool play(int animationIndex, int frameNo = 0);
 
 		bool play(const String& animationName, int frameNo = 0);
 
-		const String& playingAnimationName() const;
 
-		void setVisible(int partIndex, bool isVisible);
+		bool partsVisible(int partIndex) const;
+
+		void setPartsVisible(int partIndex, bool isVisible);
+
+		void flipPartsVisible(int partIndex);
+
+
+		const Array<String>& animationNameList() const;
+
+		const Array<String>& partsNameList() const;
+
+		const String& playingAnimationName() const;
 
 		int totalFrame() const;
 
