@@ -35,9 +35,9 @@ public:
 	 * @param dataKey		登録名
 	 * @param imageBaseDir	画像ファイルの読み込み元ルートパス. 空文字のときはコンバート時に指定されたパスを使用する
 	 * @param texturePreloadCallbackFunc
-	 * @return 登録後の参照カウンタの値
+	 * @return { 登録後の参照カウンタの値, 不正なファイルの場合false }
 	 */
-	int regist(
+	std::pair<int, bool> regist(
 		const void* data,
 		size_t dataSize,
 		const std::string& dataKey,
@@ -94,6 +94,10 @@ private:
 		ResourceSet* getResourceSet() const{
 			return m_resourceSet.get();
 		}
+
+		explicit operator bool() const { return !isEmpty(); }
+
+		bool isEmpty() const { return m_resourceSet->isEmpty(); }
 
 	private:
 		int m_refCount;

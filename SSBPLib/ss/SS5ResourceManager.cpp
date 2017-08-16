@@ -29,7 +29,7 @@ SS5ResourceManager::~SS5ResourceManager()
 
 
 
-int SS5ResourceManager::regist(
+std::pair<int, bool> SS5ResourceManager::regist(
 	const void* data,
 	size_t dataSize,
 	const string& dataKey,
@@ -44,7 +44,7 @@ int SS5ResourceManager::regist(
 		ref->incCount();	//登録済みの場合はカウントアップするだけ。dataの内容は無視(最初に登録されてたもの優先)
 
 		texturePreload(ref->getResourceSet(), texturePreloadCallbackFunc);	//テクスチャ事前読み込みのコールバック
-		return ref->getCount();
+		return { ref->getCount(), true };
 	}
 
 	/***** 新規登録 *****/
@@ -54,10 +54,13 @@ int SS5ResourceManager::regist(
 
 	//データを作って登録
 	RefcountResourceSet* rs = new RefcountResourceSet(static_cast<const char*>(data), dataSize, baseDir);
+	if (rs->isEmpty()){
+		return { 0, false };
+	}
 	m_dataDic.insert(make_pair(dataKey, rs));
 
 	texturePreload(rs->getResourceSet(), texturePreloadCallbackFunc);	//テクスチャ事前読み込みのコールバック
-	return rs->getCount();
+	return { rs->getCount(), true };
 }
 
 

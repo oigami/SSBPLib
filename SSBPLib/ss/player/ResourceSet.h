@@ -19,6 +19,7 @@ private:
 
 	std::vector<char> m_src;						//データの実体
 
+	bool m_hasError = false;
 public:
 	const ProjectData* m_data;						//データを指すだけ
 	std::unique_ptr<EffectCache> m_effectCache;
@@ -37,8 +38,15 @@ public:
 		SS_ASSERT_LOG(dataSize > 0, "dataSize is zero");
 
 		m_data = reinterpret_cast<const ProjectData*>(&m_src[0]);
-		SS_ASSERT_LOG(m_data->dataId == DATA_ID, "Not data id matched");
-		SS_ASSERT_LOG(m_data->version == DATA_VERSION, "Version number of data does not match");
+		if (m_data->dataId != DATA_ID) {
+			m_hasError = true;
+			return;
+		}
+
+		if(m_data->version != DATA_VERSION) {
+			m_hasError = true;
+			return;
+		}
 
 		//エフェクトはセルを参照するのでこの順番で生成する必要がある
 		m_cellCache.reset(new CellCache(m_data, imageBaseDir));
@@ -48,6 +56,10 @@ public:
 
 	~ResourceSet(){
 	}
+
+	explicit operator bool() const { return !isEmpty(); }
+
+	bool isEmpty() const { return m_hasError; }
 };
 
 } //namespace ss
