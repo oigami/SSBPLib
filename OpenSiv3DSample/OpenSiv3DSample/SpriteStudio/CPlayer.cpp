@@ -76,8 +76,7 @@ namespace SpriteStudio
 			}
 
 			// 座標軸が逆なので最初に変換しておく
-
-			m_ss5Player->setFlipTB(true);
+			setFlip(false);
 		}
 
 		CPlayer::~CPlayer()
@@ -111,6 +110,10 @@ namespace SpriteStudio
 				m_registerName.c_str()					//登録名
 			);
 			cplayer->m_ss5Player = ss5Player;
+
+			// 座標軸が逆なので最初に変換しておく
+			cplayer->setFlip(false);
+
 			return cplayer;
 		}
 
