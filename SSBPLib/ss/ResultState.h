@@ -26,7 +26,7 @@ struct ResultState{
 	BoundsType m_boundsType;		/// 当たり判定種類
 	float boundingRadius;			/// SS5アトリビュート：当たり半径
 	const char* m_colorLabel;		/// カラーラベル
-
+	SSV3F_C4B_T2F_Quad m_quad;		/// 頂点データ、座標、カラー値、UV
 
 	//カラーラベルはstringで埋め込まれているので定数値への変換を用意します
 	ColorLabel getColorLabel() const{

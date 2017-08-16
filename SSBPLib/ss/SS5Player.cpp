@@ -276,6 +276,7 @@ void SS5Player::getPartState(ResultState* result, int partIndex) const
 	result->m_boundsType = static_cast<BoundsType>(partData->boundsType);
 	result->boundingRadius = sprite->m_state.getBoundingRadius();
 	result->m_colorLabel = ptr.toString(partData->colorLabel);
+	result->m_quad = sprite->m_quad;
 }
 
 
