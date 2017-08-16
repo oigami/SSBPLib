@@ -59,6 +59,7 @@ public:
 	
 	/** 指定したパーツの表示、非表示を設定します */
 	void setPartVisible(int partIndex, bool visible);
+	bool getPartVisible(int partIndex) const;
 
 	/**
 	 * パーツ名からパーツに割り当たるセルを変更します.

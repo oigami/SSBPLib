@@ -319,6 +319,12 @@ void SS5Player::setPartVisible(int partIndex, bool visible)
 	m_partVisible[partIndex] = visible;
 }
 
+bool SS5Player::getPartVisible(int partIndex) const
+{
+	SS_ASSERT(partIndex >= 0 && partIndex < m_parts.size());
+	return m_partVisible[partIndex];
+}
+
 //パーツに割り当たるセルを変更します
 void SS5Player::setPartCell(int partIndex, const string& cellname)
 {
