@@ -407,7 +407,7 @@ void SS5Player::draw()
 		const CustomSprite* sprite = &m_parts[partIndex];
 
 		//非表示設定なら無視する
-		if(sprite->isVisibled() == false || m_partVisible[index] == false){	//ユーザーが任意に非表示としたパーツも考慮する
+		if(sprite->isVisibled() == false || m_partVisible[partIndex] == false){	//ユーザーが任意に非表示としたパーツも考慮する
 			continue;
 		}
 
