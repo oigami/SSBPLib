@@ -19,6 +19,90 @@ namespace SpriteStudio
 		Optional<String> str;	/// 文字列データ 
 	};
 
+	enum class BoundsType
+	{
+		Invalid = -1,
+		None,			///< 当たり判定として使わない。
+		Quad,			///< 自在に変形する四辺形。頂点変形など適用後の４角を結んだ領域。最も重い。
+		AABB,			///< 回転しない全体を囲む矩形で交差判定
+		Circle,			///< 真円の半径で距離により判定する
+		CircleSMin,		///< 真円の半径で距離により判定する (スケールはx,yの最小値をとる）
+		CircleSMax,		///< 真円の半径で距離により判定する (スケールはx,yの最大値をとる）
+	};
+
+	struct PartInfo
+	{
+
+
+		Vec2 center;	/// パーツのワールド行列
+		Quad quad;
+
+		BoundsType boundsType;		/// 当たり判定種類
+		float boundingRadius;			/// SS5アトリビュート：当たり半径
+		ColorF color;
+
+
+	public:
+
+		template<class Shape2DType>
+		bool contains(const Shape2DType& shapes, BoundsType type) const
+		{
+			switch ( type )
+			{
+			default:
+			case BoundsType::Invalid:
+			case BoundsType::None:		return false;
+			case BoundsType::Quad:		return quad.contains(shapes);
+			case BoundsType::AABB:		return getAABB().contains(shapes);
+			case BoundsType::Circle:		return getCircle().contains(shapes);
+			case BoundsType::CircleSMin:	return getCircle().contains(shapes);
+			case BoundsType::CircleSMax:	return getCircle().contains(shapes);
+			}
+		}
+
+		template<class Shape2DType>
+		bool contains(const Shape2DType& shapes) const
+		{
+			return contains(shapes, boundsType);
+		}
+
+		template<class Shape2DType>
+		bool intersects(const Shape2DType& shapes, const BoundsType type) const
+		{
+			switch ( type )
+			{
+			default:
+			case BoundsType::Invalid:
+			case BoundsType::None:		return false;
+			case BoundsType::Quad:		return quad.intersects(shapes);
+			case BoundsType::AABB:		return getAABB().intersects(shapes);
+			case BoundsType::Circle:		return getCircle().intersects(shapes);
+			case BoundsType::CircleSMin:	return getCircle().intersects(shapes);
+			case BoundsType::CircleSMax:	return getCircle().intersects(shapes);
+			}
+		}
+
+		template<class Shape2DType>
+		bool intersects(const Shape2DType& shapes) const
+		{
+			return intersects(shapes, boundsType);
+		}
+
+		void draw() const;
+
+		void draw(BoundsType overrideType) const;
+
+		void drawFrame(int thickness) const;
+
+		void drawFrame(int thickness, BoundsType overrideType) const;
+
+	private:
+
+		RectF getAABB() const;
+
+		Circle getCircle() const;
+	};
+
 	class PlayerX;
 
 	class Player
@@ -90,6 +174,9 @@ namespace SpriteStudio
 		PlayerX mirror(bool doMirror = true) const;
 
 
+		PartInfo parts(int partIndex) const;
+
+
 		void release();
 
 		bool isEmpty() const;
@@ -148,6 +235,10 @@ namespace SpriteStudio
 		PlayerX& flip(bool doFlip = true);
 
 		PlayerX& mirror(bool doMirror = true);
+
+		PartInfo parts(const Vec3& pos, int partIndex) const;
+
+		PartInfo parts(int partIndex) const;
 
 	};
 }

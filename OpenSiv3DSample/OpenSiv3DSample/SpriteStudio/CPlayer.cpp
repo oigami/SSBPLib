@@ -1,6 +1,7 @@
 ﻿#include "CEventListener.hpp"
 #include "CPlayer.hpp"
 #include <ss/SS5Player.h>
+#include <ss/ResultState.h>
 
 namespace SpriteStudio
 {
@@ -267,6 +268,68 @@ namespace SpriteStudio
 			m_ss5Player->draw();
 
 			return m_eventListener.lastDrawRect();
+		}
+
+		PartInfo CPlayer::parts(int partIndex) const
+		{
+			if ( isEmpty() )
+			{
+				return {};
+			}
+
+			if ( !(0 <= partIndex && partIndex < partsNameList().size()) )
+			{
+				return {};
+			}
+
+			PartInfo res{};
+			ss::ResultState state;
+
+			m_ss5Player->setPosition(0.0f, 0.0f);
+			m_ss5Player->update(0);
+			m_ss5Player->getPartState(&state, partIndex);
+			const auto center = state.m_worldMatrix->getTranslation();
+			res.center = { center.x, center.y };
+
+			res.color = [c = state.getColorLabel()]()
+			{
+				switch ( c )
+				{
+				default:
+				case ss::ColorLabel::None:		return Palette::White;
+				case ss::ColorLabel::Red:		return Palette::Red;
+				case ss::ColorLabel::Orange:	return Palette::Orange;
+				case ss::ColorLabel::Yellow:	return Palette::Yellow;
+				case ss::ColorLabel::Green:		return Palette::Green;
+				case ss::ColorLabel::Blue:		return Palette::Blue;
+				case ss::ColorLabel::Violet:	return Palette::Violet;
+				case ss::ColorLabel::Gray:		return Palette::Gray;
+				}
+			}();
+			res.color.a = state.m_alpha;
+
+			res.boundingRadius = state.boundingRadius;
+			res.boundsType = [type = state.m_boundsType]()
+			{
+				switch ( type )
+				{
+				default:
+				case ss::BoundsType::INVALID:		return BoundsType::Invalid;
+				case ss::BoundsType::NONE:			return BoundsType::None;
+				case ss::BoundsType::QUAD:			return BoundsType::Quad;
+				case ss::BoundsType::AABB:			return BoundsType::AABB;
+				case ss::BoundsType::CIRCLE:		return BoundsType::Circle;
+				case ss::BoundsType::CIRCLE_SMIN:	return BoundsType::CircleSMin;
+				case ss::BoundsType::CIRCLE_SMAX:	return BoundsType::CircleSMax;
+				}
+			}();
+
+			const auto& q = state.m_quad;
+			res.quad.p0 = { q.tl.vertices.x, q.tl.vertices.y };
+			res.quad.p1 = { q.bl.vertices.x, q.bl.vertices.y };
+			res.quad.p2 = { q.br.vertices.x, q.br.vertices.y };
+			res.quad.p3 = { q.tr.vertices.x, q.tr.vertices.y };
+			return res;
 		}
 
 		void CPlayer::release()

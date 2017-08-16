@@ -74,6 +74,8 @@ namespace SpriteStudio
 
 			RectF draw(double x, double y, const ColorF& diffuse = Palette::White) const;
 
+			PartInfo parts(int partIndex) const;
+
 			void release();
 		};
 	}

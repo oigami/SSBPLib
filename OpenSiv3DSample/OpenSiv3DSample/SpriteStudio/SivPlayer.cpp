@@ -5,6 +5,87 @@
 
 namespace SpriteStudio
 {
+	void PartInfo::draw() const
+	{
+		draw(boundsType);
+	}
+
+	void PartInfo::draw(BoundsType overrideType) const
+	{
+		switch ( overrideType )
+		{
+		default:
+		case BoundsType::Invalid:
+		case BoundsType::None:
+			break;
+		case BoundsType::Quad:
+			quad.draw(color);
+			break;
+		case BoundsType::AABB:
+			getAABB().draw(color);
+			break;
+		case BoundsType::Circle:
+			getCircle().draw(color);
+			break;
+		case BoundsType::CircleSMin:
+			getCircle().draw(color);
+			break;
+		case BoundsType::CircleSMax:
+			getCircle().draw(color);
+			break;
+		}
+	}
+
+	void PartInfo::drawFrame(int thickness) const
+	{
+		drawFrame(thickness, boundsType);
+	}
+
+	void PartInfo::drawFrame(int thickness, BoundsType overrideType) const
+	{
+		switch ( overrideType )
+		{
+		default:
+		case BoundsType::Invalid:
+		case BoundsType::None:
+			break;
+		case BoundsType::Quad:
+			quad.drawFrame(thickness, color);
+			break;
+		case BoundsType::AABB:
+			getAABB().drawFrame(thickness, color);
+			break;
+		case BoundsType::Circle:
+			getCircle().drawFrame(thickness, color);
+			break;
+		case BoundsType::CircleSMin:
+			getCircle().drawFrame(thickness, color);
+			break;
+		case BoundsType::CircleSMax:
+			getCircle().drawFrame(thickness, color);
+			break;
+		}
+	}
+
+	RectF PartInfo::getAABB() const
+	{
+		RectF rect;
+		rect.x = Min({ quad.p0.x, quad.p1.x, quad.p2.x, quad.p3.x });
+		rect.y = Min({ quad.p0.y, quad.p1.y, quad.p2.y, quad.p3.y });
+		const auto right = Max({ quad.p0.x, quad.p1.x, quad.p2.x, quad.p3.x });
+		const auto bottom = Max({ quad.p0.y, quad.p1.y, quad.p2.y, quad.p3.y });
+		rect.w = right - rect.x;
+		rect.h = bottom - rect.y;
+		return rect;
+	}
+
+	Circle SpriteStudio::PartInfo::getCircle() const
+	{
+		return Circle(center, boundingRadius);
+	}
+
+
+
 
 	Player::Player() : m_handle(std::make_shared<detail::CPlayer>())
 	{
@@ -148,6 +229,18 @@ namespace SpriteStudio
 		return PlayerX(*this).mirror(doMirror);
 	}
 
+	PartInfo Player::parts(int partIndex) const
+	{
+		PartInfo res = m_handle->parts(partIndex);
+		const Vec2 pos = { Window::Center().x, Window::Height() };
+		res.center += pos;
+		for ( auto& i : step(4) )
+		{
+			res.quad.p(i) += pos;
+		}
+		return res;
+	}
+
 	bool Player::operator==(const Player & player) const
 	{
 		return m_handle == player.m_handle;
@@ -217,6 +310,31 @@ namespace SpriteStudio
 		}
 
 		return *this;
+	}
+
+	PartInfo PlayerX::parts(const Vec3 & pos, int partIndex) const
+	{
+		auto& handle = m_player.m_handle;
+		PartInfo res = handle->parts(partIndex);
+
+		// TODO 三次元回転に対応する
+		res.quad = res.quad.rotatedAt(0, 0, rotateVec.z);
+
+		for ( auto& i : step(0) )
+		{
+			res.quad.p(0) *= scaleVec.xy();
+		}
+		res.center += pos.xy();
+		for ( auto& i : step(4) )
+		{
+			res.quad.p(i) += pos.xy();
+		}
+		return res;
+	}
+
+	PartInfo PlayerX::parts(int partIndex) const
+	{
+		return parts({ Window::Center().x, Window::Height(),0 }, partIndex);
 	}
 
 	RectF PlayerX::draw(const ColorF& diffuse) const

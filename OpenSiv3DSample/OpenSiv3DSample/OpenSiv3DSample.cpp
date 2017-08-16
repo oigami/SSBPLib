@@ -26,7 +26,7 @@ void MultiDrawAndColorTest(SpriteStudio::Player player)
 		if ( nowCount < nextCount && nextCount.count() < static_cast<long long>(player.animationNameList().size()) )
 		{
 			nowCount = nextCount;
-			player.play(nowCount.count());
+			player.play(static_cast<int>(nowCount.count()));
 		}
 
 		font(player.animationNameList()[nowCount.count()]).draw();
@@ -107,7 +107,7 @@ void VisiblePartTest(SpriteStudio::Player player)
 	while ( System::Update() && !MouseM.down() )
 	{
 		auto partsNameList = player.partsNameList();
-		for ( auto& i : step<int>(partsNameList.size()) )
+		for ( auto& i : step(static_cast<int>(partsNameList.size())) )
 		{
 			const RectF rect = font(partsNameList[i]).draw(0, i * 40);
 			if ( rect.intersects(Cursor::Pos()) )
@@ -240,6 +240,40 @@ void CurrentFrameTest(SpriteStudio::Player player)
 	}
 }
 
+void BoundsCheckTest(SpriteStudio::Player player)
+{
+
+	double time = 0;
+
+	while ( System::Update() && !MouseM.down() )
+	{
+		//time += System::DeltaTime();
+		if ( MouseL.pressed() )
+		{
+			player.update();
+		}
+
+		for ( auto& i : step(player.partsNameList().size()) )
+		{
+			//player.parts(i).drawFrame(SpriteStudio::PartInfo::BoundsType::Quad, 2);
+
+			player.rotate(time).parts(i).drawFrame(2, SpriteStudio::BoundsType::Quad);
+		}
+
+		player.rotate(time).draw();
+
+		if ( player.rotate(time).parts(9).intersects(Circle(Cursor::Pos(), 10), SpriteStudio::BoundsType::Quad) )
+		{
+			Circle(Cursor::Pos(), 10).draw(Palette::Red);
+		}
+		else
+		{
+			Circle(Cursor::Pos(), 10).draw(Palette::White);
+		}
+
+	}
+}
+
 
 void Main()
 {
@@ -270,10 +304,11 @@ void Main()
 	func.push_back({ L"EmptyTest", EmptyTest });
 	func.push_back({ L"InvalidFileTest", InvalidFileTest });
 	func.push_back({ L"CurrentFrameTest", CurrentFrameTest });
+	func.push_back({ L"BoundsCheckTest", BoundsCheckTest });
 
 	while ( System::Update() )
 	{
-		for ( auto& i : step<int>(func.size()) )
+		for ( auto& i : step(static_cast<int>(func.size())) )
 		{
 			const RectF rect = font(func[i].first).draw(0, i * 40);
 			if ( rect.intersects(Cursor::Pos()) )
