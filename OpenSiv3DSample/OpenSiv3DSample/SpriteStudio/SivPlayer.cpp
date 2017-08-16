@@ -32,23 +32,43 @@ namespace SpriteStudio
 		return m_handle->partsNameList();
 	}
 
-	bool Player::play(int animationIndex)
+	bool Player::play(int animationIndex, const int frameNo)
 	{
-		return m_handle->play(animationIndex);
+		return m_handle->play(animationIndex, frameNo);
 	}
 
-	bool Player::play(const String& animationName)
+	bool Player::play(const String& animationName, const int frameNo)
 	{
-		return m_handle->play(animationName);
+		return m_handle->play(animationName, frameNo);
+	}
+
+	const String& Player::playingAnimationName() const
+	{
+		return m_handle->playingAnimationName();
 	}
 
 
-	void Player::setVisible(int partIndex, bool isVisible)
+	void Player::setVisible(const int partIndex, const bool isVisible)
 	{
 		m_handle->setVisible(partIndex, isVisible);
 	}
 
-	const Array<UserData>& Player::update(double deltaTime)
+	int Player::totalFrame() const
+	{
+		return m_handle->totalFrame();
+	}
+
+	int Player::currentFrame() const
+	{
+		return m_handle->currentFrame();
+	}
+
+	void Player::setCurrentFrame(const int frameNo)
+	{
+		m_handle->setCurrentFrame(frameNo);
+	}
+
+	const Array<UserData>& Player::update(const double deltaTime)
 	{
 		return m_handle->update(deltaTime);
 	}
@@ -83,12 +103,12 @@ namespace SpriteStudio
 		return PlayerX(*this, rotation, { 1,1,1 });
 	}
 
-	PlayerX Player::rotate(double x, double y, double z) const
+	PlayerX Player::rotate(const double x, const  double y, const  double z) const
 	{
 		return rotate({ x, y, z });
 	}
 
-	PlayerX Player::rotate(double z) const
+	PlayerX Player::rotate(const double z) const
 	{
 		return rotate(0, 0, z);
 	}
@@ -108,12 +128,12 @@ namespace SpriteStudio
 		return scale({ x, y, z });
 	}
 
-	PlayerX Player::flip(bool doFlip) const
+	PlayerX Player::flip(const bool doFlip) const
 	{
 		return PlayerX(*this).flip(doFlip);
 	}
 
-	PlayerX Player::mirror(bool doMirror) const
+	PlayerX Player::mirror(const bool doMirror) const
 	{
 		return PlayerX(*this).mirror(doMirror);
 	}
@@ -169,7 +189,7 @@ namespace SpriteStudio
 	}
 
 
-	PlayerX& PlayerX::flip(bool doFlip)
+	PlayerX& PlayerX::flip(const bool doFlip)
 	{
 		if ( doFlip )
 		{
@@ -179,7 +199,7 @@ namespace SpriteStudio
 		return *this;
 	}
 
-	PlayerX& PlayerX::mirror(bool doMirror)
+	PlayerX& PlayerX::mirror(const bool doMirror)
 	{
 		if ( doMirror )
 		{
@@ -199,7 +219,7 @@ namespace SpriteStudio
 		return draw(pos.x, pos.y, diffuse);
 	}
 
-	RectF PlayerX::draw(double x, double y, const ColorF& diffuse) const
+	RectF PlayerX::draw(const double x, const double y, const ColorF& diffuse) const
 	{
 		auto& handle = m_player.m_handle;
 		handle->setRotate(rotateVec);

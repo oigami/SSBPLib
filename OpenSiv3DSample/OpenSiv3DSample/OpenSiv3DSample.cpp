@@ -186,6 +186,34 @@ void InvalidFileTest(SpriteStudio::Player player)
 	}
 }
 
+void CurrentFrameTest(SpriteStudio::Player player)
+{
+	Font font(40);
+
+	player.play(0);
+
+	for ( auto& i : step(1000) )
+	{
+		player.play(0, i);
+	}
+
+	while ( System::Update() )
+	{
+		if ( MouseL.pressed() )
+		{
+			player.setCurrentFrame(Cursor::Pos().x / 10);
+		}
+		else
+		{
+			player.update();
+		}
+
+		font(player.currentFrame(), L"  ", player.totalFrame()).draw();
+
+		player.draw();
+	}
+}
+
 
 void Main()
 {
@@ -215,6 +243,7 @@ void Main()
 	func.push_back({ L"CloneTest", CloneTest });
 	func.push_back({ L"EmptyTest", EmptyTest });
 	func.push_back({ L"InvalidFileTest", InvalidFileTest });
+	func.push_back({ L"CurrentFrameTest", CurrentFrameTest });
 
 	while ( System::Update() )
 	{

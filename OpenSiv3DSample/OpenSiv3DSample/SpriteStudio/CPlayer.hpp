@@ -24,6 +24,8 @@ namespace SpriteStudio
 			Array<String> m_partsNameList;
 			std::string m_texturePath;
 
+			String m_playingAnimationName;
+
 		public:
 
 			CPlayer();
@@ -35,13 +37,24 @@ namespace SpriteStudio
 
 			bool isEmpty() const;
 
-			bool play(const String& animeName, int frameNo = 0);
+			bool play(const String& animeName, int frameNo);
 
-			bool play(int animationId, int frameNo = 0);
+			bool play(int animationId, int frameNo);
+
+			const String& playingAnimationName() const;
 
 			const Array<String>& animationNameList() const;
 
 			const Array<String>& partsNameList() const;
+
+			int totalFrame() const;
+
+			int currentFrame() const;
+
+			void setCurrentFrame(int frameNo);
+
+			// 負のフレームや totalFrame()を超えた値をループを考慮したフレーム値に変換する
+			int getLoopFrame(int frameNo) const;
 
 			const Array<UserData>& update(double deltaTime);
 
@@ -55,7 +68,7 @@ namespace SpriteStudio
 
 			void setMirror(bool isMirror);
 
-			RectF draw(double x, double y, ColorF diffuse = Palette::White) const;
+			RectF draw(double x, double y, const ColorF& diffuse = Palette::White) const;
 
 			void release();
 		};

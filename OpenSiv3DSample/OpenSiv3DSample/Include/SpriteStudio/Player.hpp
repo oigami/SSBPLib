@@ -42,12 +42,19 @@ namespace SpriteStudio
 		// TODO [ssbplib] パーツの名前として返ってくるリストの順番と setVisible の index に関連性がない
 		const Array<String>& partsNameList() const;
 
-		bool play(int animationIndex);
+		bool play(int animationIndex, int frameNo = 0);
 
-		bool play(const String& animationName);
+		bool play(const String& animationName, int frameNo = 0);
+
+		const String& playingAnimationName() const;
 
 		void setVisible(int partIndex, bool isVisible);
 
+		int totalFrame() const;
+
+		int currentFrame() const;
+
+		void setCurrentFrame(int frameNo);
 
 		const Array<UserData>& update(double deltaTime = System::DeltaTime());
 

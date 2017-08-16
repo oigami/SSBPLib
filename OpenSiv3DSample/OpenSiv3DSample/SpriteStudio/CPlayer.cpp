@@ -28,9 +28,14 @@ namespace SpriteStudio
 
 			const ByteArray file = reader.readAll();
 
-			m_registerName = CharacterSet::Narrow(filename);
+			if ( file.size() == 0 )
+			{
+				return;
+			}
 
-			m_texturePath = CharacterSet::Narrow(FileSystem::ParentPath(filename));
+			m_registerName = filename.narrow();
+
+			m_texturePath = FileSystem::ParentPath(filename).narrow();
 			auto res = m_ss5ResourceManager->regist(
 				file.data(),		//ssbpデータ
 				file.size(),		//ssbpデータサイズ
@@ -124,7 +129,8 @@ namespace SpriteStudio
 			auto it = m_animationNameMaps.find(animeName);
 			if ( it != m_animationNameMaps.end() )
 			{
-				m_ss5Player->play(it->second, frameNo);
+				m_playingAnimationName = animeName;
+				m_ss5Player->play(it->second, getLoopFrame(frameNo));
 				return true;
 			}
 
@@ -141,6 +147,11 @@ namespace SpriteStudio
 			return false;
 		}
 
+		const String& CPlayer::playingAnimationName() const
+		{
+			return m_playingAnimationName;
+		}
+
 		const Array<String>& CPlayer::animationNameList() const
 		{
 			return m_animationList;
@@ -149,6 +160,52 @@ namespace SpriteStudio
 		const Array<String>& CPlayer::partsNameList() const
 		{
 			return m_partsNameList;
+		}
+
+		int CPlayer::totalFrame() const
+		{
+			if ( isEmpty() )
+			{
+				return 0;
+			}
+
+			return m_ss5Player->getMaxFrame();
+		}
+
+		int CPlayer::currentFrame() const
+		{
+			if ( isEmpty() )
+			{
+				return 0;
+			}
+
+			return m_ss5Player->getCurrentFrame();
+		}
+
+		void CPlayer::setCurrentFrame(const int frameNo)
+		{
+			if ( isEmpty() )
+			{
+				return;
+			}
+
+			m_ss5Player->setCurrentFrame(getLoopFrame(frameNo));
+		}
+
+		int CPlayer::getLoopFrame(int frameNo) const
+		{
+			const int total = totalFrame();
+			if ( total == 0 )
+			{
+				return frameNo;
+			}
+
+			frameNo %= total;
+			if ( frameNo < 0 )
+			{
+				frameNo += total;
+			}
+			return frameNo;
 		}
 
 		const Array<UserData>& CPlayer::update(const double deltaTime)
@@ -187,7 +244,7 @@ namespace SpriteStudio
 			m_ss5Player->setScale(f.x, f.y, f.z);
 		}
 
-		RectF CPlayer::draw(const double x, const double y, ColorF diffuse) const
+		RectF CPlayer::draw(const double x, const double y, const ColorF& diffuse) const
 		{
 			m_eventListener.ResetLastDrawRect();
 
@@ -221,7 +278,7 @@ namespace SpriteStudio
 			m_ss5Player = nullptr;
 		}
 
-		void CPlayer::setFlip(bool isFlip)
+		void CPlayer::setFlip(const bool isFlip)
 		{
 			if ( isEmpty() )
 			{
@@ -231,7 +288,7 @@ namespace SpriteStudio
 			m_ss5Player->setFlipTB(!isFlip);
 		}
 
-		void CPlayer::setMirror(bool isMirror)
+		void CPlayer::setMirror(const bool isMirror)
 		{
 			if ( isEmpty() )
 			{
@@ -239,16 +296,20 @@ namespace SpriteStudio
 			}
 
 			m_ss5Player->setFlipLR(isMirror);
+
 		}
 
-		void CPlayer::setVisible(int partIndex, bool isVisible)
+		void CPlayer::setVisible(const int partIndex, const bool isVisible)
 		{
 			if ( isEmpty() )
 			{
 				return;
 			}
 
-			m_ss5Player->setPartVisible(partIndex, isVisible);
+			if ( 0 <= partIndex && partIndex < partsNameList().size() )
+			{
+				m_ss5Player->setPartVisible(partIndex, isVisible);
+			}
 		}
 	}
 
